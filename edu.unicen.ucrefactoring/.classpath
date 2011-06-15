@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.dal"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.model.edit"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.reassistant.model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.ucseditor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.libs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.unified"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.wizards"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.reassistant"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.reassistant.model.edit"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
