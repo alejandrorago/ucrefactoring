@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://ucrefactoring/1.0"
+            class="edu.unicen.ucrefactoring.model.UCRefactoringPackage"
+            genModel="model/ucrefactoring.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            type="ucrefactoring"
+            class="edu.unicen.ucrefactoring.model.util.UCRefactoringResourceFactoryImpl"/>
+   </extension>
+
+</plugin>

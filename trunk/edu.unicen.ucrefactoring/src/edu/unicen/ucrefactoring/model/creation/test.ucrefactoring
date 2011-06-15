@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<edu.unicen.ucrefactoring:UseCaseModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:edu.unicen.ucrefactoring="http://ucrefactoring/1.0" description="The purpose of the system is to collect then manage public health related complaints and notifications. The system is also used to notify people about important information regarding the Health System.&#xD;&#xA;The Health Watcher system must also exchange information with the SSVS system (Sanitary Surveillance System). Initially, this exchange will involve the querying of sanitary licenses. Subsequently, when the SSVS has the Complaint Control module deployed, Sanitary Surveillance complaints will be exchanged between the two systems." name="HWS">
+  <actors name="Citizen" description="Any person who wishes to interact with the system."/>
+  <actors name="Employee" description="Health System employees (inspectors, attendants and managers)."/>
+</edu.unicen.ucrefactoring:UseCaseModel>
