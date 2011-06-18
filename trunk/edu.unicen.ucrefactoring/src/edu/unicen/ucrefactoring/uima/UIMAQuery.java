@@ -25,12 +25,16 @@ import uima.tcas.Annotation;
 import uima.tcas.TCasPackage;
 
 import edu.isistan.uima.unified.typesystems.TypesystemsPackage;
+import edu.isistan.uima.unified.typesystems.domain.DomainAction;
+import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
+import edu.isistan.uima.unified.typesystems.domain.DomainPackage;
 import edu.isistan.uima.unified.typesystems.nlp.Chunk;
 import edu.isistan.uima.unified.typesystems.nlp.SDDependency;
 import edu.isistan.uima.unified.typesystems.nlp.Entity;
 import edu.isistan.uima.unified.typesystems.nlp.NLPPackage;
 import edu.isistan.uima.unified.typesystems.nlp.Sentence;
 import edu.isistan.uima.unified.typesystems.nlp.Token;
+import edu.isistan.uima.unified.typesystems.srl.Predicate;
 import edu.isistan.uima.unified.typesystems.srl.Role;
 import edu.isistan.uima.unified.typesystems.srl.SRLPackage;
 import edu.isistan.uima.unified.typesystems.srl.Structure;
@@ -40,7 +44,6 @@ import edu.isistan.uima.unified.typesystems.srs.SRSPackage;
 import edu.isistan.uima.unified.typesystems.srs.Section;
 import edu.isistan.uima.unified.typesystems.wordnet.Sense;
 import edu.isistan.uima.unified.typesystems.wordnet.WordNetPackage;
-import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
 @SuppressWarnings("unused")
 public class UIMAQuery {
@@ -49,10 +52,9 @@ public class UIMAQuery {
 	private final static SRLPackage srlPackage = SRLPackage.eINSTANCE;
 	private final static SRSPackage srsPackage = SRSPackage.eINSTANCE;
 	private final static WordNetPackage wordNetPackage = WordNetPackage.eINSTANCE;
+	private final static DomainPackage domainPackage = DomainPackage.eINSTANCE;
 	private final static CasPackage casPackage = CasPackage.eINSTANCE;
 	private final static TCasPackage tCasPackage = TCasPackage.eINSTANCE;
-	
-	//private final static UCRefactoringPackage uCRefactoringPackage = UCRefactoringPackage.eINSTANCE;
 	// Conditions
 	private final static EObjectCondition cSofa = new EObjectTypeRelationCondition(casPackage.getSofa());
 	private final static EObjectCondition cProject = new EObjectTypeRelationCondition(srsPackage.getProject());
@@ -66,6 +68,8 @@ public class UIMAQuery {
 	private final static EObjectCondition cStructure = new EObjectTypeRelationCondition(srlPackage.getStructure());
 	private final static EObjectCondition cRole = new EObjectTypeRelationCondition(srlPackage.getRole());
 	private final static EObjectCondition cSense = new EObjectTypeRelationCondition(wordNetPackage.getSense());
+	private final static EObjectCondition cDomainNumber = new EObjectTypeRelationCondition(domainPackage.getDomainNumber());
+	private final static EObjectCondition cDomainAction = new EObjectTypeRelationCondition(domainPackage.getDomainAction());
 	// Roots
 	private EList<EObject> uimaRoots;
 	
@@ -387,6 +391,36 @@ public class UIMAQuery {
 			}
 		}
 		return result;
+	}
+	//
+	public EList<DomainNumber> getDomainNumbers() {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainNumber));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<DomainNumber>());
+	}
+	
+	public EList<DomainNumber> getDomainNumbers(Section section) {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainNumber.AND(cRange(section))));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<DomainNumber>());
+	}
+
+	public EList<DomainAction> getDomainActions() {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainAction));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<DomainAction>());
+	}
+	
+	public EList<DomainAction> getDomainActions(Predicate predicate) {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainAction.AND(cRange(predicate))));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<DomainAction>());
+	}
+	
+	public EList<DomainAction> getDomainActions(Token token) {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainAction.AND(cRange(token))));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<DomainAction>());
 	}
 	//
 	public void test() {

@@ -46,12 +46,19 @@ import edu.isistan.reassistant.model.REAssistantModelPackage;
 import edu.isistan.uima.model.edit.UIMAEditPlugin;
 import edu.isistan.uima.unified.UIMAFactory;
 import edu.isistan.uima.unified.typesystems.TypesystemsPackage;
+import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
 import edu.isistan.uima.unified.typesystems.nlp.NLPPackage;
+import edu.isistan.uima.unified.typesystems.nlp.Sentence;
 import edu.isistan.uima.unified.typesystems.srl.SRLPackage;
+import edu.isistan.uima.unified.typesystems.srs.Document;
+import edu.isistan.uima.unified.typesystems.srs.Project;
 import edu.isistan.uima.unified.typesystems.wordnet.WordNetPackage;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.ActorTypeEnum;
 import edu.unicen.ucrefactoring.model.Context;
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.FunctionalEvent;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -64,7 +71,7 @@ public class ModelCreator {
 	public static UIMAQuery uimaRoot;
 	
 	public ModelCreator(EList<EObject> contenidos){
-		uimaRoot = new UIMAQuery(contenidos);;
+		uimaRoot = new UIMAQuery(contenidos);
 	}
 	public ModelCreator(){
 	}
@@ -87,26 +94,13 @@ public class ModelCreator {
 			
 		}
 		
-		//Fin de carga del UCS=====================================
-		
-	
-		
 		// Initialize the model===================================
 		UCRefactoringPackage.eINSTANCE.eClass();
 		// Retrieve the default factory singleton
 		UCRefactoringFactory factory = UCRefactoringFactory.eINSTANCE;
 		//========================================================
-		
-		
-		//Create the content of the model via this program=========
-		
-		/*MyWeb myWeb = factory.createMyWeb();
-		Webpage page = factory.createWebpage();
-		page.setName("index");
-		page.setDescription("Main webpage");
-		page.setKeywords("Eclipse, EMF");
-		page.setTitle("Eclipse EMF");
-		myWeb.getPages().add(page);*/
+			
+		//Set the content of the model		
 		UseCaseModel useCaseModel = factory.createUseCaseModel();
 		
 		//Nombre y descripcion
@@ -122,34 +116,79 @@ public class ModelCreator {
 			 useCaseModel.getActors().add(actor);			 
 		 }
 		 
+		 
+		 // Extraigo todos los documentos del proyecto uima
+		 Project uimaProject = ModelCreator.uimaRoot.getProject();
+		 EList<Document> allDocs = ModelCreator.uimaRoot.getDocuments(uimaProject);
+		 
 		 //Especificaciones de casos de uso
 		 for (UseCaseSpecification ucs : project.getUseCaseSpecifications()){
 			 UseCase useCase = factory.createUseCase();
 			 useCase.setName(ucs.getName());
-			 useCase.setDescription(ucs.getContent());
+			 useCase.setDescription(ucs.getContent());			 
+			
+			 // Busco el Caso de Uso correspondiente
+			 Document actualDoc = null;
+			 for(Document d : allDocs){
+				 if (d.getId().equals(ucs.getID())){
+					 actualDoc = d;
+				 }
+			 }
+			 // Obtengo las secciones del Caso de Uso
+			 EList<edu.isistan.uima.unified.typesystems.srs.Section> secs = ModelCreator.uimaRoot.getSections(actualDoc);	 
 			 
-			 //falta marcar con anotaciones las condiciones. agregar lista de strings al modelo ucrefactoring
+			 // Creo el contexto del Caso de Uso 
 			 Context context = factory.createContext();
-			 for (Section s : ucs.getPreconditions()){
-				 context.setPrecondition(context.getPrecondition()+" - "+s.getContent());
+			 // Busco: F Basico, F Alternativos, Precondiciones y Postcondiciones
+			 for(edu.isistan.uima.unified.typesystems.srs.Section uimaSection : secs){
+				 // TODO Modificar Modelo 
+				 // Context tiene una lista de Precondition y postcondition
+				 // Crear clase Preconditon y Postcondition: agregar nombre y contenido como atributo - strings 
+				 if (uimaSection.getKind().equals("Precondition")){
+					 //System.out.println(uimaSection.getName());
+					 // new Precondition()...
+					 // context.setPrecondition()...
+				 }
+				 else if (uimaSection.getKind().equals("Postcondition")){
+					 //System.out.println(uimaSection.getName());
+				 }
+				 else if(uimaSection.getKind().equals("BasicFlow")){
+					 Flow basicFlow = factory.createFlow();
+					 basicFlow.setName(uimaSection.getName());				 
+					 // Recupero los numeros de la sección (Flujo Básico)
+					 EList<DomainNumber> numbers = ModelCreator.uimaRoot.getDomainNumbers(uimaSection);
+					 Integer numberIndex = 0;
+					 Integer order = 1;
+					 // Recupero las sentencias del Flujo Básico
+					 EList<Sentence> sentences = ModelCreator.uimaRoot.getSentences(uimaSection);
+					 for(Sentence sentence : sentences){
+						 FunctionalEvent event = factory.createFunctionalEvent();
+						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));
+						 // TODO agregar para guardar los nros originales del evento tb
+						 //ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex));
+						 event.setNumber(order);
+						 basicFlow.getEvents().add(event);
+						 numberIndex++;
+						 order++;
+						 
+						 //ModelCreator.uimaRoot.getDomainActions(predicate)
+					 }	
+					 // Agrego el Flujo Basico al Caso de Uso
+					 useCase.getFlows().add(basicFlow);
+				 }
+				 else if(uimaSection.getKind().equals("AlternativeFlow")){
+					 // Ver bien como sacar los números
+				 }
 			 }
-			 for (Section s : ucs.getPostconditions()){
-				 context.setPostcondition(context.getPostcondition()+" - "+s.getContent());
-			 }
-			 
-			 
-			 
-			 
+			 // Seteo el contexto al Caso de Uso
+			 //useCase.setContext(context);
+			 // Seteo el Caso de Uso al Modelo
+			 useCaseModel.getUseCases().add(useCase);
 		 }
 		
-		 System.out.println(uimaRoot.getProject().getName() + " -SOFA: " + uimaRoot.getProject().getSofa().getSofaString()); 
+		 //System.out.println(uimaRoot.getProject().getName() + " -SOFA: " + uimaRoot.getProject().getSofa().getSofaString()); 
 		
-		
-		//=========================================================
-		
-		
-		//Guardamos la nueva instancia del modelo==================
-		// As of here we preparing to save the model content
+		//Guardamos el modelo
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
@@ -160,9 +199,7 @@ public class ModelCreator {
 
 		// Create a resource
 		Resource resourceSalida = resSet.createResource(URI
-				.createURI("/home/migue/Escritorio/test.ucrefactoring"));
-		// Get the first model element and cast it to the right type, in my
-		// example everything is hierarchical included in this first node
+				.createURI("/home/pau/Escritorio/test.ucrefactoring"));
 		resourceSalida.getContents().add(useCaseModel);
 
 		// Now save the content.
@@ -172,9 +209,6 @@ public class ModelCreator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//==========================================================
-	
-
 	}
 	
 	public void load2(File file) throws IOException {
@@ -187,76 +221,38 @@ public class ModelCreator {
 		Resource resource = resourceSet.createResource(uri);
 		resource.load(Collections.EMPTY_MAP);
 		UseCaseModel ucModel = (UseCaseModel) resource.getContents().get(0);
-		
-		//=====Creacion de resource para salida
-//		URI outUri = URI.createFileURI("/home/migue/Escritorio/out2");
-//		Resource outResource = resourceSet.createResource(outUri);
-//		resource.load(Collections.EMPTY_MAP);
-//		
-		
-//		for(UseCaseModel useCaseModel : ucModel.getUseCaseSpecifications()) {
-			
-			System.out.println(ucModel.getName());
-			
-//		}
+		for (UseCase uc : ucModel.getUseCases()){
+			EList<Flow> fs = uc.getFlows();
+			for(Flow f : fs){
+				System.out.print(f.getName() + "\n");
+				for(Event e : f.getEvents()){
+					System.out.print(e.getNumber() + "$" + e.getDetail() + "\n");
+				}
+			}
+		}
 				
 	}
 
 	public static void main(String[] args) throws IOException {
 		
-//		//Creamos el UIMAQuery==========================================
+		//Registramos los archivos necesarios para el UIMA
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-//		EPackage.Registry.INSTANCE.put(CasPackage.eNS_URI, CasPackage.eINSTANCE);
-		
 		EPackage.Registry.INSTANCE.put(CasPackage.eNS_URI, CasPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(TCasPackage.eNS_URI, TCasPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(NLPPackage.eNS_URI, NLPPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(SRLPackage.eNS_URI, SRLPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(SRSModelPackage.eNS_URI, SRSModelPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(WordNetPackage.eNS_URI, WordNetPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(REAssistantModelPackage.eNS_URI, REAssistantModelPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(TypesystemsPackage.eNS_URI, TypesystemsPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(UCSModelPackage.eNS_URI, UCSModelPackage.eINSTANCE);
-//		EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
 
-		
+		// Levantamos el Resource *.uima
 		ResourceSet resourceSet = new ResourceSetImpl();
-		
-		URI fileURI = URI.createFileURI("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS.uima");
+		// TODO ver ingreso de ruta
+		URI fileURI = URI.createFileURI("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.uima");
 		Resource resource = null;
 		try {
 			resource = resourceSet.getResource(fileURI, true);
-
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		//==============================================================
-		
-		
 		ModelCreator l = new ModelCreator(resource.getContents());
-		l.load(new File("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS.ucs"));
-					
-		
+		//l.load(new File("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
+		l.load2(new File("/home/pau/Escritorio/test.ucrefactoring"));
 	}
-	
-	
-//	@SuppressWarnings("unused")
-//	public void createModel() {
-//		URI resourceURI = EditUIUtil.getURI(getEditorInput());
-//		Exception exception = null;
-//		Resource resource = null;
-//		try {
-//			// Load the resource through the editing domain.
-//			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
-//		}
-//		catch (Exception e) {
-//			exception = e;
-//			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
-//		}
-//		modelRoot = (UCSProject) resource.getContents().get(0);
-//	}
-	
-	
 }
