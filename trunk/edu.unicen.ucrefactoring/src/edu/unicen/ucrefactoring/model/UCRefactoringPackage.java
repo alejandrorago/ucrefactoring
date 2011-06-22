@@ -89,7 +89,7 @@ public interface UCRefactoringPackage extends EPackage {
 	int USE_CASE__DESCRIPTION = 1;
 
 	/**
-	 * The feature id for the '<em><b>Context</b></em>' reference.
+	 * The feature id for the '<em><b>Context</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -153,22 +153,22 @@ public interface UCRefactoringPackage extends EPackage {
 	int CONTEXT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Precondition</b></em>' attribute.
+	 * The feature id for the '<em><b>Preconditions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTEXT__PRECONDITION = 0;
+	int CONTEXT__PRECONDITIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Postcondition</b></em>' attribute.
+	 * The feature id for the '<em><b>Postconditions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTEXT__POSTCONDITION = 1;
+	int CONTEXT__POSTCONDITIONS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Context</em>' class.
@@ -658,6 +658,52 @@ public interface UCRefactoringPackage extends EPackage {
 	int ASPECT_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.ConditionImpl <em>Condition</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edu.unicen.ucrefactoring.model.impl.ConditionImpl
+	 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getCondition()
+	 * @generated
+	 */
+	int CONDITION = 12;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__DESCRIPTION = 1;
+
+	/**
+	 * The feature id for the '<em><b>EReference0</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION__EREFERENCE0 = 2;
+
+	/**
+	 * The number of structural features of the '<em>Condition</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONDITION_FEATURE_COUNT = 3;
+
+	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.ActorTypeEnum <em>Actor Type Enum</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -665,7 +711,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getActorTypeEnum()
 	 * @generated
 	 */
-	int ACTOR_TYPE_ENUM = 12;
+	int ACTOR_TYPE_ENUM = 13;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.EventTypeEnum <em>Event Type Enum</em>}' enum.
@@ -675,7 +721,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getEventTypeEnum()
 	 * @generated
 	 */
-	int EVENT_TYPE_ENUM = 13;
+	int EVENT_TYPE_ENUM = 14;
 
 
 	/**
@@ -711,10 +757,10 @@ public interface UCRefactoringPackage extends EPackage {
 	EAttribute getUseCase_Description();
 
 	/**
-	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.UseCase#getContext <em>Context</em>}'.
+	 * Returns the meta object for the containment reference '{@link edu.unicen.ucrefactoring.model.UseCase#getContext <em>Context</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Context</em>'.
+	 * @return the meta object for the containment reference '<em>Context</em>'.
 	 * @see edu.unicen.ucrefactoring.model.UseCase#getContext()
 	 * @see #getUseCase()
 	 * @generated
@@ -776,26 +822,26 @@ public interface UCRefactoringPackage extends EPackage {
 	EClass getContext();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Context#getPrecondition <em>Precondition</em>}'.
+	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.Context#getPreconditions <em>Preconditions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Precondition</em>'.
-	 * @see edu.unicen.ucrefactoring.model.Context#getPrecondition()
+	 * @return the meta object for the containment reference list '<em>Preconditions</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Context#getPreconditions()
 	 * @see #getContext()
 	 * @generated
 	 */
-	EAttribute getContext_Precondition();
+	EReference getContext_Preconditions();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Context#getPostcondition <em>Postcondition</em>}'.
+	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.Context#getPostconditions <em>Postconditions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Postcondition</em>'.
-	 * @see edu.unicen.ucrefactoring.model.Context#getPostcondition()
+	 * @return the meta object for the containment reference list '<em>Postconditions</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Context#getPostconditions()
 	 * @see #getContext()
 	 * @generated
 	 */
-	EAttribute getContext_Postcondition();
+	EReference getContext_Postconditions();
 
 	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.UseCaseModel <em>Use Case Model</em>}'.
@@ -1184,6 +1230,49 @@ public interface UCRefactoringPackage extends EPackage {
 	EAttribute getAspect_Description();
 
 	/**
+	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.Condition <em>Condition</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Condition</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Condition
+	 * @generated
+	 */
+	EClass getCondition();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Condition#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Condition#getName()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EAttribute getCondition_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Condition#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Condition#getDescription()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EAttribute getCondition_Description();
+
+	/**
+	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.Condition#getEReference0 <em>EReference0</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>EReference0</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Condition#getEReference0()
+	 * @see #getCondition()
+	 * @generated
+	 */
+	EReference getCondition_EReference0();
+
+	/**
 	 * Returns the meta object for enum '{@link edu.unicen.ucrefactoring.model.ActorTypeEnum <em>Actor Type Enum</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1252,7 +1341,7 @@ public interface UCRefactoringPackage extends EPackage {
 		EAttribute USE_CASE__DESCRIPTION = eINSTANCE.getUseCase_Description();
 
 		/**
-		 * The meta object literal for the '<em><b>Context</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Context</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1302,20 +1391,20 @@ public interface UCRefactoringPackage extends EPackage {
 		EClass CONTEXT = eINSTANCE.getContext();
 
 		/**
-		 * The meta object literal for the '<em><b>Precondition</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Preconditions</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CONTEXT__PRECONDITION = eINSTANCE.getContext_Precondition();
+		EReference CONTEXT__PRECONDITIONS = eINSTANCE.getContext_Preconditions();
 
 		/**
-		 * The meta object literal for the '<em><b>Postcondition</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Postconditions</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CONTEXT__POSTCONDITION = eINSTANCE.getContext_Postcondition();
+		EReference CONTEXT__POSTCONDITIONS = eINSTANCE.getContext_Postconditions();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.UseCaseModelImpl <em>Use Case Model</em>}' class.
@@ -1624,6 +1713,40 @@ public interface UCRefactoringPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ASPECT__DESCRIPTION = eINSTANCE.getAspect_Description();
+
+		/**
+		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.ConditionImpl <em>Condition</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edu.unicen.ucrefactoring.model.impl.ConditionImpl
+		 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getCondition()
+		 * @generated
+		 */
+		EClass CONDITION = eINSTANCE.getCondition();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONDITION__NAME = eINSTANCE.getCondition_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONDITION__DESCRIPTION = eINSTANCE.getCondition_Description();
+
+		/**
+		 * The meta object literal for the '<em><b>EReference0</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONDITION__EREFERENCE0 = eINSTANCE.getCondition_EReference0();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.ActorTypeEnum <em>Actor Type Enum</em>}' enum.

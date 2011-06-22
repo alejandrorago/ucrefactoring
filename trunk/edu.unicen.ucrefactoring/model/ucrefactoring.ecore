@@ -6,7 +6,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="UseCase">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//Context">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="context" eType="#//Context"
+        containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryActors" upperBound="-1"
@@ -17,8 +18,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//UseCase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Context">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="precondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="postcondition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="preconditions" upperBound="-1"
+        eType="#//Condition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="postconditions" upperBound="-1"
+        eType="#//Condition" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UseCaseModel">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -95,5 +98,10 @@
   <eClassifiers xsi:type="ecore:EClass" name="Aspect">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Condition">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Condition"/>
   </eClassifiers>
 </ecore:EPackage>

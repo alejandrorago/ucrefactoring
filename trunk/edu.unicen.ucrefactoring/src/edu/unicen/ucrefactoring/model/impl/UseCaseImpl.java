@@ -89,7 +89,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getContext() <em>Context</em>}' reference.
+	 * The cached value of the '{@link #getContext() <em>Context</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getContext()
@@ -205,14 +205,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * @generated
 	 */
 	public Context getContext() {
-		if (context != null && context.eIsProxy()) {
-			InternalEObject oldContext = (InternalEObject)context;
-			context = (Context)eResolveProxy(oldContext);
-			if (context != oldContext) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UCRefactoringPackage.USE_CASE__CONTEXT, oldContext, context));
-			}
-		}
 		return context;
 	}
 
@@ -221,8 +213,14 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Context basicGetContext() {
-		return context;
+	public NotificationChain basicSetContext(Context newContext, NotificationChain msgs) {
+		Context oldContext = context;
+		context = newContext;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.USE_CASE__CONTEXT, oldContext, newContext);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
 	}
 
 	/**
@@ -231,10 +229,17 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 * @generated
 	 */
 	public void setContext(Context newContext) {
-		Context oldContext = context;
-		context = newContext;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.USE_CASE__CONTEXT, oldContext, context));
+		if (newContext != context) {
+			NotificationChain msgs = null;
+			if (context != null)
+				msgs = ((InternalEObject)context).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - UCRefactoringPackage.USE_CASE__CONTEXT, null, msgs);
+			if (newContext != null)
+				msgs = ((InternalEObject)newContext).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - UCRefactoringPackage.USE_CASE__CONTEXT, null, msgs);
+			msgs = basicSetContext(newContext, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.USE_CASE__CONTEXT, newContext, newContext));
 	}
 
 	/**
@@ -345,6 +350,8 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case UCRefactoringPackage.USE_CASE__CONTEXT:
+				return basicSetContext(null, msgs);
 			case UCRefactoringPackage.USE_CASE__SECONDARY_ACTORS:
 				return ((InternalEList<?>)getSecondaryActors()).basicRemove(otherEnd, msgs);
 			case UCRefactoringPackage.USE_CASE__FLOWS:
@@ -366,8 +373,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			case UCRefactoringPackage.USE_CASE__DESCRIPTION:
 				return getDescription();
 			case UCRefactoringPackage.USE_CASE__CONTEXT:
-				if (resolve) return getContext();
-				return basicGetContext();
+				return getContext();
 			case UCRefactoringPackage.USE_CASE__SECONDARY_ACTORS:
 				return getSecondaryActors();
 			case UCRefactoringPackage.USE_CASE__PRIMARY_ACTOR:

@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -16,8 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link edu.unicen.ucrefactoring.model.Context#getPrecondition <em>Precondition</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.Context#getPostcondition <em>Postcondition</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.Context#getPreconditions <em>Preconditions</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.Context#getPostconditions <em>Postconditions</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,55 +28,35 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Context extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Precondition</b></em>' attribute.
+	 * Returns the value of the '<em><b>Preconditions</b></em>' containment reference list.
+	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.Condition}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Precondition</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Preconditions</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Precondition</em>' attribute.
-	 * @see #setPrecondition(String)
-	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getContext_Precondition()
-	 * @model
+	 * @return the value of the '<em>Preconditions</em>' containment reference list.
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getContext_Preconditions()
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getPrecondition();
+	EList<Condition> getPreconditions();
 
 	/**
-	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Context#getPrecondition <em>Precondition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Precondition</em>' attribute.
-	 * @see #getPrecondition()
-	 * @generated
-	 */
-	void setPrecondition(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Postcondition</b></em>' attribute.
+	 * Returns the value of the '<em><b>Postconditions</b></em>' containment reference list.
+	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.Condition}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Postcondition</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Postconditions</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Postcondition</em>' attribute.
-	 * @see #setPostcondition(String)
-	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getContext_Postcondition()
-	 * @model
+	 * @return the value of the '<em>Postconditions</em>' containment reference list.
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getContext_Postconditions()
+	 * @model containment="true"
 	 * @generated
 	 */
-	String getPostcondition();
-
-	/**
-	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Context#getPostcondition <em>Postcondition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Postcondition</em>' attribute.
-	 * @see #getPostcondition()
-	 * @generated
-	 */
-	void setPostcondition(String value);
+	EList<Condition> getPostconditions();
 
 } // Context

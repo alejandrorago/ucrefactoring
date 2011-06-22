@@ -27,8 +27,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//UseCase/parent"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//Context">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Context/precondition"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Context/postcondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Context/preconditions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Context/postconditions"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//UseCaseModel">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//UseCaseModel/description"/>
@@ -75,6 +75,11 @@
     <genClasses ecoreClass="ucrefactoring.ecore#//Aspect">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Aspect/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Aspect/description"/>
+    </genClasses>
+    <genClasses ecoreClass="ucrefactoring.ecore#//Condition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Condition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Condition/description"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Condition/EReference0"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
