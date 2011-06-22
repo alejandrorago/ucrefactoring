@@ -72,6 +72,7 @@ public class UCRefactoringFactoryImpl extends EFactoryImpl implements UCRefactor
 			case UCRefactoringPackage.JOINT_POINT: return createJointPoint();
 			case UCRefactoringPackage.ACTION_CLASS: return createActionClass();
 			case UCRefactoringPackage.ASPECT: return createAspect();
+			case UCRefactoringPackage.CONDITION: return createCondition();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -219,6 +220,16 @@ public class UCRefactoringFactoryImpl extends EFactoryImpl implements UCRefactor
 	public Aspect createAspect() {
 		AspectImpl aspect = new AspectImpl();
 		return aspect;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Condition createCondition() {
+		ConditionImpl condition = new ConditionImpl();
+		return condition;
 	}
 
 	/**

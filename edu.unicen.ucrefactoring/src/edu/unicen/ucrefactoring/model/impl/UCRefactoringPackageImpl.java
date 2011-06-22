@@ -10,6 +10,7 @@ import edu.unicen.ucrefactoring.model.ActionClass;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.ActorTypeEnum;
 import edu.unicen.ucrefactoring.model.Aspect;
+import edu.unicen.ucrefactoring.model.Condition;
 import edu.unicen.ucrefactoring.model.Context;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.EventTypeEnum;
@@ -121,6 +122,13 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * @generated
 	 */
 	private EClass aspectEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass conditionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -283,8 +291,8 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getContext_Precondition() {
-		return (EAttribute)contextEClass.getEStructuralFeatures().get(0);
+	public EReference getContext_Preconditions() {
+		return (EReference)contextEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -292,8 +300,8 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getContext_Postcondition() {
-		return (EAttribute)contextEClass.getEStructuralFeatures().get(1);
+	public EReference getContext_Postconditions() {
+		return (EReference)contextEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -625,6 +633,42 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCondition() {
+		return conditionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCondition_Name() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCondition_Description() {
+		return (EAttribute)conditionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCondition_EReference0() {
+		return (EReference)conditionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getActorTypeEnum() {
 		return actorTypeEnumEEnum;
 	}
@@ -676,8 +720,8 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEReference(useCaseEClass, USE_CASE__PARENT);
 
 		contextEClass = createEClass(CONTEXT);
-		createEAttribute(contextEClass, CONTEXT__PRECONDITION);
-		createEAttribute(contextEClass, CONTEXT__POSTCONDITION);
+		createEReference(contextEClass, CONTEXT__PRECONDITIONS);
+		createEReference(contextEClass, CONTEXT__POSTCONDITIONS);
 
 		useCaseModelEClass = createEClass(USE_CASE_MODEL);
 		createEAttribute(useCaseModelEClass, USE_CASE_MODEL__DESCRIPTION);
@@ -725,6 +769,11 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEAttribute(aspectEClass, ASPECT__NAME);
 		createEAttribute(aspectEClass, ASPECT__DESCRIPTION);
 
+		conditionEClass = createEClass(CONDITION);
+		createEAttribute(conditionEClass, CONDITION__NAME);
+		createEAttribute(conditionEClass, CONDITION__DESCRIPTION);
+		createEReference(conditionEClass, CONDITION__EREFERENCE0);
+
 		// Create enums
 		actorTypeEnumEEnum = createEEnum(ACTOR_TYPE_ENUM);
 		eventTypeEnumEEnum = createEEnum(EVENT_TYPE_ENUM);
@@ -766,15 +815,15 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUseCase_Name(), ecorePackage.getEString(), "name", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCase_Description(), ecorePackage.getEString(), "description", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCase_Context(), this.getContext(), null, "context", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCase_Context(), this.getContext(), null, "context", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_SecondaryActors(), this.getActor(), null, "secondaryActors", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_PrimaryActor(), this.getActor(), null, "primaryActor", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_Flows(), this.getFlow(), null, "flows", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCase_Parent(), this.getUseCase(), null, "parent", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(contextEClass, Context.class, "Context", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getContext_Precondition(), ecorePackage.getEString(), "precondition", null, 0, 1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getContext_Postcondition(), ecorePackage.getEString(), "postcondition", null, 0, 1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContext_Preconditions(), this.getCondition(), null, "preconditions", null, 0, -1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getContext_Postconditions(), this.getCondition(), null, "postconditions", null, 0, -1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(useCaseModelEClass, UseCaseModel.class, "UseCaseModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUseCaseModel_Description(), ecorePackage.getEString(), "description", null, 0, 1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -821,6 +870,11 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEClass(aspectEClass, Aspect.class, "Aspect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAspect_Name(), ecorePackage.getEString(), "name", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAspect_Description(), ecorePackage.getEString(), "description", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCondition_Name(), ecorePackage.getEString(), "name", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCondition_Description(), ecorePackage.getEString(), "description", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCondition_EReference0(), this.getCondition(), null, "EReference0", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(actorTypeEnumEEnum, ActorTypeEnum.class, "ActorTypeEnum");

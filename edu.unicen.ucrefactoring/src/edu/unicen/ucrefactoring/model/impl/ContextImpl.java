@@ -6,15 +6,22 @@
  */
 package edu.unicen.ucrefactoring.model.impl;
 
+import edu.unicen.ucrefactoring.model.Condition;
 import edu.unicen.ucrefactoring.model.Context;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,8 +30,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.ContextImpl#getPrecondition <em>Precondition</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.ContextImpl#getPostcondition <em>Postcondition</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.ContextImpl#getPreconditions <em>Preconditions</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.ContextImpl#getPostconditions <em>Postconditions</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,44 +39,24 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  */
 public class ContextImpl extends EObjectImpl implements Context {
 	/**
-	 * The default value of the '{@link #getPrecondition() <em>Precondition</em>}' attribute.
+	 * The cached value of the '{@link #getPreconditions() <em>Preconditions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPrecondition()
+	 * @see #getPreconditions()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PRECONDITION_EDEFAULT = null;
+	protected EList<Condition> preconditions;
 
 	/**
-	 * The cached value of the '{@link #getPrecondition() <em>Precondition</em>}' attribute.
+	 * The cached value of the '{@link #getPostconditions() <em>Postconditions</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getPrecondition()
+	 * @see #getPostconditions()
 	 * @generated
 	 * @ordered
 	 */
-	protected String precondition = PRECONDITION_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getPostcondition() <em>Postcondition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPostcondition()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String POSTCONDITION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getPostcondition() <em>Postcondition</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPostcondition()
-	 * @generated
-	 * @ordered
-	 */
-	protected String postcondition = POSTCONDITION_EDEFAULT;
+	protected EList<Condition> postconditions;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -95,8 +82,11 @@ public class ContextImpl extends EObjectImpl implements Context {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPrecondition() {
-		return precondition;
+	public EList<Condition> getPreconditions() {
+		if (preconditions == null) {
+			preconditions = new EObjectContainmentEList<Condition>(Condition.class, this, UCRefactoringPackage.CONTEXT__PRECONDITIONS);
+		}
+		return preconditions;
 	}
 
 	/**
@@ -104,11 +94,11 @@ public class ContextImpl extends EObjectImpl implements Context {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPrecondition(String newPrecondition) {
-		String oldPrecondition = precondition;
-		precondition = newPrecondition;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.CONTEXT__PRECONDITION, oldPrecondition, precondition));
+	public EList<Condition> getPostconditions() {
+		if (postconditions == null) {
+			postconditions = new EObjectContainmentEList<Condition>(Condition.class, this, UCRefactoringPackage.CONTEXT__POSTCONDITIONS);
+		}
+		return postconditions;
 	}
 
 	/**
@@ -116,20 +106,15 @@ public class ContextImpl extends EObjectImpl implements Context {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getPostcondition() {
-		return postcondition;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPostcondition(String newPostcondition) {
-		String oldPostcondition = postcondition;
-		postcondition = newPostcondition;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.CONTEXT__POSTCONDITION, oldPostcondition, postcondition));
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UCRefactoringPackage.CONTEXT__PRECONDITIONS:
+				return ((InternalEList<?>)getPreconditions()).basicRemove(otherEnd, msgs);
+			case UCRefactoringPackage.CONTEXT__POSTCONDITIONS:
+				return ((InternalEList<?>)getPostconditions()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -140,10 +125,10 @@ public class ContextImpl extends EObjectImpl implements Context {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UCRefactoringPackage.CONTEXT__PRECONDITION:
-				return getPrecondition();
-			case UCRefactoringPackage.CONTEXT__POSTCONDITION:
-				return getPostcondition();
+			case UCRefactoringPackage.CONTEXT__PRECONDITIONS:
+				return getPreconditions();
+			case UCRefactoringPackage.CONTEXT__POSTCONDITIONS:
+				return getPostconditions();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -153,14 +138,17 @@ public class ContextImpl extends EObjectImpl implements Context {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UCRefactoringPackage.CONTEXT__PRECONDITION:
-				setPrecondition((String)newValue);
+			case UCRefactoringPackage.CONTEXT__PRECONDITIONS:
+				getPreconditions().clear();
+				getPreconditions().addAll((Collection<? extends Condition>)newValue);
 				return;
-			case UCRefactoringPackage.CONTEXT__POSTCONDITION:
-				setPostcondition((String)newValue);
+			case UCRefactoringPackage.CONTEXT__POSTCONDITIONS:
+				getPostconditions().clear();
+				getPostconditions().addAll((Collection<? extends Condition>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -174,11 +162,11 @@ public class ContextImpl extends EObjectImpl implements Context {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UCRefactoringPackage.CONTEXT__PRECONDITION:
-				setPrecondition(PRECONDITION_EDEFAULT);
+			case UCRefactoringPackage.CONTEXT__PRECONDITIONS:
+				getPreconditions().clear();
 				return;
-			case UCRefactoringPackage.CONTEXT__POSTCONDITION:
-				setPostcondition(POSTCONDITION_EDEFAULT);
+			case UCRefactoringPackage.CONTEXT__POSTCONDITIONS:
+				getPostconditions().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -192,30 +180,12 @@ public class ContextImpl extends EObjectImpl implements Context {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UCRefactoringPackage.CONTEXT__PRECONDITION:
-				return PRECONDITION_EDEFAULT == null ? precondition != null : !PRECONDITION_EDEFAULT.equals(precondition);
-			case UCRefactoringPackage.CONTEXT__POSTCONDITION:
-				return POSTCONDITION_EDEFAULT == null ? postcondition != null : !POSTCONDITION_EDEFAULT.equals(postcondition);
+			case UCRefactoringPackage.CONTEXT__PRECONDITIONS:
+				return preconditions != null && !preconditions.isEmpty();
+			case UCRefactoringPackage.CONTEXT__POSTCONDITIONS:
+				return postconditions != null && !postconditions.isEmpty();
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (precondition: ");
-		result.append(precondition);
-		result.append(", postcondition: ");
-		result.append(postcondition);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ContextImpl
