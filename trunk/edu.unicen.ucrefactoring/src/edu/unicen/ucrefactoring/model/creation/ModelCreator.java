@@ -18,8 +18,12 @@ import uima.cas.CasPackage;
 import edu.isistan.dal.ucs.model.UCSModelPackage;
 import edu.isistan.dal.ucs.model.UCSProject;
 import edu.isistan.dal.ucs.model.UseCaseSpecification;
+import edu.isistan.uima.unified.typesystems.domain.DomainAction;
 import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
 import edu.isistan.uima.unified.typesystems.nlp.Sentence;
+import edu.isistan.uima.unified.typesystems.nlp.Token;
+import edu.isistan.uima.unified.typesystems.srl.Predicate;
+import edu.isistan.uima.unified.typesystems.srl.Structure;
 import edu.isistan.uima.unified.typesystems.srs.Document;
 import edu.isistan.uima.unified.typesystems.srs.Project;
 import edu.unicen.ucrefactoring.model.Actor;
@@ -106,32 +110,29 @@ public class ModelCreator {
 			 // Obtengo las secciones del Caso de Uso
 			 EList<edu.isistan.uima.unified.typesystems.srs.Section> secs = ModelCreator.uimaRoot.getSections(actualDoc);	 
 			 
-			 // Creo el contexto del Caso de Uso 
+			 /* Creo el contexto del Caso de Uso */ 
 			 Context context = factory.createContext();
-			 // Busco: F Basico, F Alternativos, Precondiciones y Postcondiciones
-			 for(edu.isistan.uima.unified.typesystems.srs.Section uimaSection : secs){
-				 // TODO Modificar Modelo 
-				 // Context tiene una lista de Precondition y postcondition
-				 // Crear clase Preconditon y Postcondition: agregar nombre y contenido como atributo - strings 
+			 /* Busco: F Basico, F Alternativos, Precondiciones y Postcondiciones */
+			 for(edu.isistan.uima.unified.typesystems.srs.Section uimaSection : secs){ 
+				 /* La sección actual del Caso de Uso es una Precondición */
 				 if (uimaSection.getKind().equals("Precondition")){
-					 //System.out.println(uimaSection.getName());
-					 // new Precondition()...
-					 // context.setPrecondition()...
 					 Condition precondition = factory.createCondition();
 					 precondition.setName(uimaSection.getName());
 					 precondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPreconditions().add(precondition);
 				 }
+				 /* La sección actual del Caso de Uso es una Postcondición*/ 
 				 else if (uimaSection.getKind().equals("Postcondition")){
-					 //System.out.println(uimaSection.getName());
 					 Condition postcondition = factory.createCondition();
 					 postcondition.setName(uimaSection.getName());
 					 postcondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPostconditions().add(postcondition);
 				 }
+				 /* La sección actual del Caso de Uso es el Flujo Básico */
 				 else if(uimaSection.getKind().equals("BasicFlow")){
 					 Flow basicFlow = factory.createFlow();
-					 basicFlow.setName(uimaSection.getName());				 
+					 basicFlow.setName(uimaSection.getName());
+					 basicFlow.setUseCase(useCase);
 					 // Recupero los numeros de la sección (Flujo Básico)
 					 EList<DomainNumber> numbers = ModelCreator.uimaRoot.getDomainNumbers(uimaSection);
 					 Integer numberIndex = 0;
@@ -141,20 +142,50 @@ public class ModelCreator {
 					 for(Sentence sentence : sentences){
 						 FunctionalEvent event = factory.createFunctionalEvent();
 						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));
-						 // TODO agregar para guardar los nros originales del evento tb
-						 //ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex));
+						 event.setEventId(ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex)));
 						 event.setNumber(order);
 						 basicFlow.getEvents().add(event);
 						 numberIndex++;
 						 order++;
 						 
-						 //ModelCreator.uimaRoot.getDomainActions(predicate)
+//						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
+//						 for(Predicate predicate : p){
+//							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
+//							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
+//							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);			 
+//							 for(DomainAction dAction : actions){
+//								 System.out.println("Action: " + ModelCreator.uimaRoot.getCoveredText(dAction));
+//							 }
+//							 System.out.println("--------------------------");
+//						 }
 					 }	
 					 // Agrego el Flujo Basico al Caso de Uso
 					 useCase.getFlows().add(basicFlow);
 				 }
+				 /* La sección actual del Caso de Uso es un Flujo Alternativo */
 				 else if(uimaSection.getKind().equals("AlternativeFlow")){
-					 // Ver bien como sacar los números
+					 Flow alternative = factory.createFlow();
+					 alternative.setName(uimaSection.getName());
+					 alternative.setUseCase(useCase);
+					 useCase.getFlows().add(alternative);
+					 
+					// Recupero los numeros de la sección
+					 EList<DomainNumber> numbers = ModelCreator.uimaRoot.getDomainNumbers(uimaSection);
+					 //alternative.setParentFlow(value);
+					 //alternative.setReturnEvent
+					 Integer numberIndex = 0;
+					 Integer order = 1;
+					 // Recupero las sentencias del Flujo Básico
+					 EList<Sentence> sentences = ModelCreator.uimaRoot.getSentences(uimaSection);
+					 for(Sentence sentence : sentences){
+						 FunctionalEvent event = factory.createFunctionalEvent();
+						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));
+						 event.setEventId(ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex)));
+						 event.setNumber(order);
+						 alternative.getEvents().add(event);
+						 numberIndex++;
+						 order++;
+					 }
 				 }
 			 }
 			 // Seteo el contexto al Caso de Uso
@@ -176,7 +207,7 @@ public class ModelCreator {
 
 		// Create a resource
 		Resource resourceSalida = resSet.createResource(URI
-				.createURI("/home/migue/Escritorio/test.ucrefactoring"));
+				.createURI("/home/pau/Escritorio/test.ucrefactoring"));
 		resourceSalida.getContents().add(useCaseModel);
 
 		// Now save the content.
@@ -217,6 +248,10 @@ public class ModelCreator {
 		}
 				
 	}
+	
+	public void getUseCaseModelExample(){
+		
+	}
 
 	public static void main(String[] args) throws IOException {
 		
@@ -227,7 +262,7 @@ public class ModelCreator {
 		// Levantamos el Resource *.uima
 		ResourceSet resourceSet = new ResourceSetImpl();
 		// TODO ver ingreso de ruta
-		URI fileURI = URI.createFileURI("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.uima");
+		URI fileURI = URI.createFileURI("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.uima");
 		Resource resource = null;
 		try {
 			resource = resourceSet.getResource(fileURI, true);
@@ -237,7 +272,7 @@ public class ModelCreator {
 		}
 		
 		ModelCreator l = new ModelCreator(resource.getContents());
-		l.load(new File("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
-		l.showUCRefactoring(new File("/home/migue/Escritorio/test.ucrefactoring"));
+		l.load(new File("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
+		l.showUCRefactoring(new File("/home/pau/Escritorio/test.ucrefactoring"));
 	}
 }

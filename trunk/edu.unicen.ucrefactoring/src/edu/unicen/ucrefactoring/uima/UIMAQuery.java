@@ -62,6 +62,9 @@ public class UIMAQuery {
 	private final static EObjectCondition cSection = new EObjectTypeRelationCondition(srsPackage.getSection());
 	private final static EObjectCondition cSentence = new EObjectTypeRelationCondition(nlpPackage.getSentence());
 	private final static EObjectCondition cToken = new EObjectTypeRelationCondition(nlpPackage.getToken());
+	
+	private final static EObjectCondition cPredicate = new EObjectTypeRelationCondition(srlPackage.getPredicate());
+	
 	private final static EObjectCondition cChunk = new EObjectTypeRelationCondition(nlpPackage.getChunk());
 	private final static EObjectCondition cSDDependency = new EObjectTypeRelationCondition(nlpPackage.getSDDependency());
 	private final static EObjectCondition cEntity = new EObjectTypeRelationCondition(nlpPackage.getEntity());
@@ -421,6 +424,12 @@ public class UIMAQuery {
 		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cDomainAction.AND(cRange(token))));
 		IQueryResult result = statement.execute();
 		return fromIQueryResultToEList(result, new BasicEList<DomainAction>());
+	}
+	
+	public EList<Predicate> getPredicates(Sentence sentence) {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cPredicate.AND(cRange(sentence))));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<Predicate>());
 	}
 	//
 	public void test() {
