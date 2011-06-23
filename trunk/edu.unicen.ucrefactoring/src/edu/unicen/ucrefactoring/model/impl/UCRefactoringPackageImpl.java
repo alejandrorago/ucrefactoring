@@ -426,6 +426,33 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFlow_UseCase() {
+		return (EReference)flowEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFlow_ParentFlow() {
+		return (EReference)flowEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFlow_ReturnEvent() {
+		return (EReference)flowEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getEvent() {
 		return eventEClass;
 	}
@@ -446,6 +473,15 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 */
 	public EAttribute getEvent_Number() {
 		return (EAttribute)eventEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getEvent_EventId() {
+		return (EAttribute)eventEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -738,10 +774,14 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		flowEClass = createEClass(FLOW);
 		createEAttribute(flowEClass, FLOW__NAME);
 		createEReference(flowEClass, FLOW__EVENTS);
+		createEReference(flowEClass, FLOW__USE_CASE);
+		createEReference(flowEClass, FLOW__PARENT_FLOW);
+		createEReference(flowEClass, FLOW__RETURN_EVENT);
 
 		eventEClass = createEClass(EVENT);
 		createEAttribute(eventEClass, EVENT__DETAIL);
 		createEAttribute(eventEClass, EVENT__NUMBER);
+		createEAttribute(eventEClass, EVENT__EVENT_ID);
 
 		functionalEventEClass = createEClass(FUNCTIONAL_EVENT);
 		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__JOINT_POINTS);
@@ -840,10 +880,14 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEClass(flowEClass, Flow.class, "Flow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFlow_Name(), ecorePackage.getEString(), "name", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFlow_Events(), this.getEvent(), null, "events", null, 0, -1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFlow_UseCase(), this.getUseCase(), null, "useCase", null, 1, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFlow_ParentFlow(), this.getFlow(), null, "parentFlow", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFlow_ReturnEvent(), this.getEvent(), null, "returnEvent", null, 0, 1, Flow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eventEClass, Event.class, "Event", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEvent_Detail(), ecorePackage.getEString(), "detail", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEvent_Number(), ecorePackage.getEIntegerObject(), "number", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvent_EventId(), ecorePackage.getEBigInteger(), "eventId", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionalEventEClass, FunctionalEvent.class, "FunctionalEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunctionalEvent_JointPoints(), this.getJointPoint(), null, "jointPoints", null, 0, -1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

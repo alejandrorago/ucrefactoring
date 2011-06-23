@@ -9,6 +9,7 @@ package edu.unicen.ucrefactoring.model.impl;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
+import java.math.BigInteger;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getDetail <em>Detail</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getNumber <em>Number</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getEventId <em>Event Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +72,26 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * @ordered
 	 */
 	protected Integer number = NUMBER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getEventId() <em>Event Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEventId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final BigInteger EVENT_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getEventId() <em>Event Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEventId()
+	 * @generated
+	 * @ordered
+	 */
+	protected BigInteger eventId = EVENT_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -137,6 +159,27 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public BigInteger getEventId() {
+		return eventId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEventId(BigInteger newEventId) {
+		BigInteger oldEventId = eventId;
+		eventId = newEventId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.EVENT__EVENT_ID, oldEventId, eventId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -144,6 +187,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return getDetail();
 			case UCRefactoringPackage.EVENT__NUMBER:
 				return getNumber();
+			case UCRefactoringPackage.EVENT__EVENT_ID:
+				return getEventId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,6 +206,9 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return;
 			case UCRefactoringPackage.EVENT__NUMBER:
 				setNumber((Integer)newValue);
+				return;
+			case UCRefactoringPackage.EVENT__EVENT_ID:
+				setEventId((BigInteger)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,6 +228,9 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 			case UCRefactoringPackage.EVENT__NUMBER:
 				setNumber(NUMBER_EDEFAULT);
 				return;
+			case UCRefactoringPackage.EVENT__EVENT_ID:
+				setEventId(EVENT_ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -196,6 +247,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return DETAIL_EDEFAULT == null ? detail != null : !DETAIL_EDEFAULT.equals(detail);
 			case UCRefactoringPackage.EVENT__NUMBER:
 				return NUMBER_EDEFAULT == null ? number != null : !NUMBER_EDEFAULT.equals(number);
+			case UCRefactoringPackage.EVENT__EVENT_ID:
+				return EVENT_ID_EDEFAULT == null ? eventId != null : !EVENT_ID_EDEFAULT.equals(eventId);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,6 +267,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 		result.append(detail);
 		result.append(", number: ");
 		result.append(number);
+		result.append(", eventId: ");
+		result.append(eventId);
 		result.append(')');
 		return result.toString();
 	}

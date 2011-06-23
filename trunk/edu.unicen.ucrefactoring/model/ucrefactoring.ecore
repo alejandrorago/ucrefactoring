@@ -53,10 +53,15 @@
         <details key="name" value="events"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" lowerBound="1"
+        eType="#//UseCase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parentFlow" eType="#//Flow"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnEvent" eType="#//Event"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Event" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="detail" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="eventId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ActorTypeEnum">
     <eLiterals name="HUMAN"/>
