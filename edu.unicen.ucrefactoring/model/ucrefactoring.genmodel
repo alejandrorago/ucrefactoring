@@ -45,10 +45,14 @@
     <genClasses ecoreClass="ucrefactoring.ecore#//Flow">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Flow/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Flow/events"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Flow/useCase"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Flow/parentFlow"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//Flow/returnEvent"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ucrefactoring.ecore#//Event">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Event/detail"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Event/number"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Event/eventId"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//FunctionalEvent">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//FunctionalEvent/jointPoints"/>

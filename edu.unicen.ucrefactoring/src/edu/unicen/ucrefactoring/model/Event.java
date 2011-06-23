@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model;
 
+import java.math.BigInteger;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link edu.unicen.ucrefactoring.model.Event#getDetail <em>Detail</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.Event#getNumber <em>Number</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.Event#getEventId <em>Event Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,5 +79,31 @@ public interface Event extends EObject {
 	 * @generated
 	 */
 	void setNumber(Integer value);
+
+	/**
+	 * Returns the value of the '<em><b>Event Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Event Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Event Id</em>' attribute.
+	 * @see #setEventId(BigInteger)
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getEvent_EventId()
+	 * @model
+	 * @generated
+	 */
+	BigInteger getEventId();
+
+	/**
+	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Event#getEventId <em>Event Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Event Id</em>' attribute.
+	 * @see #getEventId()
+	 * @generated
+	 */
+	void setEventId(BigInteger value);
 
 } // Event

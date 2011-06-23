@@ -318,13 +318,40 @@ public interface UCRefactoringPackage extends EPackage {
 	int FLOW__EVENTS = 1;
 
 	/**
+	 * The feature id for the '<em><b>Use Case</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOW__USE_CASE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Parent Flow</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOW__PARENT_FLOW = 3;
+
+	/**
+	 * The feature id for the '<em><b>Return Event</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FLOW__RETURN_EVENT = 4;
+
+	/**
 	 * The number of structural features of the '<em>Flow</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FLOW_FEATURE_COUNT = 2;
+	int FLOW_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.EventImpl <em>Event</em>}' class.
@@ -355,13 +382,22 @@ public interface UCRefactoringPackage extends EPackage {
 	int EVENT__NUMBER = 1;
 
 	/**
+	 * The feature id for the '<em><b>Event Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__EVENT_ID = 2;
+
+	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 2;
+	int EVENT_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl <em>Functional Event</em>}' class.
@@ -390,6 +426,15 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @ordered
 	 */
 	int FUNCTIONAL_EVENT__NUMBER = EVENT__NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Event Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_EVENT__EVENT_ID = EVENT__EVENT_ID;
 
 	/**
 	 * The feature id for the '<em><b>Joint Points</b></em>' containment reference list.
@@ -474,6 +519,15 @@ public interface UCRefactoringPackage extends EPackage {
 	int EXTENSION_POINT__NUMBER = EVENT__NUMBER;
 
 	/**
+	 * The feature id for the '<em><b>Event Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_POINT__EVENT_ID = EVENT__EVENT_ID;
+
+	/**
 	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -536,6 +590,15 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @ordered
 	 */
 	int INCLUSION_CALL__NUMBER = EVENT__NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Event Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCLUSION_CALL__EVENT_ID = EVENT__EVENT_ID;
 
 	/**
 	 * The feature id for the '<em><b>Included Use Cases</b></em>' reference list.
@@ -984,6 +1047,39 @@ public interface UCRefactoringPackage extends EPackage {
 	EReference getFlow_Events();
 
 	/**
+	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Use Case</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Flow#getUseCase()
+	 * @see #getFlow()
+	 * @generated
+	 */
+	EReference getFlow_UseCase();
+
+	/**
+	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.Flow#getParentFlow <em>Parent Flow</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent Flow</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Flow#getParentFlow()
+	 * @see #getFlow()
+	 * @generated
+	 */
+	EReference getFlow_ParentFlow();
+
+	/**
+	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.Flow#getReturnEvent <em>Return Event</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Return Event</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Flow#getReturnEvent()
+	 * @see #getFlow()
+	 * @generated
+	 */
+	EReference getFlow_ReturnEvent();
+
+	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.Event <em>Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1014,6 +1110,17 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getEvent_Number();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Event#getEventId <em>Event Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Event Id</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Event#getEventId()
+	 * @see #getEvent()
+	 * @generated
+	 */
+	EAttribute getEvent_EventId();
 
 	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.FunctionalEvent <em>Functional Event</em>}'.
@@ -1517,6 +1624,30 @@ public interface UCRefactoringPackage extends EPackage {
 		EReference FLOW__EVENTS = eINSTANCE.getFlow_Events();
 
 		/**
+		 * The meta object literal for the '<em><b>Use Case</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__USE_CASE = eINSTANCE.getFlow_UseCase();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent Flow</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__PARENT_FLOW = eINSTANCE.getFlow_ParentFlow();
+
+		/**
+		 * The meta object literal for the '<em><b>Return Event</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FLOW__RETURN_EVENT = eINSTANCE.getFlow_ReturnEvent();
+
+		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.EventImpl <em>Event</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1541,6 +1672,14 @@ public interface UCRefactoringPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute EVENT__NUMBER = eINSTANCE.getEvent_Number();
+
+		/**
+		 * The meta object literal for the '<em><b>Event Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EVENT__EVENT_ID = eINSTANCE.getEvent_EventId();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl <em>Functional Event</em>}' class.
