@@ -81,7 +81,7 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final BigInteger EVENT_ID_EDEFAULT = null;
+	protected static final String EVENT_ID_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getEventId() <em>Event Id</em>}' attribute.
@@ -91,7 +91,7 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * @generated
 	 * @ordered
 	 */
-	protected BigInteger eventId = EVENT_ID_EDEFAULT;
+	protected String eventId = EVENT_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -159,7 +159,7 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public BigInteger getEventId() {
+	public String getEventId() {
 		return eventId;
 	}
 
@@ -168,8 +168,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEventId(BigInteger newEventId) {
-		BigInteger oldEventId = eventId;
+	public void setEventId(String newEventId) {
+		String oldEventId = eventId;
 		eventId = newEventId;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.EVENT__EVENT_ID, oldEventId, eventId));
@@ -208,7 +208,7 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				setNumber((Integer)newValue);
 				return;
 			case UCRefactoringPackage.EVENT__EVENT_ID:
-				setEventId((BigInteger)newValue);
+				setEventId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

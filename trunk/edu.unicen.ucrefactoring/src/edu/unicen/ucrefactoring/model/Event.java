@@ -89,12 +89,12 @@ public interface Event extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Event Id</em>' attribute.
-	 * @see #setEventId(BigInteger)
+	 * @see #setEventId(String)
 	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getEvent_EventId()
 	 * @model
 	 * @generated
 	 */
-	BigInteger getEventId();
+	String getEventId();
 
 	/**
 	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Event#getEventId <em>Event Id</em>}' attribute.
@@ -104,6 +104,6 @@ public interface Event extends EObject {
 	 * @see #getEventId()
 	 * @generated
 	 */
-	void setEventId(BigInteger value);
+	void setEventId(String value);
 
 } // Event
