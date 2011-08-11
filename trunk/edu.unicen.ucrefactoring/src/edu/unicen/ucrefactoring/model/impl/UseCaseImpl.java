@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -299,7 +300,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 */
 	public EList<Flow> getFlows() {
 		if (flows == null) {
-			flows = new EObjectContainmentEList<Flow>(Flow.class, this, UCRefactoringPackage.USE_CASE__FLOWS);
+			flows = new EObjectContainmentWithInverseEList<Flow>(Flow.class, this, UCRefactoringPackage.USE_CASE__FLOWS, UCRefactoringPackage.FLOW__USE_CASE);
 		}
 		return flows;
 	}
@@ -340,6 +341,21 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		parent = newParent;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.USE_CASE__PARENT, oldParent, parent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UCRefactoringPackage.USE_CASE__FLOWS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getFlows()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
