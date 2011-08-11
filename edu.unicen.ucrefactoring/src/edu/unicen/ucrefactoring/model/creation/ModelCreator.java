@@ -45,6 +45,17 @@ import edu.unicen.ucrefactoring.uima.UIMAQuery;
 
 public class ModelCreator {
 	
+	//CONSTANTES
+	private static String BASIC_FLOW = "BasicFlow";
+	private static String SYSTEM_ACTOR_NAME = "System";
+	private static String SYSTEM_ACTOR_DESC = "El actor que representa al sistema";
+	private static String ALTERNATIVE_FLOW = "AlternativeFlow";
+	private static String PRECONDITION = "Precondition";
+	private static String POSTCONDITION = "Postcondition";
+	private static String USE_CASE_MODEL_CLASS_NAME = "UseCaseModel";
+	private static String OUTPUT_RESOURCE_DIR = "/home/migue/Escritorio/test.ucrefactoring";
+	
+	
 	public static UIMAQuery uimaRoot;
 	
 	public ModelCreator(EList<EObject> contenidos){
@@ -93,12 +104,18 @@ public class ModelCreator {
 			 actor.setType((ActorTypeEnum.valueOf(a.getStereotype().toUpperCase())));
 			 useCaseModel.getActors().add(actor);			 
 		 }
+		 //Añado manualmente el System
+		 Actor system = factory.createActor();
+		 system.setName(ModelCreator.SYSTEM_ACTOR_NAME);
+		 system.setDescription(ModelCreator.SYSTEM_ACTOR_DESC);
+		 system.setType(ActorTypeEnum.SYSTEM);
+		 useCaseModel.getActors().add(system);
 		 
 		 
 		 // Extraigo todos los documentos del proyecto uima
 		 Project uimaProject = ModelCreator.uimaRoot.getProject();
 		 EList<Document> allDocs = ModelCreator.uimaRoot.getDocuments(uimaProject);
-		 
+
 		 //Especificaciones de casos de uso
 		 for (UseCaseSpecification ucs : project.getUseCaseSpecifications()){
 			 UseCase useCase = factory.createUseCase();
@@ -120,21 +137,21 @@ public class ModelCreator {
 			 /* Busco: F Basico, F Alternativos, Precondiciones y Postcondiciones */
 			 for(edu.isistan.uima.unified.typesystems.srs.Section uimaSection : secs){ 
 				 /* La sección actual del Caso de Uso es una Precondición */
-				 if (uimaSection.getKind().equals("Precondition")){
+				 if (uimaSection.getKind().equals(ModelCreator.PRECONDITION)){
 					 Condition precondition = factory.createCondition();
 					 precondition.setName(uimaSection.getName());
 					 precondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPreconditions().add(precondition);
 				 }
 				 /* La sección actual del Caso de Uso es una Postcondición*/ 
-				 else if (uimaSection.getKind().equals("Postcondition")){
+				 else if (uimaSection.getKind().equals(ModelCreator.POSTCONDITION)){
 					 Condition postcondition = factory.createCondition();
 					 postcondition.setName(uimaSection.getName());
 					 postcondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPostconditions().add(postcondition);
 				 }
 				 /* La sección actual del Caso de Uso es el Flujo Básico */
-				 else if(uimaSection.getKind().equals("BasicFlow")){
+				 else if(uimaSection.getKind().equals(ModelCreator.BASIC_FLOW)){
 					 Flow basicFlow = factory.createFlow();
 					 basicFlow.setName(uimaSection.getName());
 					 basicFlow.setUseCase(useCase);
@@ -153,22 +170,27 @@ public class ModelCreator {
 						 basicFlow.getEvents().add(event);
 						 order++;
 						 
-//						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
-//						 for(Predicate predicate : p){
-//							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
-//							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
-//							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);			 
-//							 for(DomainAction dAction : actions){
-//								 System.out.println("Action: " + ModelCreator.uimaRoot.getCoveredText(dAction));
-//							 }
-//							 System.out.println("--------------------------");
-//						 }
+						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
+						 for(Predicate predicate : p){
+							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
+							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
+							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);			 
+							 for(DomainAction dAction : actions){
+								 System.out.println("\n Action: "+dAction.getLabel());
+								 System.out.println((dAction.getParent()!=null)?"PARENT: " + dAction.getParent().getLabel():"NO PARENT");
+								 if (dAction.getChilds()!=null && dAction.getChilds().size()>0) 
+									 for (DomainAction a : dAction.getChilds())
+										 System.out.println("Child : " +a.getLabel());
+								 else System.out.println("NO CHILDS");
+							 }
+							 System.out.println("--------------------------");
+						 }
 					 }	
 					 // Agrego el Flujo Basico al Caso de Uso
 					 useCase.getFlows().add(basicFlow);
 				 }
 				 /* La sección actual del Caso de Uso es un Flujo Alternativo */
-				 else if(uimaSection.getKind().equals("AlternativeFlow")){
+				 else if(uimaSection.getKind().equals(ModelCreator.ALTERNATIVE_FLOW)){
 					 Flow alternative = factory.createFlow();
 					 alternative.setName(uimaSection.getName());
 					 alternative.setUseCase(useCase);
@@ -205,14 +227,14 @@ public class ModelCreator {
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put("UseCaseModel", new XMIResourceFactoryImpl());
+		m.put(ModelCreator.USE_CASE_MODEL_CLASS_NAME, new XMIResourceFactoryImpl());
 
 		// Obtain a new resource set
 		ResourceSet resSet = new ResourceSetImpl();
 
 		// Create a resource
 		Resource resourceSalida = resSet.createResource(URI
-				.createURI("/home/migue/Escritorio/test.ucrefactoring"));
+				.createURI(ModelCreator.OUTPUT_RESOURCE_DIR));
 		resourceSalida.getContents().add(useCaseModel);
 
 		// Now save the content.
@@ -292,11 +314,11 @@ public class ModelCreator {
 			EList<Flow> fs = uc.getFlows();
 			System.out.println("\nPRECONDITIONS: ");
 			for (Condition c : uc.getContext().getPreconditions()){
-				System.out.println(c.getName() +" - "+c.getDescription());
+				System.out.println(" - "+c.getDescription());
 			}
 			System.out.println("POSTCONDITIONS: ");
 			for (Condition c : uc.getContext().getPostconditions()){
-				System.out.println(c.getName() +" - "+c.getDescription());
+				System.out.println(" - "+c.getDescription());
 			}
 			for(Flow f : fs){
 				System.out.println("\nFLOW: "+ f.getName());
