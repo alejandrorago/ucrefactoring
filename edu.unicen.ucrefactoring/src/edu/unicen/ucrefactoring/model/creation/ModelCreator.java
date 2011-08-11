@@ -2,8 +2,12 @@ package edu.unicen.ucrefactoring.model.creation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -80,8 +84,9 @@ public class ModelCreator {
 		useCaseModel.setName(project.getName());
 		useCaseModel.setDescription(project.getContent());
 		
+		EList<edu.isistan.dal.ucs.model.Actor> actors = project.getActors();
 		//Actores
-		 for (edu.isistan.dal.ucs.model.Actor a : project.getActors()){
+		 for (edu.isistan.dal.ucs.model.Actor a : actors){
 			 Actor actor = factory.createActor();
 			 actor.setName(a.getName());
 			 actor.setDescription(a.getContent());
@@ -135,17 +140,17 @@ public class ModelCreator {
 					 basicFlow.setUseCase(useCase);
 					 // Recupero los numeros de la sección (Flujo Básico)
 					 EList<DomainNumber> numbers = ModelCreator.uimaRoot.getDomainNumbers(uimaSection);
-					 Integer numberIndex = 0;
 					 Integer order = 1;
 					 // Recupero las sentencias del Flujo Básico
 					 EList<Sentence> sentences = ModelCreator.uimaRoot.getSentences(uimaSection);
 					 for(Sentence sentence : sentences){
 						 FunctionalEvent event = factory.createFunctionalEvent();
 						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));
-						 event.setEventId(ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex)));
+						 Actor primaryActor = getActorForSentence( sentence,  useCaseModel.getActors());
+						 event.setSubject(primaryActor);
+						 event.setEventId(this.getEventIdForSentence(sentence, numbers));
 						 event.setNumber(order);
 						 basicFlow.getEvents().add(event);
-						 numberIndex++;
 						 order++;
 						 
 //						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
@@ -207,7 +212,7 @@ public class ModelCreator {
 
 		// Create a resource
 		Resource resourceSalida = resSet.createResource(URI
-				.createURI("/home/pau/Escritorio/test.ucrefactoring"));
+				.createURI("/home/migue/Escritorio/test.ucrefactoring"));
 		resourceSalida.getContents().add(useCaseModel);
 
 		// Now save the content.
@@ -219,6 +224,57 @@ public class ModelCreator {
 		}
 	}
 	
+	
+	private String getEventIdForSentence(Sentence sentence,EList<DomainNumber> numbers){
+		int closestPos = 0;
+		int minDif = 999;
+		
+		for (int i=0;(numbers!=null)&&(i<numbers.size()); i++){
+			DomainNumber n = numbers.get(i);
+			//si encontre el exacto, me lo quedo y termino
+			if (n.getBegin()==sentence.getBegin()){
+				return ModelCreator.uimaRoot.getCoveredText(numbers.get(i));
+			}
+			//si no, me quedo con el de menor diferencia (TODO: Es necesario?)
+			else{
+				//dejo la diferencia siempre positiva
+				int dif = ((n.getBegin()>sentence.getBegin())?n.getBegin()-sentence.getBegin():sentence.getBegin()-n.getBegin());
+				if (dif<minDif){
+					minDif=dif;
+					closestPos=i;
+				}
+			}
+		}
+		return ModelCreator.uimaRoot.getCoveredText(numbers.get(closestPos));	
+	}
+	
+	private Actor getActorForSentence(Sentence sentence, EList<Actor> actors){
+		//edu.isistan.dal.ucs.model.Actor actor = uimaRoot.getStructures(sentence).get(0).;
+		EList<Structure> structures = uimaRoot.getStructures(sentence);
+		for (int i=0;i<structures.size();i++){
+			Structure s = structures.get(i);
+			if (s.getSubject()!=null){
+				for (Actor actor : actors){
+					if (actor.getName().toUpperCase().equals(s.getSubject().getDescriptions().get(0).toUpperCase())){
+						return actor;
+					}
+				}
+			}
+		}
+		return null;
+		
+	}
+	
+	private Actor getContainedActor(EList<Actor> actors, String subject){
+		for (Actor actor : actors){
+			if (actor.getName().toUpperCase().equals(subject.toUpperCase()))
+				return actor;
+		}
+		return null;
+	}
+	
+	
+	
 	public void showUCRefactoring(File file) throws IOException {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		
@@ -229,20 +285,25 @@ public class ModelCreator {
 		Resource resource = resourceSet.createResource(uri);
 		resource.load(Collections.EMPTY_MAP);
 		UseCaseModel ucModel = (UseCaseModel) resource.getContents().get(0);
+		System.out.println("\n================UCREFACTORING===================");
+		
 		for (UseCase uc : ucModel.getUseCases()){
+			System.out.println("\nUC: "+uc.getName());
 			EList<Flow> fs = uc.getFlows();
+			System.out.println("\nPRECONDITIONS: ");
 			for (Condition c : uc.getContext().getPreconditions()){
-				System.out.println("Preconditions: ");
 				System.out.println(c.getName() +" - "+c.getDescription());
 			}
+			System.out.println("POSTCONDITIONS: ");
 			for (Condition c : uc.getContext().getPostconditions()){
-				System.out.println("Postconditions: ");
 				System.out.println(c.getName() +" - "+c.getDescription());
 			}
 			for(Flow f : fs){
-				System.out.print(f.getName() + "\n");
+				System.out.println("\nFLOW: "+ f.getName());
+				System.out.println("EVENTS: ");
 				for(Event e : f.getEvents()){
-					System.out.print(e.getNumber() + "$" + e.getDetail() + "\n");
+					if (((FunctionalEvent)e).getSubject()!=null)System.out.println("ACTOR: "+((FunctionalEvent)e).getSubject().getName() );
+					System.out.print("#"+e.getNumber() + " - " + "ID: "+e.getEventId() + " - "+e.getDetail() + "\n");
 				}
 			}
 		}
@@ -262,7 +323,7 @@ public class ModelCreator {
 		// Levantamos el Resource *.uima
 		ResourceSet resourceSet = new ResourceSetImpl();
 		// TODO ver ingreso de ruta
-		URI fileURI = URI.createFileURI("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.uima");
+		URI fileURI = URI.createFileURI("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.uima");
 		Resource resource = null;
 		try {
 			resource = resourceSet.getResource(fileURI, true);
@@ -272,7 +333,7 @@ public class ModelCreator {
 		}
 		
 		ModelCreator l = new ModelCreator(resource.getContents());
-		l.load(new File("/home/pau/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
-		l.showUCRefactoring(new File("/home/pau/Escritorio/test.ucrefactoring"));
+		l.load(new File("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
+		l.showUCRefactoring(new File("/home/migue/Escritorio/test.ucrefactoring"));
 	}
 }

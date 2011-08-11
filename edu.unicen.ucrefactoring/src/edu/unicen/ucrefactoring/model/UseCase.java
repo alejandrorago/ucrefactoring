@@ -156,6 +156,7 @@ public interface UseCase extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Flows</b></em>' containment reference list.
 	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.Flow}.
+	 * It is bidirectional and its opposite is '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Flows</em>' containment reference list isn't clear,
@@ -164,7 +165,8 @@ public interface UseCase extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Flows</em>' containment reference list.
 	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getUseCase_Flows()
-	 * @model containment="true"
+	 * @see edu.unicen.ucrefactoring.model.Flow#getUseCase
+	 * @model opposite="useCase" containment="true"
 	 * @generated
 	 */
 	EList<Flow> getFlows();

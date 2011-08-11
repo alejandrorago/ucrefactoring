@@ -402,16 +402,17 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_4Jxj4JCUEeCdQdlzazn-uA" type="3002" source="_upgO4JCREeCdQdlzazn-uA" target="_y8zIsJCUEeCdQdlzazn-uA">
     <children xmi:type="notation:Node" xmi:id="_4JyK8JCUEeCdQdlzazn-uA" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JyK8ZCUEeCdQdlzazn-uA" x="8" y="13"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JyK8ZCUEeCdQdlzazn-uA" x="12" y="21"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_4JyyAJCUEeCdQdlzazn-uA" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JyyAZCUEeCdQdlzazn-uA" x="-1" y="-12"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_4JyyAZCUEeCdQdlzazn-uA" x="-1" y="14"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_4Jxj4ZCUEeCdQdlzazn-uA" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_4Jxj4pCUEeCdQdlzazn-uA" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="ucrefactoring.ecore#//UseCase/flows"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4Jxj45CUEeCdQdlzazn-uA" points="[6, 52, 2, -56]$[6, 98, 2, -10]"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_4J1OQJCUEeCdQdlzazn-uA" id="(0.5384615384615384,0.22448979591836735)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4Jxj45CUEeCdQdlzazn-uA" points="[-16, 7, 191, 34]$[-96, 37, 111, 64]$[-171, -6, 36, 21]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_XrX4EK5SEeCPXpQbf1pE9w" id="(0.0825242718446602,0.5660377358490566)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_XrX4Ea5SEeCPXpQbf1pE9w" id="(0.6923076923076923,0.14285714285714285)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_YUDTAJCVEeCdQdlzazn-uA" type="3002" source="_y8zIsJCUEeCdQdlzazn-uA" target="_GGFGsJCVEeCdQdlzazn-uA">
     <children xmi:type="notation:Node" xmi:id="_YUEhIJCVEeCdQdlzazn-uA" type="4011">
@@ -608,17 +609,17 @@
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_e_jXsJ04EeCd84Kdp-kJMw" type="3002" source="_y8zIsJCUEeCdQdlzazn-uA" target="_upgO4JCREeCdQdlzazn-uA">
     <children xmi:type="notation:Node" xmi:id="_e_kl0J04EeCd84Kdp-kJMw" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_e_lM4J04EeCd84Kdp-kJMw" x="-21" y="-18"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_e_lM4J04EeCd84Kdp-kJMw" x="-14" y="-32"/>
     </children>
     <children xmi:type="notation:Node" xmi:id="_e_lz8J04EeCd84Kdp-kJMw" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_e_lz8Z04EeCd84Kdp-kJMw" x="-33" y="-7"/>
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_e_lz8Z04EeCd84Kdp-kJMw" x="-9" y="-17"/>
     </children>
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_e_jXsZ04EeCd84Kdp-kJMw" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_e_jXsp04EeCd84Kdp-kJMw" fontColor="4210752" fontName="Ubuntu" fontHeight="10"/>
     <element xmi:type="ecore:EReference" href="ucrefactoring.ecore#//Flow/useCase"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_e_jXs504EeCd84Kdp-kJMw" points="[36, 16, -146, 19]$[106, 49, -76, 52]$[166, 9, -16, 12]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_e_qscJ04EeCd84Kdp-kJMw" id="(0.6923076923076923,0.14285714285714285)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_e_qscZ04EeCd84Kdp-kJMw" id="(0.0825242718446602,0.5660377358490566)"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_e_jXs504EeCd84Kdp-kJMw" points="[36, 21, -171, -6]$[111, 64, -96, 37]$[191, 34, -16, 7]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_G4aw4K5VEeCPXpQbf1pE9w" id="(0.6923076923076923,0.14285714285714285)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_G4aw4a5VEeCPXpQbf1pE9w" id="(0.0825242718446602,0.5660377358490566)"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_qrqZgJ04EeCd84Kdp-kJMw" type="3002" source="_y8zIsJCUEeCdQdlzazn-uA" target="_y8zIsJCUEeCdQdlzazn-uA">
     <children xmi:type="notation:Node" xmi:id="_qrrAkJ04EeCd84Kdp-kJMw" type="4011">

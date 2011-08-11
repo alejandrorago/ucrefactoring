@@ -318,7 +318,7 @@ public interface UCRefactoringPackage extends EPackage {
 	int FLOW__EVENTS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Use Case</b></em>' reference.
+	 * The feature id for the '<em><b>Use Case</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1047,10 +1047,10 @@ public interface UCRefactoringPackage extends EPackage {
 	EReference getFlow_Events();
 
 	/**
-	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}'.
+	 * Returns the meta object for the container reference '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Use Case</em>'.
+	 * @return the meta object for the container reference '<em>Use Case</em>'.
 	 * @see edu.unicen.ucrefactoring.model.Flow#getUseCase()
 	 * @see #getFlow()
 	 * @generated
@@ -1624,7 +1624,7 @@ public interface UCRefactoringPackage extends EPackage {
 		EReference FLOW__EVENTS = eINSTANCE.getFlow_Events();
 
 		/**
-		 * The meta object literal for the '<em><b>Use Case</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Use Case</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

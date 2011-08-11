@@ -75,26 +75,28 @@ public interface Flow extends EObject {
 	EList<Event> getEvents();
 
 	/**
-	 * Returns the value of the '<em><b>Use Case</b></em>' reference.
+	 * Returns the value of the '<em><b>Use Case</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link edu.unicen.ucrefactoring.model.UseCase#getFlows <em>Flows</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Use Case</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Use Case</em>' reference.
+	 * @return the value of the '<em>Use Case</em>' container reference.
 	 * @see #setUseCase(UseCase)
 	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getFlow_UseCase()
-	 * @model required="true"
+	 * @see edu.unicen.ucrefactoring.model.UseCase#getFlows
+	 * @model opposite="flows" transient="false"
 	 * @generated
 	 */
 	UseCase getUseCase();
 
 	/**
-	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}' reference.
+	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Flow#getUseCase <em>Use Case</em>}' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Use Case</em>' reference.
+	 * @param value the new value of the '<em>Use Case</em>' container reference.
 	 * @see #getUseCase()
 	 * @generated
 	 */

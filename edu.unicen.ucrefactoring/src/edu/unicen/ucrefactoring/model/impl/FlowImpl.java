@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -74,16 +75,6 @@ public class FlowImpl extends EObjectImpl implements Flow {
 	 * @ordered
 	 */
 	protected EList<Event> events;
-
-	/**
-	 * The cached value of the '{@link #getUseCase() <em>Use Case</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getUseCase()
-	 * @generated
-	 * @ordered
-	 */
-	protected UseCase useCase;
 
 	/**
 	 * The cached value of the '{@link #getParentFlow() <em>Parent Flow</em>}' reference.
@@ -163,15 +154,8 @@ public class FlowImpl extends EObjectImpl implements Flow {
 	 * @generated
 	 */
 	public UseCase getUseCase() {
-		if (useCase != null && useCase.eIsProxy()) {
-			InternalEObject oldUseCase = (InternalEObject)useCase;
-			useCase = (UseCase)eResolveProxy(oldUseCase);
-			if (useCase != oldUseCase) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UCRefactoringPackage.FLOW__USE_CASE, oldUseCase, useCase));
-			}
-		}
-		return useCase;
+		if (eContainerFeatureID() != UCRefactoringPackage.FLOW__USE_CASE) return null;
+		return (UseCase)eContainer();
 	}
 
 	/**
@@ -179,8 +163,9 @@ public class FlowImpl extends EObjectImpl implements Flow {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UseCase basicGetUseCase() {
-		return useCase;
+	public NotificationChain basicSetUseCase(UseCase newUseCase, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newUseCase, UCRefactoringPackage.FLOW__USE_CASE, msgs);
+		return msgs;
 	}
 
 	/**
@@ -189,10 +174,19 @@ public class FlowImpl extends EObjectImpl implements Flow {
 	 * @generated
 	 */
 	public void setUseCase(UseCase newUseCase) {
-		UseCase oldUseCase = useCase;
-		useCase = newUseCase;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.FLOW__USE_CASE, oldUseCase, useCase));
+		if (newUseCase != eInternalContainer() || (eContainerFeatureID() != UCRefactoringPackage.FLOW__USE_CASE && newUseCase != null)) {
+			if (EcoreUtil.isAncestor(this, newUseCase))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newUseCase != null)
+				msgs = ((InternalEObject)newUseCase).eInverseAdd(this, UCRefactoringPackage.USE_CASE__FLOWS, UseCase.class, msgs);
+			msgs = basicSetUseCase(newUseCase, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.FLOW__USE_CASE, newUseCase, newUseCase));
 	}
 
 	/**
@@ -277,12 +271,44 @@ public class FlowImpl extends EObjectImpl implements Flow {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case UCRefactoringPackage.FLOW__USE_CASE:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetUseCase((UseCase)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case UCRefactoringPackage.FLOW__EVENTS:
 				return ((InternalEList<?>)getEvents()).basicRemove(otherEnd, msgs);
+			case UCRefactoringPackage.FLOW__USE_CASE:
+				return basicSetUseCase(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case UCRefactoringPackage.FLOW__USE_CASE:
+				return eInternalContainer().eInverseRemove(this, UCRefactoringPackage.USE_CASE__FLOWS, UseCase.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -298,8 +324,7 @@ public class FlowImpl extends EObjectImpl implements Flow {
 			case UCRefactoringPackage.FLOW__EVENTS:
 				return getEvents();
 			case UCRefactoringPackage.FLOW__USE_CASE:
-				if (resolve) return getUseCase();
-				return basicGetUseCase();
+				return getUseCase();
 			case UCRefactoringPackage.FLOW__PARENT_FLOW:
 				if (resolve) return getParentFlow();
 				return basicGetParentFlow();
@@ -379,7 +404,7 @@ public class FlowImpl extends EObjectImpl implements Flow {
 			case UCRefactoringPackage.FLOW__EVENTS:
 				return events != null && !events.isEmpty();
 			case UCRefactoringPackage.FLOW__USE_CASE:
-				return useCase != null;
+				return getUseCase() != null;
 			case UCRefactoringPackage.FLOW__PARENT_FLOW:
 				return parentFlow != null;
 			case UCRefactoringPackage.FLOW__RETURN_EVENT:

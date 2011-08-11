@@ -14,7 +14,7 @@
         eType="#//Actor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="flows" upperBound="-1"
-        eType="#//Flow" containment="true"/>
+        eType="#//Flow" containment="true" eOpposite="#//Flow/useCase"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//UseCase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Context">
@@ -53,8 +53,8 @@
         <details key="name" value="events"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" lowerBound="1"
-        eType="#//UseCase"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="useCase" eType="#//UseCase"
+        eOpposite="#//UseCase/flows"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentFlow" eType="#//Flow"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="returnEvent" eType="#//Event"/>
   </eClassifiers>
