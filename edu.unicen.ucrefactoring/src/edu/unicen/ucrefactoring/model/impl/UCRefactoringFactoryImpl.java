@@ -90,6 +90,8 @@ public class UCRefactoringFactoryImpl extends EFactoryImpl implements UCRefactor
 				return createActorTypeEnumFromString(eDataType, initialValue);
 			case UCRefactoringPackage.EVENT_TYPE_ENUM:
 				return createEventTypeEnumFromString(eDataType, initialValue);
+			case UCRefactoringPackage.ACTION_CODE_ENUM:
+				return createActionCodeEnumFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -107,6 +109,8 @@ public class UCRefactoringFactoryImpl extends EFactoryImpl implements UCRefactor
 				return convertActorTypeEnumToString(eDataType, instanceValue);
 			case UCRefactoringPackage.EVENT_TYPE_ENUM:
 				return convertEventTypeEnumToString(eDataType, instanceValue);
+			case UCRefactoringPackage.ACTION_CODE_ENUM:
+				return convertActionCodeEnumToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -269,6 +273,26 @@ public class UCRefactoringFactoryImpl extends EFactoryImpl implements UCRefactor
 	 * @generated
 	 */
 	public String convertEventTypeEnumToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ActionCodeEnum createActionCodeEnumFromString(EDataType eDataType, String initialValue) {
+		ActionCodeEnum result = ActionCodeEnum.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertActionCodeEnumToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

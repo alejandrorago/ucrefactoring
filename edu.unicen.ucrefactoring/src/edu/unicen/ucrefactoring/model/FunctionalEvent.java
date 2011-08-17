@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link edu.unicen.ucrefactoring.model.FunctionalEvent#getSubject <em>Subject</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.FunctionalEvent#getOtherActors <em>Other Actors</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.FunctionalEvent#getExceptions <em>Exceptions</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.FunctionalEvent#getActionClasses <em>Action Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -131,5 +132,21 @@ public interface FunctionalEvent extends Event {
 	 * @generated
 	 */
 	EList<Flow> getExceptions();
+
+	/**
+	 * Returns the value of the '<em><b>Action Classes</b></em>' containment reference list.
+	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.ActionClass}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Action Classes</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Action Classes</em>' containment reference list.
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getFunctionalEvent_ActionClasses()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ActionClass> getActionClasses();
 
 } // FunctionalEvent

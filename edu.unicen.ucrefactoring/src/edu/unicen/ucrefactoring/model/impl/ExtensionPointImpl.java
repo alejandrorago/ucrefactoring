@@ -32,8 +32,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl#getCondition <em>Condition</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl#getActionClass <em>Action Class</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl#getExcludedUseCases <em>Excluded Use Cases</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl#getExtendedUseCases <em>Extended Use Cases</em>}</li>
  * </ul>
  * </p>
  *
@@ -61,24 +60,14 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 	protected String condition = CONDITION_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getActionClass() <em>Action Class</em>}' reference.
+	 * The cached value of the '{@link #getExtendedUseCases() <em>Extended Use Cases</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getActionClass()
+	 * @see #getExtendedUseCases()
 	 * @generated
 	 * @ordered
 	 */
-	protected ActionClass actionClass;
-
-	/**
-	 * The cached value of the '{@link #getExcludedUseCases() <em>Excluded Use Cases</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExcludedUseCases()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<UseCase> excludedUseCases;
+	protected EList<UseCase> extendedUseCases;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,49 +114,11 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ActionClass getActionClass() {
-		if (actionClass != null && actionClass.eIsProxy()) {
-			InternalEObject oldActionClass = (InternalEObject)actionClass;
-			actionClass = (ActionClass)eResolveProxy(oldActionClass);
-			if (actionClass != oldActionClass) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS, oldActionClass, actionClass));
-			}
+	public EList<UseCase> getExtendedUseCases() {
+		if (extendedUseCases == null) {
+			extendedUseCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, UCRefactoringPackage.EXTENSION_POINT__EXTENDED_USE_CASES);
 		}
-		return actionClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ActionClass basicGetActionClass() {
-		return actionClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActionClass(ActionClass newActionClass) {
-		ActionClass oldActionClass = actionClass;
-		actionClass = newActionClass;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS, oldActionClass, actionClass));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<UseCase> getExcludedUseCases() {
-		if (excludedUseCases == null) {
-			excludedUseCases = new EObjectResolvingEList<UseCase>(UseCase.class, this, UCRefactoringPackage.EXTENSION_POINT__EXCLUDED_USE_CASES);
-		}
-		return excludedUseCases;
+		return extendedUseCases;
 	}
 
 	/**
@@ -180,11 +131,8 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 		switch (featureID) {
 			case UCRefactoringPackage.EXTENSION_POINT__CONDITION:
 				return getCondition();
-			case UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS:
-				if (resolve) return getActionClass();
-				return basicGetActionClass();
-			case UCRefactoringPackage.EXTENSION_POINT__EXCLUDED_USE_CASES:
-				return getExcludedUseCases();
+			case UCRefactoringPackage.EXTENSION_POINT__EXTENDED_USE_CASES:
+				return getExtendedUseCases();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -201,12 +149,9 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 			case UCRefactoringPackage.EXTENSION_POINT__CONDITION:
 				setCondition((String)newValue);
 				return;
-			case UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS:
-				setActionClass((ActionClass)newValue);
-				return;
-			case UCRefactoringPackage.EXTENSION_POINT__EXCLUDED_USE_CASES:
-				getExcludedUseCases().clear();
-				getExcludedUseCases().addAll((Collection<? extends UseCase>)newValue);
+			case UCRefactoringPackage.EXTENSION_POINT__EXTENDED_USE_CASES:
+				getExtendedUseCases().clear();
+				getExtendedUseCases().addAll((Collection<? extends UseCase>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -223,11 +168,8 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 			case UCRefactoringPackage.EXTENSION_POINT__CONDITION:
 				setCondition(CONDITION_EDEFAULT);
 				return;
-			case UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS:
-				setActionClass((ActionClass)null);
-				return;
-			case UCRefactoringPackage.EXTENSION_POINT__EXCLUDED_USE_CASES:
-				getExcludedUseCases().clear();
+			case UCRefactoringPackage.EXTENSION_POINT__EXTENDED_USE_CASES:
+				getExtendedUseCases().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -243,10 +185,8 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 		switch (featureID) {
 			case UCRefactoringPackage.EXTENSION_POINT__CONDITION:
 				return CONDITION_EDEFAULT == null ? condition != null : !CONDITION_EDEFAULT.equals(condition);
-			case UCRefactoringPackage.EXTENSION_POINT__ACTION_CLASS:
-				return actionClass != null;
-			case UCRefactoringPackage.EXTENSION_POINT__EXCLUDED_USE_CASES:
-				return excludedUseCases != null && !excludedUseCases.isEmpty();
+			case UCRefactoringPackage.EXTENSION_POINT__EXTENDED_USE_CASES:
+				return extendedUseCases != null && !extendedUseCases.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

@@ -77,11 +77,12 @@
         eType="#//Actor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" upperBound="-1"
         eType="#//Flow" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionClasses" upperBound="-1"
+        eType="#//ActionClass" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExtensionPoint" eSuperTypes="#//Event">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actionClass" eType="#//ActionClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="excludedUseCases" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedUseCases" upperBound="-1"
         eType="#//UseCase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InclusionCall" eSuperTypes="#//Event">
@@ -98,7 +99,14 @@
     <eLiterals name="ACTION" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionClass">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDoubleObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranking" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ActionClass"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childs" upperBound="-1"
+        eType="#//ActionClass" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="predicate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Aspect">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -108,5 +116,32 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="EReference0" eType="#//Condition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ActionCodeEnum">
+    <eLiterals name="Display" value="3" literal="y"/>
+    <eLiterals name="Data" literal="d"/>
+    <eLiterals name="IO" value="4" literal="x"/>
+    <eLiterals name="Input" value="2" literal="i"/>
+    <eLiterals name="Output" value="5" literal="o"/>
+    <eLiterals name="Entry" value="1" literal="e"/>
+    <eLiterals name="Selection" value="6" literal="s"/>
+    <eLiterals name="Notification" value="7" literal="n"/>
+    <eLiterals name="Read" value="8" literal="r"/>
+    <eLiterals name="Write" value="9" literal="w"/>
+    <eLiterals name="Single" value="10" literal="g"/>
+    <eLiterals name="Multiple" value="11" literal="m"/>
+    <eLiterals name="Create" value="12" literal="c"/>
+    <eLiterals name="Update" value="13" literal="u"/>
+    <eLiterals name="Delete" value="14" literal="t"/>
+    <eLiterals name="Process" value="15" literal="p"/>
+    <eLiterals name="Calculation" value="16" literal="a"/>
+    <eLiterals name="Verification" value="17" literal="v"/>
+    <eLiterals name="Communication" value="18" literal="l"/>
+    <eLiterals name="Indoor" value="19" literal="j"/>
+    <eLiterals name="Outdoor" value="20" literal="z"/>
+    <eLiterals name="UseCase" value="21" literal="k"/>
+    <eLiterals name="Begin" value="22" literal="b"/>
+    <eLiterals name="End" value="23" literal="h"/>
+    <eLiterals name="FlowControl" value="24" literal="f"/>
   </eClassifiers>
 </ecore:EPackage>

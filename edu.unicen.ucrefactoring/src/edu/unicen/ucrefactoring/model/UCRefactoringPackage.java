@@ -482,13 +482,22 @@ public interface UCRefactoringPackage extends EPackage {
 	int FUNCTIONAL_EVENT__EXCEPTIONS = EVENT_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Action Classes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_EVENT__ACTION_CLASSES = EVENT_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Functional Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FUNCTIONAL_EVENT_FEATURE_COUNT = EVENT_FEATURE_COUNT + 5;
+	int FUNCTIONAL_EVENT_FEATURE_COUNT = EVENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl <em>Extension Point</em>}' class.
@@ -537,22 +546,13 @@ public interface UCRefactoringPackage extends EPackage {
 	int EXTENSION_POINT__CONDITION = EVENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Action Class</b></em>' reference.
+	 * The feature id for the '<em><b>Extended Use Cases</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSION_POINT__ACTION_CLASS = EVENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Excluded Use Cases</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXTENSION_POINT__EXCLUDED_USE_CASES = EVENT_FEATURE_COUNT + 2;
+	int EXTENSION_POINT__EXTENDED_USE_CASES = EVENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Extension Point</em>' class.
@@ -561,7 +561,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXTENSION_POINT_FEATURE_COUNT = EVENT_FEATURE_COUNT + 3;
+	int EXTENSION_POINT_FEATURE_COUNT = EVENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.InclusionCallImpl <em>Inclusion Call</em>}' class.
@@ -666,13 +666,58 @@ public interface UCRefactoringPackage extends EPackage {
 	int ACTION_CLASS = 10;
 
 	/**
-	 * The feature id for the '<em><b>Class Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_CLASS__CLASS_NAME = 0;
+	int ACTION_CLASS__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Confidence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_CLASS__CONFIDENCE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_CLASS__RANKING = 2;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_CLASS__PARENT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Childs</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_CLASS__CHILDS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Predicate</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACTION_CLASS__PREDICATE = 5;
 
 	/**
 	 * The number of structural features of the '<em>Action Class</em>' class.
@@ -681,7 +726,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACTION_CLASS_FEATURE_COUNT = 1;
+	int ACTION_CLASS_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.AspectImpl <em>Aspect</em>}' class.
@@ -785,6 +830,17 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 */
 	int EVENT_TYPE_ENUM = 14;
+
+
+	/**
+	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.ActionCodeEnum <em>Action Code Enum</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see edu.unicen.ucrefactoring.model.ActionCodeEnum
+	 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getActionCodeEnum()
+	 * @generated
+	 */
+	int ACTION_CODE_ENUM = 15;
 
 
 	/**
@@ -1188,6 +1244,17 @@ public interface UCRefactoringPackage extends EPackage {
 	EReference getFunctionalEvent_Exceptions();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.FunctionalEvent#getActionClasses <em>Action Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Action Classes</em>'.
+	 * @see edu.unicen.ucrefactoring.model.FunctionalEvent#getActionClasses()
+	 * @see #getFunctionalEvent()
+	 * @generated
+	 */
+	EReference getFunctionalEvent_ActionClasses();
+
+	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.ExtensionPoint <em>Extension Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1209,26 +1276,15 @@ public interface UCRefactoringPackage extends EPackage {
 	EAttribute getExtensionPoint_Condition();
 
 	/**
-	 * Returns the meta object for the reference '{@link edu.unicen.ucrefactoring.model.ExtensionPoint#getActionClass <em>Action Class</em>}'.
+	 * Returns the meta object for the reference list '{@link edu.unicen.ucrefactoring.model.ExtensionPoint#getExtendedUseCases <em>Extended Use Cases</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Action Class</em>'.
-	 * @see edu.unicen.ucrefactoring.model.ExtensionPoint#getActionClass()
+	 * @return the meta object for the reference list '<em>Extended Use Cases</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ExtensionPoint#getExtendedUseCases()
 	 * @see #getExtensionPoint()
 	 * @generated
 	 */
-	EReference getExtensionPoint_ActionClass();
-
-	/**
-	 * Returns the meta object for the reference list '{@link edu.unicen.ucrefactoring.model.ExtensionPoint#getExcludedUseCases <em>Excluded Use Cases</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Excluded Use Cases</em>'.
-	 * @see edu.unicen.ucrefactoring.model.ExtensionPoint#getExcludedUseCases()
-	 * @see #getExtensionPoint()
-	 * @generated
-	 */
-	EReference getExtensionPoint_ExcludedUseCases();
+	EReference getExtensionPoint_ExtendedUseCases();
 
 	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.InclusionCall <em>Inclusion Call</em>}'.
@@ -1294,15 +1350,70 @@ public interface UCRefactoringPackage extends EPackage {
 	EClass getActionClass();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.ActionClass#getClassName <em>Class Name</em>}'.
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.ActionClass#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Class Name</em>'.
-	 * @see edu.unicen.ucrefactoring.model.ActionClass#getClassName()
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getName()
 	 * @see #getActionClass()
 	 * @generated
 	 */
-	EAttribute getActionClass_ClassName();
+	EAttribute getActionClass_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.ActionClass#getConfidence <em>Confidence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Confidence</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getConfidence()
+	 * @see #getActionClass()
+	 * @generated
+	 */
+	EAttribute getActionClass_Confidence();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.ActionClass#getRanking <em>Ranking</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ranking</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getRanking()
+	 * @see #getActionClass()
+	 * @generated
+	 */
+	EAttribute getActionClass_Ranking();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link edu.unicen.ucrefactoring.model.ActionClass#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Parent</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getParent()
+	 * @see #getActionClass()
+	 * @generated
+	 */
+	EReference getActionClass_Parent();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.ActionClass#getChilds <em>Childs</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Childs</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getChilds()
+	 * @see #getActionClass()
+	 * @generated
+	 */
+	EReference getActionClass_Childs();
+
+	/**
+	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.ActionClass#getPredicate <em>Predicate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Predicate</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionClass#getPredicate()
+	 * @see #getActionClass()
+	 * @generated
+	 */
+	EAttribute getActionClass_Predicate();
 
 	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.Aspect <em>Aspect</em>}'.
@@ -1398,6 +1509,16 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getEventTypeEnum();
+
+	/**
+	 * Returns the meta object for enum '{@link edu.unicen.ucrefactoring.model.ActionCodeEnum <em>Action Code Enum</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Action Code Enum</em>'.
+	 * @see edu.unicen.ucrefactoring.model.ActionCodeEnum
+	 * @generated
+	 */
+	EEnum getActionCodeEnum();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1732,6 +1853,14 @@ public interface UCRefactoringPackage extends EPackage {
 		EReference FUNCTIONAL_EVENT__EXCEPTIONS = eINSTANCE.getFunctionalEvent_Exceptions();
 
 		/**
+		 * The meta object literal for the '<em><b>Action Classes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FUNCTIONAL_EVENT__ACTION_CLASSES = eINSTANCE.getFunctionalEvent_ActionClasses();
+
+		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl <em>Extension Point</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1750,20 +1879,12 @@ public interface UCRefactoringPackage extends EPackage {
 		EAttribute EXTENSION_POINT__CONDITION = eINSTANCE.getExtensionPoint_Condition();
 
 		/**
-		 * The meta object literal for the '<em><b>Action Class</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Extended Use Cases</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXTENSION_POINT__ACTION_CLASS = eINSTANCE.getExtensionPoint_ActionClass();
-
-		/**
-		 * The meta object literal for the '<em><b>Excluded Use Cases</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXTENSION_POINT__EXCLUDED_USE_CASES = eINSTANCE.getExtensionPoint_ExcludedUseCases();
+		EReference EXTENSION_POINT__EXTENDED_USE_CASES = eINSTANCE.getExtensionPoint_ExtendedUseCases();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.InclusionCallImpl <em>Inclusion Call</em>}' class.
@@ -1820,12 +1941,52 @@ public interface UCRefactoringPackage extends EPackage {
 		EClass ACTION_CLASS = eINSTANCE.getActionClass();
 
 		/**
-		 * The meta object literal for the '<em><b>Class Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ACTION_CLASS__CLASS_NAME = eINSTANCE.getActionClass_ClassName();
+		EAttribute ACTION_CLASS__NAME = eINSTANCE.getActionClass_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Confidence</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTION_CLASS__CONFIDENCE = eINSTANCE.getActionClass_Confidence();
+
+		/**
+		 * The meta object literal for the '<em><b>Ranking</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTION_CLASS__RANKING = eINSTANCE.getActionClass_Ranking();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTION_CLASS__PARENT = eINSTANCE.getActionClass_Parent();
+
+		/**
+		 * The meta object literal for the '<em><b>Childs</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ACTION_CLASS__CHILDS = eINSTANCE.getActionClass_Childs();
+
+		/**
+		 * The meta object literal for the '<em><b>Predicate</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACTION_CLASS__PREDICATE = eINSTANCE.getActionClass_Predicate();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.AspectImpl <em>Aspect</em>}' class.
@@ -1906,6 +2067,16 @@ public interface UCRefactoringPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum EVENT_TYPE_ENUM = eINSTANCE.getEventTypeEnum();
+
+		/**
+		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.ActionCodeEnum <em>Action Code Enum</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see edu.unicen.ucrefactoring.model.ActionCodeEnum
+		 * @see edu.unicen.ucrefactoring.model.impl.UCRefactoringPackageImpl#getActionCodeEnum()
+		 * @generated
+		 */
+		EEnum ACTION_CODE_ENUM = eINSTANCE.getActionCodeEnum();
 
 	}
 
