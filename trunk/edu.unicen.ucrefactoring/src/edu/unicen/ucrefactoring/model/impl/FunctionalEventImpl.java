@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model.impl;
 
+import edu.unicen.ucrefactoring.model.ActionClass;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.EventTypeEnum;
 import edu.unicen.ucrefactoring.model.Flow;
@@ -40,6 +41,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl#getSubject <em>Subject</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl#getOtherActors <em>Other Actors</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl#getExceptions <em>Exceptions</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl#getActionClasses <em>Action Classes</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,6 +107,16 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 	 * @ordered
 	 */
 	protected EList<Flow> exceptions;
+
+	/**
+	 * The cached value of the '{@link #getActionClasses() <em>Action Classes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getActionClasses()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ActionClass> actionClasses;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,6 +237,18 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ActionClass> getActionClasses() {
+		if (actionClasses == null) {
+			actionClasses = new EObjectContainmentEList<ActionClass>(ActionClass.class, this, UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES);
+		}
+		return actionClasses;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -234,6 +258,8 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 				return ((InternalEList<?>)getOtherActors()).basicRemove(otherEnd, msgs);
 			case UCRefactoringPackage.FUNCTIONAL_EVENT__EXCEPTIONS:
 				return ((InternalEList<?>)getExceptions()).basicRemove(otherEnd, msgs);
+			case UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES:
+				return ((InternalEList<?>)getActionClasses()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -257,6 +283,8 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 				return getOtherActors();
 			case UCRefactoringPackage.FUNCTIONAL_EVENT__EXCEPTIONS:
 				return getExceptions();
+			case UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES:
+				return getActionClasses();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -288,6 +316,10 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 				getExceptions().clear();
 				getExceptions().addAll((Collection<? extends Flow>)newValue);
 				return;
+			case UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES:
+				getActionClasses().clear();
+				getActionClasses().addAll((Collection<? extends ActionClass>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -315,6 +347,9 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 			case UCRefactoringPackage.FUNCTIONAL_EVENT__EXCEPTIONS:
 				getExceptions().clear();
 				return;
+			case UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES:
+				getActionClasses().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -337,6 +372,8 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 				return otherActors != null && !otherActors.isEmpty();
 			case UCRefactoringPackage.FUNCTIONAL_EVENT__EXCEPTIONS:
 				return exceptions != null && !exceptions.isEmpty();
+			case UCRefactoringPackage.FUNCTIONAL_EVENT__ACTION_CLASSES:
+				return actionClasses != null && !actionClasses.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

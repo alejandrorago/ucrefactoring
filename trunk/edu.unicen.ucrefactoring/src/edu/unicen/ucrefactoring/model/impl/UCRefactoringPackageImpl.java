@@ -7,6 +7,7 @@
 package edu.unicen.ucrefactoring.model.impl;
 
 import edu.unicen.ucrefactoring.model.ActionClass;
+import edu.unicen.ucrefactoring.model.ActionCodeEnum;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.ActorTypeEnum;
 import edu.unicen.ucrefactoring.model.Aspect;
@@ -143,6 +144,13 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * @generated
 	 */
 	private EEnum eventTypeEnumEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum actionCodeEnumEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -543,6 +551,15 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getFunctionalEvent_ActionClasses() {
+		return (EReference)functionalEventEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getExtensionPoint() {
 		return extensionPointEClass;
 	}
@@ -561,17 +578,8 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExtensionPoint_ActionClass() {
+	public EReference getExtensionPoint_ExtendedUseCases() {
 		return (EReference)extensionPointEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExtensionPoint_ExcludedUseCases() {
-		return (EReference)extensionPointEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -633,8 +641,53 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getActionClass_ClassName() {
+	public EAttribute getActionClass_Name() {
 		return (EAttribute)actionClassEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActionClass_Confidence() {
+		return (EAttribute)actionClassEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActionClass_Ranking() {
+		return (EAttribute)actionClassEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getActionClass_Parent() {
+		return (EReference)actionClassEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getActionClass_Childs() {
+		return (EReference)actionClassEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getActionClass_Predicate() {
+		return (EAttribute)actionClassEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -723,6 +776,15 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getActionCodeEnum() {
+		return actionCodeEnumEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UCRefactoringFactory getUCRefactoringFactory() {
 		return (UCRefactoringFactory)getEFactoryInstance();
 	}
@@ -789,11 +851,11 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__SUBJECT);
 		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__OTHER_ACTORS);
 		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__EXCEPTIONS);
+		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__ACTION_CLASSES);
 
 		extensionPointEClass = createEClass(EXTENSION_POINT);
 		createEAttribute(extensionPointEClass, EXTENSION_POINT__CONDITION);
-		createEReference(extensionPointEClass, EXTENSION_POINT__ACTION_CLASS);
-		createEReference(extensionPointEClass, EXTENSION_POINT__EXCLUDED_USE_CASES);
+		createEReference(extensionPointEClass, EXTENSION_POINT__EXTENDED_USE_CASES);
 
 		inclusionCallEClass = createEClass(INCLUSION_CALL);
 		createEReference(inclusionCallEClass, INCLUSION_CALL__INCLUDED_USE_CASES);
@@ -803,7 +865,12 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEReference(jointPointEClass, JOINT_POINT__IMPACT_ASPECT);
 
 		actionClassEClass = createEClass(ACTION_CLASS);
-		createEAttribute(actionClassEClass, ACTION_CLASS__CLASS_NAME);
+		createEAttribute(actionClassEClass, ACTION_CLASS__NAME);
+		createEAttribute(actionClassEClass, ACTION_CLASS__CONFIDENCE);
+		createEAttribute(actionClassEClass, ACTION_CLASS__RANKING);
+		createEReference(actionClassEClass, ACTION_CLASS__PARENT);
+		createEReference(actionClassEClass, ACTION_CLASS__CHILDS);
+		createEAttribute(actionClassEClass, ACTION_CLASS__PREDICATE);
 
 		aspectEClass = createEClass(ASPECT);
 		createEAttribute(aspectEClass, ASPECT__NAME);
@@ -817,6 +884,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		// Create enums
 		actorTypeEnumEEnum = createEEnum(ACTOR_TYPE_ENUM);
 		eventTypeEnumEEnum = createEEnum(EVENT_TYPE_ENUM);
+		actionCodeEnumEEnum = createEEnum(ACTION_CODE_ENUM);
 	}
 
 	/**
@@ -895,11 +963,11 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEReference(getFunctionalEvent_Subject(), this.getActor(), null, "subject", null, 0, 1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionalEvent_OtherActors(), this.getActor(), null, "otherActors", null, 0, -1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getFunctionalEvent_Exceptions(), this.getFlow(), null, "exceptions", null, 0, -1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFunctionalEvent_ActionClasses(), this.getActionClass(), null, "actionClasses", null, 0, -1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(extensionPointEClass, ExtensionPoint.class, "ExtensionPoint", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getExtensionPoint_Condition(), ecorePackage.getEString(), "condition", null, 0, 1, ExtensionPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExtensionPoint_ActionClass(), this.getActionClass(), null, "actionClass", null, 0, 1, ExtensionPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getExtensionPoint_ExcludedUseCases(), this.getUseCase(), null, "excludedUseCases", null, 0, -1, ExtensionPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getExtensionPoint_ExtendedUseCases(), this.getUseCase(), null, "extendedUseCases", null, 0, -1, ExtensionPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(inclusionCallEClass, InclusionCall.class, "InclusionCall", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getInclusionCall_IncludedUseCases(), this.getUseCase(), null, "includedUseCases", null, 0, -1, InclusionCall.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -909,7 +977,12 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEReference(getJointPoint_ImpactAspect(), this.getAspect(), null, "impactAspect", null, 0, 1, JointPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(actionClassEClass, ActionClass.class, "ActionClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getActionClass_ClassName(), ecorePackage.getEString(), "className", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActionClass_Name(), ecorePackage.getEString(), "name", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActionClass_Confidence(), ecorePackage.getEDoubleObject(), "confidence", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActionClass_Ranking(), ecorePackage.getEIntegerObject(), "ranking", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActionClass_Parent(), this.getActionClass(), null, "parent", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getActionClass_Childs(), this.getActionClass(), null, "childs", null, 0, -1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActionClass_Predicate(), ecorePackage.getEString(), "predicate", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(aspectEClass, Aspect.class, "Aspect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAspect_Name(), ecorePackage.getEString(), "name", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -930,6 +1003,33 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		addEEnumLiteral(eventTypeEnumEEnum, EventTypeEnum.STIMULUS);
 		addEEnumLiteral(eventTypeEnumEEnum, EventTypeEnum.RESPONSE);
 		addEEnumLiteral(eventTypeEnumEEnum, EventTypeEnum.ACTION);
+
+		initEEnum(actionCodeEnumEEnum, ActionCodeEnum.class, "ActionCodeEnum");
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DISPLAY);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DATA);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.IO);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.INPUT);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.OUTPUT);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.ENTRY);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.SELECTION);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.NOTIFICATION);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.READ);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.WRITE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.SINGLE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.MULTIPLE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.CREATE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.UPDATE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DELETE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.PROCESS);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.CALCULATION);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.VERIFICATION);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.COMMUNICATION);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.INDOOR);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.OUTDOOR);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.USE_CASE);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.BEGIN);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.END);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.FLOW_CONTROL);
 
 		// Create resource
 		createResource(eNS_URI);

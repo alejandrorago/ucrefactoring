@@ -17,6 +17,33 @@
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//EventTypeEnum/RESPONSE"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//EventTypeEnum/ACTION"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucrefactoring.ecore#//ActionCodeEnum">
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Display"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Data"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/IO"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Input"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Output"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Entry"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Selection"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Notification"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Read"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Write"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Single"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Multiple"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Create"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Update"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Delete"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Process"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Calculation"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Verification"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Communication"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Indoor"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Outdoor"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/UseCase"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Begin"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/End"/>
+      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/FlowControl"/>
+    </genEnums>
     <genClasses ecoreClass="ucrefactoring.ecore#//UseCase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//UseCase/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//UseCase/description"/>
@@ -60,11 +87,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//FunctionalEvent/subject"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//FunctionalEvent/otherActors"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//FunctionalEvent/exceptions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//FunctionalEvent/actionClasses"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//ExtensionPoint">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ExtensionPoint/condition"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//ExtensionPoint/actionClass"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//ExtensionPoint/excludedUseCases"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//ExtensionPoint/extendedUseCases"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//InclusionCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//InclusionCall/includedUseCases"/>
@@ -74,7 +101,12 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//JointPoint/impactAspect"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//ActionClass">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ActionClass/className"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ActionClass/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ActionClass/confidence"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ActionClass/ranking"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//ActionClass/parent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ucrefactoring.ecore#//ActionClass/childs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//ActionClass/predicate"/>
     </genClasses>
     <genClasses ecoreClass="ucrefactoring.ecore#//Aspect">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//Aspect/name"/>
