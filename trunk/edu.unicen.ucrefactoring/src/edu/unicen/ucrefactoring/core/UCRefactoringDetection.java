@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import uima.cas.CasPackage;
+import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
+import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.creation.ModelCreator;
 import edu.unicen.ucrefactoring.util.Constants;
 
@@ -59,6 +61,10 @@ public class UCRefactoringDetection {
 		modelCreator.load(new File(ucsPath));
 		//Imprimo el modelo generado
 		modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+		
+		
+		SimilarityAnalyzer sa = new SimilarityAnalyzer(modelCreator.getParsedUseCaseModel());
+		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA);
 	}
 	
 

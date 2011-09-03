@@ -1,33 +1,10 @@
 package edu.unicen.ucrefactoring.model.creation;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import jaligner.*;
-import jaligner.formats.Pair;
-import jaligner.matrix.MatrixLoader;
-import jaligner.matrix.MatrixLoaderException;
-import jaligner.util.SequenceParser;
-import jaligner.util.SequenceParserException;
-
-import neobio.*;
-import neobio.alignment.CrochemoreLandauZivUkelsonGlobalAlignment;
-import neobio.alignment.IncompatibleScoringSchemeException;
-import neobio.alignment.InvalidScoringMatrixException;
-import neobio.alignment.InvalidSequenceException;
-import neobio.alignment.NeedlemanWunsch;
-import neobio.alignment.ScoringMatrix;
-import neobio.alignment.ScoringScheme;
-import neobio.alignment.SmithWaterman;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -38,14 +15,12 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
-import uima.cas.CasPackage;
 import edu.isistan.dal.ucs.model.UCSModelPackage;
 import edu.isistan.dal.ucs.model.UCSProject;
 import edu.isistan.dal.ucs.model.UseCaseSpecification;
 import edu.isistan.uima.unified.typesystems.domain.DomainAction;
 import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
 import edu.isistan.uima.unified.typesystems.nlp.Sentence;
-import edu.isistan.uima.unified.typesystems.nlp.Token;
 import edu.isistan.uima.unified.typesystems.srl.Predicate;
 import edu.isistan.uima.unified.typesystems.srl.Structure;
 import edu.isistan.uima.unified.typesystems.srs.Document;
@@ -207,8 +182,8 @@ public class ModelCreator {
 						 
 						 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
 						 for(Predicate predicate : p){
-							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
-							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
+//							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
+//							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
 							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
 							 
 							 for(DomainAction dAction : actions){						 
@@ -380,16 +355,6 @@ public class ModelCreator {
 		
 	}
 	
-	private void performSequenceAlignment(String s1, String s2) throws SequenceParserException, MatrixLoaderException{
-		Sequence seq1 = SequenceParser.parse(s1);  
-		Sequence seq2 = SequenceParser.parse(s2);
-		
-        //Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load("UCMatrix"), 5f, 2f);
-		Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load("UCMatrix"), 5f, 2f);
-		
-        System.out.println ("AAAA:"+ alignment.getSummary() );
-        System.out.println ( new Pair().format(alignment) );
-	}
 	
 	/**
 	 * Método no utilizado actualmente
@@ -423,10 +388,8 @@ public class ModelCreator {
 		UseCaseModel ucModel = (UseCaseModel) resource.getContents().get(0);
 		System.out.println("\n================UCREFACTORING===================");
 		
-		HashMap<String,String> seqs = new HashMap<String,String>();
 		for (UseCase uc : ucModel.getUseCases()){
 			
-			String s = "";
 			System.out.println("\nUC: "+uc.getName());
 			EList<Flow> fs = uc.getFlows();
 			System.out.println("\nPRECONDITIONS: ");
@@ -436,7 +399,8 @@ public class ModelCreator {
 			System.out.println("POSTCONDITIONS: ");
 			for (Condition c : uc.getContext().getPostconditions()){
 				System.out.println(" - "+c.getDescription());
-			}
+			}			
+
 			for(Flow f : fs){
 				System.out.println("\nFLOW: "+ f.getName());
 				System.out.println("EVENTS: ");
@@ -446,81 +410,11 @@ public class ModelCreator {
 					
 					for (ActionClass ac : ((FunctionalEvent)e).getActionClasses()){
 						System.out.println("PREDICATE: "+ac.getPredicate() +" ACTION: "+ac.getRanking()+" "+ ac.getName() + " "+ac.getConfidence());
-						if (!ac.getName().equals("Noise"))s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
-						else s=s+"y";
+
 					}
 				}
 			}
-			seqs.put(uc.getName(), s);
 		}
-		System.out.println(seqs.toString());
-		for (UseCase uc1 : ucModel.getUseCases()){
-			String seq1 = seqs.get(uc1.getName());
-			for (UseCase uc2 : ucModel.getUseCases()){
-				String seq2 = seqs.get(uc2.getName());
-				try {
-					System.out.println(uc1.getName() +" - "+uc2.getName());
-
-					performSequenceAlignment(seq1, seq2);
-				} catch (SequenceParserException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (MatrixLoaderException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		NeedlemanWunsch n = new NeedlemanWunsch();
-		SmithWaterman s = new SmithWaterman();
-		CrochemoreLandauZivUkelsonGlobalAlignment c = new CrochemoreLandauZivUkelsonGlobalAlignment();
-		try {
-			n.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
-			System.out.println( );
-			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+"UCMatrix"));
-			n.setScoringScheme(sm);
-			System.out.println("NeedlemanWunsch "+ n.getPairwiseAlignment());
-			
-			s.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
-			System.out.println( );
-			s.setScoringScheme(sm);
-			System.out.println("SmithWaterman "+ s.getPairwiseAlignment());
-			
-			c.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
-			System.out.println( );
-			c.setScoringScheme(sm);
-			System.out.println("CrochemoreLandau "+ c.getPairwiseAlignment());
-			
-			
-		} catch (IncompatibleScoringSchemeException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (InvalidSequenceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidScoringMatrixException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String f1="snevdsdcegfascduddsu";
-		String f2="snevdsrscedudtdsu";
-		System.out.println("PRUEBA PALITA:");
-		try {
-			performSequenceAlignment(f1,f2);
-		} catch (SequenceParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MatrixLoaderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public void getUseCaseModelExample(){
-		
 	}
 
 	
