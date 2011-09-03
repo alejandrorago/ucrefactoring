@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edu.isistan.dal.ucs:UCSProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:edu.isistan.dal.ucs="http://www.users.exa.unicen.edu.ar/~arago/ucs" ID="_LS6jEK5REeCbuaWzJiPMgg" Name="Project" Content="Project description" Documents="_LS6jEa5REeCbuaWzJiPMgg _LS7KIK5REeCbuaWzJiPMgg _LS7KIa5REeCbuaWzJiPMgg _kcgWUK5UEeCbuaWzJiPMgg _xsFOoK5XEeCbuaWzJiPMgg _AYkJ0K5bEeCbuaWzJiPMgg _QULdMM9xEeCxjZpSPAxEuA" Stakeholders="_OB4qwK5REeCbuaWzJiPMgg _4JFWAK5REeCbuaWzJiPMgg _80zMUK5TEeCbuaWzJiPMgg">
+  <Actors ID="_OB4qwK5REeCbuaWzJiPMgg" Name="Customer" Content="Final User of ATM System" Stereotype="Human"/>
+  <Actors ID="_4JFWAK5REeCbuaWzJiPMgg" Name="Payment System" Content="The online payment system" Stereotype="System"/>
+  <Actors ID="_80zMUK5TEeCbuaWzJiPMgg" Name="BankSystem" Stereotype="System"/>
+  <UseCaseSpecifications ID="_kcgWUK5UEeCbuaWzJiPMgg" Name="Paying Bill" Sections="_kcgWUa5UEeCbuaWzJiPMgg" MainActor="_OB4qwK5REeCbuaWzJiPMgg">
+    <BasicFlow ID="_kcgWUa5UEeCbuaWzJiPMgg" Name="Basic Flow" Content="1. A Customer inserts a card&#xA;2. The System validates the card&#xA;3. The Customer types the PIN&#xA;4. The System validates the PIN&#xA;5. The System lists registered bills&#xA;6. The Customer chooses the bill to pay&#xA;7. The System connects to the Bank System asking for account balance&#xA;8. The System ensures enough balance&#xA;9. The System connects to the Payment System and pays the bill &#xA;10. The System prints transaction receipt&#xA;11. The system returns the card to the customer&#xA;12. UC ends"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_xsFOoK5XEeCbuaWzJiPMgg" Name=" Withdrawing Cash" Sections="_xsFOoa5XEeCbuaWzJiPMgg" MainActor="_OB4qwK5REeCbuaWzJiPMgg">
+    <BasicFlow ID="_xsFOoa5XEeCbuaWzJiPMgg" Name="Basic Flow" Content="1. A Customer inserts a card&#xA;2. The System validates the card&#xA;3. The Customer enters PIN&#xA;4. The System validates the PIN&#xA;5. The Customer inputs amount to withdraw&#xA;6. The System connects to the Bank System asking for account balance&#xA;7. The System checks enough balance&#xA;8. The System delivers the cash&#xA;10. The System prints transaction receipt&#xA;11. The System returns the card to the customer&#xA;12. UC ends"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_AYkJ0K5bEeCbuaWzJiPMgg" Name="Deposit Funds" Sections="_AYkJ0a5bEeCbuaWzJiPMgg" MainActor="_OB4qwK5REeCbuaWzJiPMgg">
+    <BasicFlow ID="_AYkJ0a5bEeCbuaWzJiPMgg" Name="Basic Flow" Content="1. A Customer inserts a card&#xA;2. The System validates the card&#xA;3. The Customer enters PIN&#xA;4. The System validates the PIN&#xA;5. The Customer enters amount to deposit&#xA;6. The System prints a transaction ticket and provides the cash envelope&#xA;8. The System displays deposit instructions&#xA;9. The Customer deposits the cash&#xA;10. The System connects to the Bank System and updates data&#xA;11. The System prints transaction receipt&#xA;12. The System returns the card to the customer&#xA;13. UC ends"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_QULdMM9xEeCxjZpSPAxEuA" Name="Unregister bill" Sections="_QULdMc9xEeCxjZpSPAxEuA" MainActor="_OB4qwK5REeCbuaWzJiPMgg">
+    <BasicFlow ID="_QULdMc9xEeCxjZpSPAxEuA" Name="Basic Flow" Content="1. A Customer inserts a card and types the PIN&#xA;4. The System validates the card and PIN&#xA;5. The System retrieves registered bills&#xA;6. The Customer chooses the bill &#xA;7. The System removes the bill &#xA;8. The System prints transaction receipt&#xA;9. The system returns the card to the customer&#xA;10. UC ends"/>
+  </UseCaseSpecifications>
+  <ProblemStatement ID="_LS6jEa5REeCbuaWzJiPMgg" Name="Problem Statement"/>
+  <Glossary ID="_LS7KIK5REeCbuaWzJiPMgg" Name="Glossary" Content="This document contains all glossary entries of the project."/>
+  <Vision ID="_LS7KIa5REeCbuaWzJiPMgg" Name="Vision" Sections="_LS7KIq5REeCbuaWzJiPMgg _LS7KI65REeCbuaWzJiPMgg _LS7KJK5REeCbuaWzJiPMgg _LS7KJa5REeCbuaWzJiPMgg">
+    <BusinessRequirements ID="_LS7KIq5REeCbuaWzJiPMgg" Name="Business Requirements"/>
+    <ProductOverview ID="_LS7KI65REeCbuaWzJiPMgg" Name="Product Overview"/>
+    <MajorFeatures ID="_LS7KJK5REeCbuaWzJiPMgg" Name="Major Features"/>
+    <Scope ID="_LS7KJa5REeCbuaWzJiPMgg" Name="Scope"/>
+  </Vision>
+</edu.isistan.dal.ucs:UCSProject>
