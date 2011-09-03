@@ -1,5 +1,6 @@
 package edu.unicen.ucrefactoring.analyzer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.emf.common.util.EList;
@@ -17,6 +18,7 @@ public class SimilarityAnalyzer {
 	private HashMap<String,SequenceAligner> sequenceAligners;
 	private HashMap<String,String> sequences;
 	private UseCaseModel useCaseModel;
+	private ArrayList<String> matrixes;
 
 
 	//========Getters And Setters==================
@@ -40,17 +42,23 @@ public class SimilarityAnalyzer {
 	
 	public SimilarityAnalyzer(UseCaseModel useCaseModel){
 		this.useCaseModel=useCaseModel;
-		this.sequenceAligners=new HashMap<String,SequenceAligner>();
 		loadAligners();
+		loadMatrixes();
 		loadSequences();
 	}
 	
 	//=========Services===========================
 	
+	private void loadMatrixes(){
+		this.matrixes=new ArrayList<String>();
+		matrixes.add(SequenceAligner.UCMATRIX);
+	}
+	
 	/**
 	 * Carga los algoritmos de alineamiento de sequencias disponibles
 	 */
 	private void loadAligners(){
+		this.sequenceAligners=new HashMap<String,SequenceAligner>();
 		sequenceAligners.put(SequenceAligner.SMITH_WATERMAN_SA, new SmithWatermanSequenceAligner());
 		sequenceAligners.put(SequenceAligner.NEEDLEMAN_WUNSCH_SA, new NeedlemanWunschSequenceAligner());
 		sequenceAligners.put(SequenceAligner.JALIGNER_SW_SA, new JAlignerSequenceAligner());
@@ -59,66 +67,23 @@ public class SimilarityAnalyzer {
 	}
 	
 	/**
-	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo JAligner (Smith-Waterman)
+	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo  pasado como parámetro
 	 * @param s1
 	 * @param s2
 	 */
-	public void testJalignerSA(String s1, String s2){
-		System.out.println("TEST JALIGNER (Smith-Waterman) SA :");
-		SequenceAligner sa = sequenceAligners.get(SequenceAligner.JALIGNER_SW_SA);
-		System.out.println(sa.performAlignment(s1, s2));
+	public void testSequenceAlignment(String analyzer,String s1, String s2, String matrix){
+		System.out.println("TEST "+analyzer+" SA :");
+		SequenceAligner sa = sequenceAligners.get(analyzer);
+		System.out.println(sa.performAlignment(s1, s2, matrix));
 	}
 	
-	/**
-	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo Smith-Waterman
-	 * @param s1
-	 * @param s2
-	 */
-	public void testSmithWatermanSA(String s1, String s2){
-		System.out.println("TEST SMITH-WATERMAN SA :");
-		SequenceAligner sa = sequenceAligners.get(SequenceAligner.SMITH_WATERMAN_SA);
-		System.out.println(sa.performAlignment(s1, s2));
-	}
-	
-	/**
-	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo Crochemore Global
-	 * @param s1
-	 * @param s2
-	 */
-	public void testCrochemoreGlobalSA(String s1, String s2){
-		System.out.println("TEST CROCHEMORE GLOBAL SA :");
-		SequenceAligner sa = sequenceAligners.get(SequenceAligner.SMITH_WATERMAN_SA);
-		System.out.println(sa.performAlignment(s1, s2));
-	}
-	
-	/**
-	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo Crochemore Local
-	 * @param s1
-	 * @param s2
-	 */
-	public void testCrochemoreLocalSA(String s1, String s2){
-		System.out.println("TEST CROCHEMORE LOCAL SA :");
-		SequenceAligner sa = sequenceAligners.get(SequenceAligner.CROCHEMORE_LOCAL_SA);
-		System.out.println(sa.performAlignment(s1, s2));
-	}
-	
-	/**
-	 * Ejecuta una prueba de alineamiento de sequencias con el algoritmo Needleman-Wunsch
-	 * @param s1
-	 * @param s2
-	 */
-	public void testNeedlemanWunschSA(String s1,String s2){
-		System.out.println("TEST NEDDLEMAN-WUNSCH SA :");
-		SequenceAligner sa = sequenceAligners.get(SequenceAligner.NEEDLEMAN_WUNSCH_SA);
-		System.out.println(sa.performAlignment(s1, s2));
-	}
 	
 	/**
 	 * Compara las sequencias del UseCaseModel, todas contra todas, utilizando el 
 	 * Analizador pasado como parámetro TODO: STRATEGY ANALIZADORES
 	 * @param analyzerName - El nombre del analizador a utilizar
 	 */
-	public void compareUCSequences(String analyzer){
+	public void compareUCSequences(String analyzer, String matrix){
 		if (useCaseModel!=null && sequences!=null && sequenceAligners!=null){	
 			SequenceAligner sa = sequenceAligners.get(analyzer);
 			if (sa!=null){
@@ -127,7 +92,7 @@ public class SimilarityAnalyzer {
 					for (UseCase uc2 : useCaseModel.getUseCases()){
 						String seq2 = sequences.get(uc2.getName());
 						System.out.println(uc1.getName() +" - "+uc2.getName());
-						System.out.println(sa.performAlignment(seq1, seq2));
+						System.out.println(sa.performAlignment(seq1, seq2, matrix));
 					}
 				}
 			}

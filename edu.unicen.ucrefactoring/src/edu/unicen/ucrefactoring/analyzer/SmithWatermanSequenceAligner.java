@@ -14,12 +14,12 @@ import edu.unicen.ucrefactoring.util.Constants;
 public class SmithWatermanSequenceAligner implements SequenceAligner{
 
 	@Override
-	public String performAlignment(String s1, String s2) {
+	public String performAlignment(String s1, String s2, String matrix) {
 		String result ="";
 		try {
 			SmithWaterman s = new SmithWaterman();
 			s.loadSequences(new StringReader(s1), new StringReader(s2));
-			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+"UCMatrix"));
+			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+matrix));
 			s.setScoringScheme(sm);
 			result+= s.getPairwiseAlignment().toString();
 		} catch (IOException e) {

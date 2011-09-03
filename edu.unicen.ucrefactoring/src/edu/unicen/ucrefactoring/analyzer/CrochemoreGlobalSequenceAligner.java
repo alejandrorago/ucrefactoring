@@ -15,11 +15,11 @@ import edu.unicen.ucrefactoring.util.Constants;
 public class CrochemoreGlobalSequenceAligner implements SequenceAligner{
 
 	@Override
-	public String performAlignment(String s1, String s2) {
+	public String performAlignment(String s1, String s2, String matrix) {
 		String result ="";
 		CrochemoreLandauZivUkelsonGlobalAlignment c = new CrochemoreLandauZivUkelsonGlobalAlignment();
 		try {
-			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+"UCMatrix"));
+			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+matrix));
 			c.loadSequences(new StringReader(s1), new StringReader(s2));
 			c.setScoringScheme(sm);
 			result+= c.getPairwiseAlignment();
