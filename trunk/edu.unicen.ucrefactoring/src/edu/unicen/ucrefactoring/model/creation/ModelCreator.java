@@ -1,7 +1,9 @@
 package edu.unicen.ucrefactoring.model.creation;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +18,16 @@ import jaligner.matrix.MatrixLoader;
 import jaligner.matrix.MatrixLoaderException;
 import jaligner.util.SequenceParser;
 import jaligner.util.SequenceParserException;
+
+import neobio.*;
+import neobio.alignment.CrochemoreLandauZivUkelsonGlobalAlignment;
+import neobio.alignment.IncompatibleScoringSchemeException;
+import neobio.alignment.InvalidScoringMatrixException;
+import neobio.alignment.InvalidSequenceException;
+import neobio.alignment.NeedlemanWunsch;
+import neobio.alignment.ScoringMatrix;
+import neobio.alignment.ScoringScheme;
+import neobio.alignment.SmithWaterman;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -52,35 +64,43 @@ import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
 import edu.unicen.ucrefactoring.uima.UIMAQuery;
+import edu.unicen.ucrefactoring.util.Constants;
 
 public class ModelCreator {
 	
-	//CONSTANTES
-	private static String BASIC_FLOW = "BasicFlow";
-	private static String SYSTEM_ACTOR_NAME = "System";
-	private static String SYSTEM_ACTOR_DESC = "El actor que representa al sistema";
-	private static String ALTERNATIVE_FLOW = "AlternativeFlow";
-	private static String PRECONDITION = "Precondition";
-	private static String POSTCONDITION = "Postcondition";
-	private static String USE_CASE_MODEL_CLASS_NAME = "UseCaseModel";
-	private static String OUTPUT_RESOURCE_DIR = "/home/migue/Escritorio/test.ucrefactoring";
-	
-	private HashMap<String,String> sequencias = new HashMap<String,String>();
-	
-	
+
 	public static UIMAQuery uimaRoot;
 	private UCRefactoringFactory factory;
-
+	public UseCaseModel parsedUseCaseModel;
+	private HashMap<String,String> sequencias = new HashMap<String,String>();
 	
+	//=======Getters and Setters========================
+	public UseCaseModel getParsedUseCaseModel() {
+		return parsedUseCaseModel;
+	}
+	public void setParsedUseCaseModel(UseCaseModel parsedUseCaseModel) {
+		this.parsedUseCaseModel = parsedUseCaseModel;
+	}
+	public HashMap<String, String> getSequencias() {
+		return sequencias;
+	}
+	public void setSequencias(HashMap<String, String> sequencias) {
+		this.sequencias = sequencias;
+	}
+	
+	//========Constructores==================================
+
 	public ModelCreator(EList<EObject> contenidos){
 		uimaRoot = new UIMAQuery(contenidos);
 	}
 	public ModelCreator(){
 	}
 	
+	//========Servicios====================================
+	
 	public void load(File file) throws IOException {
 		
-		//Carga el archivo ucs del File pasado como parámetro=======
+		//Carga el archivo ucs del File pasado como parámetro
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		EPackage.Registry.INSTANCE.put(UCSModelPackage.eNS_URI, UCSModelPackage.eINSTANCE);
 		
@@ -90,11 +110,11 @@ public class ModelCreator {
 		resource.load(Collections.EMPTY_MAP);
 		UCSProject project = (UCSProject) resource.getContents().get(0);
 		
-		for(UseCaseSpecification useCaseSpecification : project.getUseCaseSpecifications()) {
-			
-			System.out.println(useCaseSpecification.getName());
-			
-		}
+//		for(UseCaseSpecification useCaseSpecification : project.getUseCaseSpecifications()) {
+//			
+//			System.out.println(useCaseSpecification.getName());
+//			
+//		}
 		
 		// Initialize the model===================================
 		UCRefactoringPackage.eINSTANCE.eClass();
@@ -120,8 +140,8 @@ public class ModelCreator {
 		 }
 		 //Añado manualmente el System
 		 Actor system = factory.createActor();
-		 system.setName(ModelCreator.SYSTEM_ACTOR_NAME);
-		 system.setDescription(ModelCreator.SYSTEM_ACTOR_DESC);
+		 system.setName(Constants.SYSTEM_ACTOR_NAME);
+		 system.setDescription(Constants.SYSTEM_ACTOR_DESC);
 		 system.setType(ActorTypeEnum.SYSTEM);
 		 useCaseModel.getActors().add(system);
 		 
@@ -151,21 +171,21 @@ public class ModelCreator {
 			 /* Busco: F Basico, F Alternativos, Precondiciones y Postcondiciones */
 			 for(edu.isistan.uima.unified.typesystems.srs.Section uimaSection : secs){ 
 				 /* La sección actual del Caso de Uso es una Precondición */
-				 if (uimaSection.getKind().equals(ModelCreator.PRECONDITION)){
+				 if (uimaSection.getKind().equals(Constants.PRECONDITION)){
 					 Condition precondition = factory.createCondition();
 					 precondition.setName(uimaSection.getName());
 					 precondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPreconditions().add(precondition);
 				 }
 				 /* La sección actual del Caso de Uso es una Postcondición*/ 
-				 else if (uimaSection.getKind().equals(ModelCreator.POSTCONDITION)){
+				 else if (uimaSection.getKind().equals(Constants.POSTCONDITION)){
 					 Condition postcondition = factory.createCondition();
 					 postcondition.setName(uimaSection.getName());
 					 postcondition.setDescription(uimaRoot.getCoveredText(uimaSection));
 					 context.getPostconditions().add(postcondition);
 				 }
 				 /* La sección actual del Caso de Uso es el Flujo Básico */
-				 else if(uimaSection.getKind().equals(ModelCreator.BASIC_FLOW)){
+				 else if(uimaSection.getKind().equals(Constants.BASIC_FLOW)){
 					 Flow basicFlow = factory.createFlow();
 					 basicFlow.setName(uimaSection.getName());
 					 basicFlow.setUseCase(useCase);
@@ -182,10 +202,7 @@ public class ModelCreator {
 						 event.setEventId(this.getEventIdForSentence(sentence, numbers));
 						 event.setNumber(order);
 						 basicFlow.getEvents().add(event);
-						 order++;
-						 
-
-						 
+						 order++;						 
 						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
 						 
 						 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
@@ -194,34 +211,33 @@ public class ModelCreator {
 							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
 							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
 							 
-							 for(DomainAction dAction : actions){
-								 
+							 for(DomainAction dAction : actions){						 
 								 //convierto las domainActions to actionClass
 								 if (dAction!=null && dAction.getLabel()!=null){
 									 ActionClass actionClass = domainActionToActionClass(dAction);
 									 event.getActionClasses().add(actionClass);
 								 }
-								 
+					 
 								 ActionCodeEnum.getByName(dAction.getLabel());
 								 
 								 //TEST PRINT
-								 System.out.println("\n Action: "+dAction.getLabel());
-								 System.out.println("\n Confidence: "+dAction.getConfidence());
-								 System.out.println("\n Ranking: "+dAction.getRanking());
-								 System.out.println((dAction.getParent()!=null)?"PARENT: " + dAction.getParent().getLabel():"NO PARENT");
-								 if (dAction.getChilds()!=null && dAction.getChilds().size()>0) 
-									 for (DomainAction a : dAction.getChilds())
-										 System.out.println("Child : " +a.getLabel());
-								 else System.out.println("NO CHILDS");
+//								 System.out.println("\n Action: "+dAction.getLabel());
+//								 System.out.println("\n Confidence: "+dAction.getConfidence());
+//								 System.out.println("\n Ranking: "+dAction.getRanking());
+//								 System.out.println((dAction.getParent()!=null)?"PARENT: " + dAction.getParent().getLabel():"NO PARENT");
+//								 if (dAction.getChilds()!=null && dAction.getChilds().size()>0) 
+//									 for (DomainAction a : dAction.getChilds())
+//										 System.out.println("Child : " +a.getLabel());
+//								 else System.out.println("NO CHILDS");
 							 }
-							 System.out.println("--------------------------");
+//							 System.out.println("--------------------------");
 						 }
 					 }	
 					 // Agrego el Flujo Basico al Caso de Uso
 					 useCase.getFlows().add(basicFlow);
 				 }
 				 /* La sección actual del Caso de Uso es un Flujo Alternativo */
-				 else if(uimaSection.getKind().equals(ModelCreator.ALTERNATIVE_FLOW)){
+				 else if(uimaSection.getKind().equals(Constants.ALTERNATIVE_FLOW)){
 					 Flow alternative = factory.createFlow();
 					 alternative.setName(uimaSection.getName());
 					 alternative.setUseCase(useCase);
@@ -255,18 +271,27 @@ public class ModelCreator {
 		 //System.out.println(uimaRoot.getProject().getName() + " -SOFA: " + uimaRoot.getProject().getSofa().getSofaString()); 
 		
 		//Guardamos el modelo
+		setParsedUseCaseModel(useCaseModel);
+		//Exportamos el resultado a un archivo
+		exportModel();
+
+	}
+	
+	/**
+	 * Método que exporta el modelo del UCS parseado
+	 */
+	private void exportModel(){
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put(ModelCreator.USE_CASE_MODEL_CLASS_NAME, new XMIResourceFactoryImpl());
+		m.put(Constants.USE_CASE_MODEL_CLASS_NAME, new XMIResourceFactoryImpl());
 
 		// Obtain a new resource set
 		ResourceSet resSet = new ResourceSetImpl();
 
 		// Create a resource
-		Resource resourceSalida = resSet.createResource(URI
-					.createURI(ModelCreator.OUTPUT_RESOURCE_DIR));
-		resourceSalida.getContents().add(useCaseModel);
+		Resource resourceSalida = resSet.createResource(URI.createURI(Constants.OUTPUT_RESOURCE_DIR));
+		resourceSalida.getContents().add(parsedUseCaseModel);
 
 		// Now save the content.
 		try {
@@ -355,10 +380,10 @@ public class ModelCreator {
 		
 	}
 	
-	private void perfornSequenceAlignment(String s1, String s2) throws SequenceParserException, MatrixLoaderException{
+	private void performSequenceAlignment(String s1, String s2) throws SequenceParserException, MatrixLoaderException{
 		Sequence seq1 = SequenceParser.parse(s1);  
 		Sequence seq2 = SequenceParser.parse(s2);
-        
+		
         //Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load("UCMatrix"), 5f, 2f);
 		Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load("UCMatrix"), 5f, 2f);
 		
@@ -386,7 +411,7 @@ public class ModelCreator {
 	 * @param file
 	 * @throws IOException
 	 */
-	public void showUCRefactoring(File file) throws IOException {
+	public void printModel(File file) throws IOException {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
 		
 		EPackage.Registry.INSTANCE.put(UCRefactoringPackage.eNS_URI, UCRefactoringPackage.eINSTANCE);
@@ -421,8 +446,8 @@ public class ModelCreator {
 					
 					for (ActionClass ac : ((FunctionalEvent)e).getActionClasses()){
 						System.out.println("PREDICATE: "+ac.getPredicate() +" ACTION: "+ac.getRanking()+" "+ ac.getName() + " "+ac.getConfidence());
-						if (!ac.getName().equals("Noise"))s=s+(ActionCodeEnum.getByName(ac.getName())).getLiteral();
-						else s=s+"-";
+						if (!ac.getName().equals("Noise"))s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
+						else s=s+"y";
 					}
 				}
 			}
@@ -435,10 +460,8 @@ public class ModelCreator {
 				String seq2 = seqs.get(uc2.getName());
 				try {
 					System.out.println(uc1.getName() +" - "+uc2.getName());
-					
-					
-					
-					perfornSequenceAlignment(seq1, seq2);
+
+					performSequenceAlignment(seq1, seq2);
 				} catch (SequenceParserException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -449,11 +472,43 @@ public class ModelCreator {
 			}
 		}
 		
+		NeedlemanWunsch n = new NeedlemanWunsch();
+		SmithWaterman s = new SmithWaterman();
+		CrochemoreLandauZivUkelsonGlobalAlignment c = new CrochemoreLandauZivUkelsonGlobalAlignment();
+		try {
+			n.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
+			System.out.println( );
+			ScoringMatrix sm = new ScoringMatrix(new FileReader(Constants.RESOURCE_PATH+"UCMatrix"));
+			n.setScoringScheme(sm);
+			System.out.println("NeedlemanWunsch "+ n.getPairwiseAlignment());
+			
+			s.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
+			System.out.println( );
+			s.setScoringScheme(sm);
+			System.out.println("SmithWaterman "+ s.getPairwiseAlignment());
+			
+			c.loadSequences(new StringReader("snevdsdcegfascduddsu"), new StringReader("snevdsrscedudtdsu"));
+			System.out.println( );
+			c.setScoringScheme(sm);
+			System.out.println("CrochemoreLandau "+ c.getPairwiseAlignment());
+			
+			
+		} catch (IncompatibleScoringSchemeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidSequenceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidScoringMatrixException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		String f1="snevdsdcegfascduddsu";
 		String f2="snevdsrscedudtdsu";
 		System.out.println("PRUEBA PALITA:");
 		try {
-			perfornSequenceAlignment(f1,f2);
+			performSequenceAlignment(f1,f2);
 		} catch (SequenceParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -468,28 +523,5 @@ public class ModelCreator {
 		
 	}
 
-	public static void main(String[] args) throws IOException {
-		
-		//Registramos los archivos necesarios para el UIMA
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());
-		EPackage.Registry.INSTANCE.put(CasPackage.eNS_URI, CasPackage.eINSTANCE);
-
-		// Levantamos el Resource *.uima
-		ResourceSet resourceSet = new ResourceSetImpl();
-		// TODO ver ingreso de ruta 
-		//URI fileURI = URI.createFileURI("/home/migue/workspace/prueba/runtime-EclipseApplication/ucspecs/src/HWS-short.uima");
-		URI fileURI = URI.createFileURI("/home/migue/workspace/prueba/runtime-EclipseApplication/ucspecs/src/ShoppingOnline.uima");
-		Resource resource = null;
-		try {
-			resource = resourceSet.getResource(fileURI, true);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		ModelCreator l = new ModelCreator(resource.getContents());
-		//l.load(new File("/home/migue/workspace/prueba/runtime-EclipseApplication/Test/src/HWS-short.ucs"));
-		l.load(new File("/home/migue/workspace/prueba/runtime-EclipseApplication/ucspecs/src/ShoppingOnline.ucs"));
-		l.showUCRefactoring(new File("/home/migue/Escritorio/test.ucrefactoring"));
-	}
+	
 }

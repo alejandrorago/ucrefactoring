@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.dal"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/edu.isistan.uima.model"/>
+	<classpathentry kind="lib" path="lib/jaligner.jar"/>
+	<classpathentry kind="lib" path="lib/neobio.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
