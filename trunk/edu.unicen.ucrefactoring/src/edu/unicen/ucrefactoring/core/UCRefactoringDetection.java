@@ -62,9 +62,12 @@ public class UCRefactoringDetection {
 		//Imprimo el modelo generado
 		modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 		
+		String sequence1 = "";
+		String sequence2 = "";
 		
 		SimilarityAnalyzer sa = new SimilarityAnalyzer(modelCreator.getParsedUseCaseModel());
-		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA);
+		//sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
+		sa.testSequenceAlignment(SequenceAligner.JALIGNER_SW_SA, sequence1, sequence2, SequenceAligner.UCMATRIX);
 	}
 	
 
