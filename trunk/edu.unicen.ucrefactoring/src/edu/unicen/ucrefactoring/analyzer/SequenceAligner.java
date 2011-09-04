@@ -9,6 +9,8 @@ public interface SequenceAligner {
 	public static final String CROCHEMORE_LOCAL_SA = "CROCHEMORE-LOCAL";
 	
 	public static final String UCMATRIX = "UCMatrix";
+	public static final String UCMATRIX2 = "UCMatrix2";
+	public static final String UCMATRIX3 = "UCMatrix3";
 	
 	/**
 	 * Realiza el alinemiento de sequencias de las dos cadenas pasadas como parámetros
