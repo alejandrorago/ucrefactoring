@@ -22,5 +22,22 @@
             type="ucrefactoring"
             class="edu.unicen.ucrefactoring.model.util.UCRefactoringResourceFactoryImpl"/>
    </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="edu.unicen.ucrefactoring.gui.UCPerspective"
+            id="edu.unicen.ucrefactoring.perspective1"
+            name="UCPerspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="edu.unicen.ucrefactoring.gui.UCView"
+            id="edu.unicen.ucrefactoring.UCView"
+            name="UCView"
+            restorable="true">
+      </view>
+   </extension>
 
 </plugin>
