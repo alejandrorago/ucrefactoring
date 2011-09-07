@@ -12,7 +12,11 @@ Export-Package: edu.unicen.ucrefactoring.model,
  edu.unicen.ucrefactoring.model.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.ui,
+ edu.isistan.dal;bundle-version="1.0.0",
+ edu.isistan.uima.model;bundle-version="1.0.0",
+ org.eclipse.emf.query;bundle-version="1.2.100"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.emf.edit.domain,
  org.eclipse.emf.edit.provider,
@@ -23,4 +27,6 @@ Import-Package: org.eclipse.emf.edit.domain,
  org.eclipse.emf.query.conditions.numbers,
  org.eclipse.emf.query.conditions.strings,
  org.eclipse.emf.query.statements,
+ org.eclipse.jface.text,
  org.eclipse.ui
+Bundle-Activator: edu.unicen.ucrefactoring.gui.Activator
