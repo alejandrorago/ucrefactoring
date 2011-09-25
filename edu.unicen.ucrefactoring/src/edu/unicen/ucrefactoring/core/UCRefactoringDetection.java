@@ -79,6 +79,9 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	
 	public static void initUCRefactoringDetection(){
 		try{
+			//Seteo el path local en las constantes
+			Constants.LOCAL_PATH=System.getProperty("user.dir");
+			
 			//========PATH DE ARCHIVOS UIMA================
 			//String uimaPath=Constants.REA_PATH+"HWS-short.uima";
 			String uimaPath=Constants.USE_CASE_SPECS_PATH+"ShoppingOnline.uima";
