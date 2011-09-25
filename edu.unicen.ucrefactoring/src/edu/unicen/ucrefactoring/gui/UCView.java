@@ -188,7 +188,7 @@ public class UCView extends ViewPart {
 			public void run(){
 				
 				HashMap<String,AlignmentX2Result> alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();			
-				AlignmentX2Result alignResult = alignResults.get(useCaseA.getName()+":Basic Flow"+useCaseB.getName()+":Basic Flow");
+				AlignmentX2Result alignResult = alignResults.get(useCaseA.getName()+":Basic Flow"+"&"+useCaseB.getName()+":Basic Flow");
 				
 				if (useCaseA != null && useCaseB != null){
 					setUseCaseContentToTextViewer(leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());

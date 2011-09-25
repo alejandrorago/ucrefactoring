@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<edu.unicen.ucrefactoring:UseCaseModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:edu.unicen.ucrefactoring="http://ucrefactoring/1.0" description="Project description" name="Shopping Online">
+<edu.unicen.ucrefactoring:UseCaseModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:edu.unicen.ucrefactoring="http://ucrefactoring/1.0" description="Project description" name="Shopping Online">
   <actors name="Client" description="User of the shopping system"/>
   <actors name="Bank System" description="Bank System for account checking" type="SYSTEM"/>
   <actors name="Employee" description="This is the shopping employee role"/>
@@ -7,232 +7,632 @@
   <useCases name="Client Login" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the login option" number="1" eventId="1." subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the login option" number="1" eventId="1." subject="#//@actors.0">
+        <actionClasses name="Process" confidence="0.73335314529465" ranking="2" predicate="selects"/>
+        <actionClasses name="Communication" confidence="0.7230788445744627" ranking="3" predicate="selects">
+          <parent name="Process" confidence="0.73335314529465" ranking="2" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Outdoor" confidence="0.9999705233872429" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.7230788445744627" ranking="3" predicate="selects">
+            <parent name="Process" confidence="0.73335314529465" ranking="2" predicate="selects"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system prompts for username and password" number="2" eventId="2. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system prompts for username and password" number="2" eventId="2. " subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963787" ranking="1" predicate="prompts"/>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client types required data" number="3" eventId="3. ">
-        <actionClasses name="Entry"/>
+        <actionClasses name="Process" confidence="0.39181061316887017" ranking="13" predicate="required"/>
+        <actionClasses name="Write" confidence="0.9012500165995894" ranking="1" predicate="required">
+          <parent name="Data" confidence="0.39181061316887017" ranking="14" predicate="required"/>
+        </actionClasses>
+        <actionClasses name="Create" confidence="0.7638102428783855" ranking="3" predicate="required">
+          <parent name="Write" confidence="0.9012500165995894" ranking="1" predicate="required">
+            <parent name="Data" confidence="0.39181061316887017" ranking="14" predicate="required"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Verification" confidence="0.7915655481738173" ranking="2" predicate="required">
+          <parent name="Process" confidence="0.39181061316887017" ranking="13" predicate="required"/>
+        </actionClasses>
+        <actionClasses name="Data" confidence="0.39181061316887017" ranking="14" predicate="required"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system ensures the username and password are valid" number="4" eventId="4. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system ensures the username and password are valid" number="4" eventId="4. " subject="#//@actors.3">
+        <actionClasses name="Display" confidence="0.7999320109696326" ranking="1" predicate="ensures">
+          <parent name="Output" confidence="0.6485751643261515" ranking="2" predicate="ensures">
+            <parent name="IO" confidence="0.4595246782884661" ranking="18" predicate="ensures"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.4595246782884661" ranking="18" predicate="ensures"/>
+        <actionClasses name="Output" confidence="0.6485751643261515" ranking="2" predicate="ensures">
+          <parent name="IO" confidence="0.4595246782884661" ranking="18" predicate="ensures"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the main menu" number="5" eventId="5. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the main menu" number="5" eventId="5. " subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963788" ranking="1" predicate="shows"/>
       </events>
     </flows>
   </useCases>
   <useCases name="Add New Product" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects &quot;Add Product&quot; " number="1" eventId="1." subject="//@actors.2">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects &quot;Add Product&quot; " number="1" eventId="1." subject="#//@actors.2">
+        <actionClasses name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
+        <actionClasses name="Verification" confidence="0.7332999108809658" ranking="1" predicate="selects">
+          <parent name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="Add">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="Add"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="Add"/>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="Add">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="Add">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="Add"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for product characteristics" number="2" eventId="2. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for product characteristics" number="2" eventId="2. " subject="#//@actors.3">
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="asks">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="asks">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="asks"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="asks">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="asks"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="asks"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters the product description and price" number="3" eventId="3. " subject="//@actors.2">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters the product description and price" number="3" eventId="3. " subject="#//@actors.2">
+        <actionClasses name="Entry" confidence="0.9994515754216705" ranking="2" predicate="enters">
+          <parent name="Input" confidence="0.999564741929057" ranking="1" predicate="enters">
+            <parent name="IO" confidence="0.8916410838442287" ranking="3" predicate="enters"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.8916410838442287" ranking="3" predicate="enters"/>
+        <actionClasses name="Input" confidence="0.999564741929057" ranking="1" predicate="enters">
+          <parent name="IO" confidence="0.8916410838442287" ranking="3" predicate="enters"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system lists all suppliers" number="4" eventId="4. " subject="//@actors.3">
-        <actionClasses name="Multiple"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system lists all suppliers" number="4" eventId="4. " subject="#//@actors.3">
+        <actionClasses name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+        <actionClasses name="Display" confidence="0.9956509379456896" ranking="1" predicate="lists">
+          <parent name="Output" confidence="0.9762496754569339" ranking="2" predicate="lists">
+            <parent name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Output" confidence="0.9762496754569339" ranking="2" predicate="lists">
+          <parent name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the supplier" number="5" eventId="5. " subject="//@actors.2">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the supplier" number="5" eventId="5. " subject="#//@actors.2">
+        <actionClasses name="Verification" confidence="0.7332999108809658" ranking="1" predicate="selects">
+          <parent name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system lists all categories" number="6" eventId="6." subject="//@actors.3">
-        <actionClasses name="Multiple"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system lists all categories" number="6" eventId="6." subject="#//@actors.3">
+        <actionClasses name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+        <actionClasses name="Output" confidence="0.9762496754569339" ranking="2" predicate="lists">
+          <parent name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+        </actionClasses>
+        <actionClasses name="Display" confidence="0.9956509379456896" ranking="1" predicate="lists">
+          <parent name="Output" confidence="0.9762496754569339" ranking="2" predicate="lists">
+            <parent name="IO" confidence="0.6912321107328501" ranking="3" predicate="lists"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee chooses the categories related to the product" number="7" eventId="7. " subject="//@actors.2">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee chooses the categories related to the product" number="7" eventId="7. " subject="#//@actors.2">
+        <actionClasses name="IO" confidence="0.9800249004743152" ranking="3" predicate="chooses"/>
+        <actionClasses name="Input" confidence="0.998410776721491" ranking="1" predicate="chooses">
+          <parent name="IO" confidence="0.9800249004743152" ranking="3" predicate="chooses"/>
+        </actionClasses>
+        <actionClasses name="Selection" confidence="0.9940897410425423" ranking="2" predicate="chooses">
+          <parent name="Input" confidence="0.998410776721491" ranking="1" predicate="chooses">
+            <parent name="IO" confidence="0.9800249004743152" ranking="3" predicate="chooses"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="related">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="related"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="related"/>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="related">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="related">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="related"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves changes" number="8" eventId="8. " subject="//@actors.2">
-        <actionClasses name="Create"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves changes" number="8" eventId="8. " subject="#//@actors.2">
+        <actionClasses name="IO" confidence="0.7665031953346964" ranking="2" predicate="saves"/>
+        <actionClasses name="Selection" confidence="0.8721260234184202" ranking="1" predicate="saves">
+          <parent name="Input" confidence="0.661356885690821" ranking="3" predicate="saves">
+            <parent name="IO" confidence="0.7665031953346964" ranking="2" predicate="saves"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.661356885690821" ranking="3" predicate="saves">
+          <parent name="IO" confidence="0.7665031953346964" ranking="2" predicate="saves"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system registers the new product" number="9" eventId="9. " subject="//@actors.3">
-        <actionClasses name="Create"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system registers the new product" number="9" eventId="9. " subject="#//@actors.3">
+        <actionClasses name="Input" confidence="0.6983421178008469" ranking="1" predicate="registers">
+          <parent name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
+        <actionClasses name="Entry" confidence="0.6192592820513642" ranking="2" predicate="registers">
+          <parent name="Input" confidence="0.6983421178008469" ranking="1" predicate="registers">
+            <parent name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system updates the product catalogue" number="10" eventId="10.">
-        <actionClasses name="Update"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system posts the catalogue updates in the news section" number="11" eventId="11.">
-        <actionClasses name="Display"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system notifies the users subscripted to the relevant categories" number="12" eventId="12. " subject="//@actors.3">
-        <actionClasses name="Notification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system updates the product catalogue" number="10" eventId="10."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system posts the catalogue updates in the news section" number="11" eventId="11."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system notifies the users subscripted to the relevant categories" number="12" eventId="12. " subject="#//@actors.3">
+        <actionClasses name="Data" confidence="0.8961975479598008" ranking="3" predicate="notifies"/>
+        <actionClasses name="Update" confidence="0.9894512594720228" ranking="2" predicate="notifies">
+          <parent name="Write" confidence="0.9997512416456128" ranking="1" predicate="notifies">
+            <parent name="Data" confidence="0.8961975479598008" ranking="3" predicate="notifies"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Write" confidence="0.9997512416456128" ranking="1" predicate="notifies">
+          <parent name="Data" confidence="0.8961975479598008" ranking="3" predicate="notifies"/>
+        </actionClasses>
+        <actionClasses name="Write" confidence="0.9997512416456128" ranking="1" predicate="subscripted">
+          <parent name="Data" confidence="0.8961975479598008" ranking="3" predicate="subscripted"/>
+        </actionClasses>
+        <actionClasses name="Data" confidence="0.8961975479598008" ranking="3" predicate="subscripted"/>
+        <actionClasses name="Update" confidence="0.9894512594720228" ranking="2" predicate="subscripted">
+          <parent name="Write" confidence="0.9997512416456128" ranking="1" predicate="subscripted">
+            <parent name="Data" confidence="0.8961975479598008" ranking="3" predicate="subscripted"/>
+          </parent>
+        </actionClasses>
       </events>
     </flows>
     <flows name="No existe proveedor">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1.">
-        <actionClasses name="Selection"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for supplier name, address and tax identification number." number="2" eventId="2. ">
-        <actionClasses name="Display"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee types required data." number="3" eventId="3. ">
-        <actionClasses name="Entry"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates tax identification number" number="4" eventId="4. ">
-        <actionClasses name="Verification"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The systems shows all banks and asks for account information" number="5" eventId="5. ">
-        <actionClasses name="Display"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee  chooses the bank " number="6" eventId="6.">
-        <actionClasses name="Selection"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters account number" number="7" eventId="7. ">
-        <actionClasses name="Entry"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system connects to the bank system to get account information" number="8" eventId="8. ">
-        <actionClasses name="Outdoor"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates the account data entered by the employee" number="9" eventId="9. ">
-        <actionClasses name="Verification"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves the supplier" number="10" eventId="10.">
-        <actionClasses name="Create"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves new supplier and sends an email to the financial department" number="11" eventId="11.">
-        <actionClasses name="Notification"/>
-      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for supplier name, address and tax identification number." number="2" eventId="2. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee types required data." number="3" eventId="3. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates tax identification number" number="4" eventId="4. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The systems shows all banks and asks for account information" number="5" eventId="5. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee  chooses the bank " number="6" eventId="6."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters account number" number="7" eventId="7. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system connects to the bank system to get account information" number="8" eventId="8. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates the account data entered by the employee" number="9" eventId="9. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves the supplier" number="10" eventId="10."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves new supplier and sends an email to the financial department" number="11" eventId="11."/>
     </flows>
   </useCases>
   <useCases name="Add Supplier" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1." subject="//@actors.2">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1." subject="#//@actors.2">
+        <actionClasses name="Calculation" confidence="0.9014375009008947" ranking="2" predicate="selects">
+          <parent name="Process" confidence="0.974838015621835" ranking="1" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.974838015621835" ranking="1" predicate="selects"/>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="add">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="add">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="add"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="add"/>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="add">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="add"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for supplier data" number="2" eventId="2. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for supplier data" number="2" eventId="2. " subject="#//@actors.3">
+        <actionClasses name="Data" confidence="0.361390638669247" ranking="17" predicate="asks"/>
+        <actionClasses name="Write" confidence="0.8600777732617263" ranking="1" predicate="asks">
+          <parent name="Data" confidence="0.361390638669247" ranking="17" predicate="asks"/>
+        </actionClasses>
+        <actionClasses name="Update" confidence="0.772097550320596" ranking="2" predicate="asks">
+          <parent name="Write" confidence="0.8600777732617263" ranking="1" predicate="asks">
+            <parent name="Data" confidence="0.361390638669247" ranking="17" predicate="asks"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters the supplier name, address and tax identification number." number="3" eventId="3. " subject="//@actors.2">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee enters the supplier name, address and tax identification number." number="3" eventId="3. " subject="#//@actors.2">
+        <actionClasses name="Process" confidence="0.9999999999999974" ranking="1" predicate="enters"/>
+        <actionClasses name="Calculation" confidence="0.9809084676298474" ranking="2" predicate="enters">
+          <parent name="Process" confidence="0.9999999999999974" ranking="1" predicate="enters"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates tax identification number" number="4" eventId="4. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates tax identification number" number="4" eventId="4. " subject="#//@actors.3">
+        <actionClasses name="Process" confidence="0.9999999999997817" ranking="1" predicate="validates"/>
+        <actionClasses name="Calculation" confidence="0.9998942412591416" ranking="2" predicate="validates">
+          <parent name="Process" confidence="0.9999999999997817" ranking="1" predicate="validates"/>
+        </actionClasses>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The systems display all banks and asks for account information" number="5" eventId="5. ">
-        <actionClasses name="Display"/>
+        <actionClasses name="Output" confidence="0.9751623171263809" ranking="1" predicate="display">
+          <parent name="IO" confidence="0.7724558035526026" ranking="3" predicate="display"/>
+        </actionClasses>
+        <actionClasses name="Display" confidence="0.9739546255461358" ranking="2" predicate="display">
+          <parent name="Output" confidence="0.9751623171263809" ranking="1" predicate="display">
+            <parent name="IO" confidence="0.7724558035526026" ranking="3" predicate="display"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.7724558035526026" ranking="3" predicate="display"/>
+        <actionClasses name="Input" confidence="0.7079184368478864" ranking="2" predicate="asks">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
+        <actionClasses name="Selection" confidence="0.8707348310597495" ranking="1" predicate="asks">
+          <parent name="Input" confidence="0.7079184368478864" ranking="2" predicate="asks">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee  selects the bank and types account number" number="6" eventId="6." subject="//@actors.2">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee  selects the bank and types account number" number="6" eventId="6." subject="#//@actors.2">
+        <actionClasses name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
+        <actionClasses name="Verification" confidence="0.7332999108809658" ranking="1" predicate="selects">
+          <parent name="Process" confidence="0.49224913063491593" ranking="18" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Calculation" confidence="0.9973333236430212" ranking="2" predicate="account">
+          <parent name="Process" confidence="0.9999999999996507" ranking="1" predicate="account"/>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.9999999999996507" ranking="1" predicate="account"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system connects to the bank system to get account information" number="7" eventId="7. " subject="//@actors.3">
-        <actionClasses name="Outdoor"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system connects to the bank system to get account information" number="7" eventId="7. " subject="#//@actors.3">
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="connects"/>
+        <actionClasses name="Input" confidence="0.7079184368478864" ranking="2" predicate="connects">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="connects"/>
+        </actionClasses>
+        <actionClasses name="Selection" confidence="0.8707348310597495" ranking="1" predicate="connects">
+          <parent name="Input" confidence="0.7079184368478864" ranking="2" predicate="connects">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="connects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.7079184368478864" ranking="2" predicate="get">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="get"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="get"/>
+        <actionClasses name="Selection" confidence="0.8707348310597495" ranking="1" predicate="get">
+          <parent name="Input" confidence="0.7079184368478864" ranking="2" predicate="get">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="get"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates the account data entered by the employee" number="8" eventId="8. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates the account data entered by the employee" number="8" eventId="8. " subject="#//@actors.3">
+        <actionClasses name="Input" confidence="0.9997841705863774" ranking="2" predicate="validates">
+          <parent name="IO" confidence="0.8670070227369068" ranking="3" predicate="validates"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.8670070227369068" ranking="3" predicate="validates"/>
+        <actionClasses name="Entry" confidence="0.9999999874654594" ranking="1" predicate="validates">
+          <parent name="Input" confidence="0.9997841705863774" ranking="2" predicate="validates">
+            <parent name="IO" confidence="0.8670070227369068" ranking="3" predicate="validates"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.9999494756180491" ranking="2" predicate="entered">
+          <parent name="IO" confidence="0.6675605906677675" ranking="3" predicate="entered"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6675605906677675" ranking="3" predicate="entered"/>
+        <actionClasses name="Entry" confidence="0.9999986815168977" ranking="1" predicate="entered">
+          <parent name="Input" confidence="0.9999494756180491" ranking="2" predicate="entered">
+            <parent name="IO" confidence="0.6675605906677675" ranking="3" predicate="entered"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves the supplier" number="9" eventId="9. " subject="//@actors.2">
-        <actionClasses name="Create"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee saves the supplier" number="9" eventId="9. " subject="#//@actors.2">
+        <actionClasses name="IO" confidence="0.7769782298971558" ranking="1" predicate="saves"/>
+        <actionClasses name="Input" confidence="0.5640391431968593" ranking="3" predicate="saves">
+          <parent name="IO" confidence="0.7769782298971558" ranking="1" predicate="saves"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.6163273099615673" ranking="2" predicate="saves">
+          <parent name="Input" confidence="0.5640391431968593" ranking="3" predicate="saves">
+            <parent name="IO" confidence="0.7769782298971558" ranking="1" predicate="saves"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves new supplier" number="10" eventId="10." subject="//@actors.3">
-        <actionClasses name="Create"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves new supplier" number="10" eventId="10." subject="#//@actors.3">
+        <actionClasses name="Display" confidence="0.9728699796693415" ranking="1" predicate="saves">
+          <parent name="Output" confidence="0.7111150475028302" ranking="2" predicate="saves">
+            <parent name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Output" confidence="0.7111150475028302" ranking="2" predicate="saves">
+          <parent name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system sends an email to the financial department" number="11" eventId="11." subject="//@actors.3">
-        <actionClasses name="Notification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system sends an email to the financial department" number="11" eventId="11." subject="#//@actors.3">
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="sends"/>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="sends">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="sends"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="sends">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="sends">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="sends"/>
+          </parent>
+        </actionClasses>
       </events>
     </flows>
   </useCases>
   <useCases name="Buy Product" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;Log in&quot;" number="1" eventId="1." subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;Log in&quot;" number="1" eventId="1." subject="#//@actors.0">
+        <actionClasses name="Outdoor" confidence="0.9999994443870486" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.8249694668641911" ranking="2" predicate="selects">
+            <parent name="Process" confidence="0.6735702599434618" ranking="3" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.6735702599434618" ranking="3" predicate="selects"/>
+        <actionClasses name="Communication" confidence="0.8249694668641911" ranking="2" predicate="selects">
+          <parent name="Process" confidence="0.6735702599434618" ranking="3" predicate="selects"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2. " subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963787" ranking="1" predicate="asks"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3. " subject="//@actors.0">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3. " subject="#//@actors.0">
+        <actionClasses name="Input" confidence="0.9998391097346959" ranking="2" predicate="enters">
+          <parent name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.9999986977873799" ranking="1" predicate="enters">
+          <parent name="Input" confidence="0.9998391097346959" ranking="2" predicate="enters">
+            <parent name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system checks the username existance" number="4" eventId="4. ">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system checks the username existance" number="4" eventId="4. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5. " subject="#//@actors.3">
+        <actionClasses name="Display" confidence="0.7999320109696325" ranking="2" predicate="validates">
+          <parent name="Output" confidence="0.6485751643261516" ranking="3" predicate="validates">
+            <parent name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+        <actionClasses name="Output" confidence="0.6485751643261516" ranking="3" predicate="validates">
+          <parent name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the site homepage" number="6" eventId="6." subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963788" ranking="1" predicate="shows"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the site homepage" number="6" eventId="6." subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects a product" number="7" eventId="7. " subject="#//@actors.0">
+        <actionClasses name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+          <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+          <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Create" confidence="0.9884545466232177" ranking="2" predicate="selects">
+          <parent name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+            <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        <actionClasses name="Outdoor" confidence="0.9999705233872428" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+            <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects a product" number="7" eventId="7. " subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system displays the payment options" number="8" eventId="8. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the payment mode" number="9" eventId="9. " subject="#//@actors.0">
+        <actionClasses name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+          <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Create" confidence="0.9884545466232177" ranking="2" predicate="selects">
+          <parent name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+            <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        <actionClasses name="Outdoor" confidence="0.9999705233872428" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+            <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+        <actionClasses name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+          <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system displays the payment options" number="8" eventId="8. ">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for credit card information" number="10" eventId="10." subject="#//@actors.3">
+        <actionClasses name="Selection" confidence="0.8707348310597495" ranking="1" predicate="asks">
+          <parent name="Input" confidence="0.7079184368478864" ranking="2" predicate="asks">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.7079184368478864" ranking="2" predicate="asks">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="asks"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the payment mode" number="9" eventId="9. " subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client provides the card number " number="11" eventId="11." subject="#//@actors.0">
+        <actionClasses name="Calculation" confidence="0.9998942412591416" ranking="2" predicate="provides">
+          <parent name="Process" confidence="0.9999999999999944" ranking="1" predicate="provides"/>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.9999999999999944" ranking="1" predicate="provides"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for credit card information" number="10" eventId="10." subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates card information" number="12" eventId="12. " subject="#//@actors.3">
+        <actionClasses name="IO" confidence="0.9790239420811186" ranking="1" predicate="validates"/>
+        <actionClasses name="Notification" confidence="0.6049282633077218" ranking="3" predicate="validates">
+          <parent name="Output" confidence="0.638047985053162" ranking="2" predicate="validates">
+            <parent name="IO" confidence="0.9790239420811186" ranking="1" predicate="validates"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Output" confidence="0.638047985053162" ranking="2" predicate="validates">
+          <parent name="IO" confidence="0.9790239420811186" ranking="1" predicate="validates"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client provides the card number " number="11" eventId="11." subject="//@actors.0">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves the sale and informs success" number="13" eventId="13." subject="#//@actors.3">
+        <actionClasses name="Display" confidence="0.9728699796693415" ranking="1" predicate="saves">
+          <parent name="Output" confidence="0.7111150475028302" ranking="2" predicate="saves">
+            <parent name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
+        <actionClasses name="Output" confidence="0.7111150475028302" ranking="2" predicate="saves">
+          <parent name="IO" confidence="0.6366108567991811" ranking="3" predicate="saves"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="informs"/>
+        <actionClasses name="Selection" confidence="0.8707348310597495" ranking="1" predicate="informs">
+          <parent name="Input" confidence="0.7079184368478864" ranking="2" predicate="informs">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="informs"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.7079184368478864" ranking="2" predicate="informs">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="informs"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates card information" number="12" eventId="12. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system displays the product news" number="14" eventId="14."/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the product news to follow" number="15" eventId="15." subject="#//@actors.0">
+        <actionClasses name="Selection" confidence="0.9591755704148537" ranking="2" predicate="chooses">
+          <parent name="Input" confidence="0.9966529329062416" ranking="1" predicate="chooses">
+            <parent name="IO" confidence="0.8631035278017652" ranking="3" predicate="chooses"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.8631035278017652" ranking="3" predicate="chooses"/>
+        <actionClasses name="Input" confidence="0.9966529329062416" ranking="1" predicate="chooses">
+          <parent name="IO" confidence="0.8631035278017652" ranking="3" predicate="chooses"/>
+        </actionClasses>
+        <actionClasses name="Noise" confidence="0.6507964667812003" ranking="1" predicate="follow"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system saves the sale and informs success" number="13" eventId="13." subject="//@actors.3">
-        <actionClasses name="Create"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system displays the product news" number="14" eventId="14.">
-        <actionClasses name="Display"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the product news to follow" number="15" eventId="15." subject="//@actors.0">
-        <actionClasses name="Selection"/>
-      </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system registers the subscription" number="16" eventId="16." subject="//@actors.3">
-        <actionClasses name="Update"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system registers the subscription" number="16" eventId="16." subject="#//@actors.3">
+        <actionClasses name="Input" confidence="0.6983421178008469" ranking="1" predicate="registers">
+          <parent name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.6192592820513642" ranking="2" predicate="registers">
+          <parent name="Input" confidence="0.6983421178008469" ranking="1" predicate="registers">
+            <parent name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.4757536193081892" ranking="18" predicate="registers"/>
       </events>
     </flows>
   </useCases>
   <useCases name="Cancel Order" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the option &quot;Log in&quot;" number="1" eventId="1." subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the option &quot;Log in&quot;" number="1" eventId="1." subject="#//@actors.0">
+        <actionClasses name="Selection" confidence="0.7734284950881125" ranking="3" predicate="chooses">
+          <parent name="Input" confidence="0.996724552934096" ranking="1" predicate="chooses">
+            <parent name="IO" confidence="0.8734734096049642" ranking="2" predicate="chooses"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.996724552934096" ranking="1" predicate="chooses">
+          <parent name="IO" confidence="0.8734734096049642" ranking="2" predicate="chooses"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.8734734096049642" ranking="2" predicate="chooses"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2. " subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2. " subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963787" ranking="1" predicate="asks"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3. " subject="//@actors.0">
-        <actionClasses name="Entry"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3. " subject="#//@actors.0">
+        <actionClasses name="Input" confidence="0.9998391097346959" ranking="2" predicate="enters">
+          <parent name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.9999986977873799" ranking="1" predicate="enters">
+          <parent name="Input" confidence="0.9998391097346959" ranking="2" predicate="enters">
+            <parent name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.634478329467276" ranking="3" predicate="enters"/>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system checks the username exists in the database" number="4" eventId="4. ">
-        <actionClasses name="Verification"/>
+        <actionClasses name="IO" confidence="0.6013076809346569" ranking="3" predicate="exists"/>
+        <actionClasses name="Output" confidence="0.7111150475028302" ranking="2" predicate="exists">
+          <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="exists"/>
+        </actionClasses>
+        <actionClasses name="Notification" confidence="0.9808462082900857" ranking="1" predicate="exists">
+          <parent name="Output" confidence="0.7111150475028302" ranking="2" predicate="exists">
+            <parent name="IO" confidence="0.6013076809346569" ranking="3" predicate="exists"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5. " subject="//@actors.3">
-        <actionClasses name="Verification"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5. " subject="#//@actors.3">
+        <actionClasses name="Display" confidence="0.7999320109696325" ranking="2" predicate="validates">
+          <parent name="Output" confidence="0.6485751643261516" ranking="3" predicate="validates">
+            <parent name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+        <actionClasses name="Output" confidence="0.6485751643261516" ranking="3" predicate="validates">
+          <parent name="IO" confidence="0.9291584230549619" ranking="1" predicate="validates"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the homepage" number="6" eventId="6." subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the homepage" number="6" eventId="6." subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963788" ranking="1" predicate="shows"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;View Order&quot;" number="7" eventId="7. " subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;View Order&quot;" number="7" eventId="7. " subject="#//@actors.0">
+        <actionClasses name="Outdoor" confidence="0.9999705233872428" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.7230788445744625" ranking="3" predicate="selects">
+            <parent name="Process" confidence="0.8529302125330367" ranking="2" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Communication" confidence="0.7230788445744625" ranking="3" predicate="selects">
+          <parent name="Process" confidence="0.8529302125330367" ranking="2" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.8529302125330367" ranking="2" predicate="selects"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system retrieves all the purchase orders and displays them to the client." number="8" eventId="8. " subject="//@actors.3">
-        <actionClasses name="Multiple"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system retrieves all the purchase orders and displays them to the client." number="8" eventId="8. " subject="#//@actors.3">
+        <actionClasses name="Output" confidence="0.9998842566973509" ranking="2" predicate="retrieves">
+          <parent name="IO" confidence="0.9945110105600209" ranking="3" predicate="retrieves"/>
+        </actionClasses>
+        <actionClasses name="Display" confidence="0.999991234572831" ranking="1" predicate="retrieves">
+          <parent name="Output" confidence="0.9998842566973509" ranking="2" predicate="retrieves">
+            <parent name="IO" confidence="0.9945110105600209" ranking="3" predicate="retrieves"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.9945110105600209" ranking="3" predicate="retrieves"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the order to cancel" number="9" eventId="9. " subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the order to cancel" number="9" eventId="9. " subject="#//@actors.0">
+        <actionClasses name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        <actionClasses name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+          <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+          <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+        </actionClasses>
+        <actionClasses name="Outdoor" confidence="0.9999705233872428" ranking="1" predicate="selects">
+          <parent name="Communication" confidence="0.986068779562808" ranking="3" predicate="selects">
+            <parent name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Create" confidence="0.9884545466232177" ranking="2" predicate="selects">
+          <parent name="Write" confidence="0.9037887888024787" ranking="4" predicate="selects">
+            <parent name="Data" confidence="0.7751421955722949" ranking="6" predicate="selects"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Process" confidence="0.7751421955722949" ranking="5" predicate="selects"/>
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="cancel"/>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="cancel">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="cancel"/>
+        </actionClasses>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="cancel">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="cancel">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="cancel"/>
+          </parent>
+        </actionClasses>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system updates the state of the order and confirms the transaction to the client" number="10" eventId="10.">
-        <actionClasses name="Update"/>
+        <actionClasses name="Input" confidence="0.992266218105593" ranking="2" predicate="confirms">
+          <parent name="IO" confidence="0.6343939845229679" ranking="3" predicate="confirms"/>
+        </actionClasses>
+        <actionClasses name="IO" confidence="0.6343939845229679" ranking="3" predicate="confirms"/>
+        <actionClasses name="Entry" confidence="0.9963065154691121" ranking="1" predicate="confirms">
+          <parent name="Input" confidence="0.992266218105593" ranking="2" predicate="confirms">
+            <parent name="IO" confidence="0.6343939845229679" ranking="3" predicate="confirms"/>
+          </parent>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows all the product news" number="11" eventId="11." subject="//@actors.3">
-        <actionClasses name="Display"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows all the product news" number="11" eventId="11." subject="#//@actors.3">
+        <actionClasses name="Noise" confidence="0.6635234250963788" ranking="1" predicate="shows"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="15." subject="//@actors.0">
-        <actionClasses name="Selection"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="15." subject="#//@actors.0">
+        <actionClasses name="IO" confidence="0.5290707394546" ranking="3" predicate="marks"/>
+        <actionClasses name="Entry" confidence="0.6192592820513644" ranking="2" predicate="marks">
+          <parent name="Input" confidence="0.698342117800847" ranking="1" predicate="marks">
+            <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="marks"/>
+          </parent>
+        </actionClasses>
+        <actionClasses name="Input" confidence="0.698342117800847" ranking="1" predicate="marks">
+          <parent name="IO" confidence="0.5290707394546" ranking="3" predicate="marks"/>
+        </actionClasses>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="16.">
-        <actionClasses name="Update"/>
-      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="16."/>
     </flows>
   </useCases>
 </edu.unicen.ucrefactoring:UseCaseModel>

@@ -89,8 +89,6 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	
 	public static void initUCRefactoringDetection(Boolean loadNew){
 		try{
-			//Seteo el path local en las constantes
-			Constants.LOCAL_PATH=System.getProperty("user.dir");
 			
 			//========PATH DE ARCHIVOS UIMA================
 			//String uimaPath=Constants.REA_PATH+"HWS-short.uima";
@@ -101,18 +99,20 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 			//String ucsPath=Constants.REA_PATH+"HWS-short.ucs";
 			String ucsPath=Constants.USE_CASE_SPECS_PATH+"ShoppingOnline.ucs";
 			//=============================================
-			//Cargo el archivo UIMA
-			modelCreator = new ModelCreator(loadUIMA(uimaPath).getContents());
+
 			if(!loadNew){
+				modelCreator = new ModelCreator();
 				modelCreator.loadExistingFile(new File(Constants.OUTPUT_RESOURCE_DIR));
 				UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
 				//UCRefactoringDetection.updateDomainActions();
 				//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
 				//modelCreator.exportModel(); 
-				//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 				modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 
 			}else{
+				//Cargo el archivo UIMA
+				modelCreator = new ModelCreator(loadUIMA(uimaPath).getContents());
+				
 				//Cargo el archivo UCS
 				modelCreator.load(new File(ucsPath));
 				
@@ -124,7 +124,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 			
 		}
 		catch (Exception e){
-			
+			System.out.println("");
 		}
 	}
 	
