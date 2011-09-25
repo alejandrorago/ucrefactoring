@@ -68,7 +68,7 @@ public class AlignmentX2Result {
 		this.startB = startB;
 	}
 	
-	public List<SimilarBlock> getSimilarBlocks(){
+	public List<SimilarBlock> getSimilarBlocksFromA(){
 		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
 		int initial = 0;
 		int i = 0;
@@ -78,7 +78,6 @@ public class AlignmentX2Result {
 			char b = this.alignmentB.charAt(i);
 			if(a == b){
 				// Todo sigue bien
-				i++;
 				missmatch = 0;
 			}
 			else if (missmatch==0){
@@ -89,10 +88,46 @@ public class AlignmentX2Result {
 				// Se pudrio todo (2 errores consecutivos)
 				int steps = i - 2;
 				if(steps > 2){
-					//SimilarBlock sb = new SimilarBlock();
+					SimilarBlock sb = new SimilarBlock(this.startA + initial, i);
+					l.add(sb);
 				}
+				initial = i + 1;
+				missmatch = 0;
 			}
+			i++;
 		}
 		return l;
 	}
+	
+	public List<SimilarBlock> getSimilarBlocksFromB(){
+		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
+		int initial = 0;
+		int i = 0;
+		int missmatch = 0;
+		while (i < this.alignmentB.length()){
+			char a = this.alignmentA.charAt(i);
+			char b = this.alignmentB.charAt(i);
+			if(a == b){
+				// Todo sigue bien
+				missmatch = 0;
+			}
+			else if (missmatch==0){
+				// Por ahora le doy changui
+				missmatch++;
+			}
+			else{
+				// Se pudrio todo (2 errores consecutivos)
+				int steps = i - 2;
+				if(steps > 2){
+					SimilarBlock sb = new SimilarBlock(this.startB + initial, i);
+					l.add(sb);
+				}
+				initial = i + 1;
+				missmatch = 0;
+			}
+			i++;
+		}
+		return l;
+	}
+	
 }

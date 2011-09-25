@@ -2,6 +2,7 @@ package edu.unicen.ucrefactoring.gui;
 
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
@@ -25,6 +26,10 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.part.ViewPart;
 
+import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
+import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
+import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
 import edu.unicen.ucrefactoring.model.Condition;
 import edu.unicen.ucrefactoring.model.Event;
@@ -43,6 +48,10 @@ public class UCView extends ViewPart {
 	private static final String BLUE_COLOR = "BLUE";
 	private static final String GREEN_COLOR = "GREEN";
 	
+	//Text Styles
+	private StyleRange refCandidateStyle;
+	private StyleRange blueStyle;
+	
 	//Widgets
 	private ListViewer uCList;
 	private TextViewer leftViewer;
@@ -58,11 +67,23 @@ public class UCView extends ViewPart {
 	//Colors
 	private HashMap<String,Color> colors;
 	
-	IStructuredSelection selectiona;
-	//===============================
+	//vars
+	UCRefactoringDetection ucref;
+	UseCaseLabelProvider ucLabel;
 	
-	public UCView() {
-		// TODO Auto-generated constructor stub
+	//=========CONSTRUCTOR======================
+	
+	public UCView() {		
+		//Creo los colores a utilizar
+		createColors();
+		//Creo los estilos a utilizar
+		createStyles();
+		
+	}
+	
+	//==========================================
+
+	private void createColors(){
 		Display display = Display.getCurrent();
 		colors = new HashMap<String,Color>();
 		colors.put(RED_COLOR,new Color(display,255,0,0));
@@ -70,8 +91,17 @@ public class UCView extends ViewPart {
 		colors.put(GREEN_COLOR,new Color(display,0,255,0));
 	}
 	
-	//===============================
+	private void createStyles(){
 
+		refCandidateStyle = new StyleRange();
+		refCandidateStyle.fontStyle = SWT.BOLD;
+		refCandidateStyle.foreground = colors.get(RED_COLOR);
+		
+		blueStyle = new StyleRange();
+		blueStyle.fontStyle = SWT.BOLD;
+		blueStyle.foreground = colors.get(BLUE_COLOR);
+	}
+	
 	/**
 	 * Método que inicia el plugin
 	 */
@@ -79,8 +109,10 @@ public class UCView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		//Providers
-		UCRefactoringDetection ucref = new UCRefactoringDetection();
-		UseCaseLabelProvider ucLabel = new UseCaseLabelProvider();
+		ucref = new UCRefactoringDetection(false);
+		ucLabel = new UseCaseLabelProvider();
+		
+		ucref.compareUseCases();
 		
 		// Creamos layout
 		FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
@@ -155,12 +187,13 @@ public class UCView extends ViewPart {
 		compareAction = new Action() {			
 			public void run(){
 				
+				HashMap<String,AlignmentX2Result> alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();			
+				AlignmentX2Result alignResult = alignResults.get(useCaseA.getName()+":Basic Flow"+useCaseB.getName()+":Basic Flow");
+				
 				if (useCaseA != null && useCaseB != null){
-					setUseCaseContentToTextViewer(leftViewer,useCaseA);
-					setUseCaseContentToTextViewer(rightViewer,useCaseB);
+					setUseCaseContentToTextViewer(leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());
+					setUseCaseContentToTextViewer(rightViewer,useCaseB,alignResult.getSimilarBlocksFromB());
 				}
-
-
 								
 			}
 		};
@@ -180,17 +213,8 @@ public class UCView extends ViewPart {
 	 * @param textViewer
 	 * @param useCase
 	 */
-	public void setUseCaseContentToTextViewer(TextViewer textViewer , UseCase useCase){
-		
+	public void setUseCaseContentToTextViewer(TextViewer textViewer , UseCase useCase, List<SimilarBlock> similarBlocks){
 
-		StyleRange style1 = new StyleRange();
-		style1.start = 10;
-		style1.length = 100;
-		style1.fontStyle = SWT.BOLD;
-		style1.foreground = colors.get(RED_COLOR);
-	
-
-		
 		String result = "";
 		result+= "======= " + useCase.getName()+" ========\n";
 		if (useCase.getContext().getPreconditions().size()>0)result+=("\nPRECONDITIONS: ");
@@ -208,7 +232,12 @@ public class UCView extends ViewPart {
 				result+=("\n#"+e.getNumber() + " - " + "ID: "+e.getEventId() + " - "+e.getDetail() + "");			
 		}	
 		textViewer.getTextWidget().setText(result);
-		textViewer.getTextWidget().setStyleRange(style1);
+		
+		for (SimilarBlock sb : similarBlocks){
+			refCandidateStyle.start=sb.getBeginIndex();
+			refCandidateStyle.length=sb.getEndIndex()-sb.getBeginIndex();
+			textViewer.getTextWidget().setStyleRange(refCandidateStyle);
+		}
 		textViewer.refresh();
 	}
 	
