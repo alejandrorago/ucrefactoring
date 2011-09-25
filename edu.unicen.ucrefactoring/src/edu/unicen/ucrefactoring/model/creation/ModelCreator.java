@@ -82,7 +82,7 @@ public class ModelCreator {
 		URI uri = URI.createFileURI(file.getAbsolutePath());
 		Resource resource = resourceSet.createResource(uri);
 		resource.load(Collections.EMPTY_MAP);
-		this.parsedUseCaseModel =(UseCaseModel) resource.getContents().get(0);
+		setParsedUseCaseModel((UseCaseModel) resource.getContents().get(0));
 	}
 	
 	public void load(File file) throws IOException {

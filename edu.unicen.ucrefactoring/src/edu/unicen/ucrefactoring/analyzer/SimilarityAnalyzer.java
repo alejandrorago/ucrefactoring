@@ -12,6 +12,8 @@ import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.FunctionalEvent;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
+import edu.unicen.ucrefactoring.model.creation.ModelCreator;
+import edu.unicen.ucrefactoring.util.Constants;
 
 public class SimilarityAnalyzer {
 	
@@ -99,14 +101,14 @@ public class SimilarityAnalyzer {
 			SequenceAligner sa = sequenceAligners.get(analyzer);
 			if (sa!=null){
 				for (UseCase uc1 : useCaseModel.getUseCases()){
-					String seq1 = sequences.get(uc1.getName());
+					String seq1 = sequences.get(uc1.getName()+":"+"Basic Flow");
 					for (UseCase uc2 : useCaseModel.getUseCases()){
-						String seq2 = sequences.get(uc2.getName());
+						String seq2 = sequences.get(uc2.getName()+":"+"Basic Flow");
 						System.out.println(uc1.getName() +" - "+uc2.getName());
 						AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
 						result.setSequenceAName(uc1.getName());
 						result.setSequenceBName(uc2.getName());
-						String key = uc1.getName() + "&" + uc2.getName();
+						String key = uc1.getName()+":"+"Basic Flow" + "&" + uc2.getName()+":"+"Basic Flow";
 						this.alignmentResult.put(key, result);
 					}
 				}
@@ -120,9 +122,9 @@ public class SimilarityAnalyzer {
 	private void loadSequences(){
 		sequences = new HashMap<String,String>();
 		for (UseCase uc : useCaseModel.getUseCases()){	
-			String s = "";
 			EList<Flow> fs = uc.getFlows();
 			for(Flow f : fs){
+				String s = "";
 				for(Event e : f.getEvents()){				
 					for (ActionClass ac : ((FunctionalEvent)e).getActionClasses()){
 //						if (!ac.getName().equals("Noise"))
@@ -131,8 +133,8 @@ public class SimilarityAnalyzer {
 						s = s + ActionCodeEnum.getByName(ac.getName());
 					}
 				}
+				sequences.put(uc.getName() + ":" + f.getName(), s);
 			}
-			sequences.put(uc.getName(), s);
 		}
 		System.out.println(sequences.toString());
 	}

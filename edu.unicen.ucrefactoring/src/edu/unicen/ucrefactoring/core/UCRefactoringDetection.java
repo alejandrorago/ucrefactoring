@@ -32,7 +32,17 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	private static ModelCreator modelCreator;
 	private static UseCaseModel useCaseModel;
 	
+	private SimilarityAnalyzer similarityAnalizer;
 	
+	
+	public SimilarityAnalyzer getSimilarityAnalizer() {
+		return similarityAnalizer;
+	}
+
+	public void setSimilarityAnalizer(SimilarityAnalyzer similarityAnalizer) {
+		this.similarityAnalizer = similarityAnalizer;
+	}
+
 	public  ModelCreator getModelCreator() {
 		return modelCreator;
 	}
@@ -51,9 +61,9 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	
 	//=========Constructor===========
 
-	public UCRefactoringDetection(){
+	public UCRefactoringDetection(Boolean loadNew){
 		super();
-		initUCRefactoringDetection();
+		initUCRefactoringDetection(loadNew);
 	}
 	
 	//=========Servicios==============
@@ -77,7 +87,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 		return resource;
 	}
 	
-	public static void initUCRefactoringDetection(){
+	public static void initUCRefactoringDetection(Boolean loadNew){
 		try{
 			//Seteo el path local en las constantes
 			Constants.LOCAL_PATH=System.getProperty("user.dir");
@@ -91,10 +101,8 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 			//String ucsPath=Constants.REA_PATH+"HWS-short.ucs";
 			String ucsPath=Constants.USE_CASE_SPECS_PATH+"ShoppingOnline.ucs";
 			//=============================================
-			Constants.LOCAL_PATH = System.getProperty("user.dir");
 			//Cargo el archivo UIMA
 			modelCreator = new ModelCreator(loadUIMA(uimaPath).getContents());
-			boolean loadNew = false; 
 			if(!loadNew){
 				modelCreator.loadExistingFile(new File(Constants.OUTPUT_RESOURCE_DIR));
 				UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
@@ -102,9 +110,12 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 				//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
 				//modelCreator.exportModel(); 
 				//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+				modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+
 			}else{
 				//Cargo el archivo UCS
 				modelCreator.load(new File(ucsPath));
+				
 				//Imprimo el modelo generado
 				//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 				
@@ -126,7 +137,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 		//String sequence1 = "syevnullysetvc"; //ADD NEW PROD ALTER.
 		//String sequence2 = "syevvysysyevcysc";//BUY PROD.
 		//String sequence2 = "syevmstvcn";//ADD SUPP.
-		UCRefactoringDetection.initUCRefactoringDetection();
+		UCRefactoringDetection.initUCRefactoringDetection(false);
 		SimilarityAnalyzer sa = new SimilarityAnalyzer(UCRefactoringDetection.useCaseModel);
 		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
 		//sa.testSequenceAlignment(SequenceAligner.JALIGNER_SW_SA, sequence1, sequence2, SequenceAligner.UCMATRIX2);
@@ -161,6 +172,11 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 					
 			}
 		}
+	}
+	
+	public void compareUseCases(){
+		similarityAnalizer = new SimilarityAnalyzer(UCRefactoringDetection.useCaseModel);
+		similarityAnalizer.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
 	}
 	
 	//=========Implementacion del content provider==============================

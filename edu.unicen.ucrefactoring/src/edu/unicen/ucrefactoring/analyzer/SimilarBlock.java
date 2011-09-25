@@ -2,42 +2,36 @@ package edu.unicen.ucrefactoring.analyzer;
 
 public class SimilarBlock {
 	
-	private Integer beginIndexA;
-	private Integer endIndexA;
+	private Integer beginIndex;
+	private Integer endIndex;
 	
-	private Integer beginIndexB;
-	private Integer endIndexB;
 	
-	public SimilarBlock(Integer bA, Integer bB, Integer eA, Integer eB){
-		this.beginIndexA=bA;
-		this.beginIndexB=bB;
-		this.endIndexA=eA;
-		this.endIndexB=eB;
+	public SimilarBlock(Integer begin,  Integer end ){
+		this.beginIndex=begin;
+		this.endIndex=end;
+
+	}
+
+
+	public Integer getBeginIndex() {
+		return beginIndex;
+	}
+
+
+	public void setBeginIndex(Integer beginIndex) {
+		this.beginIndex = beginIndex;
+	}
+
+
+	public Integer getEndIndex() {
+		return endIndex;
+	}
+
+
+	public void setEndIndex(Integer endIndex) {
+		this.endIndex = endIndex;
 	}
 	
-	public Integer getBeginIndexA() {
-		return beginIndexA;
-	}
-	public void setBeginIndexA(Integer beginIndexA) {
-		this.beginIndexA = beginIndexA;
-	}
-	public Integer getEndIndexA() {
-		return endIndexA;
-	}
-	public void setEndIndexA(Integer endIndexA) {
-		this.endIndexA = endIndexA;
-	}
-	public Integer getBeginIndexB() {
-		return beginIndexB;
-	}
-	public void setBeginIndexB(Integer beginIndexB) {
-		this.beginIndexB = beginIndexB;
-	}
-	public Integer getEndIndexB() {
-		return endIndexB;
-	}
-	public void setEndIndexB(Integer endIndexB) {
-		this.endIndexB = endIndexB;
-	}
+
 
 }
