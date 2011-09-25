@@ -86,15 +86,19 @@ public class AlignmentX2Result {
 			}
 			else{
 				// Se pudrio todo (2 errores consecutivos)
-				int steps = i - 2;
+				int steps = (i - initial) - 2;
 				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startA + initial, i);
+					SimilarBlock sb = new SimilarBlock(this.startA + initial, i - 2);
 					l.add(sb);
 				}
 				initial = i + 1;
 				missmatch = 0;
 			}
 			i++;
+		}
+		if(missmatch <=1){
+			SimilarBlock sb = new SimilarBlock(this.startA + initial, i-1);
+			l.add(sb);
 		}
 		return l;
 	}
@@ -117,15 +121,19 @@ public class AlignmentX2Result {
 			}
 			else{
 				// Se pudrio todo (2 errores consecutivos)
-				int steps = i - 2;
+				int steps = (i-initial) - 2;
 				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startB + initial, i);
+					SimilarBlock sb = new SimilarBlock(this.startB + initial, i-2);
 					l.add(sb);
 				}
 				initial = i + 1;
 				missmatch = 0;
 			}
 			i++;
+		}
+		if(missmatch <=1){
+			SimilarBlock sb = new SimilarBlock(this.startB + initial, i-1);
+			l.add(sb);
 		}
 		return l;
 	}
