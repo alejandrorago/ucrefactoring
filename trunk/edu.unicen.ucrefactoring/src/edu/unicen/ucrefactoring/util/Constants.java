@@ -3,7 +3,7 @@ package edu.unicen.ucrefactoring.util;
 public class Constants {
 	
 	//Path local de la aplicación
-	public static String LOCAL_PATH = System.getProperty("user.dir");
+	public static String LOCAL_PATH;
 	
 	//Path de recursos
 	public final static String RESOURCE_PATH = LOCAL_PATH+"/src/edu/unicen/ucrefactoring/resources/";
