@@ -130,7 +130,7 @@ public class SimilarityAnalyzer {
 //						if (!ac.getName().equals("Noise"))
 //							s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
 //						else s=s+"y";
-						if (ActionCodeEnum.getByName(ac.getName())!=null)s = s + ActionCodeEnum.getByName(ac.getName()).getLiteral();
+						if (ActionCodeEnum.getByName(ac.getName())!=null)s = s + ActionCodeEnum.getByName(ac.getName());
 					}
 				}
 				sequences.put(uc.getName() + ":" + f.getName(), s);

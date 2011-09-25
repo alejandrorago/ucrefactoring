@@ -135,9 +135,10 @@ public class UCView extends ViewPart {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) uCList.getSelection();
 				
+				//TODO: ARREGLAR ORDEN DE USE CASES, SE ROMPE EN CIERTOS CASOS
 				//Creo el primer y segundo elemento a comparar. utilizado para conservar orden.
 				if (useCaseA == null) useCaseA=(UseCase)selection.getFirstElement();
-				else if (useCaseB == null) useCaseB=(UseCase)selection.getFirstElement();
+				else if (useCaseB == null) useCaseB=(selection.getFirstElement().equals(useCaseA)&&selection.size()==2)?(UseCase)selection.toList().get(1):(UseCase)selection.getFirstElement();
 				else{
 					useCaseA=(UseCase)selection.getFirstElement();
 					useCaseB=null;
@@ -235,7 +236,7 @@ public class UCView extends ViewPart {
 		
 		for (SimilarBlock sb : similarBlocks){
 			refCandidateStyle.start=sb.getBeginIndex();
-			refCandidateStyle.length=sb.getEndIndex()-sb.getBeginIndex();
+			refCandidateStyle.length=sb.getEndIndex();
 			textViewer.getTextWidget().setStyleRange(refCandidateStyle);
 		}
 		textViewer.refresh();
