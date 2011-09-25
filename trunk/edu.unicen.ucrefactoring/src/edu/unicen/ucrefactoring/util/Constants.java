@@ -3,16 +3,16 @@ package edu.unicen.ucrefactoring.util;
 public class Constants {
 	
 	//Path local de la aplicación
-	public final static String LOCAL_PATH = System.getProperty("user.dir");
+	public static String LOCAL_PATH = System.getProperty("user.dir");
 	
 	//Path de recursos
 	public final static String RESOURCE_PATH = LOCAL_PATH+"/src/edu/unicen/ucrefactoring/resources/";
 
 	//Path de archivos ucs y uima propios
-	public final static String USE_CASE_SPECS_PATH = "/home/migue/workspace/prueba/runtime-EclipseApplication/ucspecs/src/";
+	public final static String USE_CASE_SPECS_PATH = "/home/pau/workspace/prueba/runtime-EclipseApplication/UseCaseSpecs/src/";
 	
 	//Path de archivos ucs y uima de ale
-	public final static String REA_PATH = "/home/migue/workspace/prueba/runtime-EclipseApplication/test/src/";
+	public final static String REA_PATH = "/home/pau/workspace/prueba/runtime-EclipseApplication/test/src/";
 	
 	//Propiedades de los casos de uso
 	public final static String BASIC_FLOW = "BasicFlow";

@@ -345,18 +345,6 @@
   <children xmi:type="notation:Node" xmi:id="_xd-9gckMEeCsn7kuygvHIA" type="1005">
     <children xmi:type="notation:Node" xmi:id="_xeDO8MkMEeCsn7kuygvHIA" type="4010"/>
     <children xmi:type="notation:Node" xmi:id="_xeD2AMkMEeCsn7kuygvHIA" type="5008">
-      <children xmi:type="notation:Node" xmi:id="_StIYEMkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/IO"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_StIYEckPEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_KOjpQMkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Input"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_KOjpQckPEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_YECyYMkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Output"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_YECyYckPEeCsn7kuygvHIA"/>
-      </children>
       <children xmi:type="notation:Node" xmi:id="_OCp34MkNEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Entry"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_OCp34ckNEeCsn7kuygvHIA"/>
@@ -372,18 +360,6 @@
       <children xmi:type="notation:Node" xmi:id="_gVj8oMkPEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Notification"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_gVj8ockPEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_zvUuAMkMEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Data"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_zvUuAckMEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_nZB_YMkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Read"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_nZB_YckPEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_olhnsMkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Write"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_olhnsckPEeCsn7kuygvHIA"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_qLITkMkPEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Single"/>
@@ -405,10 +381,6 @@
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Delete"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_wo7dcckPEeCsn7kuygvHIA"/>
       </children>
-      <children xmi:type="notation:Node" xmi:id="_yx240MkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Process"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_yx240ckPEeCsn7kuygvHIA"/>
-      </children>
       <children xmi:type="notation:Node" xmi:id="_0gkdYMkPEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Calculation"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_0gkdYckPEeCsn7kuygvHIA"/>
@@ -416,10 +388,6 @@
       <children xmi:type="notation:Node" xmi:id="_2CF6gMkPEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Verification"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_2CGhkMkPEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_3W1f4MkPEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Communication"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_3W1f4ckPEeCsn7kuygvHIA"/>
       </children>
       <children xmi:type="notation:Node" xmi:id="_7EmyIMkPEeCsn7kuygvHIA" type="2006">
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Indoor"/>
@@ -429,29 +397,13 @@
         <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Outdoor"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_-WXd0ckPEeCsn7kuygvHIA"/>
       </children>
-      <children xmi:type="notation:Node" xmi:id="_E2bRgMkQEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/UseCase"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_E2bRgckQEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_MbFVwMkQEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/Begin"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_MbFVwckQEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_PAstIMkQEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/End"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_PAstIckQEeCsn7kuygvHIA"/>
-      </children>
-      <children xmi:type="notation:Node" xmi:id="_RVZ6sMkQEeCsn7kuygvHIA" type="2006">
-        <element xmi:type="ecore:EEnumLiteral" href="ucrefactoring.ecore#//ActionCodeEnum/FlowControl"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_RVZ6sckQEeCsn7kuygvHIA"/>
-      </children>
       <styles xmi:type="notation:DrawerStyle" xmi:id="_xeD2AckMEeCsn7kuygvHIA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_xeD2AskMEeCsn7kuygvHIA"/>
       <styles xmi:type="notation:FilteringStyle" xmi:id="_xeD2A8kMEeCsn7kuygvHIA"/>
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_xd_kkMkMEeCsn7kuygvHIA" fontColor="4210752" fontName="Ubuntu" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
     <element xmi:type="ecore:EEnum" href="ucrefactoring.ecore#//ActionCodeEnum"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xd_kkckMEeCsn7kuygvHIA" x="645" y="425" height="148"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xd_kkckMEeCsn7kuygvHIA" x="645" y="425" width="163" height="168"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_qS9scJCREeCdQdlzazn-uA"/>
   <element xmi:type="ecore:EPackage" href="ucrefactoring.ecore#/"/>

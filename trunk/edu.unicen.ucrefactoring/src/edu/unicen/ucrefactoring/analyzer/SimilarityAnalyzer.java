@@ -19,6 +19,7 @@ public class SimilarityAnalyzer {
 	private HashMap<String,String> sequences;
 	private UseCaseModel useCaseModel;
 	private ArrayList<String> matrixes;
+	private HashMap<String, AlignmentX2Result> alignmentResult;
 
 
 	//========Getters And Setters==================
@@ -37,11 +38,21 @@ public class SimilarityAnalyzer {
 	public void setUseCaseModel(UseCaseModel useCaseModel) {
 		this.useCaseModel = useCaseModel;
 	}
+	
+	public HashMap<String, AlignmentX2Result> getAlignmentResult() {
+		return alignmentResult;
+	}
+	
+	public void setAlignmentResult(
+			HashMap<String, AlignmentX2Result> alignmentResult) {
+		this.alignmentResult = alignmentResult;
+	}
 
 	//=========Constructor========================
 	
 	public SimilarityAnalyzer(UseCaseModel useCaseModel){
 		this.useCaseModel=useCaseModel;
+		this.alignmentResult = new HashMap<String, AlignmentX2Result>();
 		loadAligners();
 		loadMatrixes();
 		loadSequences();
@@ -92,7 +103,11 @@ public class SimilarityAnalyzer {
 					for (UseCase uc2 : useCaseModel.getUseCases()){
 						String seq2 = sequences.get(uc2.getName());
 						System.out.println(uc1.getName() +" - "+uc2.getName());
-						System.out.println(sa.performAlignment(seq1, seq2, matrix));
+						AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
+						result.setSequenceAName(uc1.getName());
+						result.setSequenceBName(uc2.getName());
+						String key = uc1.getName() + "&" + uc2.getName();
+						this.alignmentResult.put(key, result);
 					}
 				}
 			}
@@ -110,8 +125,10 @@ public class SimilarityAnalyzer {
 			for(Flow f : fs){
 				for(Event e : f.getEvents()){				
 					for (ActionClass ac : ((FunctionalEvent)e).getActionClasses()){
-						if (!ac.getName().equals("Noise"))s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
-						else s=s+"y";
+//						if (!ac.getName().equals("Noise"))
+//							s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
+//						else s=s+"y";
+						s = s + ActionCodeEnum.getByName(ac.getName());
 					}
 				}
 			}

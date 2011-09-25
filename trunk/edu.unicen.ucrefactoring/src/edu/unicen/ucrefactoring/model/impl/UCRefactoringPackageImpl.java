@@ -1006,30 +1006,18 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 
 		initEEnum(actionCodeEnumEEnum, ActionCodeEnum.class, "ActionCodeEnum");
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DISPLAY);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DATA);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.IO);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.INPUT);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.OUTPUT);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.ENTRY);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.SELECTION);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.NOTIFICATION);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.READ);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.WRITE);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.SINGLE);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.MULTIPLE);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.CREATE);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.UPDATE);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.DELETE);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.PROCESS);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.CALCULATION);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.VERIFICATION);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.COMMUNICATION);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.INDOOR);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.OUTDOOR);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.USE_CASE);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.BEGIN);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.END);
-		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.FLOW_CONTROL);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -18,6 +18,6 @@ public interface SequenceAligner {
 	 * @param s2
 	 * @return result
 	 */
-	public String performAlignment(String s1,String s2, String matrix);
+	public AlignmentX2Result performAlignment(String s1,String s2, String matrix);
 
 }

@@ -19,30 +19,18 @@
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ucrefactoring.ecore#//ActionCodeEnum">
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Display"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Data"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/IO"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Input"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Output"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Entry"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Selection"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Notification"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Read"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Write"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Single"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Multiple"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Create"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Update"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Delete"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Process"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Calculation"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Verification"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Communication"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Indoor"/>
       <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Outdoor"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/UseCase"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/Begin"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/End"/>
-      <genEnumLiterals ecoreEnumLiteral="ucrefactoring.ecore#//ActionCodeEnum/FlowControl"/>
     </genEnums>
     <genClasses ecoreClass="ucrefactoring.ecore#//UseCase">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ucrefactoring.ecore#//UseCase/name"/>
