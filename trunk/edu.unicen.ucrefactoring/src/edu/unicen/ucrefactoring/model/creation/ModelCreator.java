@@ -2,10 +2,12 @@ package edu.unicen.ucrefactoring.model.creation;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -14,6 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.osgi.framework.Bundle;
 
 import edu.isistan.dal.ucs.model.UCSModelPackage;
 import edu.isistan.dal.ucs.model.UCSProject;
@@ -277,7 +280,7 @@ public class ModelCreator {
 		ResourceSet resSet = new ResourceSetImpl();
 
 		// Create a resource
-		Resource resourceSalida = resSet.createResource(URI.createURI(Constants.OUTPUT_RESOURCE_DIR));
+		Resource resourceSalida = resSet.createResource(URI.createFileURI(Constants.OUTPUT_RESOURCE_DIR));
 		resourceSalida.getContents().add(parsedUseCaseModel);
 
 		// Now save the content.
