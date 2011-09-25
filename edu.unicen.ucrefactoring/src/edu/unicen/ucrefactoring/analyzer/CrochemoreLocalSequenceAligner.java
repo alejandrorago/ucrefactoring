@@ -15,7 +15,7 @@ import edu.unicen.ucrefactoring.util.Constants;
 public class CrochemoreLocalSequenceAligner implements SequenceAligner{
 
 	@Override
-	public String performAlignment(String s1, String s2, String matrix) {
+	public AlignmentX2Result performAlignment(String s1, String s2, String matrix) {
 		String result ="";
 		CrochemoreLandauZivUkelsonLocalAlignment c = new CrochemoreLandauZivUkelsonLocalAlignment();
 		try {
@@ -39,7 +39,8 @@ public class CrochemoreLocalSequenceAligner implements SequenceAligner{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		//return result;
+		return new AlignmentX2Result("", "", 0, 0, 0f);
 	}
 
 }

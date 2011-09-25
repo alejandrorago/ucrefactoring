@@ -73,6 +73,18 @@ public class ModelCreator {
 	
 	//========Servicios====================================
 	
+	public void loadExistingFile(File file) throws IOException {
+		//Carga el archivo ucs del File pasado como parámetro
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());	
+		EPackage.Registry.INSTANCE.put(UCRefactoringPackage.eNS_URI, UCRefactoringPackage.eINSTANCE);
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+		URI uri = URI.createFileURI(file.getAbsolutePath());
+		Resource resource = resourceSet.createResource(uri);
+		resource.load(Collections.EMPTY_MAP);
+		this.parsedUseCaseModel =(UseCaseModel) resource.getContents().get(0);
+	}
+	
 	public void load(File file) throws IOException {
 		
 		//Carga el archivo ucs del File pasado como parámetro
@@ -255,7 +267,7 @@ public class ModelCreator {
 	/**
 	 * Método que exporta el modelo del UCS parseado
 	 */
-	private void exportModel(){
+	public void exportModel(){
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
