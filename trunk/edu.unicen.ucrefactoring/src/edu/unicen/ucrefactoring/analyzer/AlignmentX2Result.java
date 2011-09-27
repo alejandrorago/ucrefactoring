@@ -132,8 +132,10 @@ public class AlignmentX2Result {
 			i++;
 		}
 		if(missmatch <=1){
-			SimilarBlock sb = new SimilarBlock(this.startB + initial, i-1);
-			l.add(sb);
+			if(i-1 - initial > 2){
+				SimilarBlock sb = new SimilarBlock(this.startB + initial, i-1);
+				l.add(sb);
+			}
 		}
 		return l;
 	}
