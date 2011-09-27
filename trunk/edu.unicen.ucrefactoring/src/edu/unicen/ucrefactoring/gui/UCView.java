@@ -234,9 +234,18 @@ public class UCView extends ViewPart {
 		}	
 		textViewer.getTextWidget().setText(result);
 		
+		//TODO: Mejorar la forma en que se pintan las partes similares.
 		for (SimilarBlock sb : similarBlocks){
-			refCandidateStyle.start=sb.getBeginIndex();
-			refCandidateStyle.length=sb.getEndIndex();
+			int startEvent=sb.getBeginIndex()+1;
+			int endEvent=sb.getEndIndex()+1;
+			int shift = 0;
+			for (int i= (result.indexOf("#"+endEvent));i<result.length()&&!result.substring(i, i+1).equals("\n");i++){
+				shift++;
+			}
+			
+			refCandidateStyle.start=result.indexOf("#"+startEvent);
+			refCandidateStyle.length=(result.indexOf("#"+endEvent))-refCandidateStyle.start+shift;
+			
 			textViewer.getTextWidget().setStyleRange(refCandidateStyle);
 		}
 		textViewer.refresh();
@@ -249,4 +258,5 @@ public class UCView extends ViewPart {
 //	   useCase.setName((dlg.getValue()));
 //	   uCList.refresh(useCase);					   
 //    }	
+	
 }
