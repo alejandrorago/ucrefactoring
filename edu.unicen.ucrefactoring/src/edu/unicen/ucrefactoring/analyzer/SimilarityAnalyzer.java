@@ -100,9 +100,12 @@ public class SimilarityAnalyzer {
 		if (useCaseModel!=null && sequences!=null && sequenceAligners!=null){	
 			SequenceAligner sa = sequenceAligners.get(analyzer);
 			if (sa!=null){
-				for (UseCase uc1 : useCaseModel.getUseCases()){
+				EList<UseCase> uc_list = useCaseModel.getUseCases();
+				for (int i=0; i <useCaseModel.getUseCases().size(); i++){
+					UseCase uc1 = uc_list.get(i);
 					String seq1 = sequences.get(uc1.getName()+":"+"Basic Flow");
-					for (UseCase uc2 : useCaseModel.getUseCases()){
+					for (int j=i+1; j < useCaseModel.getUseCases().size(); j++){
+						UseCase uc2 = uc_list.get(j);
 						String seq2 = sequences.get(uc2.getName()+":"+"Basic Flow");
 						System.out.println(uc1.getName() +" - "+uc2.getName());
 						AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
