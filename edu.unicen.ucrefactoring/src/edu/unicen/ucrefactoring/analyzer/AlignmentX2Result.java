@@ -86,9 +86,9 @@ public class AlignmentX2Result {
 			}
 			else{
 				// Se pudrio todo (2 errores consecutivos)
-				int steps = (i - initial) - 2;
+				int steps = (i - initial) - 1;
 				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startA + initial, i - 2);
+					SimilarBlock sb = new SimilarBlock(this.startA + initial, i-2);
 					l.add(sb);
 				}
 				initial = i + 1;
@@ -97,7 +97,7 @@ public class AlignmentX2Result {
 			i++;
 		}
 		if(missmatch <=1){
-			if((i-1- initial) > 2){
+			if((i-initial) > 2){
 				SimilarBlock sb = new SimilarBlock(this.startA + initial, i-1);
 				l.add(sb);
 			}
@@ -123,7 +123,7 @@ public class AlignmentX2Result {
 			}
 			else{
 				// Se pudrio todo (2 errores consecutivos)
-				int steps = (i-initial) - 2;
+				int steps = (i-initial) - 1;
 				if(steps > 2){
 					SimilarBlock sb = new SimilarBlock(this.startB + initial, i-2);
 					l.add(sb);
@@ -134,7 +134,7 @@ public class AlignmentX2Result {
 			i++;
 		}
 		if(missmatch <=1){
-			if((i-1- initial) > 2){
+			if((i-initial) > 2){
 				SimilarBlock sb = new SimilarBlock(this.startB + initial, i-1);
 				l.add(sb);
 			}
