@@ -111,7 +111,13 @@ public class SimilarityAnalyzer {
 						AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
 						result.setSequenceAName(uc1.getName());
 						result.setSequenceBName(uc2.getName());
-						String key = uc1.getName()+":"+"Basic Flow" + "&" + uc2.getName()+":"+"Basic Flow";
+						String key ="";
+						if(uc1.getName().compareTo(uc2.getName())>0){
+							key = uc1.getName()+":"+"Basic Flow" + "&" + uc2.getName()+":"+"Basic Flow";
+						}
+						else{
+							key = uc2.getName()+":"+"Basic Flow" + "&" + uc1.getName()+":"+"Basic Flow";
+						}
 						this.alignmentResult.put(key, result);
 					}
 				}
