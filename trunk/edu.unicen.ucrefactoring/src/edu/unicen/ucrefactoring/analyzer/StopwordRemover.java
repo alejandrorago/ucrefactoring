@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.unicen.ucrefactoring.util.Constants;
+
 /**
  *
  * @author migue
@@ -20,8 +22,6 @@ public  class StopwordRemover {
 
     protected List<String> stopwords;
     protected List<String> allwords;
-    protected String stopWordsFile;
-    protected String diccionarioFile;
     protected int similitud;
     
     private static StopwordRemover self;
@@ -33,15 +33,11 @@ public  class StopwordRemover {
     private StopwordRemover(){
 	       stopwords = new ArrayList<String>();
 	       allwords = new ArrayList<String>();
-	
-	       stopWordsFile="/edu/unicen/ucrefactoring/resources/englishStopwords.txt";
-	       diccionarioFile="/edu/unicen/ucrefactoring/resources/diccionarioIngles.words";
-	     
 	       this.similitud = 1;
-	       stopwords.addAll(cargarPalabras(stopWordsFile));
-	       stopwords.addAll(cargarPalabras("/edu/unicen/ucrefactoring/resources/webStopwords.txt"));
+	       stopwords.addAll(cargarPalabras(Constants.STOPWORDS_FILE));
+	       stopwords.addAll(cargarPalabras(Constants.WEB_STOPWORDS_FILE));
 	
-	       allwords.addAll( cargarPalabras(diccionarioFile));
+	       allwords.addAll( cargarPalabras(Constants.DICTIONARY_FILE));
   
     }
     
@@ -70,7 +66,10 @@ public  class StopwordRemover {
                 stops.add(str);
             }
             in.close();
-        } catch (IOException e) { return stops;}
+        }
+        catch (IOException e) { 
+        	return stops;
+        }
         return stops;
     }
 
