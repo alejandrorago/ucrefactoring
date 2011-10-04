@@ -2,17 +2,20 @@ package edu.unicen.ucrefactoring.util;
 
 public class Constants {
 	
-	//Path local de la aplicación
-	public static String LOCAL_PATH;
 	
 	//Path de recursos
-	public final static String RESOURCE_PATH = LOCAL_PATH+"/src/edu/unicen/ucrefactoring/resources/";
+	public final static String RESOURCE_PATH = "/home/migue/workspace/REAssistant/edu.unicen.ucrefactoring/src/edu/unicen/ucrefactoring/resources/";
 
+	//Path de archivos de stopwords
+    public final static String STOPWORDS_FILE = "/edu/unicen/ucrefactoring/resources/englishStopwords.txt";
+    public final static String WEB_STOPWORDS_FILE = "/edu/unicen/ucrefactoring/resources/webStopwords.txt";
+    public final static String DICTIONARY_FILE = "/edu/unicen/ucrefactoring/resources/diccionarioIngles.words";
+    
 	//Path de archivos ucs y uima propios
-	public final static String USE_CASE_SPECS_PATH = "/home/pau/workspace/prueba/runtime-EclipseApplication/UseCaseSpecs/src/";
+	public final static String USE_CASE_SPECS_PATH = "/home/migue/workspace/prueba/runtime-EclipseApplication/ucspecs/src/";
 	
 	//Path de archivos ucs y uima de ale
-	public final static String REA_PATH = "/home/pau/workspace/prueba/runtime-EclipseApplication/test/src/";
+	public final static String REA_PATH = "/home/migue/workspace/prueba/runtime-EclipseApplication/test/src/";
 	
 	//Propiedades de los casos de uso
 	public final static String BASIC_FLOW = "BasicFlow";
@@ -24,7 +27,7 @@ public class Constants {
 	public final static String USE_CASE_MODEL_CLASS_NAME = "UseCaseModel";
 	
 	//Constantes de recursos
-	public final static String OUTPUT_RESOURCE_DIR = LOCAL_PATH+"/src/edu/unicen/ucrefactoring/model/parsedUCModel.ucrefactoring";
+	public final static String OUTPUT_RESOURCE_DIR = "/home/migue/workspace/REAssistant/edu.unicen.ucrefactoring/src/edu/unicen/ucrefactoring/model/parsedUCModel.ucrefactoring";
 
 	
 }

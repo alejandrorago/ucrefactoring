@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.gui;
 
 
+import java.awt.Cursor;
+import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +26,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.internal.progress.WorkbenchSiteProgressService.SiteUpdateJob;
+import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.part.ViewPart;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
@@ -44,9 +51,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
 public class UCView extends ViewPart {
 
 	//Constantes propias
-	private static final String RED_COLOR = "RED";
-	private static final String BLUE_COLOR = "BLUE";
-	private static final String GREEN_COLOR = "GREEN";
+	private static final String COLOR_PROPIO = "COLOR_PROPIO";
+
 	
 	//Text Styles
 	private StyleRange refCandidateStyle;
@@ -57,7 +63,7 @@ public class UCView extends ViewPart {
 	private TextViewer leftViewer;
 	private TextViewer rightViewer;
 	
-	//UseCases
+	//UseCasesdetectar salto de linea en string java
 	private UseCase useCaseA;
 	private UseCase useCaseB;
 	
@@ -78,28 +84,27 @@ public class UCView extends ViewPart {
 		createColors();
 		//Creo los estilos a utilizar
 		createStyles();
-		
 	}
-	
+
+
 	//==========================================
 
 	private void createColors(){
 		Display display = Display.getCurrent();
 		colors = new HashMap<String,Color>();
-		colors.put(RED_COLOR,new Color(display,255,0,0));
-		colors.put(BLUE_COLOR,new Color(display,0,0,255));
-		colors.put(GREEN_COLOR,new Color(display,0,255,0));
+		colors.put(COLOR_PROPIO,new Color(display,255,0,0));
+
 	}
 	
 	private void createStyles(){
 
 		refCandidateStyle = new StyleRange();
 		refCandidateStyle.fontStyle = SWT.BOLD;
-		refCandidateStyle.foreground = colors.get(RED_COLOR);
+		refCandidateStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 		
 		blueStyle = new StyleRange();
 		blueStyle.fontStyle = SWT.BOLD;
-		blueStyle.foreground = colors.get(BLUE_COLOR);
+		blueStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
 	}
 	
 	/**
@@ -120,14 +125,14 @@ public class UCView extends ViewPart {
 		parent.setLayout(fillLayout);
 		
 		//Creamos los widgets
-		uCList = new ListViewer(parent, SWT.MULTI | SWT.BORDER);
+		uCList = new ListViewer(parent, SWT.MULTI | SWT.BORDER );
 		uCList.setContentProvider(ucref);
 		uCList.setLabelProvider(ucLabel);
 		uCList.setInput(ucref);
-		leftViewer = new TextViewer(parent, SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-		rightViewer = new TextViewer(parent, SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
-
-
+		leftViewer = new TextViewer(parent , SWT.V_SCROLL | SWT.BORDER );
+		rightViewer = new TextViewer(parent , SWT.V_SCROLL | SWT.BORDER);
+		leftViewer.getTextWidget().setEditable(false);
+		rightViewer.getTextWidget().setEditable(false);
 		
         //Listener de cambio de selección en la lista(Double click)
 		uCList.addSelectionChangedListener( new ISelectionChangedListener() {
@@ -135,15 +140,31 @@ public class UCView extends ViewPart {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) uCList.getSelection();
 				
-				//TODO: ARREGLAR ORDEN DE USE CASES, SE ROMPE EN CIERTOS CASOS
-				//Creo el primer y segundo elemento a comparar. utilizado para conservar orden.
-				if (useCaseA == null) useCaseA=(UseCase)selection.getFirstElement();
-				else if (useCaseB == null) useCaseB=(selection.getFirstElement().equals(useCaseA)&&selection.size()==2)?(UseCase)selection.toList().get(1):(UseCase)selection.getFirstElement();
-				else{
-					useCaseA=(UseCase)selection.getFirstElement();
-					useCaseB=null;
+				//Si elegi uno solo, es el A
+				if (selection.size()==1) useCaseA = (UseCase)selection.toList().get(0);
+				//cuando tengo 2, seteo el B
+				else if (selection.size()==2){
+					if (!(((UseCase)(selection.toList().get(0))).getName().equals(useCaseA.getName())) && !(((UseCase)(selection.toList().get(1))).getName().equals(useCaseA.getName())))
+						//deseleccione el A, lo cambio
+						useCaseA = (UseCase)(selection.toList().get(0));
+					//Como están ordenados alfabeticamente, pregunto cual de los dos no es el que ya utilice
+					if ((((UseCase)(selection.toList().get(0))).getName().equals(useCaseA.getName()))) 
+						//si el primero es el que utilice en A, uso el segundo
+						useCaseB =  (UseCase)(selection.toList().get(1));
+					else 
+						//si no es el primero, uso ese
+						useCaseB =  (UseCase)(selection.toList().get(0));
 				}
 				
+				//TODO: ARREGLAR ORDEN DE USE CASES, SE ROMPE EN CIERTOS CASOS
+				//Creo el primer y segundo elemento a comparar. utilizado para conservar orden.
+//				if (useCaseA == null) useCaseA=(UseCase)selection.getFirstElement();
+//				else if (useCaseB == null) useCaseB=(selection.getFirstElement().equals(useCaseA)&&selection.size()==2)?(UseCase)selection.toList().get(1):(UseCase)selection.getFirstElement();
+//				else{
+//					useCaseA=(UseCase)selection.getFirstElement();
+//					useCaseB=null;
+//				}
+//				
 				//Habilito el boton de comparar si hay 2 y solo 2 elementos seleccionados
 				if (selection != null && selection.size()==2){	
 					compareAction.setEnabled(true);
@@ -240,7 +261,7 @@ public class UCView extends ViewPart {
 				result+=("\n#"+e.getNumber() + " - " + "ID: "+e.getEventId() + " - "+e.getDetail() + "");			
 		}	
 		textViewer.getTextWidget().setText(result);
-		
+		int s= 0;
 		//TODO: Mejorar la forma en que se pintan las partes similares.
 		for (SimilarBlock sb : similarBlocks){
 			int startEvent=sb.getBeginIndex()+1;
@@ -250,10 +271,16 @@ public class UCView extends ViewPart {
 				shift++;
 			}
 			
+			if (s%2==0) refCandidateStyle.foreground=Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+			else refCandidateStyle.foreground=Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
 			refCandidateStyle.start=result.indexOf("#"+startEvent);
 			refCandidateStyle.length=(result.indexOf("#"+endEvent))-refCandidateStyle.start+shift;
 			
+//			refCandidateStyle.borderStyle=SWT.BORDER_DASH;
+//			refCandidateStyle.borderColor=Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
+
 			textViewer.getTextWidget().setStyleRange(refCandidateStyle);
+			s++;
 		}
 		textViewer.refresh();
 	}
