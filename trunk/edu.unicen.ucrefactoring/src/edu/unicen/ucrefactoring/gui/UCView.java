@@ -76,7 +76,7 @@ public class UCView extends ViewPart {
 	//vars
 	private UCRefactoringDetection ucref;
 	private UseCaseLabelProvider ucLabel;
-	private KeyFinder keyFinder;
+//	private KeyFinder keyFinder;
 	
 	
 	
@@ -108,14 +108,14 @@ public class UCView extends ViewPart {
 	}
 
 
-	public KeyFinder getKeyFinder() {
-		return keyFinder;
-	}
-
-
-	public void setKeyFinder(KeyFinder keyFinder) {
-		this.keyFinder = keyFinder;
-	}
+//	public KeyFinder getKeyFinder() {
+//		return keyFinder;
+//	}
+//
+//
+//	public void setKeyFinder(KeyFinder keyFinder) {
+//		this.keyFinder = keyFinder;
+//	}
 
 	//==============Servicios==========================
 	
