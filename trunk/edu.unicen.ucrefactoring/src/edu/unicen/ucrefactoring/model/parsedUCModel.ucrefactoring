@@ -194,43 +194,43 @@
   <useCases name="Cancel Order" description="">
     <context/>
     <flows name="Basic Flow">
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the option &quot;Log in&quot;" number="1" eventId="1." subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the option &quot;Log in&quot;" number="1" eventId="1" subject="#//@actors.0">
         <actionClasses name="Selection"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2. " subject="#//@actors.3">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system asks for the username and password" number="2" eventId="2" subject="#//@actors.3">
         <actionClasses name="Display"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3. " subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client enters data" number="3" eventId="3" subject="#//@actors.0">
         <actionClasses name="Entry"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system checks the username exists in the database" number="4" eventId="4. ">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system checks the username exists in the database" number="4" eventId="4">
         <actionClasses name="Verification"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5. " subject="#//@actors.3">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system validates password" number="5" eventId="5" subject="#//@actors.3">
         <actionClasses name="Verification"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the homepage" number="6" eventId="6." subject="#//@actors.3">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows the homepage" number="6" eventId="6" subject="#//@actors.3">
         <actionClasses name="Display"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;View Order&quot;" number="7" eventId="7. " subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;View Order&quot;" number="7" eventId="7" subject="#//@actors.0">
         <actionClasses name="Selection"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system retrieves all the purchase orders and displays them to the client." number="8" eventId="8. " subject="#//@actors.3">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system retrieves all the purchase orders and displays them to the client." number="8" eventId="8" subject="#//@actors.3">
         <actionClasses name="Multiple"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the order to cancel" number="9" eventId="9. " subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the order to cancel" number="9" eventId="9" subject="#//@actors.0">
         <actionClasses name="Selection"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system updates the state of the order and confirms the transaction to the client" number="10" eventId="10.">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system updates the state of the order and confirms the transaction to the client" number="10" eventId="10">
         <actionClasses name="Update"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows all the product news" number="11" eventId="11." subject="#//@actors.3">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows all the product news" number="11" eventId="11" subject="#//@actors.3">
         <actionClasses name="Display"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="15." subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="12" subject="#//@actors.0">
         <actionClasses name="Selection"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="16.">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="13">
         <actionClasses name="Create"/>
       </events>
     </flows>

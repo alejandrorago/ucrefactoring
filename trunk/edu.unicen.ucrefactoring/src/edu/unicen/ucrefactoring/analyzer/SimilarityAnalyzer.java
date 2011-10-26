@@ -2,6 +2,7 @@ package edu.unicen.ucrefactoring.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -18,11 +19,13 @@ import edu.unicen.ucrefactoring.util.Constants;
 public class SimilarityAnalyzer {
 	
 	private HashMap<String,SequenceAligner> sequenceAligners;
+	private StopwordRemover stopwordRemover;
 	private HashMap<String,String> sequences;
 	private UseCaseModel useCaseModel;
 	private ArrayList<String> matrixes;
+	
 	private HashMap<String, AlignmentX2Result> alignmentResult;
-
+	private HashMap<String, List<String>> useCaseKeywords;
 
 	//========Getters And Setters==================
 	public HashMap<String, String> getSequences() {
@@ -49,18 +52,51 @@ public class SimilarityAnalyzer {
 			HashMap<String, AlignmentX2Result> alignmentResult) {
 		this.alignmentResult = alignmentResult;
 	}
+	
+	public HashMap<String, List<String>> getUseCaseKeywords() {
+		return useCaseKeywords;
+	}
+	
+	public void setUseCaseKeywords(HashMap<String, List<String>> useCaseKeywords) {
+		this.useCaseKeywords = useCaseKeywords;
+	}
+	
+	public StopwordRemover getStopwordRemover() {
+		return stopwordRemover;
+	}
+	
+	public void setStopwordRemover(StopwordRemover stopwordRemover) {
+		this.stopwordRemover = stopwordRemover;
+	}
 
 	//=========Constructor========================
 	
 	public SimilarityAnalyzer(UseCaseModel useCaseModel){
 		this.useCaseModel=useCaseModel;
 		this.alignmentResult = new HashMap<String, AlignmentX2Result>();
+		this.useCaseKeywords = new HashMap<String, List<String>>();
+		this.stopwordRemover = StopwordRemover.getInstance();
+		this.setAllUseCaseKeywords();
 		loadAligners();
 		loadMatrixes();
 		loadSequences();
 	}
 	
 	//=========Services===========================
+	
+	private void setAllUseCaseKeywords(){
+		for(UseCase uc : useCaseModel.getUseCases()){
+			for(Flow f : uc.getFlows()){
+				for(Event e : f.getEvents()){
+					String key = uc.getName() + ":" + f.getName() + ":" + e.getEventId();
+					List<String> value = this.stopwordRemover.removeStopwords(e.getDetail());
+//					System.out.println(key);
+//					System.out.println(value);
+					this.useCaseKeywords.put(key, value);
+				}
+			}
+		}
+	}
 	
 	private void loadMatrixes(){
 		this.matrixes=new ArrayList<String>();
@@ -146,6 +182,10 @@ public class SimilarityAnalyzer {
 			}
 		}
 		System.out.println(sequences.toString());
+	}
+	
+	public void scoreBlocksByKeywords(){
+		
 	}
 		
 }
