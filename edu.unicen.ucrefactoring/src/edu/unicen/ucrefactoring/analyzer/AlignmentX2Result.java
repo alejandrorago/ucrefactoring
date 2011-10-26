@@ -72,35 +72,39 @@ public class AlignmentX2Result {
 		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
 		int initial = 0;
 		int i = 0;
-		int missmatch = 0;
-		while (i < this.alignmentA.length()){
+		int realIndex = 0;
+		while (i < this.alignmentA.length() - 2){
 			char a = this.alignmentA.charAt(i);
 			char b = this.alignmentB.charAt(i);
-			if(a == b){
-				// Todo sigue bien
-				missmatch = 0;
-			}
-			else if (missmatch==0){
-				// Por ahora le doy changui
-				missmatch++;
-			}
-			else{
-				// Se pudrio todo (2 errores consecutivos)
-				int steps = (i - initial) - 1;
+			char a1 = this.alignmentA.charAt(i+1);
+			char b1 = this.alignmentB.charAt(i+1);
+			char a2 = this.alignmentA.charAt(i+2);
+			char b2 = this.alignmentB.charAt(i+2);
+			if (a1 != b1 && a2 != b2){ 	
+				int steps = (realIndex - initial) + 1; // Cantidad de pasos
 				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startA + initial, i-2);
+					SimilarBlock sb = new SimilarBlock(this.startA + initial, realIndex);
 					l.add(sb);
 				}
-				initial = i + 1;
-				missmatch = 0;
+				i++;
+				if (this.alignmentA.charAt(i) != '-')
+					realIndex++;
+				while (i < this.alignmentA.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+					i++;
+					if (this.alignmentA.charAt(i) != '-')
+						realIndex++;
+				}
+				initial = realIndex;
 			}
-			i++;
+			else{
+				i++;
+				realIndex++;
+			}
 		}
-		if(missmatch <=1){
-			if((i-initial) > 2){
-				SimilarBlock sb = new SimilarBlock(this.startA + initial, i-1);
-				l.add(sb);
-			}
+		int steps = realIndex - initial +2; // Cantidad de pasos
+		if(steps > 2){
+			SimilarBlock sb = new SimilarBlock(this.startA + initial, realIndex+1);
+			l.add(sb);
 		}
 		return l;
 	}
@@ -109,35 +113,39 @@ public class AlignmentX2Result {
 		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
 		int initial = 0;
 		int i = 0;
-		int missmatch = 0;
-		while (i < this.alignmentB.length()){
+		int realIndex = 0;
+		while (i < this.alignmentB.length() - 2){
 			char a = this.alignmentA.charAt(i);
 			char b = this.alignmentB.charAt(i);
-			if(a == b){
-				// Todo sigue bien
-				missmatch = 0;
-			}
-			else if (missmatch==0){
-				// Por ahora le doy changui
-				missmatch++;
-			}
-			else{
-				// Se pudrio todo (2 errores consecutivos)
-				int steps = (i-initial) - 1;
+			char a1 = this.alignmentA.charAt(i+1);
+			char b1 = this.alignmentB.charAt(i+1);
+			char a2 = this.alignmentA.charAt(i+2);
+			char b2 = this.alignmentB.charAt(i+2);
+			if (a1 != b1 && a2 != b2){ 	
+				int steps = (realIndex - initial) + 1; // Cantidad de pasos
 				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startB + initial, i-2);
+					SimilarBlock sb = new SimilarBlock(this.startB + initial, realIndex);
 					l.add(sb);
 				}
-				initial = i + 1;
-				missmatch = 0;
+				i++;
+				if (this.alignmentB.charAt(i) != '-')
+					realIndex++;
+				while (i < this.alignmentB.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+					i++;
+					if (this.alignmentB.charAt(i) != '-')
+						realIndex++;
+				}
+				initial = realIndex;
 			}
-			i++;
+			else{
+				i++;
+				realIndex++;
+			}
 		}
-		if(missmatch <=1){
-			if((i-initial) > 2){
-				SimilarBlock sb = new SimilarBlock(this.startB + initial, i-1);
-				l.add(sb);
-			}
+		int steps = realIndex - initial +2; // Cantidad de pasos
+		if(steps > 2){
+			SimilarBlock sb = new SimilarBlock(this.startB + initial, realIndex+1);
+			l.add(sb);
 		}
 		return l;
 	}
