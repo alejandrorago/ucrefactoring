@@ -3,6 +3,7 @@ package edu.unicen.ucrefactoring.gui;
 
 import java.awt.Cursor;
 import java.awt.Window;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,8 +33,10 @@ import org.eclipse.ui.internal.WorkbenchPage;
 import org.eclipse.ui.internal.progress.WorkbenchSiteProgressService.SiteUpdateJob;
 import org.eclipse.ui.model.IWorkbenchAdapter;
 import org.eclipse.ui.part.ViewPart;
+import java.util.ArrayList;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.analyzer.KeyFinder;
 import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
@@ -70,42 +73,52 @@ public class UCView extends ViewPart {
 	// Actions
 	private Action compareAction;
 	
-	//Colors
-	private HashMap<String,Color> colors;
-	
 	//vars
-	UCRefactoringDetection ucref;
-	UseCaseLabelProvider ucLabel;
+	private UCRefactoringDetection ucref;
+	private UseCaseLabelProvider ucLabel;
+	private KeyFinder keyFinder;
+	
+	
 	
 	//=========CONSTRUCTOR======================
-	
+
 	public UCView() {		
-		//Creo los colores a utilizar
-		createColors();
-		//Creo los estilos a utilizar
-		createStyles();
 	}
 
 
-	//==========================================
+	//===============G&S===========================
 
-	private void createColors(){
-		Display display = Display.getCurrent();
-		colors = new HashMap<String,Color>();
-		colors.put(COLOR_PROPIO,new Color(display,255,0,0));
-
+	public ListViewer getuCList() {
+		return uCList;
 	}
+
+
+	public void setuCList(ListViewer uCList) {
+		this.uCList = uCList;
+	}
+
+
+	public UCRefactoringDetection getUcref() {
+		return ucref;
+	}
+
+
+	public void setUcref(UCRefactoringDetection ucref) {
+		this.ucref = ucref;
+	}
+
+
+	public KeyFinder getKeyFinder() {
+		return keyFinder;
+	}
+
+
+	public void setKeyFinder(KeyFinder keyFinder) {
+		this.keyFinder = keyFinder;
+	}
+
+	//==============Servicios==========================
 	
-	private void createStyles(){
-
-		refCandidateStyle = new StyleRange();
-		refCandidateStyle.fontStyle = SWT.BOLD;
-		refCandidateStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-		
-		blueStyle = new StyleRange();
-		blueStyle.fontStyle = SWT.BOLD;
-		blueStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
-	}
 	
 	/**
 	 * Método que inicia el plugin
@@ -223,6 +236,13 @@ public class UCView extends ViewPart {
 					setUseCaseContentToTextViewer(leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());
 					setUseCaseContentToTextViewer(rightViewer,useCaseB,alignResult.getSimilarBlocksFromB());
 				}
+				
+				//===Prueba del Key Finder===TODO: DECIDIR SI LO SACAMOS!!!
+//				keyFinder = new KeyFinder();
+//				List<String> test = new ArrayList<String>();
+//				test.add("client");test.add("person");test.add("system");
+//				keyFinder.method(test);
+				//===========================
 								
 			}
 		};
@@ -261,8 +281,9 @@ public class UCView extends ViewPart {
 				result+=("\n#"+e.getNumber() + " - " + "ID: "+e.getEventId() + " - "+e.getDetail() + "");			
 		}	
 		textViewer.getTextWidget().setText(result);
-		int s= 0;
-		//TODO: Mejorar la forma en que se pintan las partes similares.
+		
+		int[] colors = {SWT.COLOR_RED,SWT.COLOR_BLUE,SWT.COLOR_GREEN,SWT.COLOR_YELLOW,SWT.COLOR_GRAY};
+		int s = 0;
 		for (SimilarBlock sb : similarBlocks){
 			int startEvent=sb.getBeginIndex()+1;
 			int endEvent=sb.getEndIndex()+1;
@@ -271,16 +292,17 @@ public class UCView extends ViewPart {
 				shift++;
 			}
 			
-			if (s%2==0) refCandidateStyle.foreground=Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-			else refCandidateStyle.foreground=Display.getCurrent().getSystemColor(SWT.COLOR_BLUE);
-			refCandidateStyle.start=result.indexOf("#"+startEvent);
-			refCandidateStyle.length=(result.indexOf("#"+endEvent))-refCandidateStyle.start+shift;
+			//==Aplico un estilo al texto similar==
+			StyleRange aStyle = new StyleRange();
+			aStyle.fontStyle = SWT.BOLD;
+			aStyle.foreground=Display.getCurrent().getSystemColor(s<5?colors[s]:SWT.COLOR_MAGENTA);
 			
-//			refCandidateStyle.borderStyle=SWT.BORDER_DASH;
-//			refCandidateStyle.borderColor=Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
-
-			textViewer.getTextWidget().setStyleRange(refCandidateStyle);
+			aStyle.start=result.indexOf("#"+startEvent);
+			aStyle.length=(result.indexOf("#"+endEvent))-aStyle.start+shift;
+			
+			textViewer.getTextWidget().setStyleRange(aStyle);
 			s++;
+			//====================================
 		}
 		textViewer.refresh();
 	}
