@@ -27,7 +27,7 @@ import edu.unicen.ucrefactoring.model.UseCaseModel;
 import edu.unicen.ucrefactoring.model.creation.ModelCreator;
 import edu.unicen.ucrefactoring.util.Constants;
 
-public class UCRefactoringDetection implements IStructuredContentProvider {
+public class UCRefactoringDetection  {
 	
 	private static ModelCreator modelCreator;
 	private static UseCaseModel useCaseModel;
@@ -48,7 +48,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	}
 
 	public void setModelCreator(ModelCreator modelCreator) {
-		this.modelCreator = modelCreator;
+		UCRefactoringDetection.modelCreator = modelCreator;
 	}
 
 	public UseCaseModel getUseCaseModel() {
@@ -56,7 +56,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 	}
 
 	public void setUseCaseModel(UseCaseModel useCaseModel) {
-		this.useCaseModel = useCaseModel;
+		UCRefactoringDetection.useCaseModel = useCaseModel;
 	}
 	
 	//=========Constructor===========
@@ -179,24 +179,7 @@ public class UCRefactoringDetection implements IStructuredContentProvider {
 		similarityAnalizer.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
 	}
 	
-	//=========Implementacion del content provider==============================
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Object[] getElements(Object inputElement) {
-		return useCaseModel.getUseCases().toArray();
-	}
 	
 
 }

@@ -22,21 +22,28 @@
             type="ucrefactoring"
             class="edu.unicen.ucrefactoring.model.util.UCRefactoringResourceFactoryImpl"/>
    </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
+   <extension point="org.eclipse.ui.perspectives">
       <perspective
-            class="edu.unicen.ucrefactoring.gui.UCPerspective"
-            id="edu.unicen.ucrefactoring.perspective1"
-            name="UCPerspective">
+            class="edu.unicen.ucrefactoring.gui.UCRPerspective"
+            id="edu.unicen.ucrefactoring.gui.UCRPerspective"
+            name="Use Case Refactoring">
       </perspective>
    </extension>
-   <extension
-         point="org.eclipse.ui.views">
+   <extension point="org.eclipse.ui.views">
       <view
-            class="edu.unicen.ucrefactoring.gui.UCView"
-            id="edu.unicen.ucrefactoring.UCView"
-            name="UCView"
-            restorable="true">
+            class="edu.unicen.ucrefactoring.gui.UCRCompareView"
+            id="edu.unicen.ucrefactoring.gui.UCRCompareView"
+            name="Compare">
+      </view>
+      <view
+            class="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
+            id="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
+            name="Use Cases">
+      </view>
+      <view
+            class="edu.unicen.ucrefactoring.gui.UCRDataView"
+            id="edu.unicen.ucrefactoring.gui.UCRDataView"
+            name="Data">
       </view>
    </extension>
 

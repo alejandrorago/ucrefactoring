@@ -66,7 +66,7 @@ public class UCView extends ViewPart {
 	private TextViewer leftViewer;
 	private TextViewer rightViewer;
 	
-	//UseCasesdetectar salto de linea en string java
+	//UseCases
 	private UseCase useCaseA;
 	private UseCase useCaseB;
 	
@@ -77,6 +77,9 @@ public class UCView extends ViewPart {
 	private UCRefactoringDetection ucref;
 	private UseCaseLabelProvider ucLabel;
 //	private KeyFinder keyFinder;
+	
+	//maps
+	HashMap<String,AlignmentX2Result> alignResults;
 	
 	
 	
@@ -131,6 +134,7 @@ public class UCView extends ViewPart {
 		ucLabel = new UseCaseLabelProvider();
 		
 		ucref.compareUseCases();
+		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
 		
 		// Creamos layout
 		FillLayout fillLayout = new FillLayout(SWT.HORIZONTAL);
@@ -139,7 +143,7 @@ public class UCView extends ViewPart {
 		
 		//Creamos los widgets
 		uCList = new ListViewer(parent, SWT.MULTI | SWT.BORDER );
-		uCList.setContentProvider(ucref);
+		//uCList.setContentProvider(ucref);
 		uCList.setLabelProvider(ucLabel);
 		uCList.setInput(ucref);
 		leftViewer = new TextViewer(parent , SWT.V_SCROLL | SWT.BORDER );
@@ -222,19 +226,18 @@ public class UCView extends ViewPart {
 		compareAction = new Action() {			
 			public void run(){
 				
-				HashMap<String,AlignmentX2Result> alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();			
 				String key;
 				if(useCaseA.getName().compareTo(useCaseB.getName())>0){
-					key = useCaseA.getName()+":"+"Basic Flow" + "&" + useCaseB.getName()+":"+"Basic Flow";
+					//key = SimilarityAnalyzer.getAlignmentKey(useCaseA, useCaseB);
 				}
 				else{
-					key = useCaseB.getName()+":"+"Basic Flow" + "&" + useCaseA.getName()+":"+"Basic Flow";
+					//key = SimilarityAnalyzer.getAlignmentKey(useCaseA, useCaseB);
 				}
-				AlignmentX2Result alignResult = alignResults.get(key);
+				//AlignmentX2Result alignResult = alignResults.get(key);
 				
 				if (useCaseA != null && useCaseB != null){
-					setUseCaseContentToTextViewer(leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());
-					setUseCaseContentToTextViewer(rightViewer,useCaseB,alignResult.getSimilarBlocksFromB());
+					//setUseCaseContentToTextViewer(leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());
+					//setUseCaseContentToTextViewer(rightViewer,useCaseB,alignResult.getSimilarBlocksFromB());
 				}
 				
 				//===Prueba del Key Finder===TODO: DECIDIR SI LO SACAMOS!!!
@@ -306,6 +309,10 @@ public class UCView extends ViewPart {
 		}
 		textViewer.refresh();
 	}
+	
+	
+	
+	
 	
 //====================Snipets======================
 //	InputDialog dlg = new InputDialog(null,"", "Requirement title", "Insert new value", null);

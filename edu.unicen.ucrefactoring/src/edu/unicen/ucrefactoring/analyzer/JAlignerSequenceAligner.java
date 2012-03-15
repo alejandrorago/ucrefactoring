@@ -21,7 +21,7 @@ public class JAlignerSequenceAligner implements SequenceAligner {
 			Sequence seq2 = SequenceParser.parse(s2);			
 			Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load(matrix), 5f, 2f);
 			result = new AlignmentX2Result(new String (alignment.getSequence1()), new String (alignment.getSequence2()), alignment.getStart1(), alignment.getStart2(), alignment.getScore());
-	        String s =("AAAA:"+ alignment.getSummary() );
+	        String s =(alignment.getSummary() );
 	        s+= ( new Pair().format(alignment) );
 	        System.out.println(s);
 		} catch (SequenceParserException e) {
