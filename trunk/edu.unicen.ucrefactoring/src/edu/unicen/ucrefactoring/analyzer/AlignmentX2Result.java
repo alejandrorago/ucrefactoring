@@ -3,11 +3,17 @@ package edu.unicen.ucrefactoring.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.UseCase;
+
 public class AlignmentX2Result {
 	
-	private String sequenceAName;
-	private String sequenceBName;
-	
+	private UseCase useCaseA;
+	private Flow flowA;
+	private UseCase useCaseB;
+	private Flow flowB;
+
 	private String alignmentA;
 	private String alignmentB;
 	
@@ -16,6 +22,8 @@ public class AlignmentX2Result {
 	
 	private Float score;
 	
+	private List<SimilarBlock> similarBlocksA = null;
+	private List<SimilarBlock> similarBlocksB = null;
 	
 	public AlignmentX2Result(String s1, String s2, Integer i1, Integer i2, Float score){
 		this.alignmentA = s1;
@@ -23,20 +31,37 @@ public class AlignmentX2Result {
 		this.startA = i1;
 		this.startB = i2;
 		this.score = score;
+		
 	}
 	
-	public String getSequenceAName() {
-		return sequenceAName;
+	public void setSimilarBlocksB(List<SimilarBlock> similarBlocks){
+		this.similarBlocksB = similarBlocks;
 	}
-	public void setSequenceAName(String sequenceAName) {
-		this.sequenceAName = sequenceAName;
+	
+	public void setSimilarBlocksA(List<SimilarBlock> similarBlocks){
+		this.similarBlocksA = similarBlocks;
 	}
-	public String getSequenceBName() {
-		return sequenceBName;
+
+	public UseCase getUseCaseA() {
+		return useCaseA;
 	}
-	public void setSequenceBName(String sequenceBName) {
-		this.sequenceBName = sequenceBName;
+
+
+	public void setUseCaseA(UseCase useCaseA) {
+		this.useCaseA = useCaseA;
 	}
+
+
+	public UseCase getUseCaseB() {
+		return useCaseB;
+	}
+
+
+	public void setUseCaseB(UseCase useCaseB) {
+		this.useCaseB = useCaseB;
+	}
+
+
 	public String getAlignmentA() {
 		return alignmentA;
 	}
@@ -69,85 +94,127 @@ public class AlignmentX2Result {
 	}
 	
 	public List<SimilarBlock> getSimilarBlocksFromA(){
-		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
-		int initial = 0;
-		int i = 0;
-		int realIndex = 0;
-		while (i < this.alignmentA.length() - 2){
-			char a = this.alignmentA.charAt(i);
-			char b = this.alignmentB.charAt(i);
-			char a1 = this.alignmentA.charAt(i+1);
-			char b1 = this.alignmentB.charAt(i+1);
-			char a2 = this.alignmentA.charAt(i+2);
-			char b2 = this.alignmentB.charAt(i+2);
-			if (a1 != b1 && a2 != b2){ 	
-				int steps = (realIndex - initial) + 1; // Cantidad de pasos
-				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startA + initial, realIndex);
-					l.add(sb);
-				}
-				i++;
-				if (this.alignmentA.charAt(i) != '-')
-					realIndex++;
-				while (i < this.alignmentA.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+		if (similarBlocksA!=null){
+			return similarBlocksA;
+		}
+		else{
+			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
+			int initial = 0;
+			int i = 0;
+			int realIndex = 0;
+			while (i < this.alignmentA.length() - 2){
+				char a = this.alignmentA.charAt(i);
+				char b = this.alignmentB.charAt(i);
+				char a1 = this.alignmentA.charAt(i+1);
+				char b1 = this.alignmentB.charAt(i+1);
+				char a2 = this.alignmentA.charAt(i+2);
+				char b2 = this.alignmentB.charAt(i+2);
+				if (a1 != b1 && a2 != b2){ 	
+					int steps = (realIndex - initial) + 1; // Cantidad de pasos
+					if(steps > 2){
+						SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex, this);
+						similarBlocks.add(sb);
+					}
 					i++;
 					if (this.alignmentA.charAt(i) != '-')
 						realIndex++;
+					while (i < this.alignmentA.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+						i++;
+						if (this.alignmentA.charAt(i) != '-')
+							realIndex++;
+					}
+					initial = realIndex;
 				}
-				initial = realIndex;
+				else{
+					i++;
+					realIndex++;
+				}
 			}
-			else{
-				i++;
-				realIndex++;
+			int steps = realIndex - initial +2; // Cantidad de pasos
+			if(steps > 2){
+				SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex+1, this);
+				similarBlocks.add(sb);
 			}
+			return similarBlocks;
 		}
-		int steps = realIndex - initial +2; // Cantidad de pasos
-		if(steps > 2){
-			SimilarBlock sb = new SimilarBlock(this.startA + initial, realIndex+1);
-			l.add(sb);
-		}
-		return l;
 	}
 	
 	public List<SimilarBlock> getSimilarBlocksFromB(){
-		List<SimilarBlock> l = new ArrayList<SimilarBlock>();
-		int initial = 0;
-		int i = 0;
-		int realIndex = 0;
-		while (i < this.alignmentB.length() - 2){
-			char a = this.alignmentA.charAt(i);
-			char b = this.alignmentB.charAt(i);
-			char a1 = this.alignmentA.charAt(i+1);
-			char b1 = this.alignmentB.charAt(i+1);
-			char a2 = this.alignmentA.charAt(i+2);
-			char b2 = this.alignmentB.charAt(i+2);
-			if (a1 != b1 && a2 != b2){ 	
-				int steps = (realIndex - initial) + 1; // Cantidad de pasos
-				if(steps > 2){
-					SimilarBlock sb = new SimilarBlock(this.startB + initial, realIndex);
-					l.add(sb);
-				}
-				i++;
-				if (this.alignmentB.charAt(i) != '-')
-					realIndex++;
-				while (i < this.alignmentB.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+		if (similarBlocksB!=null){
+			return similarBlocksB;
+		}
+		else{
+			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
+			int initial = 0;
+			int i = 0;
+			int realIndex = 0;
+			while (i < this.alignmentB.length() - 2){
+				char a = this.alignmentA.charAt(i);
+				char b = this.alignmentB.charAt(i);
+				char a1 = this.alignmentA.charAt(i+1);
+				char b1 = this.alignmentB.charAt(i+1);
+				char a2 = this.alignmentA.charAt(i+2);
+				char b2 = this.alignmentB.charAt(i+2);
+				if (a1 != b1 && a2 != b2){ 	
+					int steps = (realIndex - initial) + 1; // Cantidad de pasos
+					if(steps > 2){
+						SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex, this);
+						similarBlocks.add(sb);
+					}
 					i++;
 					if (this.alignmentB.charAt(i) != '-')
 						realIndex++;
+					while (i < this.alignmentB.length()-2 && this.alignmentA.charAt(i) != this.alignmentB.charAt(i)){
+						i++;
+						if (this.alignmentB.charAt(i) != '-')
+							realIndex++;
+					}
+					initial = realIndex;
 				}
-				initial = realIndex;
+				else{
+					i++;
+					realIndex++;
+				}
 			}
-			else{
-				i++;
-				realIndex++;
+			int steps = realIndex - initial +2; // Cantidad de pasos
+			if(steps > 2){
+				SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex+1, this);
+				similarBlocks.add(sb);
 			}
+			return similarBlocks;
 		}
-		int steps = realIndex - initial +2; // Cantidad de pasos
-		if(steps > 2){
-			SimilarBlock sb = new SimilarBlock(this.startB + initial, realIndex+1);
-			l.add(sb);
+	}
+
+	public void setUseCases(UseCase uc1,Flow flow1, UseCase uc2, Flow flow2) {
+		if(uc1.getName().compareTo(uc2.getName())>0){
+			setUseCaseA(uc1);
+			setFlowA(flow1);
+			setUseCaseB(uc2);
+			setFlowB(flow2);
 		}
-		return l;
+		else{
+			setUseCaseA(uc2);
+			setFlowA(flow2);
+			setUseCaseB(uc1);
+			setFlowB(flow1);
+		}
+	}
+	
+
+	public Flow getFlowA() {
+		return flowA;
+	}
+
+	public void setFlowA(Flow flowA) {
+		this.flowA = flowA;
+	}
+
+	public Flow getFlowB() {
+		return flowB;
+	}
+
+	public void setFlowB(Flow flowB) {
+		this.flowB = flowB;
 	}
 	
 }

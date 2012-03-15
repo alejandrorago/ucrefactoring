@@ -23,6 +23,7 @@ public class SimilarityAnalyzer {
 	private HashMap<String,String> sequences;
 	private UseCaseModel useCaseModel;
 	private ArrayList<String> matrixes;
+	private KeyFinder keyFinder;
 	
 	private HashMap<String, AlignmentX2Result> alignmentResult;
 	private HashMap<String, List<String>> useCaseKeywords;
@@ -76,6 +77,7 @@ public class SimilarityAnalyzer {
 		this.alignmentResult = new HashMap<String, AlignmentX2Result>();
 		this.useCaseKeywords = new HashMap<String, List<String>>();
 		this.stopwordRemover = StopwordRemover.getInstance();
+		this.keyFinder = KeyFinder.getInstance();
 		this.setAllUseCaseKeywords();
 		loadAligners();
 		loadMatrixes();
@@ -84,15 +86,42 @@ public class SimilarityAnalyzer {
 	
 	//=========Services===========================
 	
+	public static String getEventKey(UseCase useCase, Flow flow, Event event){
+		return useCase.getName() + ":" + flow.getName() + ":" + event.getEventId();
+	}
+	
+	public static String getSequenceKey(UseCase useCase, Flow flow){
+		return useCase.getName() + ":" + flow.getName();
+	}
+	
+	public static String getSequenceKey(UseCase useCase, String flowName){
+		return useCase.getName() + ":" + flowName;
+	}
+	
+	public static String getAlignmentKey(UseCase useCaseA,Flow flowA, UseCase useCaseB, Flow flowB){
+		if(useCaseA.getName().compareTo(useCaseB.getName())>0){
+			return useCaseA.getName()+":"+ flowA.getName() + "&" + useCaseB.getName()+":"+flowB.getName();
+		}
+		else{
+			return useCaseB.getName()+":"+ flowB.getName() + "&" + useCaseA.getName()+":"+ flowA.getName();
+		}
+	}
+
+	
 	private void setAllUseCaseKeywords(){
-		for(UseCase uc : useCaseModel.getUseCases()){
-			for(Flow f : uc.getFlows()){
-				for(Event e : f.getEvents()){
-					String key = uc.getName() + ":" + f.getName() + ":" + e.getEventId();
-					List<String> value = this.stopwordRemover.removeStopwords(e.getDetail());
+		for(UseCase useCase : useCaseModel.getUseCases()){
+			for(Flow flow : useCase.getFlows()){
+				for(Event event : flow.getEvents()){
+					String key = getEventKey(useCase, flow, event);
+					List<String> value = this.stopwordRemover.removeStopwords(event.getDetail());
+					
+					//Busco las claves 
+					//value = this.keyFinder.findKeys(value);
+					
 //					System.out.println(key);
 //					System.out.println(value);
 					this.useCaseKeywords.put(key, value);
+					
 				}
 			}
 		}
@@ -139,22 +168,22 @@ public class SimilarityAnalyzer {
 				EList<UseCase> uc_list = useCaseModel.getUseCases();
 				for (int i=0; i <useCaseModel.getUseCases().size(); i++){
 					UseCase uc1 = uc_list.get(i);
-					String seq1 = sequences.get(uc1.getName()+":"+"Basic Flow");
-					for (int j=i+1; j < useCaseModel.getUseCases().size(); j++){
-						UseCase uc2 = uc_list.get(j);
-						String seq2 = sequences.get(uc2.getName()+":"+"Basic Flow");
-						System.out.println(uc1.getName() +" - "+uc2.getName());
-						AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
-						result.setSequenceAName(uc1.getName());
-						result.setSequenceBName(uc2.getName());
-						String key ="";
-						if(uc1.getName().compareTo(uc2.getName())>0){
-							key = uc1.getName()+":"+"Basic Flow" + "&" + uc2.getName()+":"+"Basic Flow";
+					for (Flow f1 : uc1.getFlows()){
+						String seq1 = sequences.get(getSequenceKey(uc1, f1));
+						for (int j=0; j < useCaseModel.getUseCases().size(); j++){							
+							if (i!=j){								
+								UseCase uc2 = uc_list.get(j);
+								for (Flow f2 : uc2.getFlows()){
+									String seq2 = sequences.get(getSequenceKey(uc2,f2));
+									System.out.println(uc1.getName()+"/"+f1.getName() +" - "+uc2.getName()+"/"+f2.getName());
+									AlignmentX2Result result = sa.performAlignment(seq1, seq2, matrix);
+									result.setUseCases(uc1,f1,uc2,f2);
+									if (areSimilar(result)){
+										this.alignmentResult.put(getAlignmentKey(uc1,f1,uc2,f2), result);
+									}
+								}
+							}
 						}
-						else{
-							key = uc2.getName()+":"+"Basic Flow" + "&" + uc1.getName()+":"+"Basic Flow";
-						}
-						this.alignmentResult.put(key, result);
 					}
 				}
 			}
@@ -177,15 +206,49 @@ public class SimilarityAnalyzer {
 //						else s=s+"y";
 						if (ActionCodeEnum.getByName(ac.getName())!=null)s = s + ActionCodeEnum.getByName(ac.getName());
 					}
+					sequences.put(getSequenceKey(uc, f), s);
 				}
-				sequences.put(uc.getName() + ":" + f.getName(), s);
 			}
 		}
 		System.out.println(sequences.toString());
 	}
 	
-	public void scoreBlocksByKeywords(){
+	public boolean areSimilar(AlignmentX2Result alignment){
+		List<SimilarBlock> similarBlocksA = alignment.getSimilarBlocksFromA();
+		List<SimilarBlock> similarBlocksB = alignment.getSimilarBlocksFromB();
+		SimilarBlock similarA;
+		SimilarBlock similarB;
+		String key;
 		
+		int similarCount = 0;
+		
+		for (int i = 0; i<similarBlocksA.size() && i<similarBlocksB.size() ; i++){
+			similarA = similarBlocksA.get(i);
+			similarB = similarBlocksB.get(i);
+			for (Event eventA : similarA.getSimilarEvents()){
+				key = getEventKey(alignment.getUseCaseA(), alignment.getUseCaseA().getFlows().get(0), eventA);
+				List<String> aKeys = this.useCaseKeywords.get(key);
+				
+				for (Event eventB : similarB.getSimilarEvents()){
+					key = getEventKey(alignment.getUseCaseB(), alignment.getUseCaseB().getFlows().get(0), eventB);
+					List<String> bKeys = this.useCaseKeywords.get(key);
+					int count = 0;
+					for (String s : aKeys){
+						if (bKeys.contains(s)) count++;
+					}
+					if (count>=Math.ceil(aKeys.size()/4)) similarCount++;
+				}
+
+			}
+			if (similarCount>=Math.ceil((similarA.getSimilarEvents().size()+similarB.getSimilarEvents().size())/2)){
+				return true;
+			}
+			
+		}
+
+		return false;
 	}
+	
+
 		
 }

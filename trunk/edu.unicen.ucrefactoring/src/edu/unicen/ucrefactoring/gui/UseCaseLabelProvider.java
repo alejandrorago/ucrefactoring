@@ -1,12 +1,14 @@
 package edu.unicen.ucrefactoring.gui;
 
-import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 
-public class UseCaseLabelProvider implements ILabelProvider {
+public class UseCaseLabelProvider extends LabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -40,7 +42,19 @@ public class UseCaseLabelProvider implements ILabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		return ((UseCase)element).getName();
+		if (element instanceof UseCase){
+			UseCase useCase = (UseCase)element;
+			return useCase.getName();
+		}
+		else if (element instanceof Flow){
+			Flow flow = (Flow) element;
+			return flow.getName();
+		}
+		else if (element instanceof Event){
+			Event event = (Event)element;
+			return event.getEventId() +") "+ event.getDetail();
+		}
+		return element.toString();
 	}
 	
 
