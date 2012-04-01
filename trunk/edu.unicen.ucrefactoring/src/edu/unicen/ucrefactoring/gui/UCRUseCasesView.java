@@ -42,7 +42,6 @@ public class UCRUseCasesView extends ViewPart {
 	//Providers
 	private static UCRefactoringDetection ucref;
 	private static UseCaseLabelProvider ucLabel;
-	private UseCaseContentProvider ucContentProvider;
 	private UseCaseTreeContentProvider ucTreeContentProvider;
 	private UseCaseListContentProvider ucListContentProvider;
 
@@ -148,6 +147,7 @@ public class UCRUseCasesView extends ViewPart {
 						for (Flow flowB : useCaseB.getFlows()){						
 							String key = SimilarityAnalyzer.getAlignmentKey(useCaseA,flowA,useCaseB,flowB);
 							AlignmentX2Result alignResult = alignResults.get(key);
+							if (alignResult!=null){
 								List<SimilarBlock> similarBlocksA = alignResult.getSimilarBlocksFromA();
 								List<SimilarBlock> similarBlocksB = alignResult.getSimilarBlocksFromB();
 								if (useCaseA.getName().compareTo(useCaseB.getName())>0){
@@ -174,6 +174,7 @@ public class UCRUseCasesView extends ViewPart {
 			//				test.add("client");test.add("person");test.add("system");
 			//				keyFinder.method(test);
 							//===========================
+							}
 						}
 					}
 
@@ -389,20 +390,34 @@ public class UCRUseCasesView extends ViewPart {
 	}
 	
 	public static void updateAlignmentLeft(List<SimilarBlock> similarBlocks,UseCase useCaseA, UseCase useCaseB, AlignmentX2Result align){
+		//Chek to only add the blocks corresponding to the updated align
+		List<SimilarBlock> newSimilars = new ArrayList<SimilarBlock>();
+		for (SimilarBlock sb : similarBlocks){
+			if (sb.getParent().equals(align)){
+				newSimilars.add(sb);
+			}
+		}
 		if (useCaseA.getName().compareTo(useCaseB.getName())>0){
-			align.setSimilarBlocksA(similarBlocks);	
+			align.setSimilarBlocksA(newSimilars);	
 		}
 		else{
-			align.setSimilarBlocksB(similarBlocks);
+			align.setSimilarBlocksB(newSimilars);
 		}
 	}
 	
 	public static void updateAlignmentRight(List<SimilarBlock> similarBlocks,UseCase useCaseA, UseCase useCaseB, AlignmentX2Result align){
+		//Chek to only add the blocks corresponding to the updated align
+		List<SimilarBlock> newSimilars = new ArrayList<SimilarBlock>();
+		for (SimilarBlock sb : similarBlocks){
+			if (sb.getParent().equals(align)){
+				newSimilars.add(sb);
+			}
+		}
 		if (useCaseA.getName().compareTo(useCaseB.getName())>0){
-			align.setSimilarBlocksB(similarBlocks);	
+			align.setSimilarBlocksB(newSimilars);	
 		}
 		else{
-			align.setSimilarBlocksA(similarBlocks);
+			align.setSimilarBlocksA(newSimilars);
 		}
 	}
 	

@@ -69,7 +69,7 @@ public class SimilarBlock {
 						similarEvents.add(event);
 						startEvent++;
 					}
-					if (startEvent == endIndex){
+					if (startEvent > endIndex){
 						break;
 					}
 				}
