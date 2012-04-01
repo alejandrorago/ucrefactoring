@@ -35,8 +35,7 @@ public  class StopwordRemover {
 	       allwords = new ArrayList<String>();
 	       this.similitud = 1;
 	       stopwords.addAll(cargarPalabras(Constants.STOPWORDS_FILE));
-	       stopwords.addAll(cargarPalabras(Constants.WEB_STOPWORDS_FILE));
-	
+	       //stopwords.addAll(cargarPalabras(Constants.WEB_STOPWORDS_FILE));
 	       allwords.addAll( cargarPalabras(Constants.DICTIONARY_FILE));
   
     }
@@ -80,7 +79,10 @@ public  class StopwordRemover {
                 if ( !Character.isLetter(texto.charAt(k-1))||(k==texto.length())){
                     if (k==texto.length()){
                         if (!stopwords.contains(texto.substring(j, k).toLowerCase())&&!result.contains(texto.substring(j,k).toLowerCase()) && texto.substring(j,k).length()>2 )
-                            result.add(texto.substring(j,k).toLowerCase());
+                        	if (!Character.isLetter(texto.substring(k-1, k).toCharArray()[0]))
+                        		result.add(texto.substring(j,k-1).toLowerCase());
+                        	else
+                        		result.add(texto.substring(j,k).toLowerCase());
                     }
                     else if(!stopwords.contains(texto.substring(j, k - 1).toLowerCase())&&!result.contains(texto.substring(j,k-1).toLowerCase())&& texto.substring(j,k-1).length()>2){
                         result.add(texto.substring(j,k-1).toLowerCase());
@@ -167,7 +169,31 @@ public  class StopwordRemover {
             }
             System.out.println("BUSQUEDA SIN LOGICA: "+result);
             return result;
+
      }
 
+     
+     public static void main(String args[]){
+    	 String s = "1. The client selects the option 'Log in' 2. The system asks for the username and password "+
+"3. The client enters data "+
+"4. The system checks the \"log in\" username existance"+
+"5. The system validates password"+
+"6. The system shows the site homepage"+
+"7. The client selects a product"+
+"8. The system displays the available payment options"+
+"9. The client selects the payment mode"+
+"10. The system informs a valid credit card is required"+
+"11. The client provides the card number "+
+"12. The system validates card information"+
+"13. The system saves the sale and informs success"+
+"14. The system displays the product news"+
+"15. The client chooses the product news to follow"+
+"16. The system registers the subscription";  
+    	 StopwordRemover sr = new StopwordRemover();
+    	 for (String stopword : sr.removeStopwords(s)){
+        	 System.out.println(stopword);
+    	 }
+     }
+     
 
 }

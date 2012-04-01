@@ -18,15 +18,21 @@ import edu.unicen.ucrefactoring.util.Constants;
 
 public class SimilarityAnalyzer {
 	
-	private HashMap<String,SequenceAligner> sequenceAligners;
-	private StopwordRemover stopwordRemover;
-	private HashMap<String,String> sequences;
+	//Model
 	private UseCaseModel useCaseModel;
-	private ArrayList<String> matrixes;
-	private KeyFinder keyFinder;
 	
+	//Sequence Alignement
+	private HashMap<String,SequenceAligner> sequenceAligners;
+	private HashMap<String,String> sequences;
+	private ArrayList<String> matrixes;
 	private HashMap<String, AlignmentX2Result> alignmentResult;
+	
+	//Text Analysis
+	private StopwordRemover stopwordRemover;
+	private Stemmer stemmer;
 	private HashMap<String, List<String>> useCaseKeywords;
+
+	
 
 	//========Getters And Setters==================
 	public HashMap<String, String> getSequences() {
@@ -77,7 +83,7 @@ public class SimilarityAnalyzer {
 		this.alignmentResult = new HashMap<String, AlignmentX2Result>();
 		this.useCaseKeywords = new HashMap<String, List<String>>();
 		this.stopwordRemover = StopwordRemover.getInstance();
-		this.keyFinder = KeyFinder.getInstance();
+		this.stemmer = new LovinsStemmer();
 		this.setAllUseCaseKeywords();
 		loadAligners();
 		loadMatrixes();
@@ -113,15 +119,19 @@ public class SimilarityAnalyzer {
 			for(Flow flow : useCase.getFlows()){
 				for(Event event : flow.getEvents()){
 					String key = getEventKey(useCase, flow, event);
+					
+					//StopWord Remover
 					List<String> value = this.stopwordRemover.removeStopwords(event.getDetail());
+					
+					//Stemming Process
+					for (int i = 0; i < value.size(); i++){
+						value.set(i, stemmer.stem(value.get(i)));
+					}
 					
 					//Busco las claves 
 					//value = this.keyFinder.findKeys(value);
-					
-//					System.out.println(key);
-//					System.out.println(value);
+				
 					this.useCaseKeywords.put(key, value);
-					
 				}
 			}
 		}
@@ -181,6 +191,7 @@ public class SimilarityAnalyzer {
 									if (areSimilar(result)){
 										this.alignmentResult.put(getAlignmentKey(uc1,f1,uc2,f2), result);
 									}
+									else System.out.println("DISTINTOS");;
 								}
 							}
 						}
@@ -220,33 +231,51 @@ public class SimilarityAnalyzer {
 		SimilarBlock similarB;
 		String key;
 		
-		int similarCount = 0;
-		
+		List<String> aKeys = new ArrayList<String>();
+		List<String> bKeys = new ArrayList<String>();
 		for (int i = 0; i<similarBlocksA.size() && i<similarBlocksB.size() ; i++){
 			similarA = similarBlocksA.get(i);
 			similarB = similarBlocksB.get(i);
 			for (Event eventA : similarA.getSimilarEvents()){
-				key = getEventKey(alignment.getUseCaseA(), alignment.getUseCaseA().getFlows().get(0), eventA);
-				List<String> aKeys = this.useCaseKeywords.get(key);
-				
-				for (Event eventB : similarB.getSimilarEvents()){
-					key = getEventKey(alignment.getUseCaseB(), alignment.getUseCaseB().getFlows().get(0), eventB);
-					List<String> bKeys = this.useCaseKeywords.get(key);
-					int count = 0;
-					for (String s : aKeys){
-						if (bKeys.contains(s)) count++;
-					}
-					if (count>=Math.ceil(aKeys.size()/4)) similarCount++;
+				key = getEventKey(alignment.getUseCaseA(), alignment.getFlowA(), eventA);
+				for(String newWord : this.useCaseKeywords.get(key)){
+					if (!aKeys.contains(newWord)) aKeys.add(newWord);
 				}
-
-			}
-			if (similarCount>=Math.ceil((similarA.getSimilarEvents().size()+similarB.getSimilarEvents().size())/2)){
-				return true;
-			}
-			
+			}	
+			for (Event eventB : similarB.getSimilarEvents()){
+				key = getEventKey(alignment.getUseCaseB(), alignment.getFlowB(), eventB);
+				for(String newWord : this.useCaseKeywords.get(key)){
+					if (!bKeys.contains(newWord)) bKeys.add(newWord);
+				}	
+			}	
 		}
-
+	
+		double threshold = 0.5;
+		double total = (aKeys.size() + bKeys.size());
+		double similars = 0;
+		for (String aKey : aKeys){
+			for (String bKey : bKeys){
+				if (aKey.equals(bKey) || isPrefix(aKey,bKey)){
+					similars = similars+2;
+				}
+			}
+		}
+		double ratio = similars/total;
+		if (ratio >= threshold){
+			return true;
+		}
 		return false;
+	}
+	
+	public boolean isPrefix(String a, String b){
+		int size = (a.length()<b.length())?a.length():b.length();
+		for (int i = 0; i < size; i++){
+			char aChar = a.toCharArray()[i];
+			char bChar = b.toCharArray()[i];
+			if (aChar != bChar)
+				return false;
+		}
+		return true;
 	}
 	
 

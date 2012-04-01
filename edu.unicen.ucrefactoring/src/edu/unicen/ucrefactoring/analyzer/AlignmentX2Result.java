@@ -22,8 +22,8 @@ public class AlignmentX2Result {
 	
 	private Float score;
 	
-	private List<SimilarBlock> similarBlocksA = null;
-	private List<SimilarBlock> similarBlocksB = null;
+	public List<SimilarBlock> similarBlocksA = null;
+	public List<SimilarBlock> similarBlocksB = null;
 	
 	public AlignmentX2Result(String s1, String s2, Integer i1, Integer i2, Float score){
 		this.alignmentA = s1;
@@ -94,10 +94,7 @@ public class AlignmentX2Result {
 	}
 	
 	public List<SimilarBlock> getSimilarBlocksFromA(){
-		if (similarBlocksA!=null){
-			return similarBlocksA;
-		}
-		else{
+		if (similarBlocksA==null){
 			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
 			int initial = 0;
 			int i = 0;
@@ -135,15 +132,13 @@ public class AlignmentX2Result {
 				SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex+1, this);
 				similarBlocks.add(sb);
 			}
-			return similarBlocks;
+			similarBlocksA = similarBlocks;
 		}
+		return similarBlocksA;
 	}
 	
 	public List<SimilarBlock> getSimilarBlocksFromB(){
-		if (similarBlocksB!=null){
-			return similarBlocksB;
-		}
-		else{
+		if (similarBlocksB==null){
 			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
 			int initial = 0;
 			int i = 0;
@@ -181,8 +176,9 @@ public class AlignmentX2Result {
 				SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex+1, this);
 				similarBlocks.add(sb);
 			}
-			return similarBlocks;
+			similarBlocksB = similarBlocks;
 		}
+		return similarBlocksB;
 	}
 
 	public void setUseCases(UseCase uc1,Flow flow1, UseCase uc2, Flow flow2) {

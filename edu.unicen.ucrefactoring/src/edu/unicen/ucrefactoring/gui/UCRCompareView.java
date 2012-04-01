@@ -153,28 +153,42 @@ public class UCRCompareView extends ViewPart {
 					for (SimilarBlock sb : similarBlocksLeft){
 						for (Event e : candidates){
 							if (sb.getSimilarEvents().contains(e)){
-								sb.getSimilarEvents().removeAll(candidates);
+								List<Event> aux = sb.getSimilarEvents();
+								aux.removeAll(candidates);
+								if (aux.size()==0){
+									similarBlocksLeft.remove(sb);
+								}
+								else{
+									sb.setSimilarEvents(aux);
+								}
 								flow = sb.getFlow();
 								align = sb.getParent();
 								break;
 							}
 						}
 					}
-					UCRUseCasesView.setCompareView(ucLeft, useCaseLeft, flow, similarBlocksLeft);
+					UCRUseCasesView.setCompareView(ucLeft, useCaseLeft, similarBlocksLeft);
 					UCRUseCasesView.updateAlignmentLeft(similarBlocksLeft, useCaseLeft, useCaseRight , align);
 				}
 				else{
 					for (SimilarBlock sb : similarBlocksRight){
 						for (Event e : candidates){
 							if (sb.getSimilarEvents().contains(e)){
-								sb.getSimilarEvents().removeAll(candidates);
+								List<Event> aux = sb.getSimilarEvents();
+								aux.removeAll(candidates);
+								if (aux.size()==0){
+									similarBlocksRight.remove(sb);
+								}
+								else{
+									sb.setSimilarEvents(aux);
+								}
 								flow = sb.getFlow();
 								align = sb.getParent();
 								break;
 							}
 						}
 					}
-					UCRUseCasesView.setCompareView(ucRight, useCaseRight, flow, similarBlocksRight);
+					UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
 					UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseLeft, useCaseRight, align  );
 				}
 								
