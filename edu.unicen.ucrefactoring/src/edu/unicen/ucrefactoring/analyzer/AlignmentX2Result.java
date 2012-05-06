@@ -21,7 +21,9 @@ public class AlignmentX2Result {
 	private Integer startB;
 	
 	private Float score;
+	private Double textSimilarityScore;
 	
+
 	public List<SimilarBlock> similarBlocksA = null;
 	public List<SimilarBlock> similarBlocksB = null;
 	
@@ -196,6 +198,14 @@ public class AlignmentX2Result {
 		}
 	}
 	
+
+	public Double getTextSimilarityScore() {
+		return textSimilarityScore;
+	}
+
+	public void setTextSimilarityScore(Double textSimilarityScore) {
+		this.textSimilarityScore = textSimilarityScore;
+	}
 
 	public Flow getFlowA() {
 		return flowA;
