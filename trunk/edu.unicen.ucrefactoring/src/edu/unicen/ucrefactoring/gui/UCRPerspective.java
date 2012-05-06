@@ -18,9 +18,9 @@ public class UCRPerspective implements IPerspectiveFactory {
 		addFastViews(layout);
 		addViewShortcuts(layout);
 		addPerspectiveShortcuts(layout);
+		layout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView", IPageLayout.LEFT, 0.32f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
 		layout.addView("edu.unicen.ucrefactoring.gui.UCRCompareView", IPageLayout.LEFT, 0.95f, IPageLayout.ID_EDITOR_AREA);
 		layout.addView("edu.unicen.ucrefactoring.gui.UCRDataView", IPageLayout.BOTTOM, 0.5f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
-		layout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView", IPageLayout.LEFT, 0.32f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
 	}
 
 	/**

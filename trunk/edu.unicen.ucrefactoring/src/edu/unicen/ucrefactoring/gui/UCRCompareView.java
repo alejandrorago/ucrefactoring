@@ -25,6 +25,21 @@ import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class UCRCompareView extends ViewPart {
 
@@ -37,6 +52,10 @@ public class UCRCompareView extends ViewPart {
 	
 	static public TreeViewer ucRight;
 	static public TreeViewer ucLeft;
+	
+	static public Button btnCleanLeft;	
+	static public Button btnCleanRight;
+	static public Button btnCompare;
 	
 	public static UseCase useCaseLeft;
 	public static UseCase useCaseRight;
@@ -51,6 +70,7 @@ public class UCRCompareView extends ViewPart {
 	public static List<SimilarBlock> similarBlocksRight;
 	private List<Event> candidates; 
 	public boolean isLeft = true;
+	private Composite composite;
 	
 	public UCRCompareView() {
 		similarBlocksLeft = new ArrayList<SimilarBlock>();
@@ -68,7 +88,6 @@ public class UCRCompareView extends ViewPart {
 	public void createPartControl(Composite parent) {	
 		// Create Layout
 		container_1 = new Composite(parent, SWT.NONE);
-		container_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		
 		createWidgets();
@@ -149,6 +168,7 @@ public class UCRCompareView extends ViewPart {
 			public void run(){
 				Flow flow = null;
 				AlignmentX2Result align = null;
+				List<SimilarBlock> removeCandidates = new ArrayList<SimilarBlock>();
 				if (isLeft){
 					for (SimilarBlock sb : similarBlocksLeft){
 						for (Event e : candidates){
@@ -156,7 +176,7 @@ public class UCRCompareView extends ViewPart {
 								List<Event> aux = sb.getSimilarEvents();
 								aux.removeAll(candidates);
 								if (aux.size()==0){
-									similarBlocksLeft.remove(sb);
+									removeCandidates.add(sb);//similarBlocksLeft.remove(sb);
 								}
 								else{
 									sb.setSimilarEvents(aux);
@@ -166,6 +186,9 @@ public class UCRCompareView extends ViewPart {
 								break;
 							}
 						}
+					}
+					for (SimilarBlock r : removeCandidates){
+						similarBlocksLeft.remove(r);
 					}
 					UCRUseCasesView.setCompareView(ucLeft, useCaseLeft, similarBlocksLeft);
 					UCRUseCasesView.updateAlignmentLeft(similarBlocksLeft, useCaseLeft, useCaseRight , align);
@@ -177,7 +200,7 @@ public class UCRCompareView extends ViewPart {
 								List<Event> aux = sb.getSimilarEvents();
 								aux.removeAll(candidates);
 								if (aux.size()==0){
-									similarBlocksRight.remove(sb);
+									removeCandidates.add(sb);//similarBlocksRight.remove(sb);
 								}
 								else{
 									sb.setSimilarEvents(aux);
@@ -188,8 +211,12 @@ public class UCRCompareView extends ViewPart {
 							}
 						}
 					}
+					for (SimilarBlock r : removeCandidates){
+						similarBlocksLeft.remove(r);
+					}
 					UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
 					UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseLeft, useCaseRight, align  );
+					
 				}
 								
 			}
@@ -257,8 +284,74 @@ public class UCRCompareView extends ViewPart {
 	 */
 	public void createWidgets(){
 		ucLeft = new TreeViewer(container_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		Tree tree = ucLeft.getTree();
 		
 		ucRight = new TreeViewer(container_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		Tree tree_1 = ucRight.getTree();
+		{
+			composite = new Composite(container_1, SWT.NONE);
+		}
+		GroupLayout gl_container_1 = new GroupLayout(container_1);
+		gl_container_1.setHorizontalGroup(
+			gl_container_1.createParallelGroup(GroupLayout.LEADING)
+				.add(GroupLayout.TRAILING, gl_container_1.createSequentialGroup()
+					.addContainerGap()
+					.add(gl_container_1.createParallelGroup(GroupLayout.TRAILING)
+						.add(GroupLayout.LEADING, composite, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+						.add(gl_container_1.createSequentialGroup()
+							.add(tree, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+							.add(18)
+							.add(tree_1, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_container_1.setVerticalGroup(
+			gl_container_1.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_container_1.createSequentialGroup()
+					.addContainerGap()
+					.add(gl_container_1.createParallelGroup(GroupLayout.LEADING)
+						.add(tree_1, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+						.add(tree, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(composite, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		btnCleanLeft = new Button(composite, SWT.CENTER);
+		btnCleanLeft.setText("Clean Left");
+		btnCleanLeft.setEnabled(false);
+		
+		btnCleanRight = new Button(composite, SWT.CENTER);
+		btnCleanRight.setText("Clean Right");
+		btnCleanRight.setEnabled(false);
+		
+		btnCompare = new Button(composite, SWT.CENTER);		
+		btnCompare.setText("Compare");
+		btnCompare.setEnabled(false);
+		
+		GroupLayout gl_composite = new GroupLayout(composite);
+		gl_composite.setHorizontalGroup(
+			gl_composite.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_composite.createSequentialGroup()
+					.add(48)
+					.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+					.add(113)
+					.add(btnCompare, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+					.add(113)
+					.add(btnCleanRight, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+					.add(48))
+		);
+		gl_composite.setVerticalGroup(
+			gl_composite.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_composite.createSequentialGroup()
+					.add(10)
+					.add(gl_composite.createParallelGroup(GroupLayout.LEADING)
+						.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.add(btnCompare, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.add(btnCleanRight, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.add(5))
+		);
+		composite.setLayout(gl_composite);
+		container_1.setLayout(gl_container_1);
 		
 	}
 	
@@ -308,8 +401,99 @@ public class UCRCompareView extends ViewPart {
 				
 			}
 		});
-	}
+		
+		btnCompare.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+					if (useCaseLeft != null && useCaseRight != null){
+						List<SimilarBlock> similarBlocksLeft = new ArrayList<SimilarBlock>();
+						List<SimilarBlock> similarBlocksRight = new ArrayList<SimilarBlock>();
+						for (Flow flowA : useCaseLeft.getFlows()){					
+							for (Flow flowB : useCaseRight.getFlows()){						
+								String key = SimilarityAnalyzer.getAlignmentKey(useCaseLeft,flowA,useCaseRight,flowB);
+								AlignmentX2Result alignResult = UCRUseCasesView.alignResults.get(key);
+								if (alignResult!=null){
+									List<SimilarBlock> similarBlocksA = alignResult.getSimilarBlocksFromA();
+									List<SimilarBlock> similarBlocksB = alignResult.getSimilarBlocksFromB();
+									if (useCaseLeft.getName().compareTo(useCaseRight.getName())>0){
+										similarBlocksLeft.addAll(similarBlocksA);
+										similarBlocksRight.addAll(similarBlocksB);
+									}
+									else{
+										similarBlocksLeft.addAll(similarBlocksB);
+										similarBlocksRight.addAll(similarBlocksA);
+									}
+								}
+							}
+						}
+	
+						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCaseLeft,similarBlocksLeft);
+						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,useCaseRight,similarBlocksRight);
+					
+						UCRCompareView.similarBlocksLeft = (similarBlocksLeft);
+						UCRCompareView.similarBlocksRight = (similarBlocksRight);
+						UCRCompareView.updateButtons();
+				}
+			}
+		});
+		
+		btnCleanLeft.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+					if (useCaseLeft != null){
+						useCaseLeft = null;
+						UCRUseCasesView.useCaseA = null;	
+						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,null);
+						btnCleanLeft.setEnabled(false);
+						if (useCaseRight != null)
+							UCRUseCasesView.setCompareView(UCRCompareView.ucRight,useCaseRight);
+						btnCompare.setEnabled(false);
 
+				}
+			}
+		});
+		
+		btnCleanRight.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				
+					if (useCaseRight != null){
+						useCaseRight = null;
+						UCRUseCasesView.useCaseB = null;	
+						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,null);
+						btnCleanRight.setEnabled(false);
+						if (useCaseLeft != null)
+							UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCaseLeft);
+						btnCompare.setEnabled(false);
+				}
+			}
+		});
+		
+	}
+	
+	
+	public static void updateButtons(){
+		if (useCaseLeft!=null && useCaseLeft.getFlows().size()>0){
+			btnCleanLeft.setEnabled(true);
+		}
+		else{
+			btnCleanLeft.setEnabled(false);
+		}
+		if (useCaseRight != null && useCaseRight.getFlows().size()>0){
+			btnCleanRight.setEnabled(true);
+		}
+		else{
+			btnCleanRight.setEnabled(false);
+		}
+		if (useCaseLeft != null && useCaseRight != null && useCaseLeft.getFlows().size()>0 && useCaseRight.getFlows().size()>0){
+			btnCompare.setEnabled(true);
+		}
+		else{
+			btnCompare.setEnabled(false);
+		}
+	}
 	
 }
 
