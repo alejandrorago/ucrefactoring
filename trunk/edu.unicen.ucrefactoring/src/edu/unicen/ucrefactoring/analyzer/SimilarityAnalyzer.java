@@ -8,6 +8,7 @@ import org.eclipse.emf.common.util.EList;
 
 import edu.unicen.ucrefactoring.model.ActionClass;
 import edu.unicen.ucrefactoring.model.ActionCodeEnum;
+import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.FunctionalEvent;
@@ -30,7 +31,7 @@ public class SimilarityAnalyzer {
 	//Text Analysis
 	private StopwordRemover stopwordRemover;
 	private Stemmer stemmer;
-	private HashMap<String, List<String>> useCaseKeywords;
+	private static HashMap<String, List<String>> useCaseKeywords;
 
 	
 
@@ -261,13 +262,17 @@ public class SimilarityAnalyzer {
 			}
 		}
 		double ratio = similars/total;
+		
+		//save the ratio in the align object for metric collection
+		alignment.setTextSimilarityScore(ratio);
+		
 		if (ratio >= threshold){
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean isPrefix(String a, String b){
+	public static boolean isPrefix(String a, String b){
 		int size = (a.length()<b.length())?a.length():b.length();
 		for (int i = 0; i < size; i++){
 			char aChar = a.toCharArray()[i];
@@ -278,6 +283,67 @@ public class SimilarityAnalyzer {
 		return true;
 	}
 	
-
+	public static Float getTextSimilarity(UseCase useCase1, UseCase useCase2){
+		String key;
+		List<String> aKeys = new ArrayList<String>();
+		List<String> bKeys = new ArrayList<String>();
+		//get keys from usecase1
+		for (Flow flow1 : useCase1.getFlows()){
+			for (Event event1 : flow1.getEvents()){
+				key = getEventKey(useCase1, flow1, event1);
+				for(String newWord : SimilarityAnalyzer.useCaseKeywords.get(key)){
+					if (!aKeys.contains(newWord)) aKeys.add(newWord);
+				}
+			}
+		}
+		//get keys from usecase2
+		for (Flow flow2 : useCase2.getFlows()){
+			for (Event event2 : flow2.getEvents()){
+				key = getEventKey(useCase2, flow2, event2);
+				for(String newWord : SimilarityAnalyzer.useCaseKeywords.get(key)){
+					if (!bKeys.contains(newWord)) bKeys.add(newWord);
+				}
+			}
+		}	
+			
+		Float total = (float) (aKeys.size() + bKeys.size());
+		Float similars = 0f;
+		for (String aKey : aKeys){
+			for (String bKey : bKeys){
+				if (aKey.equals(bKey) || SimilarityAnalyzer.isPrefix(aKey,bKey)){
+					similars = similars+2;
+				}
+			}
+		}
+		Float textSimilarity = similars/total;
 		
+		return textSimilarity;
+	}
+		
+	
+	public static Float getActorSimilarity(UseCase useCase1, UseCase useCase2){		
+		List<Actor> aActors = new ArrayList<Actor>();
+		List<Actor> bActors = new ArrayList<Actor>();
+		//get actors from usecase1
+		aActors.add(useCase1.getPrimaryActor());
+		aActors.addAll(useCase1.getSecondaryActors());
+		//get actors from usecase2
+		bActors.add(useCase2.getPrimaryActor());
+		bActors.addAll(useCase2.getSecondaryActors());
+			
+		Float total = (float) (aActors.size() + bActors.size());
+		Float similars = 0f;
+		if (aActors.size()>0 && bActors.size()>0 && aActors.get(0)!=null && bActors.get(0)!=null)
+		for (Actor aActor : aActors){
+			for (Actor bActor : bActors){
+				if (aActor.equals(bActor)){
+					similars = similars+2;
+				}
+			}
+		}
+		Float actorSimilarity = similars/total;
+		
+		return actorSimilarity;
+	}
+	
 }
