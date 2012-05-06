@@ -11,6 +11,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.text.TextViewer;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
@@ -33,26 +35,30 @@ import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
 import edu.unicen.ucrefactoring.model.Condition;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.model.impl.UCRefactoringFactoryImpl;
+
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class UCRUseCasesView extends ViewPart {
 	
 	public static final String ID = "edu.unicen.ucrefactoring.gui.UCRUseCasesView"; //$NON-NLS-1$
 
 	//Providers
-	private static UCRefactoringDetection ucref;
+	public static UCRefactoringDetection ucref;
 	private static UseCaseLabelProvider ucLabel;
-	private UseCaseTreeContentProvider ucTreeContentProvider;
-	private UseCaseListContentProvider ucListContentProvider;
+	private static UseCaseTreeContentProvider ucTreeContentProvider;
+	private static UseCaseListContentProvider ucListContentProvider;
 
 	
-	static //maps
-	HashMap<String,AlignmentX2Result> alignResults;
+	static public HashMap<String,AlignmentX2Result> alignResults;
 	private Composite container_1;
 
 	//UseCases
-	private UseCase useCaseA;
-	private UseCase useCaseB;
+	static public UseCase useCaseA;
+	static public UseCase useCaseB;
 	
 	// Actions
 	private Action compareAction;
@@ -60,6 +66,13 @@ public class UCRUseCasesView extends ViewPart {
 	
 	
 	public UCRUseCasesView() {
+		initUseCasesView();
+	}
+	
+
+	//==============Servicios==========================
+	
+	public static void initUseCasesView(){
 		//Providers
 		ucref = new UCRefactoringDetection(false);
 		ucLabel = new UseCaseLabelProvider();
@@ -70,12 +83,11 @@ public class UCRUseCasesView extends ViewPart {
 		//TODO: Find out a better way to initialize and compare use cases
 		ucref.compareUseCases();
 		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
+		
+		useCaseA = null;
+		useCaseB = null;
 	}
 	
-
-	//==============Servicios==========================
-	
-
 	/**
 	 * Create contents of the view part.
 	 * @param parent
@@ -125,6 +137,7 @@ public class UCRUseCasesView extends ViewPart {
 		container_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		ucList = new ListViewer(container, SWT.MULTI | SWT.BORDER);
+		org.eclipse.swt.widgets.List list = ucList.getList();
 		ucList.setContentProvider(ucListContentProvider);
 		ucList.setLabelProvider(ucLabel);
 		ucList.setInput(ucref);
@@ -153,27 +166,11 @@ public class UCRUseCasesView extends ViewPart {
 								if (useCaseA.getName().compareTo(useCaseB.getName())>0){
 									similarBlocksLeft.addAll(similarBlocksA);
 									similarBlocksRight.addAll(similarBlocksB);
-//									setCompareView(UCRCompareView.ucLeft,useCaseA,flowA,similarBlocksA);
-//									setCompareView(UCRCompareView.ucRight,useCaseB,flowB,similarBlocksB);
-
 								}
 								else{
 									similarBlocksLeft.addAll(similarBlocksB);
 									similarBlocksRight.addAll(similarBlocksA);
-//									setCompareView(UCRCompareView.ucLeft,useCaseA,flowA,similarBlocksB);
-//									setCompareView(UCRCompareView.ucRight,useCaseB,flowB,similarBlocksA);
 								}
-			
-								//setUseCaseContentToTextViewer(UCRCompareView.leftViewer,useCaseA,alignResult.getSimilarBlocksFromA());
-								//setUseCaseContentToTextViewer(UCRCompareView.rightViewer,useCaseB,alignResult.getSimilarBlocksFromB());
-							
-							
-							//===Prueba del Key Finder===TODO: DECIDIR SI LO SACAMOS!!!
-			//				keyFinder = new KeyFinder();
-			//				List<String> test = new ArrayList<String>();
-			//				test.add("client");test.add("person");test.add("system");
-			//				keyFinder.method(test);
-							//===========================
 							}
 						}
 					}
@@ -181,11 +178,12 @@ public class UCRUseCasesView extends ViewPart {
 					setCompareView(UCRCompareView.ucLeft,useCaseA,similarBlocksLeft);
 					setCompareView(UCRCompareView.ucRight,useCaseB,similarBlocksRight);
 				
-					
 					UCRCompareView.similarBlocksLeft = (similarBlocksLeft);
 					UCRCompareView.useCaseLeft = useCaseA;
 					UCRCompareView.similarBlocksRight = (similarBlocksRight);
 					UCRCompareView.useCaseRight = useCaseB;
+					UCRCompareView.updateButtons();
+
 				}
 			}
 		};
@@ -199,9 +197,13 @@ public class UCRUseCasesView extends ViewPart {
 	 * Create the context popup menu
 	 */
 	private void initListContextMenu()	{
+		/**
+		 * Commented. now compare action is executed with a button and not context menu.
+		 * 
 		MenuManager menuManager = new MenuManager("#PopupMenu");
 		menuManager.setRemoveAllWhenShown(true);
 		
+		//Listener for contextual menu
 		menuManager.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
@@ -213,6 +215,7 @@ public class UCRUseCasesView extends ViewPart {
 		Menu menu = menuManager.createContextMenu(ucList.getList());
 		ucList.getList().setMenu(menu);
 		getSite().registerContextMenu(menuManager, ucList);
+		**/
 		
 	}
 	
@@ -220,6 +223,9 @@ public class UCRUseCasesView extends ViewPart {
 
 	public void createListeners(){
 		//Listener de cambio de selección en la lista(Double click)
+		/**
+		 * Commented selection changed event. now compare action is executed by a button.
+		 * 
 		ucList.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -247,6 +253,44 @@ public class UCRUseCasesView extends ViewPart {
 				
 			}
 		});
+		**/
+		
+		//Listener for double click event on use cases list
+		ucList.addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				// TODO Auto-generated method stub
+				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+				if (selection.size()==1){
+					if (useCaseA == null)
+						useCaseA = (UseCase)selection.toList().get(0);
+					else
+						useCaseB = (UseCase)selection.toList().get(0);
+				}
+				
+				if (useCaseA != null ){
+					UCRCompareView.useCaseLeft = useCaseA;
+					setCompareView(UCRCompareView.ucLeft,useCaseA);
+					UCRCompareView.btnCleanLeft.setEnabled(true);
+				}
+				
+				if (useCaseB != null ){
+					UCRCompareView.useCaseRight = useCaseB;
+					setCompareView(UCRCompareView.ucRight,useCaseB);
+					UCRCompareView.btnCleanRight.setEnabled(true);
+				}
+				
+				if (useCaseA != null && useCaseB != null){
+					UCRCompareView.btnCompare.setEnabled(true);
+				}
+				else{
+					UCRCompareView.btnCompare.setEnabled(false);
+				}
+				
+			}
+		});
+		
 	}
 	
 	
@@ -301,45 +345,6 @@ public class UCRUseCasesView extends ViewPart {
 		textViewer.refresh();
 	}
 	
-	/**
-	 * Método que presenta los casos de uso en las pantallas para comparación
-	 * @param textViewer
-	 * @param useCase
-	 */
-	public static void setCompareView(TreeViewer treeViewer , UseCase useCase, Flow flow, List<SimilarBlock> similarBlocks){
-			
-		treeViewer.setContentProvider(new UseCaseTreeContentProvider(useCase));
-		treeViewer.setLabelProvider(ucLabel);
-		treeViewer.setInput(ucref);		
-		treeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
-	
-		TreeItem[] tree  = treeViewer.getTree().getItems();
-		int count = 0;
-		int[] colors = {SWT.COLOR_RED,SWT.COLOR_BLUE,SWT.COLOR_GREEN,SWT.COLOR_YELLOW,SWT.COLOR_MAGENTA};
-		for (int i = 0; i<tree.length ; i++){
-			System.out.println(tree[i].getData());
-			if (tree[i].getData() instanceof Flow && ((Flow)tree[i].getData()).getName().equals(flow.getName())){
-				tree = tree[i].getItems();
-				for (SimilarBlock similar : similarBlocks){
-					boolean isSimilar = false;
-					if (similar.getFlow().getName().equals(flow.getName())){
-						for (Event e : similar.getSimilarEvents()){
-							for (TreeItem ti : tree){
-								if (ti.getData() instanceof Event){
-									Event treeEvent = (Event)ti.getData();
-									if (treeEvent.getNumber() == e.getNumber()){				
-										ti.setBackground(Display.getCurrent().getSystemColor(colors[count%5]));
-										isSimilar = true;
-									}
-								}						
-							}
-						}
-					}
-					if (isSimilar)count++;
-				}
-			}
-		}
-	}
 	
 	
 	/**
@@ -389,35 +394,61 @@ public class UCRUseCasesView extends ViewPart {
 		}
 	}
 	
+	/**
+	 * Método that presents a use case on screen
+	 * @param textViewer
+	 * @param useCase
+	 */
+	public static void setCompareView(TreeViewer treeViewer , UseCase useCase){
+		
+		if (useCase == null){
+			UCRefactoringFactory factory = UCRefactoringFactory.eINSTANCE;
+			UseCase emptyUseCase  = factory.createUseCase();
+			treeViewer.setContentProvider(new UseCaseTreeContentProvider(emptyUseCase));
+			treeViewer.setLabelProvider(ucLabel);
+			treeViewer.setInput(ucref);		
+		}
+		else{
+			treeViewer.setContentProvider(new UseCaseTreeContentProvider(useCase));
+			treeViewer.setLabelProvider(ucLabel);
+			treeViewer.setInput(ucref);		
+			treeViewer.expandToLevel(TreeViewer.ALL_LEVELS);
+		}
+	}
+	
 	public static void updateAlignmentLeft(List<SimilarBlock> similarBlocks,UseCase useCaseA, UseCase useCaseB, AlignmentX2Result align){
 		//Chek to only add the blocks corresponding to the updated align
 		List<SimilarBlock> newSimilars = new ArrayList<SimilarBlock>();
-		for (SimilarBlock sb : similarBlocks){
-			if (sb.getParent().equals(align)){
-				newSimilars.add(sb);
+		if (align != null){
+			for (SimilarBlock sb : similarBlocks){
+				if (sb.getParent() != null && sb.getParent().equals(align)){
+					newSimilars.add(sb);
+				}
 			}
-		}
-		if (useCaseA.getName().compareTo(useCaseB.getName())>0){
-			align.setSimilarBlocksA(newSimilars);	
-		}
-		else{
-			align.setSimilarBlocksB(newSimilars);
+			if (useCaseA.getName().compareTo(useCaseB.getName())>0){
+				align.setSimilarBlocksA(newSimilars);	
+			}
+			else{
+				align.setSimilarBlocksB(newSimilars);
+			}
 		}
 	}
 	
 	public static void updateAlignmentRight(List<SimilarBlock> similarBlocks,UseCase useCaseA, UseCase useCaseB, AlignmentX2Result align){
 		//Chek to only add the blocks corresponding to the updated align
 		List<SimilarBlock> newSimilars = new ArrayList<SimilarBlock>();
-		for (SimilarBlock sb : similarBlocks){
-			if (sb.getParent().equals(align)){
-				newSimilars.add(sb);
+		if (align != null){
+			for (SimilarBlock sb : similarBlocks){
+				if (sb.getParent() != null && sb.getParent().equals(align)){
+					newSimilars.add(sb);
+				}
 			}
-		}
-		if (useCaseA.getName().compareTo(useCaseB.getName())>0){
-			align.setSimilarBlocksB(newSimilars);	
-		}
-		else{
-			align.setSimilarBlocksA(newSimilars);
+			if (useCaseA.getName().compareTo(useCaseB.getName())>0){
+				align.setSimilarBlocksB(newSimilars);	
+			}
+			else{
+				align.setSimilarBlocksA(newSimilars);
+			}
 		}
 	}
 	
@@ -432,5 +463,8 @@ public class UCRUseCasesView extends ViewPart {
 		}
 	}
 
-		
+
+
+
+	
 }
