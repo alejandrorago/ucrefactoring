@@ -144,8 +144,16 @@ public class ModelCreator {
 		 for (UseCaseSpecification ucs : project.getUseCaseSpecifications()){
 			 UseCase useCase = factory.createUseCase();
 			 useCase.setName(ucs.getName());
-			 useCase.setDescription(ucs.getContent());			 
-			
+			 useCase.setDescription(ucs.getContent());	
+			 if (ucs.getMainActor() != null){
+				 for (int i =0; i < useCaseModel.getActors().size(); i++){
+					 if (ucs.getMainActor().getName().equalsIgnoreCase(useCaseModel.getActors().get(i).getName())){
+						 useCase.setPrimaryActor(useCaseModel.getActors().get(i));
+					 }
+				 }
+			 }
+			 // TODO AGREGAR ACTORES SECUNDARIOS POR CASO DE USO
+			 
 			 // Busco el Caso de Uso correspondiente
 			 Document actualDoc = null;
 			 for(Document d : allDocs){
