@@ -65,7 +65,7 @@ public class UCRDataView extends ViewPart {
 	
 	public UCRDataView() {	
 		//Providers
-		ucref = new UCRefactoringDetection(false);
+		ucref = new UCRefactoringDetection(true);
 		extLabel = new RefactoringLabelProvider();
 		refactorings = new HashMap<String,Refactoring>();
 		metrics = new HashMap<String,Metric>();

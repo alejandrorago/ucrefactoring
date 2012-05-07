@@ -74,7 +74,7 @@ public class UCRUseCasesView extends ViewPart {
 	
 	public static void initUseCasesView(){
 		//Providers
-		ucref = new UCRefactoringDetection(false);
+		ucref = new UCRefactoringDetection(true);
 		ucLabel = new UseCaseLabelProvider();
 		//ucContentProvider = new UseCaseContentProvider(ucref.getUseCaseModel());
 		ucListContentProvider =  new UseCaseListContentProvider(ucref.getUseCaseModel());

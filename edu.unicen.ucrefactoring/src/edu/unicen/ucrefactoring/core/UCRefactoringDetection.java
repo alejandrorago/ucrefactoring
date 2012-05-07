@@ -92,7 +92,7 @@ public class UCRefactoringDetection  {
 			
 			//========PATH DE ARCHIVOS UIMA================
 			//String uimaPath=Constants.REA_PATH+"HWS-short.uima";
-			String uimaPath=Constants.USE_CASE_SPECS_PATH+"ShoppingOnline.uima";
+			String uimaPath=Constants.USE_CASE_SPECS_PATH+"ShoppingOnline1.uima";
 			//=============================================
 	
 			//=======PATH DE ARCHIVOS UCS==================
@@ -104,9 +104,9 @@ public class UCRefactoringDetection  {
 				modelCreator = new ModelCreator();
 				modelCreator.loadExistingFile(new File(Constants.OUTPUT_RESOURCE_DIR));
 				UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
-				//UCRefactoringDetection.updateDomainActions();
-				//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
-				//modelCreator.exportModel(); 
+				UCRefactoringDetection.updateDomainActions();
+				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+				modelCreator.exportModel(); 
 				modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 
 			}else{
