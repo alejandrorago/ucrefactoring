@@ -1,30 +1,23 @@
 package edu.unicen.ucrefactoring.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
 
@@ -37,10 +30,6 @@ import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
-import edu.unicen.ucrefactoring.model.impl.UCRefactoringFactoryImpl;
-
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
 
 public class UCRUseCasesView extends ViewPart {
 	
@@ -74,7 +63,7 @@ public class UCRUseCasesView extends ViewPart {
 	
 	public static void initUseCasesView(){
 		//Providers
-		ucref = new UCRefactoringDetection(true);
+		ucref = new UCRefactoringDetection(false);
 		ucLabel = new UseCaseLabelProvider();
 		//ucContentProvider = new UseCaseContentProvider(ucref.getUseCaseModel());
 		ucListContentProvider =  new UseCaseListContentProvider(ucref.getUseCaseModel());

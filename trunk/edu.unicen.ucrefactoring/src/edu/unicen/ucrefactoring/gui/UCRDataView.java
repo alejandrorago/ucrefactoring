@@ -5,13 +5,20 @@ import java.util.HashMap;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.ui.part.ViewPart;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
@@ -36,14 +43,6 @@ import edu.unicen.ucrefactoring.refactorings.GeneralizationRefactoring;
 import edu.unicen.ucrefactoring.refactorings.InclusionRefactoring;
 import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ListViewer;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 public class UCRDataView extends ViewPart {
 
@@ -65,7 +64,7 @@ public class UCRDataView extends ViewPart {
 	
 	public UCRDataView() {	
 		//Providers
-		ucref = new UCRefactoringDetection(true);
+		ucref = new UCRefactoringDetection(false);
 		extLabel = new RefactoringLabelProvider();
 		refactorings = new HashMap<String,Refactoring>();
 		metrics = new HashMap<String,Metric>();
