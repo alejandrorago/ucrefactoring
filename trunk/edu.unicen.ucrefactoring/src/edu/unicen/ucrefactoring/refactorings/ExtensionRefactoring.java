@@ -1,19 +1,18 @@
 package edu.unicen.ucrefactoring.refactorings;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
-import edu.unicen.ucrefactoring.gui.UCRDataView;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.ExtensionPoint;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
-import edu.unicen.ucrefactoring.model.UseCaseModel;
-import edu.unicen.ucrefactoring.model.impl.UCRefactoringFactoryImpl;
+import edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl;
 
 
 /**
@@ -73,6 +72,8 @@ public class ExtensionRefactoring implements Refactoring{
 			basicFlow.getEvents().addAll(this.alignment.getFlowA().getEvents());
 			basicFlow.setUseCase(extendingUC);
 			extendingUC.getFlows().add(basicFlow);
+			// Add new uc to the model
+			UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(extendingUC);
 		}
 		else{
 			if (this.alignment.getFlowA().getName().equals("Basic Flow")){
@@ -85,10 +86,40 @@ public class ExtensionRefactoring implements Refactoring{
 			}
 		}
 		if(baseUseCaseA != null){
-			Flow f = this.alignment.getFlowA();
-			//f.get
+			this.editBaseFlow(this.alignment.getFlowA(), extendingUC);
 		}
-		
+		if(baseUseCaseB != null){
+			this.editBaseFlow(this.alignment.getFlowB(), extendingUC);
+		}
+	}
+	
+	private void editBaseFlow(Flow fToRemove, UseCase extUC){
+		String[] name = {};
+		name = fToRemove.getName().split("\\. ");
+		if (name.length < 2)
+			name = fToRemove.getName().split("\\.");
+		String parentEvent = name[0];
+		String condition = name[1];
+		// Edit the Basic Flow
+		UseCase baseUC = fToRemove.getUseCase();
+		Flow basicFlow = baseUC.getBasicFlow();
+		List<Event> evs = basicFlow.getEvents();
+		for (Event e : evs){
+			if (e.getNumber().equals(new Integer(parentEvent))){
+				// Create Ext Point in the basic flow from parent event
+				ExtensionPoint ep = UCRefactoringFactory.eINSTANCE.createExtensionPoint();
+				ep.setCondition(condition);
+				ep.setEventId(e.getEventId());
+				ep.setNumber(e.getNumber());
+				ep.setDetail(e.getDetail() + "#Extension Point [" + ep.getCondition() + "]");
+				ep.getExtendedUseCases().add(extUC);
+				basicFlow.getEvents().add(basicFlow.getEvents().indexOf(e), ep);
+				basicFlow.getEvents().remove(e);
+				break;
+			}
+		}
+		// Delete Alt Flow
+		baseUC.getFlows().remove(fToRemove);
 	}
 
 	@Override

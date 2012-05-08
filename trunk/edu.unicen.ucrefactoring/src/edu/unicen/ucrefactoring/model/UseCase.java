@@ -196,5 +196,11 @@ public interface UseCase extends EObject {
 	 * @generated
 	 */
 	void setParent(UseCase value);
+	
+	/**
+	 * Returns the basic flow
+	 * @return
+	 */
+	Flow getBasicFlow();
 
 } // UseCase

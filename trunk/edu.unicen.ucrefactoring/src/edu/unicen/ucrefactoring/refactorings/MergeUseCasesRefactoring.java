@@ -3,12 +3,9 @@ package edu.unicen.ucrefactoring.refactorings;
 import java.util.HashMap;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
-import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
-import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularFRMetric;
 import edu.unicen.ucrefactoring.metrics.ShortUseCaseMetric;
-import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 
 
@@ -33,12 +30,17 @@ public class MergeUseCasesRefactoring implements Refactoring{
 		this.useCaseA = useCase1;
 		this.useCaseB = useCase2;
 		//this.alignment = alignment;
+		this.metrics = new HashMap<String, Metric>();
 	}
 	
 	@Override
 	public boolean canApply() {
-		// TODO canApply function in Merge Refactoring
-		return true;
+		for (Metric metric : this.metrics.values()){
+			if (metric.isType(Metric.ENCAPSULATED_FUNCTIONAL)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -81,10 +83,10 @@ public class MergeUseCasesRefactoring implements Refactoring{
 				}
 			}
 			//get confiability score
-			confiability = (actorCoef*textCoef*shortCoef);
+			confiability = (actorCoef*textCoef);
 			
 			//getScore
-			this.score = (float)((confiability*(0.4) + this.getPriority()*(0.6)))*100;
+			this.score = (float)((confiability*(0.25)+shortCoef*(0.15)+ this.getPriority()*(0.6)))*100;
 		}
 		return this.score;
 	}
