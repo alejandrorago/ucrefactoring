@@ -517,4 +517,13 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		return result.toString();
 	}
 
+	@Override
+	public Flow getBasicFlow() {
+		for (Flow f : this.flows){
+			if (f.getName().equals("Basic Flow"))
+				return f;
+		}
+		return null;
+	}
+
 } //UseCaseImpl
