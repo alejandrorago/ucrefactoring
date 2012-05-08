@@ -73,7 +73,7 @@ public class SimilarityAnalyzer {
 		return stopwordRemover;
 	}
 	
-	public void setStopwordRemover(StopwordRemover stopwordRemover) {
+	public void setStopwordRemover(StopwordRemover loadSequencesstopwordRemover) {
 		this.stopwordRemover = stopwordRemover;
 	}
 

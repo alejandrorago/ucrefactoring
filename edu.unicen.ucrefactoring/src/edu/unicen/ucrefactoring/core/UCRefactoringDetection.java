@@ -11,8 +11,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
 
 import uima.cas.CasPackage;
 import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
@@ -104,9 +102,9 @@ public class UCRefactoringDetection  {
 				modelCreator = new ModelCreator();
 				modelCreator.loadExistingFile(new File(Constants.OUTPUT_RESOURCE_DIR));
 				UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
-				UCRefactoringDetection.updateDomainActions();
-				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
-				modelCreator.exportModel(); 
+				//UCRefactoringDetection.updateDomainActions();
+				//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+				//modelCreator.exportModel(); 
 				modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 
 			}else{
@@ -120,6 +118,9 @@ public class UCRefactoringDetection  {
 				//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 				
 				useCaseModel = modelCreator.getParsedUseCaseModel();
+//				UCRefactoringDetection.updateDomainActions();
+//				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+//				modelCreator.exportModel();
 			}
 			
 		}
