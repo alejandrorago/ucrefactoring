@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edu.isistan.dal.ucs:UCSProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:edu.isistan.dal.ucs="http://www.users.exa.unicen.edu.ar/~arago/ucs" ID="_ZxZOgJlkEeGrYYxW4qPZUQ" Name="Shopping Online" Content="The system allows the online sale of products and services. The employees can post new products and make some maintenance tasks. The clients can order products, manage orders and make personal configurations of preferences for the site." Documents="_Zxdf8JlkEeGrYYxW4qPZUQ _ZxeHAJlkEeGrYYxW4qPZUQ _ZxeuEJlkEeGrYYxW4qPZUQ _W32ZEJllEeGrYYxW4qPZUQ" Stakeholders="_JVHM0JllEeGrYYxW4qPZUQ _6FbhIJllEeGrYYxW4qPZUQ _b4DuIJlmEeGrYYxW4qPZUQ">
+  <Actors ID="_JVHM0JllEeGrYYxW4qPZUQ" Name="Client" Content="The person who enters the site with the purpose of searching and buying products." Stereotype="HUMAN"/>
+  <Actors ID="_6FbhIJllEeGrYYxW4qPZUQ" Name="Employee" Content="The person who works for the product retailer and mantains the content of the website, adding and removing products and posts." Stereotype="HUMAN"/>
+  <Actors ID="_b4DuIJlmEeGrYYxW4qPZUQ" Name="User" Content="This actor represents all the persons that uses the system, including clients and employees." Stereotype="HUMAN"/>
+  <UseCaseSpecifications ID="_W32ZEJllEeGrYYxW4qPZUQ" Name="Login" Content="This use case allows the identification and authentication of users that uses the system, including the clients and the employees." Sections="_W32ZEZllEeGrYYxW4qPZUQ" MainActor="_b4DuIJlmEeGrYYxW4qPZUQ">
+    <BasicFlow ID="_W32ZEZllEeGrYYxW4qPZUQ" Name="Basic Flow" Content="1. The client selects the login option&#xA;2. The system prompts for username and password&#xA;3. The client types required data&#xA;4. The system ensures the username and password are valid&#xA;5. The system shows the main menu"/>
+  </UseCaseSpecifications>
+  <ProblemStatement ID="_Zxdf8JlkEeGrYYxW4qPZUQ" Name="Problem Statement"/>
+  <Glossary ID="_ZxeHAJlkEeGrYYxW4qPZUQ" Name="Glossary" Content="This document contains all glossary entries of the project."/>
+  <Vision ID="_ZxeuEJlkEeGrYYxW4qPZUQ" Name="Vision" Sections="_ZxhKUJlkEeGrYYxW4qPZUQ _ZxhKUZlkEeGrYYxW4qPZUQ _ZxhKUplkEeGrYYxW4qPZUQ _ZxhKU5lkEeGrYYxW4qPZUQ">
+    <BusinessRequirements ID="_ZxhKUJlkEeGrYYxW4qPZUQ" Name="Business Requirements"/>
+    <ProductOverview ID="_ZxhKUZlkEeGrYYxW4qPZUQ" Name="Product Overview"/>
+    <MajorFeatures ID="_ZxhKUplkEeGrYYxW4qPZUQ" Name="Major Features"/>
+    <Scope ID="_ZxhKU5lkEeGrYYxW4qPZUQ" Name="Scope"/>
+  </Vision>
+</edu.isistan.dal.ucs:UCSProject>
