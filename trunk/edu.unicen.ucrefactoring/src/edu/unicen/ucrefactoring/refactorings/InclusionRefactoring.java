@@ -4,8 +4,12 @@ import java.util.HashMap;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
+import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.InclusionCall;
+import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
 
 public class InclusionRefactoring implements Refactoring{
@@ -43,7 +47,70 @@ public class InclusionRefactoring implements Refactoring{
 		 * 4-
 		 * 
 		 */
-		
+		UseCase baseUseCaseA = null;
+		UseCase baseUseCaseB = null;
+		UseCase includedUC = null;
+		if ((this.alignment.getFlowA().getEvents().size() != this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents().size())&& 
+		    (this.alignment.getFlowB().getEvents().size() != this.alignment.getSimilarBlocksFromB().get(0).getSimilarEvents().size())){
+			// if no similar block is a defined uc, create one for the duplicated functionality
+			baseUseCaseA = this.alignment.getUseCaseA();
+			baseUseCaseB = this.alignment.getUseCaseB();
+			// Create Use Case
+			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
+			includedUC = UCRefactoringFactory.eINSTANCE.createUseCase();
+			includedUC.setName("Default Name");
+			includedUC.setDescription("Default Description");
+			includedUC.setPrimaryActor(null); // No actor in this new use case
+			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+			basicFlow.setName("Basic Flow");
+			basicFlow.getEvents().addAll(this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents());
+			basicFlow.setUseCase(includedUC);
+			includedUC.getFlows().add(basicFlow);
+			// Add new uc to the model
+			UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(includedUC);
+		}
+		else{
+			if (this.alignment.getFlowA().getEvents().size() == this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents().size()){
+				baseUseCaseB = this.alignment.getUseCaseB();
+				includedUC = this.alignment.getUseCaseA();
+			}
+			else{
+				baseUseCaseA =this.alignment.getUseCaseA();
+				includedUC = this.alignment.getUseCaseB();
+			}
+		}
+		if(baseUseCaseA != null){
+			this.editBaseFlow(this.alignment.getSimilarBlocksFromA().get(0), includedUC);
+		}
+		if(baseUseCaseB != null){
+			this.editBaseFlow(this.alignment.getSimilarBlocksFromB().get(0), includedUC);
+		}
+	}
+	
+	private void editBaseFlow(SimilarBlock simBlockToRemove, UseCase includedUC){
+		// Edit the Basic Flow
+		UseCase baseUC = simBlockToRemove.getUseCase();
+		Flow basicFlow = baseUC.getBasicFlow();
+		int beginIndex = simBlockToRemove.getSimilarEvents().get(0).getNumber()-1;
+		int endIndex = simBlockToRemove.getSimilarEvents().get(simBlockToRemove.getSimilarEvents().size()-1).getNumber()-1;
+		for (int i = endIndex; i > beginIndex; i--){
+			basicFlow.getEvents().remove(i);
+			for (int j = i; j< basicFlow.getEvents().size(); j++){
+				Event e = basicFlow.getEvents().get(j);
+				Integer newNumber = e.getNumber()-1;
+				e.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), newNumber.toString()));
+				e.setNumber(newNumber);
+			}
+		}
+		Event finalRemoved = basicFlow.getEvents().get(beginIndex);
+		// Replace in initial pos the new event with the inclusion event
+		InclusionCall ic = UCRefactoringFactory.eINSTANCE.createInclusionCall();
+		ic.setEventId(finalRemoved.getEventId());
+		ic.setNumber(finalRemoved.getNumber());
+		ic.setDetail("Call " + "'"+ includedUC.getName() +"'");
+		ic.getIncludedUseCases().add(includedUC);
+		basicFlow.getEvents().add(beginIndex, ic);
+		basicFlow.getEvents().remove(finalRemoved);
 	}
 
 	@Override
