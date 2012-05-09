@@ -12,7 +12,6 @@ import edu.unicen.ucrefactoring.model.ExtensionPoint;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
-import edu.unicen.ucrefactoring.model.impl.ExtensionPointImpl;
 
 
 /**
@@ -50,7 +49,7 @@ public class ExtensionRefactoring implements Refactoring{
 	public void applyRefactoring() {
 		/**
 		 * Extension refactoring.
-		 * 1- Create new use case
+		 * 1- If Needed, Create new use case
 		 * 2- Name the use case with alternative flow name
 		 * 3- Add flow and events to new use case
 		 * 4- Remove alternative flow and/or duplicate events from use cases
@@ -63,13 +62,14 @@ public class ExtensionRefactoring implements Refactoring{
 			baseUseCaseA = this.alignment.getUseCaseA();
 			baseUseCaseB = this.alignment.getUseCaseB();
 			// Create Use Case
+			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			extendingUC = UCRefactoringFactory.eINSTANCE.createUseCase();
 			extendingUC.setName("Default Name");
 			extendingUC.setDescription("Default Description");
 			extendingUC.setPrimaryActor(null); // No actor in this new use case
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
 			basicFlow.setName("Basic Flow");
-			basicFlow.getEvents().addAll(this.alignment.getFlowA().getEvents());
+			basicFlow.getEvents().addAll(this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents());
 			basicFlow.setUseCase(extendingUC);
 			extendingUC.getFlows().add(basicFlow);
 			// Add new uc to the model
