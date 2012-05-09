@@ -45,6 +45,7 @@ import edu.unicen.ucrefactoring.refactorings.GeneralizationRefactoring;
 import edu.unicen.ucrefactoring.refactorings.InclusionRefactoring;
 import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
+import edu.unicen.ucrefactoring.refactorings.RefactoringCreator;
 
 public class UCRDataView extends ViewPart {
 
@@ -180,11 +181,11 @@ public class UCRDataView extends ViewPart {
 				if (selection.size()==1){
 					ref = (Refactoring) selection.getFirstElement();
 					ref.applyRefactoring();
+					UCRUseCasesView.updateUseCasesView();
+					btnApply.setEnabled(false);
+					cleanViews();
+					showRefactoring(ref,false);
 				}
-				
-				UCRUseCasesView.updateUseCasesView();
-				btnApply.setEnabled(false);
-				cleanViews();
 			}
 		});
 		
@@ -198,47 +199,7 @@ public class UCRDataView extends ViewPart {
 				if (selection.size()==1){
 					ref = (Refactoring)selection.toList().get(0);
 				}
-				
-				if (ref != null){
-					if (ref instanceof ExtractUseCaseRefactoring || ref instanceof DeleteUseCaseRefactoring){
-						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,ref.getUseCase(),new ArrayList<SimilarBlock>());
-						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
-					
-						UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
-						UCRCompareView.useCaseLeft = ref.getUseCase();
-						UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
-						UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
-						UCRCompareView.updateButtonsAndLabels();
-					}
-					else if (ref instanceof DeleteActorRefactoring){
-						UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
-						useCase.setName(((DeleteActorRefactoring) ref).getActor().getName());
-						Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
-						flow.setName(((DeleteActorRefactoring) ref).getActor().getName());
-						useCase.getFlows().add(flow);
-						
-						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCase,new ArrayList<SimilarBlock>());
-						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
-					
-						UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
-						UCRCompareView.useCaseLeft = useCase;
-						UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
-						UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
-						UCRCompareView.updateButtonsAndLabels();
-					}
-					else{
-						AlignmentX2Result align = ref.getAlignment();
-						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,align.getUseCaseA(),align.getSimilarBlocksFromA());
-						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,align.getUseCaseB(),align.getSimilarBlocksFromB());
-					
-						UCRCompareView.similarBlocksLeft = (align.getSimilarBlocksFromA());
-						UCRCompareView.useCaseLeft = align.getUseCaseA();
-						UCRCompareView.similarBlocksRight = (align.getSimilarBlocksFromB());
-						UCRCompareView.useCaseRight = align.getUseCaseB();
-						UCRCompareView.updateButtonsAndLabels();
-					}
-				}
-				
+				showRefactoring(ref,true);
 			}
 		});
 		
@@ -271,134 +232,55 @@ public class UCRDataView extends ViewPart {
 	}
 	
 	public void analyzeRefactorings(){
-		for (Metric metric : metrics.values()){
-			if (metric.isType(Metric.DUPLICATE)){
-				getDuplicateRefactorings(metric);
-			}
-			if (metric.isType(Metric.ENCAPSULATED_FUNCTIONAL)){
-				getNonModularRefactoring(metric);
-			}
-			if (metric.isType(Metric.ENCAPSULATED_NON_FUNCTIONAL)){
-				
-			}
-			if (metric.isType(Metric.NON_SENSE_ACTOR)){
-				getNonSenseActorRefactorings(metric);
-			}
-			if (metric.isType(Metric.NON_SENSE_USECASE)){
-				getNonSenseUseCaseRefactorings(metric);
-			}
-			if (metric.isType(Metric.LARGE_USECASE)){
-				getLargeRefactorings(metric);
-			}
-			if (metric.isType(Metric.SHORT_USECASE)){
-				
-			}
-			if (metric.isType(Metric.HAPPY_USECASE)){
-				
-			}
-			if (metric.isType(Metric.WRONG_USECASE_RELATIONSHIP)){
-				
-			}
-		}
-		
-	}
-	
-	
-	private void getDuplicateRefactorings(Metric metric){
-		String extension = "Extension";
-		int i = 1;
-		for (AlignmentX2Result alignment : ((DuplicateMetric)metric).alignments.values()){
-			if (alignment.getSimilarBlocksFromA().size() >0 && alignment.getSimilarBlocksFromB().size() >0){
-				ExtensionRefactoring extRefactoring = new ExtensionRefactoring(alignment);
-				if (extRefactoring.canApply()){
-					this.refactorings.put(extension+i, extRefactoring);
-				}
-				i++;
-			}
-		}
-		
-		String inclusion = "Inclusion ";
-		i = 1;
-		for (AlignmentX2Result alignment : ((DuplicateMetric)metric).alignments.values()){
-			if (alignment.getSimilarBlocksFromA().size() >0 && alignment.getSimilarBlocksFromB().size() >0){
-				InclusionRefactoring intRefactoring = new InclusionRefactoring(alignment);
-				if (intRefactoring.canApply()){
-					this.refactorings.put(inclusion+i, intRefactoring);
-				}
-				i++;
-			}
-		}
-		
-		String generalization = "Generalization ";
-		i = 1;
-		for (AlignmentX2Result alignment : ((DuplicateMetric)metric).alignments.values()){
-			if (alignment.getSimilarBlocksFromA().size() >0 && alignment.getSimilarBlocksFromB().size() >0){
-				GeneralizationRefactoring genRefactoring = new GeneralizationRefactoring(alignment);
-				if (genRefactoring.canApply()){
-					this.refactorings.put(generalization+i, genRefactoring);
-				}
-				i++;
-			}
-		}
-		
-	}
-	
-	private void getLargeRefactorings(Metric metric){
-		String extraction = "Extraction";
-		int i = 1;
-		for (UseCase uc : ((LargeUseCaseMetric)metric).useCases.values()){
-			ExtractUseCaseRefactoring extractRefactoring = new ExtractUseCaseRefactoring(uc, metric);
-			if (extractRefactoring.canApply()){
-				this.refactorings.put(extraction+i, extractRefactoring);
-			}
-			i++;
-		}
-	}
-	
-	
-	
-	private void	getNonModularRefactoring(Metric metric){
-		String merge = "Merge";
-		int i = 1;
-		for (java.util.List<UseCase> list : ((NonModularFRMetric)metric).getNonModularUseCases().values()){
-			if (list.size()==2){
-				MergeUseCasesRefactoring mergeRefactoring = new MergeUseCasesRefactoring(list.get(0), list.get(1));
-				mergeRefactoring.addMetric(metrics.get(Metric.SHORT_USECASE));
-				if (mergeRefactoring.canApply()){
-					this.refactorings.put(merge+i, mergeRefactoring);
-				}
-				i++;
-			}
-		}
-	}
-	
-	public void getNonSenseUseCaseRefactorings(Metric metric){
-		String delete = "DeleteUsCase";
-		int i = 1;
-		for (UseCase useCase : ((NonSenseUseCaseMetric)metric).useCases.values()){
-			DeleteUseCaseRefactoring deleteUseCaseRefactoring = new DeleteUseCaseRefactoring(useCase);
-			if (deleteUseCaseRefactoring.canApply()){
-				this.refactorings.put(delete+i, deleteUseCaseRefactoring);
-			}
-			i++;
-		}	
-	}
-	
-	public void getNonSenseActorRefactorings(Metric metric){
-		String delete = "DeleteActor";
-		int i = 1;
-		for (Actor actor : ((NonSenseActorMetric)metric).actors.values()){
-			DeleteActorRefactoring deleteActorRefactoring = new DeleteActorRefactoring(actor);
-			if (deleteActorRefactoring.canApply()){
-				this.refactorings.put(delete+i, deleteActorRefactoring);
-			}
-			i++;
-		}	
+		RefactoringCreator refactoringCreator = new RefactoringCreator(this.metrics);
+		this.refactorings = refactoringCreator.createRefactorings();
 	}
 	
 	private void cleanViews(){
 		UCRCompareView.btnCleanLeft.notifyListeners(SWT.Selection, new org.eclipse.swt.widgets.Event());
 		UCRCompareView.btnCleanRight.notifyListeners(SWT.Selection, new org.eclipse.swt.widgets.Event());
 		btnAnalyze.notifyListeners(SWT.Selection, null);
+	}
+	
+	private void showRefactoring(Refactoring ref, boolean doPaint){
+		if (ref != null){
+			if (ref instanceof ExtractUseCaseRefactoring || ref instanceof DeleteUseCaseRefactoring){
+				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,ref.getUseCase(),new ArrayList<SimilarBlock>());
+				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
+			
+				UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseLeft = ref.getUseCase();
+				UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
+				UCRCompareView.updateButtonsAndLabels();
+			}
+			else if (ref instanceof DeleteActorRefactoring){
+				UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
+				useCase.setName(((DeleteActorRefactoring) ref).getActor().getName());
+				Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
+				flow.setName(((DeleteActorRefactoring) ref).getActor().getName());
+				useCase.getFlows().add(flow);
+				
+				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCase,new ArrayList<SimilarBlock>());
+				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
+			
+				UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseLeft = useCase;
+				UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
+				UCRCompareView.updateButtonsAndLabels();
+			}
+			else{
+				AlignmentX2Result align = ref.getAlignment();
+				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,align.getUseCaseA(),(doPaint)?align.getSimilarBlocksFromA():new ArrayList<SimilarBlock>());
+				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,align.getUseCaseB(),(doPaint)?align.getSimilarBlocksFromB():new ArrayList<SimilarBlock>());
+			
+				UCRCompareView.similarBlocksLeft = ((doPaint)?align.getSimilarBlocksFromA():new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseLeft = align.getUseCaseA();
+				UCRCompareView.similarBlocksRight = ((doPaint)?align.getSimilarBlocksFromB():new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseRight = align.getUseCaseB();
+				UCRCompareView.updateButtonsAndLabels();
+			}
+		}
 	}
 }
