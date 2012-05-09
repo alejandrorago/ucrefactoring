@@ -64,6 +64,11 @@ public class UCRefactoringDetection  {
 		initUCRefactoringDetection(loadNew);
 	}
 	
+	public UCRefactoringDetection(UseCaseModel ucModel){
+		super();
+		updateUCRefactoringDetection(ucModel);
+	}
+	
 	//=========Servicios==============
 	
 	private static Resource loadUIMA(String filePath){
@@ -129,6 +134,16 @@ public class UCRefactoringDetection  {
 		}
 	}
 	
+	public static void updateUCRefactoringDetection(UseCaseModel ucModel){
+		if (modelCreator != null){
+			modelCreator.loadFromModel(ucModel);
+			UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
+			//UCRefactoringDetection.updateDomainActions();
+			//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+			//modelCreator.exportModel(); 
+			//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+		}
+	}
 
 	public static void main(String[] args) {
 		

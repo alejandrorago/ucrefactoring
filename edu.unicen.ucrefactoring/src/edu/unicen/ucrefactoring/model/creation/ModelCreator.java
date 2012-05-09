@@ -73,6 +73,12 @@ public class ModelCreator {
 	
 	//========Servicios====================================
 	
+	public void loadFromModel(UseCaseModel ucModel) {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());	
+		EPackage.Registry.INSTANCE.put(UCRefactoringPackage.eNS_URI, UCRefactoringPackage.eINSTANCE);
+		setParsedUseCaseModel(ucModel);
+	}
+	
 	public void loadExistingFile(File file) throws IOException {
 		//Carga el archivo ucs del File pasado como parámetro
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());	

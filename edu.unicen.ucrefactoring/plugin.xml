@@ -25,6 +25,7 @@
    <extension point="org.eclipse.ui.perspectives">
       <perspective
             class="edu.unicen.ucrefactoring.gui.UCRPerspective"
+            icon="src/edu/unicen/ucrefactoring/resources/icon_zoom_up.gif"
             id="edu.unicen.ucrefactoring.gui.UCRPerspective"
             name="Use Case Refactoring">
       </perspective>
@@ -33,12 +34,12 @@
       <view
             class="edu.unicen.ucrefactoring.gui.UCRCompareView"
             id="edu.unicen.ucrefactoring.gui.UCRCompareView"
-            name="Compare">
+            name="Compare Panel">
       </view>
       <view
             class="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
             id="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
-            name="Use Cases">
+            name="Use Case List">
       </view>
       <view
             class="edu.unicen.ucrefactoring.gui.UCRDataView"
