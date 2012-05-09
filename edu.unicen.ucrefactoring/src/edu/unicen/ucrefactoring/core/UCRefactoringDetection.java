@@ -135,7 +135,7 @@ public class UCRefactoringDetection  {
 	}
 	
 	public static void updateUCRefactoringDetection(UseCaseModel ucModel){
-		if (modelCreator != null){
+		if (ucModel != null){
 			modelCreator.loadFromModel(ucModel);
 			UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
 			//UCRefactoringDetection.updateDomainActions();

@@ -33,6 +33,7 @@
    <extension point="org.eclipse.ui.views">
       <view
             class="edu.unicen.ucrefactoring.gui.UCRCompareView"
+            icon="src/edu/unicen/ucrefactoring/resources/compareView.ico"
             id="edu.unicen.ucrefactoring.gui.UCRCompareView"
             name="Compare Panel">
       </view>
@@ -44,8 +45,9 @@
       </view>
       <view
             class="edu.unicen.ucrefactoring.gui.UCRDataView"
+            icon="src/edu/unicen/ucrefactoring/resources/infoView.ico"
             id="edu.unicen.ucrefactoring.gui.UCRDataView"
-            name="Data">
+            name="Refactoring List">
       </view>
    </extension>
 
