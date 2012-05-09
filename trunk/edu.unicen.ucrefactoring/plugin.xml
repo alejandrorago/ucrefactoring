@@ -38,6 +38,7 @@
       </view>
       <view
             class="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
+            icon="src/edu/unicen/ucrefactoring/resources/useCaseView.ico"
             id="edu.unicen.ucrefactoring.gui.UCRUseCasesView"
             name="Use Case List">
       </view>
