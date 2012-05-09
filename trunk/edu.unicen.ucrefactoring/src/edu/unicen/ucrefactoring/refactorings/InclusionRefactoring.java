@@ -109,6 +109,7 @@ public class InclusionRefactoring implements Refactoring{
 		ic.setNumber(finalRemoved.getNumber());
 		ic.setDetail("Call " + "'"+ includedUC.getName() +"'");
 		ic.getIncludedUseCases().add(includedUC);
+		// TODO Revisar action del ic
 		basicFlow.getEvents().add(beginIndex, ic);
 		basicFlow.getEvents().remove(finalRemoved);
 	}
