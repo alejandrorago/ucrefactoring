@@ -53,7 +53,7 @@ public class UCRUseCasesView extends ViewPart {
 	
 	// Actions
 	private Action compareAction;
-	private ListViewer ucList;
+	private static ListViewer ucList;
 	
 	
 	public UCRUseCasesView() {
@@ -86,7 +86,8 @@ public class UCRUseCasesView extends ViewPart {
 		//ucContentProvider = new UseCaseContentProvider(ucref.getUseCaseModel());
 		ucListContentProvider =  new UseCaseListContentProvider(ucref.getUseCaseModel());
 		//ucTreeContentProvider =  new UseCaseTreeContentProvider(ucref.getUseCaseModel());
-		
+		//assumes listviewer already created
+		populatesUCList();
 		//TODO: Find out a better way to initialize and compare use cases
 		ucref.compareUseCases();
 		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
@@ -95,6 +96,13 @@ public class UCRUseCasesView extends ViewPart {
 		useCaseB = null;
 	}
 	
+	private static void populatesUCList() {
+		ucList.setContentProvider(ucListContentProvider);
+		ucList.setLabelProvider(ucLabel);
+		ucList.setInput(ucref);	
+	}
+
+
 	/**
 	 * Create contents of the view part.
 	 * @param parent
@@ -146,9 +154,7 @@ public class UCRUseCasesView extends ViewPart {
 		ucList = new ListViewer(container, SWT.MULTI | SWT.BORDER);
 		org.eclipse.swt.widgets.List list = ucList.getList();
 		list.setToolTipText("");
-		ucList.setContentProvider(ucListContentProvider);
-		ucList.setLabelProvider(ucLabel);
-		ucList.setInput(ucref);
+		UCRUseCasesView.populatesUCList();
 	}
 	
 	/**

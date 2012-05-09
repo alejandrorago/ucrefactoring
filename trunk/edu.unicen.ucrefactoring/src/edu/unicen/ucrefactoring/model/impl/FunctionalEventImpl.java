@@ -8,10 +8,12 @@ package edu.unicen.ucrefactoring.model.impl;
 
 import edu.unicen.ucrefactoring.model.ActionClass;
 import edu.unicen.ucrefactoring.model.Actor;
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.EventTypeEnum;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.FunctionalEvent;
 import edu.unicen.ucrefactoring.model.JointPoint;
+import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
 import java.util.Collection;
@@ -392,6 +394,17 @@ public class FunctionalEventImpl extends EventImpl implements FunctionalEvent {
 		result.append(type);
 		result.append(')');
 		return result.toString();
+	}
+	
+	// PAU: Add-Hoc Method
+	@Override
+	public Event cloneEvent(){
+		FunctionalEvent fe = UCRefactoringFactory.eINSTANCE.createFunctionalEvent();
+		fe.setEventId(this.getEventId());
+		fe.setNumber(this.getNumber());
+		fe.setDetail(this.getDetail());
+		fe.getActionClasses().addAll(this.getActionClasses());
+		return fe;
 	}
 
 } //FunctionalEventImpl

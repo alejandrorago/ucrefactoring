@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model.impl;
 
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.InclusionCall;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -131,6 +132,11 @@ public class InclusionCallImpl extends EventImpl implements InclusionCall {
 				return includedUseCases != null && !includedUseCases.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+	
+	// PAU: adhoc
+	public Event cloneEvent(){
+		return null;
 	}
 
 } //InclusionCallImpl

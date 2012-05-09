@@ -63,8 +63,14 @@ public class InclusionRefactoring implements Refactoring{
 			includedUC.setPrimaryActor(null); // No actor in this new use case
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
 			basicFlow.setName("Basic Flow");
-			// TODO CLONE EVENTS
-			basicFlow.getEvents().addAll(this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents());
+			Integer order = 1;
+			for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
+				Event newE = e.cloneEvent();
+				newE.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), order.toString()));
+				newE.setNumber(order);
+				basicFlow.getEvents().add(newE);
+				order++;
+			}
 			basicFlow.setUseCase(includedUC);
 			includedUC.getFlows().add(basicFlow);
 			// Add new uc to the model
@@ -110,7 +116,6 @@ public class InclusionRefactoring implements Refactoring{
 		ic.setNumber(finalRemoved.getNumber());
 		ic.setDetail("Call " + "'"+ includedUC.getName() +"'");
 		ic.getIncludedUseCases().add(includedUC);
-		// TODO Revisar action del ic
 		basicFlow.getEvents().add(beginIndex, ic);
 		basicFlow.getEvents().remove(finalRemoved);
 	}
