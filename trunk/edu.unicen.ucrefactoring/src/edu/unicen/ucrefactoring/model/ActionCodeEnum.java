@@ -126,8 +126,12 @@ public enum ActionCodeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	OUTDOOR(20, "Outdoor", "T");
-
+	OUTDOOR(20, "Outdoor", "T"),
+	
+	// PAU: Ad-Hoc Updates!!!
+	FLOW(20, "FlowControl", "F");
+	public static final int FLOWCONTROL_VALUE = 21;
+	
 	/**
 	 * The '<em><b>Display</b></em>' literal value.
 	 * <!-- begin-user-doc -->
@@ -344,6 +348,7 @@ public enum ActionCodeEnum implements Enumerator {
 			VERIFICATION,
 			INDOOR,
 			OUTDOOR,
+			FLOW,
 		};
 
 	/**
@@ -407,6 +412,7 @@ public enum ActionCodeEnum implements Enumerator {
 			case VERIFICATION_VALUE: return VERIFICATION;
 			case INDOOR_VALUE: return INDOOR;
 			case OUTDOOR_VALUE: return OUTDOOR;
+			case FLOWCONTROL_VALUE: return FLOW;
 		}
 		return null;
 	}
