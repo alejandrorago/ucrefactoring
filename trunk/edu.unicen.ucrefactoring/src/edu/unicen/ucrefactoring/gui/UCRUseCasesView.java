@@ -190,7 +190,7 @@ public class UCRUseCasesView extends ViewPart {
 					UCRCompareView.useCaseLeft = useCaseA;
 					UCRCompareView.similarBlocksRight = (similarBlocksRight);
 					UCRCompareView.useCaseRight = useCaseB;
-					UCRCompareView.updateButtons();
+					UCRCompareView.updateButtonsAndLabels();
 					
 					UCRCompareView.lblLeft.setText(UCRCompareView.useCaseLeft.getName());
 					UCRCompareView.lblRight.setText(UCRCompareView.useCaseRight.getName());

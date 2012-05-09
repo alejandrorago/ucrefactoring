@@ -467,7 +467,7 @@ public class UCRCompareView extends ViewPart {
 					
 						UCRCompareView.similarBlocksLeft = (similarBlocksLeft);
 						UCRCompareView.similarBlocksRight = (similarBlocksRight);
-						UCRCompareView.updateButtons();
+						UCRCompareView.updateButtonsAndLabels();
 				}
 			}
 		});
@@ -510,18 +510,23 @@ public class UCRCompareView extends ViewPart {
 	}
 	
 	
-	public static void updateButtons(){
+	public static void updateButtonsAndLabels(){
 		if (useCaseLeft!=null && useCaseLeft.getFlows().size()>0){
 			btnCleanLeft.setEnabled(true);
+			lblLeft.setText(useCaseLeft.getName());
 		}
 		else{
 			btnCleanLeft.setEnabled(false);
+			lblLeft.setText(new String());
 		}
 		if (useCaseRight != null && useCaseRight.getFlows().size()>0){
 			btnCleanRight.setEnabled(true);
+			lblRight.setText(useCaseRight.getName());
 		}
 		else{
 			btnCleanRight.setEnabled(false);
+			lblRight.setText(new String());
+
 		}
 		if (useCaseLeft != null && useCaseRight != null && useCaseLeft.getFlows().size()>0 && useCaseRight.getFlows().size()>0){
 			btnCompare.setEnabled(true);
@@ -530,5 +535,6 @@ public class UCRCompareView extends ViewPart {
 			btnCompare.setEnabled(false);
 		}
 	}
+	
 }
 

@@ -156,7 +156,7 @@ public class UCRDataView extends ViewPart {
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ucref = UCRUseCasesView.ucref;
+				ucref = new UCRefactoringDetection(UCRUseCasesView.ucref.getUseCaseModel());
 				metrics = new HashMap<String, Metric>();
 				refactorings = new HashMap<String, Refactoring>();
 				
@@ -183,7 +183,8 @@ public class UCRDataView extends ViewPart {
 				}
 				
 				UCRUseCasesView.updateUseCasesView();
-				
+				btnApply.setEnabled(false);
+				cleanViews();
 			}
 		});
 		
@@ -207,10 +208,11 @@ public class UCRDataView extends ViewPart {
 						UCRCompareView.useCaseLeft = ref.getUseCase();
 						UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
 						UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
-						UCRCompareView.updateButtons();
+						UCRCompareView.updateButtonsAndLabels();
 					}
 					else if (ref instanceof DeleteActorRefactoring){
 						UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
+						useCase.setName(((DeleteActorRefactoring) ref).getActor().getName());
 						Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
 						flow.setName(((DeleteActorRefactoring) ref).getActor().getName());
 						useCase.getFlows().add(flow);
@@ -222,7 +224,7 @@ public class UCRDataView extends ViewPart {
 						UCRCompareView.useCaseLeft = useCase;
 						UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
 						UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
-						UCRCompareView.updateButtons();
+						UCRCompareView.updateButtonsAndLabels();
 					}
 					else{
 						AlignmentX2Result align = ref.getAlignment();
@@ -233,7 +235,7 @@ public class UCRDataView extends ViewPart {
 						UCRCompareView.useCaseLeft = align.getUseCaseA();
 						UCRCompareView.similarBlocksRight = (align.getSimilarBlocksFromB());
 						UCRCompareView.useCaseRight = align.getUseCaseB();
-						UCRCompareView.updateButtons();
+						UCRCompareView.updateButtonsAndLabels();
 					}
 				}
 				
@@ -392,5 +394,11 @@ public class UCRDataView extends ViewPart {
 			}
 			i++;
 		}	
+	}
+	
+	private void cleanViews(){
+		UCRCompareView.btnCleanLeft.notifyListeners(SWT.Selection, new org.eclipse.swt.widgets.Event());
+		UCRCompareView.btnCleanRight.notifyListeners(SWT.Selection, new org.eclipse.swt.widgets.Event());
+		btnAnalyze.notifyListeners(SWT.Selection, null);
 	}
 }
