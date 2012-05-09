@@ -163,11 +163,12 @@ public class UCRDataView extends ViewPart {
 				
 				collectMetrics();
 				analyzeRefactorings();
-				extListContentProvider =  new RefactoringListContentProvider(refactorings.values());
-				
+				extListContentProvider =  new RefactoringListContentProvider(refactorings.values());				
 				listViewer.setContentProvider(extListContentProvider);
 				listViewer.setLabelProvider(extLabel);
 				listViewer.setInput(ucref);
+				
+				
 				
 			}
 		});

@@ -6,7 +6,6 @@
  */
 package edu.unicen.ucrefactoring.model;
 
-import java.math.BigInteger;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -105,5 +104,9 @@ public interface Event extends EObject {
 	 * @generated
 	 */
 	void setEventId(String value);
+	
+	// PAU: ad-hoc
+	
+	public Event cloneEvent();
 
 } // Event

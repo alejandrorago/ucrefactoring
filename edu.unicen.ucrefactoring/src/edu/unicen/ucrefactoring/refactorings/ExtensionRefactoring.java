@@ -69,8 +69,9 @@ public class ExtensionRefactoring implements Refactoring{
 			extendingUC.setPrimaryActor(null); // No actor in this new use case
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
 			basicFlow.setName("Basic Flow");
-			// TODO CLONE EVENTS
-			basicFlow.getEvents().addAll(this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents());
+			for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
+				basicFlow.getEvents().add(e.cloneEvent());
+			}
 			basicFlow.setUseCase(extendingUC);
 			extendingUC.getFlows().add(basicFlow);
 			// Add new uc to the model
@@ -114,7 +115,6 @@ public class ExtensionRefactoring implements Refactoring{
 				ep.setNumber(e.getNumber());
 				ep.setDetail(e.getDetail() + "#Extension Point [" + ep.getCondition() + "]");
 				ep.getExtendedUseCases().add(extUC);
-				// TODO Revisar action del ep
 				basicFlow.getEvents().add(basicFlow.getEvents().indexOf(e), ep);
 				basicFlow.getEvents().remove(e);
 				break;

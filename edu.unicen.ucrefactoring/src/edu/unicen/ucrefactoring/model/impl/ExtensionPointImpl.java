@@ -6,23 +6,18 @@
  */
 package edu.unicen.ucrefactoring.model.impl;
 
-import edu.unicen.ucrefactoring.model.ActionClass;
-import edu.unicen.ucrefactoring.model.ExtensionPoint;
-import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
-import edu.unicen.ucrefactoring.model.UseCase;
-
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.ExtensionPoint;
+import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
+import edu.unicen.ucrefactoring.model.UseCase;
 
 /**
  * <!-- begin-user-doc -->
@@ -205,6 +200,11 @@ public class ExtensionPointImpl extends EventImpl implements ExtensionPoint {
 		result.append(condition);
 		result.append(')');
 		return result.toString();
+	}
+	
+	//PAU: adhoc
+	public Event cloneEvent(){
+		return null;
 	}
 
 } //ExtensionPointImpl
