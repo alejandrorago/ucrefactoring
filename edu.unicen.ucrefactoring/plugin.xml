@@ -25,7 +25,7 @@
    <extension point="org.eclipse.ui.perspectives">
       <perspective
             class="edu.unicen.ucrefactoring.gui.UCRPerspective"
-            icon="src/edu/unicen/ucrefactoring/resources/icon_zoom_up.gif"
+            icon="src/edu/unicen/ucrefactoring/resources/perspective.gif"
             id="edu.unicen.ucrefactoring.gui.UCRPerspective"
             name="Use Case Refactoring">
       </perspective>
