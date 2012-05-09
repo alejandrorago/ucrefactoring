@@ -4,7 +4,7 @@
   <actors name="Bank System" description="Bank System for account checking" type="SYSTEM"/>
   <actors name="Employee" description="This is the shopping employee role"/>
   <actors name="System" description="El actor que representa al sistema" type="SYSTEM"/>
-  <useCases name="Client Login" description="" primaryActor="#//@actors.0">
+  <useCases name="Login" description="This use case allows the identification and authentication of the different users of the system" primaryActor="#//@actors.0">
     <context/>
     <flows name="Basic Flow">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the login option" number="1" eventId="1." subject="#//@actors.0">
@@ -24,7 +24,7 @@
       </events>
     </flows>
   </useCases>
-  <useCases name="Add New Product" description="" primaryActor="#//@actors.2">
+  <useCases name="Add New Product" description="This use case describes the way the employees add products to the system" primaryActor="#//@actors.2">
     <context/>
     <flows name="Basic Flow">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects &quot;Add Product&quot; " number="1" eventId="1." subject="#//@actors.2">
@@ -64,7 +64,7 @@
         <actionClasses name="Notification"/>
       </events>
     </flows>
-    <flows name="5. No existe proveedor">
+    <flows name="5. Supplier does not exist">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1.">
         <actionClasses name="Selection"/>
       </events>
@@ -100,7 +100,7 @@
       </events>
     </flows>
   </useCases>
-  <useCases name="Add Supplier" description="" primaryActor="#//@actors.2">
+  <useCases name="Add Supplier" description="This use case describes how the employees add suppliers to the system" primaryActor="#//@actors.2">
     <context/>
     <flows name="Basic Flow">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The employee selects the add supplier option" number="1" eventId="1." subject="#//@actors.2">
@@ -138,7 +138,7 @@
       </events>
     </flows>
   </useCases>
-  <useCases name="Buy Product" description="" primaryActor="#//@actors.1">
+  <useCases name="Buy Product" description="This use case show the way the clients buy products from the website" primaryActor="#//@actors.1">
     <context/>
     <flows name="Basic Flow">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client selects the option &quot;Log in&quot;" number="1" eventId="1." subject="#//@actors.0">
@@ -191,7 +191,7 @@
       </events>
     </flows>
   </useCases>
-  <useCases name="Cancel Order" description="" primaryActor="#//@actors.0">
+  <useCases name="Cancel Order" description="This use case show the way the clients cancel product orders in the system" primaryActor="#//@actors.0">
     <context/>
     <flows name="Basic Flow">
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client chooses the option &quot;Log in&quot;" number="1" eventId="1." subject="#//@actors.0">
@@ -227,10 +227,10 @@
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system shows all the product news" number="11" eventId="11." subject="#//@actors.3">
         <actionClasses name="Display"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="15." subject="#//@actors.0">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The client marks the product news of his interest" number="12" eventId="12." subject="#//@actors.0">
         <actionClasses name="Selection"/>
       </events>
-      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="16.">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The system stores the subscription" number="13" eventId="13.">
         <actionClasses name="Create"/>
       </events>
     </flows>
