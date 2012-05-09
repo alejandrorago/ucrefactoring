@@ -517,6 +517,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		return result.toString();
 	}
 
+	// PAU: Ad-Hoc created Method
 	@Override
 	public Flow getBasicFlow() {
 		for (Flow f : this.flows){
