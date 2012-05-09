@@ -1,5 +1,7 @@
 package edu.unicen.ucrefactoring.gui;
 
+import java.awt.Event;
+import java.beans.EventSetDescriptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -69,6 +71,7 @@ public class UCRDataView extends ViewPart {
 		refactorings = new HashMap<String,Refactoring>();
 		metrics = new HashMap<String,Metric>();
 	}
+	
 
 	/**
 	 * Create contents of the view part.
@@ -153,7 +156,7 @@ public class UCRDataView extends ViewPart {
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+				ucref = UCRUseCasesView.ucref;
 				metrics = new HashMap<String, Metric>();
 				refactorings = new HashMap<String, Refactoring>();
 				
@@ -179,7 +182,7 @@ public class UCRDataView extends ViewPart {
 					ref.applyRefactoring();
 				}
 				
-				UCRUseCasesView.initUseCasesView();
+				UCRUseCasesView.updateUseCasesView();
 				
 			}
 		});
