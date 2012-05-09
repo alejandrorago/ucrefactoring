@@ -47,7 +47,9 @@ public class UCRCompareView extends ViewPart {
 
 	//Widgets
 	static public TextViewer leftViewer;
-	static public TextViewer rightViewer;	
+	static public TextViewer rightViewer;
+	static public Label lblLeft;
+	static public Label lblRight;
 	private Composite container_1;
 	
 	static public TreeViewer ucRight;
@@ -71,6 +73,8 @@ public class UCRCompareView extends ViewPart {
 	private List<Event> candidates; 
 	public boolean isLeft = true;
 	private Composite composite;
+	private Composite composite_1;
+
 	
 	public UCRCompareView() {
 		similarBlocksLeft = new ArrayList<SimilarBlock>();
@@ -283,38 +287,63 @@ public class UCRCompareView extends ViewPart {
 	 * @param container
 	 */
 	public void createWidgets(){
-		ucLeft = new TreeViewer(container_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
-		Tree tree = ucLeft.getTree();
-		
-		ucRight = new TreeViewer(container_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
-		Tree tree_1 = ucRight.getTree();
 		{
 			composite = new Composite(container_1, SWT.NONE);
 		}
+		
+		composite_1 = new Composite(container_1, SWT.NONE);
+		
+		ucRight = new TreeViewer(composite_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		Tree tree_1 = ucRight.getTree();
 		GroupLayout gl_container_1 = new GroupLayout(container_1);
 		gl_container_1.setHorizontalGroup(
 			gl_container_1.createParallelGroup(GroupLayout.LEADING)
-				.add(GroupLayout.TRAILING, gl_container_1.createSequentialGroup()
-					.addContainerGap()
-					.add(gl_container_1.createParallelGroup(GroupLayout.TRAILING)
-						.add(GroupLayout.LEADING, composite, GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-						.add(gl_container_1.createSequentialGroup()
-							.add(tree, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
-							.add(18)
-							.add(tree_1, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)))
-					.addContainerGap())
+				.add(composite, GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+				.add(composite_1, GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
 		);
 		gl_container_1.setVerticalGroup(
-			gl_container_1.createParallelGroup(GroupLayout.LEADING)
+			gl_container_1.createParallelGroup(GroupLayout.TRAILING)
 				.add(gl_container_1.createSequentialGroup()
+					.add(composite_1, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.UNRELATED)
+					.add(composite, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+		);
+		ucLeft = new TreeViewer(composite_1, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		Tree tree = ucLeft.getTree();
+		
+		lblLeft = new Label(composite_1, SWT.NONE);
+		
+		lblRight = new Label(composite_1, SWT.NONE);
+		GroupLayout gl_composite_1 = new GroupLayout(composite_1);
+		gl_composite_1.setHorizontalGroup(
+			gl_composite_1.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_composite_1.createSequentialGroup()
 					.addContainerGap()
-					.add(gl_container_1.createParallelGroup(GroupLayout.LEADING)
-						.add(tree_1, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-						.add(tree, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(composite, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+					.add(gl_composite_1.createParallelGroup(GroupLayout.TRAILING)
+						.add(GroupLayout.LEADING, lblLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.add(GroupLayout.LEADING, tree, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+					.add(gl_composite_1.createParallelGroup(GroupLayout.LEADING)
+						.add(gl_composite_1.createSequentialGroup()
+							.add(17)
+							.add(tree_1, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+						.add(gl_composite_1.createSequentialGroup()
+							.add(18)
+							.add(lblRight, GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
+		gl_composite_1.setVerticalGroup(
+			gl_composite_1.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_composite_1.createSequentialGroup()
+					.add(5)
+					.add(gl_composite_1.createParallelGroup(GroupLayout.LEADING)
+						.add(lblLeft)
+						.add(lblRight))
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(gl_composite_1.createParallelGroup(GroupLayout.LEADING)
+						.add(tree_1, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+						.add(tree, GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)))
+		);
+		composite_1.setLayout(gl_composite_1);
 		
 		btnCleanLeft = new Button(composite, SWT.CENTER);
 		btnCleanLeft.setText("Clean Left");
@@ -332,23 +361,28 @@ public class UCRCompareView extends ViewPart {
 		gl_composite.setHorizontalGroup(
 			gl_composite.createParallelGroup(GroupLayout.LEADING)
 				.add(gl_composite.createSequentialGroup()
-					.add(48)
-					.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-					.add(113)
-					.add(btnCompare, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-					.add(113)
-					.add(btnCleanRight, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-					.add(48))
+					.add(38)
+					.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+					.add(129)
+					.add(btnCompare, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.add(125)
+					.add(btnCleanRight, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.add(38))
 		);
 		gl_composite.setVerticalGroup(
-			gl_composite.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_composite.createSequentialGroup()
-					.add(10)
+			gl_composite.createParallelGroup(GroupLayout.TRAILING)
+				.add(GroupLayout.LEADING, gl_composite.createSequentialGroup()
+					.add(7)
 					.add(gl_composite.createParallelGroup(GroupLayout.LEADING)
-						.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.add(btnCompare, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.add(btnCleanRight, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.add(5))
+						.add(gl_composite.createSequentialGroup()
+							.add(btnCleanLeft, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())
+						.add(gl_composite.createSequentialGroup()
+							.add(btnCleanRight)
+							.add(5))
+						.add(gl_composite.createSequentialGroup()
+							.add(btnCompare, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())))
 		);
 		composite.setLayout(gl_composite);
 		container_1.setLayout(gl_container_1);
@@ -449,6 +483,7 @@ public class UCRCompareView extends ViewPart {
 						btnCleanLeft.setEnabled(false);
 						if (useCaseRight != null)
 							UCRUseCasesView.setCompareView(UCRCompareView.ucRight,useCaseRight);
+						lblLeft.setText("");
 						btnCompare.setEnabled(false);
 
 				}
@@ -466,6 +501,7 @@ public class UCRCompareView extends ViewPart {
 						btnCleanRight.setEnabled(false);
 						if (useCaseLeft != null)
 							UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCaseLeft);
+						lblRight.setText("");
 						btnCompare.setEnabled(false);
 				}
 			}
@@ -494,6 +530,5 @@ public class UCRCompareView extends ViewPart {
 			btnCompare.setEnabled(false);
 		}
 	}
-	
 }
 

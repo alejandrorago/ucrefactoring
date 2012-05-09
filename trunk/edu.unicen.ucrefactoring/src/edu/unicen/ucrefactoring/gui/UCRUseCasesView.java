@@ -10,8 +10,10 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -77,6 +79,22 @@ public class UCRUseCasesView extends ViewPart {
 		useCaseB = null;
 	}
 	
+	public static void updateUseCasesView(){
+		//Providers
+		ucref = new UCRefactoringDetection(ucref.getUseCaseModel());
+		ucLabel = new UseCaseLabelProvider();
+		//ucContentProvider = new UseCaseContentProvider(ucref.getUseCaseModel());
+		ucListContentProvider =  new UseCaseListContentProvider(ucref.getUseCaseModel());
+		//ucTreeContentProvider =  new UseCaseTreeContentProvider(ucref.getUseCaseModel());
+		
+		//TODO: Find out a better way to initialize and compare use cases
+		ucref.compareUseCases();
+		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
+		
+		useCaseA = null;
+		useCaseB = null;
+	}
+	
 	/**
 	 * Create contents of the view part.
 	 * @param parent
@@ -127,6 +145,7 @@ public class UCRUseCasesView extends ViewPart {
 		
 		ucList = new ListViewer(container, SWT.MULTI | SWT.BORDER);
 		org.eclipse.swt.widgets.List list = ucList.getList();
+		list.setToolTipText("");
 		ucList.setContentProvider(ucListContentProvider);
 		ucList.setLabelProvider(ucLabel);
 		ucList.setInput(ucref);
@@ -172,7 +191,9 @@ public class UCRUseCasesView extends ViewPart {
 					UCRCompareView.similarBlocksRight = (similarBlocksRight);
 					UCRCompareView.useCaseRight = useCaseB;
 					UCRCompareView.updateButtons();
-
+					
+					UCRCompareView.lblLeft.setText(UCRCompareView.useCaseLeft.getName());
+					UCRCompareView.lblRight.setText(UCRCompareView.useCaseRight.getName());
 				}
 			}
 		};
@@ -214,10 +235,24 @@ public class UCRUseCasesView extends ViewPart {
 		//Listener de cambio de selección en la lista(Double click)
 		/**
 		 * Commented selection changed event. now compare action is executed by a button.
-		 * 
+		 */
 		ucList.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) ucList.getSelection();
+				if (selection!=null){
+					if (selection.size() == 1){
+						ucList.getList().setToolTipText(((UseCase)(selection.toList().get(0))).getDescription());
+					}
+					else{
+						ucList.getList().setToolTipText("");
+					}
+				}
+				else{
+					ucList.getList().setToolTipText("");
+				}
+
+				/**
 				IStructuredSelection selection = (IStructuredSelection) ucList.getSelection();
 				
 				//Si elegi uno solo, es el A
@@ -239,10 +274,10 @@ public class UCRUseCasesView extends ViewPart {
 					compareAction.setEnabled(true);
 				}
 				else compareAction.setEnabled(false);
-				
+				**/
 			}
 		});
-		**/
+		/**/
 		
 		//Listener for double click event on use cases list
 		ucList.addDoubleClickListener(new IDoubleClickListener() {
@@ -262,12 +297,15 @@ public class UCRUseCasesView extends ViewPart {
 					UCRCompareView.useCaseLeft = useCaseA;
 					setCompareView(UCRCompareView.ucLeft,useCaseA);
 					UCRCompareView.btnCleanLeft.setEnabled(true);
+					UCRCompareView.lblLeft.setText(UCRCompareView.useCaseLeft.getName());
+					
 				}
 				
 				if (useCaseB != null ){
 					UCRCompareView.useCaseRight = useCaseB;
 					setCompareView(UCRCompareView.ucRight,useCaseB);
 					UCRCompareView.btnCleanRight.setEnabled(true);
+					UCRCompareView.lblRight.setText(UCRCompareView.useCaseRight.getName());
 				}
 				
 				if (useCaseA != null && useCaseB != null){
