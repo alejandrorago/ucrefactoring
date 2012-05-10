@@ -64,7 +64,10 @@ public class ExtensionRefactoring implements Refactoring{
 			// Create Use Case
 			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			extendingUC = UCRefactoringFactory.eINSTANCE.createUseCase();
-			extendingUC.setName("Default Name");
+			
+			String n = UCRUseCasesView.askForUCName();
+			
+			extendingUC.setName(n);
 			extendingUC.setDescription("Default Description");
 			extendingUC.setPrimaryActor(null); // No actor in this new use case
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();

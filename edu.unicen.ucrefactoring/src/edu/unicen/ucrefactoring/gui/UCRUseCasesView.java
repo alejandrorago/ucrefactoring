@@ -20,6 +20,7 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
 
@@ -32,6 +33,7 @@ import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.gui.NewUseCaseDialog;
 
 public class UCRUseCasesView extends ViewPart {
 	
@@ -496,8 +498,10 @@ public class UCRUseCasesView extends ViewPart {
 		}
 	}
 
-
-
-
+	public static String askForUCName(){
+		Shell shell = new Shell();
+	    NewUseCaseDialog dialog = new NewUseCaseDialog(shell);
+	    return dialog.openDialog();
+	}
 	
 }
