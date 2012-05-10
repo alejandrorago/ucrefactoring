@@ -56,9 +56,11 @@ public class InclusionRefactoring implements Refactoring{
 			baseUseCaseA = this.alignment.getUseCaseA();
 			baseUseCaseB = this.alignment.getUseCaseB();
 			// Create Use Case
-			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			includedUC = UCRefactoringFactory.eINSTANCE.createUseCase();
-			includedUC.setName("Default Name");
+			
+			String n = UCRUseCasesView.askForUCName();
+			
+			includedUC.setName(n);
 			includedUC.setDescription("Default Description");
 			includedUC.setPrimaryActor(null); // No actor in this new use case
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();

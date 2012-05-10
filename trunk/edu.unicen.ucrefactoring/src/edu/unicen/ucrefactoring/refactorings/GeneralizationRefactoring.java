@@ -58,9 +58,11 @@ public class GeneralizationRefactoring implements Refactoring {
 			baseUseCaseA = this.alignment.getUseCaseA();
 			baseUseCaseB = this.alignment.getUseCaseB();
 			// Create Use Case
-			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			parentUC = UCRefactoringFactory.eINSTANCE.createUseCase();
-			parentUC.setName("Default Name");
+			
+			String n = UCRUseCasesView.askForUCName();
+			
+			parentUC.setName(n);
 			parentUC.setDescription("Default Description");
 			parentUC.setPrimaryActor(null); // TODO ABSTRAER ACTORES
 			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
