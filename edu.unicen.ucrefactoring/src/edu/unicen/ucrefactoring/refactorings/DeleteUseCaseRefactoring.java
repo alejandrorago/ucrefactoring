@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.refactorings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.Metric;
@@ -14,6 +16,9 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	private String name; 
 	private Float priority = Refactoring.LOW_PRIORITY;
 	private UseCase useCase;
+	private String problem = "Use Case can never be activated";
+	private String refactoringName = "Delete non sense Use Case";
+	private List<String> artifacts; 
 	
 	public DeleteUseCaseRefactoring(UseCase useCase){
 		this.score = null;
@@ -21,6 +26,8 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 		//this.alignment = alignment;
 		this.useCase = useCase;
 		this.metrics = new HashMap<String, Metric>();
+		this.artifacts = new ArrayList<String>();
+		this.artifacts.add(this.useCase.getName());
 	}
 	
 	@Override
@@ -73,5 +80,24 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	public AlignmentX2Result getAlignment() {
 		return null;
 	}
+
+	@Override
+	public String getProblem() {
+		return this.problem;
+	}
+
+	@Override
+	public List<String> getArtifacts() {
+		return this.artifacts;
+	}
+
+	@Override
+	public String getRefactoringName() {
+		return this.refactoringName;
+	}
 	
+	@Override
+	public String getPriorityText() {
+		return LOW_PRIORITY_TEXT;
+	}
 }

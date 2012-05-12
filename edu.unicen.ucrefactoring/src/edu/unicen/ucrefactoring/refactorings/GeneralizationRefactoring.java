@@ -22,11 +22,17 @@ public class GeneralizationRefactoring implements Refactoring {
 	private AlignmentX2Result alignment;
 	private String name; 
 	private Float priority = Refactoring.HIGH_PRIORITY;
+	private String problem = "Use cases lacks abstraction";
+	private String refactoringName = "Generate generalization relationship";
+	private List<String> artifacts; 
 	
 	public GeneralizationRefactoring(AlignmentX2Result alignment){
 		this.score = null;
 		this.name = null;
 		this.alignment = alignment;
+		this.artifacts = new ArrayList<String>();
+		this.artifacts.add(this.alignment.getUseCaseA().getName());
+		this.artifacts.add(this.alignment.getUseCaseB().getName());
 	}
 	
 	@Override
@@ -217,6 +223,26 @@ public class GeneralizationRefactoring implements Refactoring {
 	@Override
 	public Float getPriority() {
 		return this.priority;
+	}
+
+	@Override
+	public String getProblem() {
+		return this.problem;
+	}
+
+	@Override
+	public List<String> getArtifacts() {
+		return this.artifacts;
+	}
+
+	@Override
+	public String getRefactoringName() {
+		return this.refactoringName;
+	}
+	
+	@Override
+	public String getPriorityText() {
+		return HIGH_PRIORITY_TEXT;
 	}
 
 }

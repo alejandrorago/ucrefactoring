@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.refactorings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.LargeUseCaseMetric;
@@ -15,6 +17,9 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	private String name; 
 	private UseCase useCase;
 	private Float priority = Refactoring.MEDIUM_PRIORITY;
+	private String problem = "Use Case is too long / complicated";
+	private String refactoringName = "Extract Use Case";
+	private List<String> artifacts; 
 
 	
 	public ExtractUseCaseRefactoring(UseCase useCase, Metric metric){
@@ -24,6 +29,8 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		//this.alignment = alignment;
 		this.useCase = useCase;
 		this.metrics.put(useCase.getName(), metric);
+		this.artifacts = new ArrayList<String>();
+		this.artifacts.add(useCase.getName());
 	}
 	
 	@Override
@@ -89,6 +96,26 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	@Override
 	public Float getPriority() {
 		return this.priority;
+	}
+
+	@Override
+	public String getProblem() {
+		return this.problem;
+	}
+
+	@Override
+	public List<String> getArtifacts() {
+		return this.artifacts;
+	}
+
+	@Override
+	public String getRefactoringName() {
+		return this.refactoringName;
+	}
+	
+	@Override
+	public String getPriorityText() {
+		return MEDIUM_PRIORITY_TEXT;
 	}
 	
 }
