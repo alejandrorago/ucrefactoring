@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.gui;
 
 
+import java.awt.event.KeyEvent;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -25,21 +27,24 @@ public class NewUseCaseDialog extends Dialog {
 		    Shell parent = getParentShell();
 		    final Shell shell =
 		      new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
-		    shell.setText("Creating use case for duplicated functionality...");
+		    shell.setText("New Use Case Creation");
+		    //shell.setSize(500, 400); does not work
 
 		    shell.setLayout(new GridLayout(2, true));
-
+		    
 		    Label label = new Label(shell, SWT.NULL);
-		    label.setText("New Use Case Name:");
+		    label.setText("Name:");
 
 		    final Text text = new Text(shell, SWT.SINGLE | SWT.BORDER);
 
 		    final Button buttonOK = new Button(shell, SWT.PUSH);
 		    buttonOK.setText("Ok");
+		    //buttonOK.setSize(100, 20);
 		    buttonOK.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 		    Button buttonCancel = new Button(shell, SWT.PUSH);
 		    buttonCancel.setText("Cancel");
-
+		    //buttonOK.setSize(100, 20);
+		    
 		    text.addListener(SWT.Modify, new Listener() {
 				
 		    	public void handleEvent(Event event) {
@@ -71,6 +76,16 @@ public class NewUseCaseDialog extends Dialog {
 		          event.doit = false;
 		      }
 		    });
+		    
+//		    shell.addListener(SWT.KeyDown, new Listener() {
+//			      public void handleEvent(Event event) {
+//			    	  name = new Integer(event.keyCode).toString();
+//			    	  if (event.keyCode == KeyEvent.VK_ENTER){
+//			    		  if (name != null && !name.equals(""))
+//			    			  buttonOK.notifyListeners(SWT.Selection, null);
+//			    	  }
+//			      }
+//			 });
 
 		    text.setText("");
 		    shell.pack();

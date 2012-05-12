@@ -64,9 +64,6 @@ public class UCRDataView extends ViewPart {
 	//core structures
 	private HashMap<String,Metric> metrics;
 	private HashMap<String,Refactoring> refactorings;
-	
-	//widgets
-	ListViewer listViewer;
 	TableViewer tableViewer;	
 	private Table table;
 
@@ -95,9 +92,6 @@ public class UCRDataView extends ViewPart {
 		btnApply.setText("Apply");
 		btnApply.setEnabled(false);
 		
-		listViewer = new ListViewer(container, SWT.BORDER | SWT.V_SCROLL);
-		List list = listViewer.getList();
-		
 		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		
@@ -109,10 +103,8 @@ public class UCRDataView extends ViewPart {
 			gl_container.createParallelGroup(GroupLayout.TRAILING)
 				.add(gl_container.createSequentialGroup()
 					.addContainerGap()
-					.add(list, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
+					.add(table, GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
 					.add(18)
-					.add(table, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
-					.add(73)
 					.add(gl_container.createParallelGroup(GroupLayout.TRAILING, false)
 						.add(btnAnalyze, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.add(btnApply, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
@@ -120,12 +112,11 @@ public class UCRDataView extends ViewPart {
 		);
 		gl_container.setVerticalGroup(
 			gl_container.createParallelGroup(GroupLayout.TRAILING)
-				.add(gl_container.createSequentialGroup()
+				.add(GroupLayout.LEADING, gl_container.createSequentialGroup()
 					.add(14)
-					.add(gl_container.createParallelGroup(GroupLayout.TRAILING)
-						.add(GroupLayout.LEADING, table, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-						.add(GroupLayout.LEADING, list, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-						.add(GroupLayout.LEADING, gl_container.createSequentialGroup()
+					.add(gl_container.createParallelGroup(GroupLayout.LEADING)
+						.add(table, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+						.add(gl_container.createSequentialGroup()
 							.add(btnAnalyze, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(LayoutStyle.UNRELATED)
 							.add(btnApply, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
@@ -143,7 +134,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnProblem.setWidth(100);
+		tblclmnProblem.setWidth(170);
 		tblclmnProblem.setText(PROBLEM_HEADER);
 		tableViewerColumn_2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -164,7 +155,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnRefactoring.setWidth(100);
+		tblclmnRefactoring.setWidth(170);
 		tblclmnRefactoring.setText(REFACTORING_HEADER);
 		tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -185,7 +176,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnArtifacts.setWidth(100);
+		tblclmnArtifacts.setWidth(150);
 		tblclmnArtifacts.setText(ARTIFACT_HEADER);
 		tableViewerColumn_1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -210,7 +201,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnScore.setWidth(100);
+		tblclmnScore.setWidth(80);
 		tblclmnScore.setText(SCORE_HEADER);
 		tableViewerColumn_3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -231,7 +222,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnPriority.setWidth(100);
+		tblclmnPriority.setWidth(80);
 		tblclmnPriority.setText(PRIORITY_HEADER);
 		tableViewerColumn_4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -288,9 +279,9 @@ public class UCRDataView extends ViewPart {
 				collectMetrics();
 				analyzeRefactorings();
 				extListContentProvider =  new RefactoringListContentProvider(refactorings.values());				
-				listViewer.setContentProvider(extListContentProvider);
-				listViewer.setLabelProvider(extLabel);
-				listViewer.setInput(ucref);
+//				listViewer.setContentProvider(extListContentProvider);
+//				listViewer.setLabelProvider(extLabel);
+//				listViewer.setInput(ucref);
 				
 				extTableContentProvider = new RefactoringTableContentProvider(refactorings.values());
 				tableViewer.setContentProvider(extTableContentProvider);
@@ -305,7 +296,7 @@ public class UCRDataView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
-				IStructuredSelection selection = (IStructuredSelection) listViewer.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				Refactoring ref;
 				if (selection.size()==1){
 					ref = (Refactoring) selection.getFirstElement();
@@ -319,7 +310,7 @@ public class UCRDataView extends ViewPart {
 		});
 		
 		//Listener for double click event on refactoring list
-		listViewer.addDoubleClickListener(new IDoubleClickListener() {
+		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			
 			@Override
 			public void doubleClick(DoubleClickEvent event) {
@@ -333,10 +324,10 @@ public class UCRDataView extends ViewPart {
 		});
 		
 		//Listener to enable/disable APPLY button
-		listViewer.addSelectionChangedListener( new ISelectionChangedListener() {
+		tableViewer.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) listViewer.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
 				}
