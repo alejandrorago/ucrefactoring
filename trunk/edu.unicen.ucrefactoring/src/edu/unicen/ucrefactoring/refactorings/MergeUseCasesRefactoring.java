@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.refactorings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.Metric;
@@ -23,6 +25,9 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	private Float priority = Refactoring.MEDIUM_PRIORITY;
 	private UseCase useCaseA;
 	private UseCase useCaseB;
+	private String problem = "Actor does not participates in the use case / Duplicated Actor";
+	private String refactoringName = "Delete Non Sense Actor";
+	private List<String> artifacts; 
 	
 	public MergeUseCasesRefactoring(UseCase useCase1, UseCase useCase2){
 		this.score = null;
@@ -31,6 +36,9 @@ public class MergeUseCasesRefactoring implements Refactoring{
 		this.useCaseB = useCase2;
 		//this.alignment = alignment;
 		this.metrics = new HashMap<String, Metric>();
+		this.artifacts = new ArrayList<String>();
+		this.artifacts.add(useCase1.getName());
+		this.artifacts.add(useCase2.getName());
 	}
 	
 	@Override
@@ -128,6 +136,25 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	public UseCase getUseCase() {
 		return null;
 	}
+
+	@Override
+	public String getProblem() {
+		return this.problem;
+	}
+
+	@Override
+	public List<String> getArtifacts() {
+		return this.artifacts;
+	}
+
+	@Override
+	public String getRefactoringName() {
+		return this.refactoringName;
+	}
 	
+	@Override
+	public String getPriorityText() {
+		return MEDIUM_PRIORITY_TEXT;
+	}
 	
 }

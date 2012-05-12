@@ -1,6 +1,8 @@
 package edu.unicen.ucrefactoring.refactorings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.Metric;
@@ -16,6 +18,9 @@ public class DeleteActorRefactoring implements Refactoring {
 	private Float priority = Refactoring.LOW_PRIORITY;
 	//private UseCase useCase;
 	private Actor actor;
+	private String problem = "Actor does not participates in the Use Case / Duplicated Actor";
+	private String refactoringName = "Delete non sense Actor";
+	private List<String> artifacts; 
 	
 	public DeleteActorRefactoring(Actor actor){
 		this.score = null;
@@ -24,6 +29,8 @@ public class DeleteActorRefactoring implements Refactoring {
 		//this.useCase = useCase;
 		this.metrics = new HashMap<String, Metric>();
 		this.actor = actor;
+		this.artifacts = new ArrayList<String>();
+		this.artifacts.add(actor.getName());
 	}
 	
 	@Override
@@ -80,6 +87,26 @@ public class DeleteActorRefactoring implements Refactoring {
 	@Override
 	public AlignmentX2Result getAlignment() {
 		return null;
+	}
+
+	@Override
+	public String getProblem() {
+		return this.problem;
+	}
+
+	@Override
+	public List<String> getArtifacts() {
+		return this.artifacts;
+	}
+
+	@Override
+	public String getRefactoringName() {
+		return this.refactoringName;
+	}
+
+	@Override
+	public String getPriorityText() {
+		return LOW_PRIORITY_TEXT;
 	}
 	
 }
