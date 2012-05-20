@@ -208,7 +208,7 @@ public class UCRDataView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 				Refactoring r = (Refactoring) element;
-				return r.getScore().toString();
+				return r.getScore().toString().substring(0, r.getScore().toString().indexOf("."));
 			}
 		});	
 		

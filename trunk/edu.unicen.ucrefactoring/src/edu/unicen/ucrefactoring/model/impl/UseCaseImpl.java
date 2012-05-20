@@ -527,4 +527,16 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		return null;
 	}
 
+	@Override
+	public String getFullDescription() {
+		String actor = "- Primary Actor: ";
+		if (this.getPrimaryActor()!= null){
+			actor = actor + this.getPrimaryActor().getName(); 
+		}
+		else{
+			actor = actor + "-- \n";
+		}
+		return this.getDescription() + "\n" + actor;
+	}
+
 } //UseCaseImpl

@@ -319,7 +319,7 @@ public class UCRUseCasesView extends ViewPart {
 					if (selection.size() == 1) {
 						ucList.getList().setToolTipText(
 								((UseCase) (selection.toList().get(0)))
-										.getDescription());
+										.getFullDescription());
 					} else {
 						ucList.getList().setToolTipText("");
 					}
@@ -524,8 +524,8 @@ public class UCRUseCasesView extends ViewPart {
 		}
 		textViewer.getTextWidget().setText(result);
 
-		int[] colors = { SWT.COLOR_RED, SWT.COLOR_BLUE, SWT.COLOR_GREEN,
-				SWT.COLOR_YELLOW, SWT.COLOR_GRAY };
+		int[] colors = { SWT.COLOR_YELLOW, SWT.COLOR_GREEN, SWT.COLOR_CYAN,
+				SWT.COLOR_RED, SWT.COLOR_MAGENTA };
 		int s = 0;
 		for (SimilarBlock sb : similarBlocks) {
 			int startEvent = sb.getBeginIndex() + 1;
@@ -570,8 +570,9 @@ public class UCRUseCasesView extends ViewPart {
 		TreeItem[] tree = treeViewer.getTree().getItems();
 		TreeItem[] innerTree = null;
 		int count = 0;
-		int[] colors = { SWT.COLOR_RED, SWT.COLOR_BLUE, SWT.COLOR_GREEN,
-				SWT.COLOR_YELLOW, SWT.COLOR_MAGENTA };
+		
+		int[] colors = { SWT.COLOR_YELLOW, SWT.COLOR_GREEN, SWT.COLOR_CYAN,
+				SWT.COLOR_RED, SWT.COLOR_MAGENTA };
 		for (int i = 0; i < tree.length; i++) {
 			System.out.println(tree[i].getData());
 			if (tree[i].getData() instanceof Flow) {
