@@ -84,11 +84,24 @@ public class GeneralizationRefactoring implements Refactoring {
 				for (Event actualEv : baseUseCaseA.getBasicFlow().getEvents()){
 					if(allDuplicated.contains(actualEv)){
 						Event newE = actualEv.cloneEvent();
+						Integer oldId = actualEv.getNumber();
 						newE.setEventId(actualEv.getEventId().replaceFirst(actualEv.getNumber().toString(), order.toString()));
 						newE.setNumber(order);
 						basicFlow.getEvents().add(newE);
 						order++;
 						lastParticular = false;
+						// Set to the parent the altenative flows in the common funtionality
+						for (Flow aFlow : baseUseCaseA.getFlows()){
+							if (aFlow.getName().contains(oldId.toString())){
+								Flow newFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+								newFlow.setParentFlow(aFlow.getParentFlow());
+								newFlow.setName(aFlow.getName().replaceFirst(oldId.toString(), newE.getNumber().toString()));
+								newFlow.setUseCase(aFlow.getUseCase());
+								newFlow.setReturnEvent(aFlow.getReturnEvent());
+								newFlow.getEvents().addAll(aFlow.getEvents());
+								parentUC.getFlows().add(newFlow);
+							}
+						}
 					}
 					else if (!lastParticular){
 						InclusionCall newE = UCRefactoringFactory.eINSTANCE.createInclusionCall();
@@ -138,6 +151,7 @@ public class GeneralizationRefactoring implements Refactoring {
 		for (Event e : basicFlow.getEvents()){
 			if (allDuplicated.contains(e)){
 				// Remove this abstract event
+				Integer id = e.getNumber();
 				if (!lastAbstract){
 					InclusionCall newE = UCRefactoringFactory.eINSTANCE.createInclusionCall();
 					Integer last = newList.size();
@@ -146,6 +160,16 @@ public class GeneralizationRefactoring implements Refactoring {
 					newE.setDetail("Common behaviour defined in parent use case");
 					newList.add(newE);
 					lastAbstract = true;
+				}
+				// see if some alternative flow must be removed too
+				Flow rmFlow = null; 
+				for (Flow aFlow : baseUC.getFlows()){
+					if (aFlow.getName().contains(id.toString())){
+						rmFlow = aFlow;
+					}
+				}
+				if (rmFlow != null){
+					baseUC.getFlows().remove(rmFlow);
 				}
 			}
 			else{

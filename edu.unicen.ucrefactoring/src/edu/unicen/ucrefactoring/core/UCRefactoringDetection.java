@@ -245,7 +245,7 @@ public class UCRefactoringDetection  {
 	
 	public void compareUseCases(){
 		similarityAnalizer = new SimilarityAnalyzer(UCRefactoringDetection.useCaseModel);
-		similarityAnalizer.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
+		similarityAnalizer.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX2);
 	}
 	
 

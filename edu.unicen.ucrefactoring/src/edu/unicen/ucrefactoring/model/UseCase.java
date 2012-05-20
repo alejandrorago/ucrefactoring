@@ -202,5 +202,7 @@ public interface UseCase extends EObject {
 	 * @return
 	 */
 	Flow getBasicFlow();
+	
+	String getFullDescription();
 
 } // UseCase
