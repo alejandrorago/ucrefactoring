@@ -48,7 +48,7 @@ public class GeneralizationRefactoring implements Refactoring {
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		// TODO Auto-generated method stub
 		/**
 		 * 1-
@@ -119,6 +119,7 @@ public class GeneralizationRefactoring implements Refactoring {
 		if(baseUseCaseB != null){
 			this.editBaseFlow(this.alignment.getSimilarBlocksFromB(), parentUC);
 		}
+		return true;
 	}
 	
 	private void editBaseFlow(List<SimilarBlock> simBlockToRemove, UseCase parent){

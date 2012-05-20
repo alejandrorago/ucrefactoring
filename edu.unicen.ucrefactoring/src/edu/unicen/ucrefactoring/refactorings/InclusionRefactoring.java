@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.Dialog;
+
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
@@ -47,7 +49,7 @@ public class InclusionRefactoring implements Refactoring{
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		/**
 		 * 1-
 		 * 2-
@@ -66,25 +68,31 @@ public class InclusionRefactoring implements Refactoring{
 			// Create Use Case
 			includedUC = UCRefactoringFactory.eINSTANCE.createUseCase();
 			
-			String n = UCRUseCasesView.askForUCName();
+			int cancel = UCRUseCasesView.newUseCaseDialog();
 			
-			includedUC.setName(n);
-			includedUC.setDescription("Default Description");
-			includedUC.setPrimaryActor(null); // No actor in this new use case
-			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
-			basicFlow.setName("Basic Flow");
-			Integer order = 1;
-			for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
-				Event newE = e.cloneEvent();
-				newE.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), order.toString()));
-				newE.setNumber(order);
-				basicFlow.getEvents().add(newE);
-				order++;
+			if (cancel == 0){
+				
+				includedUC.setName(UCRUseCasesView.UCRDialog.getUseCaseName());
+				includedUC.setDescription(UCRUseCasesView.UCRDialog.getUseCaseDescription());
+				includedUC.setPrimaryActor(null); // No actor in this new use case
+				Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+				basicFlow.setName("Basic Flow");
+				Integer order = 1;
+				for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
+					Event newE = e.cloneEvent();
+					newE.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), order.toString()));
+					newE.setNumber(order);
+					basicFlow.getEvents().add(newE);
+					order++;
+				}
+				basicFlow.setUseCase(includedUC);
+				includedUC.getFlows().add(basicFlow);
+				// Add new uc to the model
+				UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(includedUC);
 			}
-			basicFlow.setUseCase(includedUC);
-			includedUC.getFlows().add(basicFlow);
-			// Add new uc to the model
-			UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(includedUC);
+			else{
+				return false;
+			}
 		}
 		else{
 			if (this.alignment.getFlowA().getEvents().size() == this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents().size()){
@@ -102,6 +110,7 @@ public class InclusionRefactoring implements Refactoring{
 		if(baseUseCaseB != null){
 			this.editBaseFlow(this.alignment.getSimilarBlocksFromB().get(0), includedUC);
 		}
+		return true;
 	}
 	
 	private void editBaseFlow(SimilarBlock simBlockToRemove, UseCase includedUC){

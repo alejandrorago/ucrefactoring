@@ -40,7 +40,7 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		// TODO Auto-generated method stub
 		/**
 		 * 1-
@@ -49,6 +49,7 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		 * 4-
 		 * 
 		 */
+		return false;
 	}
 
 	@Override

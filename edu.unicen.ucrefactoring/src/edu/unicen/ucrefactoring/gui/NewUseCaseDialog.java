@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.Text;
 public class NewUseCaseDialog extends Dialog {
 	
 	 private String name;
+	 private Button buttonOK;
+	 private Button buttonCancel;
 	 
 	 public NewUseCaseDialog(Shell parent) {
 		    super(parent);
@@ -25,11 +27,9 @@ public class NewUseCaseDialog extends Dialog {
 	 
 	 public String openDialog() {
 		    Shell parent = getParentShell();
-		    final Shell shell =
-		      new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
+		    final Shell shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
 		    shell.setText("New Use Case Creation");
-		    //shell.setSize(500, 400); does not work
-
+		    shell.setSize(500, 400);
 		    shell.setLayout(new GridLayout(2, true));
 		    
 		    Label label = new Label(shell, SWT.NULL);
@@ -44,22 +44,30 @@ public class NewUseCaseDialog extends Dialog {
 		    Button buttonCancel = new Button(shell, SWT.PUSH);
 		    buttonCancel.setText("Cancel");
 		    //buttonOK.setSize(100, 20);
+		    buttonOK.setEnabled(false);
 		    
 		    text.addListener(SWT.Modify, new Listener() {
 				
 		    	public void handleEvent(Event event) {
-			        try {
-			          name = new String(text.getText());
-			          buttonOK.setEnabled(true);
-			        } catch (Exception e) {
-			          buttonOK.setEnabled(false);
-			        }
+		    		if (text != null && !text.getText().equals("")){
+				        try {
+				          name = new String(text.getText());
+				          buttonOK.setEnabled(true);
+				        } catch (Exception e) {
+				          buttonOK.setEnabled(false);
+				        }
+		    		}
+		    		else{
+		    			buttonOK.setEnabled(false);
+		    		}
 		    	}; 
 		    });
 
 		    buttonOK.addListener(SWT.Selection, new Listener() {
 		      public void handleEvent(Event event) {
-		        shell.dispose();
+		    	  if (name != null && !name.equals("")){
+		    		  shell.dispose();
+		    	  }
 		      }
 		    });
 

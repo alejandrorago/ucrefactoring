@@ -87,6 +87,7 @@ public class UCRDataView extends ViewPart {
 		
 		btnAnalyze = new Button(container, SWT.NONE);
 		btnAnalyze.setText("Analyze");
+		btnAnalyze.setEnabled(false);
 		
 		btnApply = new Button(container, SWT.NONE);
 		btnApply.setText("Apply");
@@ -300,11 +301,12 @@ public class UCRDataView extends ViewPart {
 				Refactoring ref;
 				if (selection.size()==1){
 					ref = (Refactoring) selection.getFirstElement();
-					ref.applyRefactoring();
-					UCRUseCasesView.updateUseCasesView();
-					btnApply.setEnabled(false);
-					cleanViews();
-					showRefactoring(ref,false);
+					if (ref.applyRefactoring()){
+						UCRUseCasesView.updateUseCasesView();
+						btnApply.setEnabled(false);
+						cleanViews();
+						showRefactoring(ref,false);
+					}
 				}
 			}
 		});

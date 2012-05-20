@@ -40,8 +40,9 @@ public class DeleteActorRefactoring implements Refactoring {
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
