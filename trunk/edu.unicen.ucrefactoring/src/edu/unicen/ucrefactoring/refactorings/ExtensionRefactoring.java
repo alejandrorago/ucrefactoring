@@ -72,20 +72,23 @@ public class ExtensionRefactoring implements Refactoring{
 			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			extendingUC = UCRefactoringFactory.eINSTANCE.createUseCase();
 			
-			String n = UCRUseCasesView.askForUCName();
+			int cancel = UCRUseCasesView.newUseCaseDialog();
 			
-			extendingUC.setName(n);
-			extendingUC.setDescription("Default Description");
-			extendingUC.setPrimaryActor(null); // No actor in this new use case
-			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
-			basicFlow.setName("Basic Flow");
-			for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
-				basicFlow.getEvents().add(e.cloneEvent());
+			if (cancel == 0){
+				
+				extendingUC.setName(UCRUseCasesView.UCRDialog.getUseCaseName());
+				extendingUC.setDescription(UCRUseCasesView.UCRDialog.getUseCaseDescription());
+				extendingUC.setPrimaryActor(null); // No actor in this new use case
+				Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+				basicFlow.setName("Basic Flow");
+				for(Event e : this.alignment.getSimilarBlocksFromA().get(0).getSimilarEvents()){
+					basicFlow.getEvents().add(e.cloneEvent());
+				}
+				basicFlow.setUseCase(extendingUC);
+				extendingUC.getFlows().add(basicFlow);
+				// Add new uc to the model
+				UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(extendingUC);
 			}
-			basicFlow.setUseCase(extendingUC);
-			extendingUC.getFlows().add(basicFlow);
-			// Add new uc to the model
-			UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(extendingUC);
 		}
 		else{
 			if (this.alignment.getFlowA().getName().equals("Basic Flow")){
