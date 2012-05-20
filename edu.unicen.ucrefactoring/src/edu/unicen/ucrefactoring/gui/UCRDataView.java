@@ -135,7 +135,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnProblem.setWidth(170);
+		tblclmnProblem.setWidth(365);
 		tblclmnProblem.setText(PROBLEM_HEADER);
 		tableViewerColumn_2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -156,7 +156,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnRefactoring.setWidth(170);
+		tblclmnRefactoring.setWidth(335);
 		tblclmnRefactoring.setText(REFACTORING_HEADER);
 		tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -177,7 +177,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnArtifacts.setWidth(150);
+		tblclmnArtifacts.setWidth(260);
 		tblclmnArtifacts.setText(ARTIFACT_HEADER);
 		tableViewerColumn_1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
