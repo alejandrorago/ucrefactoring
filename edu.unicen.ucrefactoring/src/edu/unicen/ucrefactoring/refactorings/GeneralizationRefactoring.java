@@ -66,42 +66,45 @@ public class GeneralizationRefactoring implements Refactoring {
 			// Create Use Case
 			parentUC = UCRefactoringFactory.eINSTANCE.createUseCase();
 			
-			String n = UCRUseCasesView.askForUCName();
+			int cancel = UCRUseCasesView.newUseCaseDialog();
 			
-			parentUC.setName(n);
-			parentUC.setDescription("Default Description");
-			parentUC.setPrimaryActor(null); // TODO ABSTRAER ACTORES
-			Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
-			basicFlow.setName("Basic Flow");
-			Integer order = 1;
-			Boolean lastParticular = false;
-			List<Event> allDuplicated = new ArrayList<Event>();
-			for (SimilarBlock sb :this.alignment.getSimilarBlocksFromA()){
-				allDuplicated.addAll(sb.getSimilarEvents());
-			}
-			for (Event actualEv : baseUseCaseA.getBasicFlow().getEvents()){
-				if(allDuplicated.contains(actualEv)){
-					Event newE = actualEv.cloneEvent();
-					newE.setEventId(actualEv.getEventId().replaceFirst(actualEv.getNumber().toString(), order.toString()));
-					newE.setNumber(order);
-					basicFlow.getEvents().add(newE);
-					order++;
-					lastParticular = false;
+			if (cancel == 0){
+			
+				parentUC.setName(UCRUseCasesView.UCRDialog.getUseCaseName());
+				parentUC.setDescription(UCRUseCasesView.UCRDialog.getUseCaseDescription());
+				parentUC.setPrimaryActor(null); // TODO ABSTRAER ACTORES
+				Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+				basicFlow.setName("Basic Flow");
+				Integer order = 1;
+				Boolean lastParticular = false;
+				List<Event> allDuplicated = new ArrayList<Event>();
+				for (SimilarBlock sb :this.alignment.getSimilarBlocksFromA()){
+					allDuplicated.addAll(sb.getSimilarEvents());
 				}
-				else if (!lastParticular){
-					InclusionCall newE = UCRefactoringFactory.eINSTANCE.createInclusionCall();
-					newE.setEventId(order + ".");
-					newE.setNumber(order);
-					newE.setDetail("Delegated to particular implementation");
-					basicFlow.getEvents().add(newE);
-					order++;
-					lastParticular = true;
+				for (Event actualEv : baseUseCaseA.getBasicFlow().getEvents()){
+					if(allDuplicated.contains(actualEv)){
+						Event newE = actualEv.cloneEvent();
+						newE.setEventId(actualEv.getEventId().replaceFirst(actualEv.getNumber().toString(), order.toString()));
+						newE.setNumber(order);
+						basicFlow.getEvents().add(newE);
+						order++;
+						lastParticular = false;
+					}
+					else if (!lastParticular){
+						InclusionCall newE = UCRefactoringFactory.eINSTANCE.createInclusionCall();
+						newE.setEventId(order + ".");
+						newE.setNumber(order);
+						newE.setDetail("Delegated to particular implementation");
+						basicFlow.getEvents().add(newE);
+						order++;
+						lastParticular = true;
+					}
 				}
+				basicFlow.setUseCase(parentUC);
+				parentUC.getFlows().add(basicFlow);
+				// Add new uc to the model
+				UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(parentUC);
 			}
-			basicFlow.setUseCase(parentUC);
-			parentUC.getFlows().add(basicFlow);
-			// Add new uc to the model
-			UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(parentUC);
 		}
 		else{
 			if (isThisParent(this.alignment.getFlowA())){
