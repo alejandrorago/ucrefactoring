@@ -52,7 +52,7 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		// TODO Auto-generated method stub
 		/**
 		 * Extension refactoring.
@@ -62,7 +62,7 @@ public class MergeUseCasesRefactoring implements Refactoring{
 		 * 4- Remove alternative flow and/or duplicate events from use cases
 		 * 5- Add new use case to use case model
 		 */
-		
+		return false;
 		
 	}
 

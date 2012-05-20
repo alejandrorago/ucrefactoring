@@ -64,6 +64,11 @@ public class UCRefactoringDetection  {
 		initUCRefactoringDetection(loadNew);
 	}
 	
+	public UCRefactoringDetection(File useCaseFile, File useCaseUima){
+		super();
+		initUCRefactoringDetection(useCaseFile, useCaseUima);
+	}
+	
 	public UCRefactoringDetection(UseCaseModel ucModel){
 		super();
 		updateUCRefactoringDetection(ucModel);
@@ -142,6 +147,28 @@ public class UCRefactoringDetection  {
 			//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
 			//modelCreator.exportModel(); 
 			//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+		}
+	}
+	
+	public static void initUCRefactoringDetection(File useCaseFile, File useCaseUima){
+		try{
+
+			//Cargo el archivo UIMA
+			modelCreator = new ModelCreator(loadUIMA(useCaseUima.getAbsolutePath()).getContents());
+			
+			//Cargo el archivo UCS
+			modelCreator.load(useCaseFile);
+			
+			//Imprimo el modelo generado
+			//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
+			
+			useCaseModel = modelCreator.getParsedUseCaseModel();
+//				UCRefactoringDetection.updateDomainActions();
+//				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+//				modelCreator.exportModel();		
+		}
+		catch (Exception e){
+			System.out.println("");
 		}
 	}
 

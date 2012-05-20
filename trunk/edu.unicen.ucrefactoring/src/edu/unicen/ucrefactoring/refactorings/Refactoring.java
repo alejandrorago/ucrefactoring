@@ -18,7 +18,7 @@ public interface Refactoring {
 	
 	public boolean canApply();
 	
-	public void applyRefactoring();
+	public boolean applyRefactoring();
 
 	public Float getScore();
 	

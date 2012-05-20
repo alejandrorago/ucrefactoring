@@ -53,7 +53,7 @@ public class ExtensionRefactoring implements Refactoring{
 	}
 
 	@Override
-	public void applyRefactoring() {
+	public boolean applyRefactoring() {
 		/**
 		 * Extension refactoring.
 		 * 1- If Needed, Create new use case
@@ -103,6 +103,7 @@ public class ExtensionRefactoring implements Refactoring{
 		if(baseUseCaseB != null){
 			this.editBaseFlow(this.alignment.getFlowB(), extendingUC);
 		}
+		return true;
 	}
 	
 	private void editBaseFlow(Flow fToRemove, UseCase extUC){
