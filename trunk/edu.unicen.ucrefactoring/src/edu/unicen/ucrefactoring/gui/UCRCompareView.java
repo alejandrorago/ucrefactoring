@@ -70,7 +70,7 @@ public class UCRCompareView extends ViewPart {
 	//Showed SimilarBlocks
 	public static List<SimilarBlock> similarBlocksLeft;
 	public static List<SimilarBlock> similarBlocksRight;
-	private List<Event> candidates; 
+	public static List<Event> candidates; 
 	public boolean isLeft = true;
 	private Composite composite;
 	private Composite composite_1;
@@ -534,6 +534,16 @@ public class UCRCompareView extends ViewPart {
 		else{
 			btnCompare.setEnabled(false);
 		}
+	}
+	
+	
+	public static void resetView(){
+		similarBlocksLeft = new ArrayList<SimilarBlock>();
+		similarBlocksRight = new ArrayList<SimilarBlock>();
+		candidates = new ArrayList<Event>();
+		btnCleanLeft.notifyListeners(SWT.Selection, null);
+		btnCleanRight.notifyListeners(SWT.Selection, null);
+
 	}
 	
 }

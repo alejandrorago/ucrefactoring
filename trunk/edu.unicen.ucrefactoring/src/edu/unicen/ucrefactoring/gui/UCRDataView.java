@@ -64,13 +64,13 @@ public class UCRDataView extends ViewPart {
 	//core structures
 	private HashMap<String,Metric> metrics;
 	private HashMap<String,Refactoring> refactorings;
-	TableViewer tableViewer;	
+	public static TableViewer tableViewer;	
 	private Table table;
 
 	
 	public UCRDataView() {	
 		//Providers
-		ucref = new UCRefactoringDetection(false);
+		//ucref = new UCRefactoringDetection(false);
 		extLabel = new RefactoringLabelProvider();
 		refactorings = new HashMap<String,Refactoring>();
 		metrics = new HashMap<String,Metric>();
@@ -404,6 +404,17 @@ public class UCRDataView extends ViewPart {
 				UCRCompareView.updateButtonsAndLabels();
 			}
 		}
+	}
+	
+	public static void resetView(UCRefactoringDetection ucref){
+		UCRDataView.ucref = ucref;
+		UCRDataView.extLabel = new RefactoringLabelProvider();
+		RefactoringTableContentProvider extTableContentProvider = new RefactoringTableContentProvider(new HashMap<String, Refactoring>());
+		UCRDataView.tableViewer.setContentProvider(extTableContentProvider);
+		UCRDataView.tableViewer.setInput(ucref);
+		UCRDataView.tableViewer.refresh();
+		UCRDataView.btnApply.setEnabled(false);
+		UCRDataView.btnAnalyze.setEnabled(true);
 	}
 	
 }

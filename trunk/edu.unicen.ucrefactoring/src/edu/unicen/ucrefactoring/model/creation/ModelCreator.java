@@ -207,9 +207,7 @@ public class ModelCreator {
 						 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
 						 
 						 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
-						 for(Predicate predicate : p){
-//							 System.out.println("Sent: " + ModelCreator.uimaRoot.getCoveredText(sentence));
-//							 System.out.println("Pred: " + ModelCreator.uimaRoot.getCoveredText(predicate));	
+						 for(Predicate predicate : p){						
 							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
 							 
 							 for(DomainAction dAction : actions){						 
@@ -221,17 +219,8 @@ public class ModelCreator {
 					 
 								 ActionCodeEnum.getByName(dAction.getLabel());
 								 
-								 //TEST PRINT
-//								 System.out.println("\n Action: "+dAction.getLabel());
-//								 System.out.println("\n Confidence: "+dAction.getConfidence());
-//								 System.out.println("\n Ranking: "+dAction.getRanking());
-//								 System.out.println((dAction.getParent()!=null)?"PARENT: " + dAction.getParent().getLabel():"NO PARENT");
-//								 if (dAction.getChilds()!=null && dAction.getChilds().size()>0) 
-//									 for (DomainAction a : dAction.getChilds())
-//										 System.out.println("Child : " +a.getLabel());
-//								 else System.out.println("NO CHILDS");
 							 }
-//							 System.out.println("--------------------------");
+
 						 }
 					 }	
 					 // Agrego el Flujo Basico al Caso de Uso
@@ -260,6 +249,24 @@ public class ModelCreator {
 						 alternative.getEvents().add(event);
 						 numberIndex++;
 						 order++;
+					 	 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
+						 
+						 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
+						 for(Predicate predicate : p){						
+							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
+							 
+							 for(DomainAction dAction : actions){						 
+								 //convierto las domainActions to actionClass
+								 if (dAction!=null && dAction.getLabel()!=null){
+									 ActionClass actionClass = domainActionToActionClass(dAction);
+									 event.getActionClasses().add(actionClass);
+								 }
+					 
+								 ActionCodeEnum.getByName(dAction.getLabel());
+								 
+							 }
+
+						 }
 					 }
 				 }
 			 }
@@ -273,15 +280,16 @@ public class ModelCreator {
 		
 		//Guardamos el modelo
 		setParsedUseCaseModel(useCaseModel);
+		
 		//Exportamos el resultado a un archivo
-		exportModel();
+		exportModel(file.getAbsolutePath().replace(".ucs", ".ucrefactoring"));
 
 	}
 	
 	/**
 	 * Método que exporta el modelo del UCS parseado
 	 */
-	public void exportModel(){
+	public void exportModel(String filePath){
 		// Register the XMI resource factory for the .website extension
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		Map<String, Object> m = reg.getExtensionToFactoryMap();
@@ -291,7 +299,7 @@ public class ModelCreator {
 		ResourceSet resSet = new ResourceSetImpl();
 
 		// Create a resource
-		Resource resourceSalida = resSet.createResource(URI.createFileURI(Constants.OUTPUT_RESOURCE_DIR));
+		Resource resourceSalida = resSet.createResource(URI.createFileURI(filePath));
 		resourceSalida.getContents().add(parsedUseCaseModel);
 
 		// Now save the content.

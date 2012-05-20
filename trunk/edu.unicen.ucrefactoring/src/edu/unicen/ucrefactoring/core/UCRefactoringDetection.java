@@ -59,16 +59,25 @@ public class UCRefactoringDetection  {
 	
 	//=========Constructor===========
 
+	//first method, obsolete
 	public UCRefactoringDetection(Boolean loadNew){
 		super();
 		initUCRefactoringDetection(loadNew);
 	}
 	
+	//used if user selects ucs file from filechooser
 	public UCRefactoringDetection(File useCaseFile, File useCaseUima){
 		super();
 		initUCRefactoringDetection(useCaseFile, useCaseUima);
 	}
+
+	//used if user selects ucrefactoring file from filechooser
+	public UCRefactoringDetection(File useCaseRefactoringDetection){
+		super();
+		initUCRefactoringDetection(useCaseRefactoringDetection);
+	}
 	
+	//update method used by views
 	public UCRefactoringDetection(UseCaseModel ucModel){
 		super();
 		updateUCRefactoringDetection(ucModel);
@@ -166,6 +175,23 @@ public class UCRefactoringDetection  {
 //				UCRefactoringDetection.updateDomainActions();
 //				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
 //				modelCreator.exportModel();		
+		}
+		catch (Exception e){
+			System.out.println("");
+		}
+	}
+	
+	public static void initUCRefactoringDetection(File useCaseRefactoringDetection){
+		try{
+
+			modelCreator = new ModelCreator();
+			modelCreator.loadExistingFile(useCaseRefactoringDetection);
+			UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
+			//UCRefactoringDetection.updateDomainActions();
+			//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
+			//modelCreator.exportModel(); 
+			modelCreator.printModel(useCaseRefactoringDetection);
+			
 		}
 		catch (Exception e){
 			System.out.println("");

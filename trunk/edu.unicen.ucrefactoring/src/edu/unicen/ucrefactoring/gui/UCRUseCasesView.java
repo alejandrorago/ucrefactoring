@@ -1,15 +1,18 @@
 package edu.unicen.ucrefactoring.gui;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -97,7 +100,7 @@ public class UCRUseCasesView extends ViewPart {
 		// ucTreeContentProvider = new
 		// UseCaseTreeContentProvider(ucref.getUseCaseModel());
 		// assumes listviewer already created
-		populatesUCList();
+		populateUCList();
 		// TODO: Find out a better way to initialize and compare use cases
 		ucref.compareUseCases();
 		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
@@ -106,7 +109,7 @@ public class UCRUseCasesView extends ViewPart {
 		useCaseB = null;
 	}
 
-	private static void populatesUCList() {
+	private static void populateUCList() {
 		ucList.setContentProvider(ucListContentProvider);
 		ucList.setLabelProvider(ucLabel);
 		ucList.setInput(ucref);
@@ -400,40 +403,88 @@ public class UCRUseCasesView extends ViewPart {
 				int returnVal = fileChooser.showOpenDialog(null);
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					// get ucm file
-					File useCaseModel = fileChooser.getSelectedFile();
-					// get uima file
-					String uimaPath = fileChooser.getSelectedFile()
-							.getAbsolutePath();
-					uimaPath = uimaPath.substring(0, uimaPath.lastIndexOf("/"))
-							+ useCaseModel.getName().substring(0,
-									useCaseModel.getName().lastIndexOf("."))
-							+ "uima";
-					System.out.println(uimaPath);
-					File useCaseUima = new File(uimaPath);
+					String fileName = fileChooser.getSelectedFile().getName();
+					
+					//if user selects ucs file					
+					if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucs")){
+						// get ucm file
+						File useCaseModel = fileChooser.getSelectedFile();
+						// get uima file
+						String uimaPath = fileChooser.getSelectedFile()
+								.getAbsolutePath();
+						uimaPath = uimaPath.substring(0, uimaPath.lastIndexOf("/"))
+								+ "/" + useCaseModel.getName().substring(0,
+										useCaseModel.getName().lastIndexOf("."))
+								+ ".uima";
+						
+						File useCaseUima = new File(uimaPath);
 
-					ucref = new UCRefactoringDetection(useCaseModel,
-							useCaseUima);
-					ucLabel = new UseCaseLabelProvider();
-					ucListContentProvider = new UseCaseListContentProvider(
-							ucref.getUseCaseModel());
+						if (useCaseUima.exists()){
+	
+							ucref = new UCRefactoringDetection(useCaseModel,
+									useCaseUima);
+							ucLabel = new UseCaseLabelProvider();
+							ucListContentProvider = new UseCaseListContentProvider(
+									ucref.getUseCaseModel());
+		
+							// parse use case model
+							ucref.compareUseCases();
+							alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
+		
+							// set use case model name
+							lblUseCaseModel.setText(ucref.getUseCaseModel().getName());
+		
+							// populate list
+							UCRUseCasesView.populateUCList();
+		
+							// enable analyze button
+							UCRDataView.btnAnalyze.setEnabled(true);
+		
+							System.out.println("Opening: " + useCaseModel.getName()+ ".");
+							
+							UCRUseCasesView.resetView();
+							UCRDataView.resetView(ucref);
+							UCRCompareView.resetView();
+	
+						}
+						else{
+							//MessageDialog messageDialog = new MessageDialog();
+							JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCS cannot be found. <br/> Please select another file.", "UIMA file not found", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					//else, if user selects ucrefactoring file
+					else if(fileChooser.getSelectedFile().exists()) {
+						File useCaseRefactoringDetection = fileChooser.getSelectedFile();
+						fileName = useCaseRefactoringDetection.getName();
 
-					// parse use case model
-					ucref.compareUseCases();
-					alignResults = ucref.getSimilarityAnalizer()
-							.getAlignmentResult();
-
-					// set use case model name
-					lblUseCaseModel.setText(ucref.getUseCaseModel().getName());
-
-					// populate list
-					UCRUseCasesView.populatesUCList();
-
-					// enable analyze button
-					UCRDataView.btnAnalyze.setEnabled(true);
-
-					System.out.println("Opening: " + useCaseModel.getName()
-							+ ".");
+						if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucrefactoring")){
+							ucref = new UCRefactoringDetection(useCaseRefactoringDetection);
+							ucLabel = new UseCaseLabelProvider();
+							ucListContentProvider = new UseCaseListContentProvider(
+									ucref.getUseCaseModel());
+		
+							// parse use case model
+							ucref.compareUseCases();
+							alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
+		
+							// set use case model name
+							lblUseCaseModel.setText(ucref.getUseCaseModel().getName());
+		
+							// populate list
+							UCRUseCasesView.populateUCList();
+		
+							// enable analyze button
+							UCRDataView.btnAnalyze.setEnabled(true);
+		
+							System.out.println("Opening: " + useCaseRefactoringDetection.getName()+ ".");
+							
+							UCRUseCasesView.resetView();
+							UCRDataView.resetView(ucref);
+							UCRCompareView.resetView();
+						}
+					}
+					
+					
 				} else {
 					System.out.println("Open command cancelled by user.");
 				}
@@ -645,5 +696,10 @@ public class UCRUseCasesView extends ViewPart {
 		Shell shell = UCRUseCasesView.container_1.getShell();
 	    UCRDialog = new UCRNewUseCaseDialog(shell);
 	    return UCRDialog.open();
+	}
+	
+	public static void resetView(){
+		useCaseA = null;
+		useCaseB = null;
 	}
 }
