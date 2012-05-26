@@ -20,7 +20,8 @@ public class DeleteActorRefactoring implements Refactoring {
 	private Actor actor;
 	private String problem = "Actor does not participates in the Use Case / Duplicated Actor";
 	private String refactoringName = "Delete non sense Actor";
-	private List<String> artifacts; 
+	private List<String> artifacts;
+	private Long ID;
 	
 	public DeleteActorRefactoring(Actor actor){
 		this.score = null;
@@ -108,6 +109,15 @@ public class DeleteActorRefactoring implements Refactoring {
 	@Override
 	public String getPriorityText() {
 		return LOW_PRIORITY_TEXT;
+	}
+
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 	
 }

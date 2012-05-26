@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -64,15 +65,17 @@ public class UCRUseCasesView extends ViewPart {
 	static public UseCase useCaseA;
 	static public UseCase useCaseB;
 
-// Actions
+	// Actions
 	private Action compareAction;
 
 	// widgets
 	private static ListViewer ucList;
 	private org.eclipse.swt.widgets.List list;
 	private Button btnLoadUseCase;
+	private Button btnSave;
 	private Label lblUseCaseModel;
 	private static JFileChooser fileChooser;
+	private static JFileChooser fileSaver;
 	public static UCRNewUseCaseDialog UCRDialog;
 
 	public UCRUseCasesView() {
@@ -82,9 +85,57 @@ public class UCRUseCasesView extends ViewPart {
 	// ==============Servicios==========================
 
 	public static void initUseCasesView() {
-		// init file chooser
+		// init file choosers
 		fileChooser = new JFileChooser();
+		fileSaver = new JFileChooser();
+		// set File Filters
+		fileChooser.setFileFilter(new FileFilter(){
+			private String extensions[] = {".ucs",".ucrefactoring"};
+			private String description = "ucs, ucrefactoring";
+			@Override
+			public boolean accept(File file) {
+				  if (file.isDirectory()) {
+			        return true;
+			      }
+			      int count = extensions.length;
+			      String path = file.getAbsolutePath();
+			      for (int i = 0; i < count; i++) {
+			        String ext = extensions[i];
+			        if (path.endsWith(ext)
+			            && (path.charAt(path.length() - ext.length()) == '.')) {
+			          return true;
+			        }
+			      }
+			      return false;
+			}
 
+			@Override
+			public String getDescription() {
+				return this.description;
+			}
+			
+		});
+		
+		fileSaver.addChoosableFileFilter(new FileFilter(){
+
+			@Override
+			public boolean accept(File file) {
+				  if (file.isDirectory()){
+		            return false;
+		          }
+
+		          String s = file.getName();
+
+		          return s.endsWith(".ucrefactoring");
+			}
+
+			@Override
+			public String getDescription() {
+			      return "*.ucrefactoring";
+			}
+			
+		});
+		
 		useCaseA = null;
 		useCaseB = null;
 	}
@@ -128,7 +179,7 @@ public class UCRUseCasesView extends ViewPart {
 
 		btnLoadUseCase = new Button(parent, SWT.CENTER);
 
-		btnLoadUseCase.setText("Load Use Case Model");
+		btnLoadUseCase.setText("Load Model");
 
 		lblUseCaseModel = new Label(container_1, SWT.NONE);
 		GroupLayout gl_container_1 = new GroupLayout(container_1);
@@ -156,22 +207,30 @@ public class UCRUseCasesView extends ViewPart {
 						.add(list, GroupLayout.DEFAULT_SIZE, 262,
 								Short.MAX_VALUE).addContainerGap()));
 		container_1.setLayout(gl_container_1);
+		
+		btnSave = new Button(parent, SWT.NONE);
+		btnSave.setText("Save");
 		GroupLayout gl_parent = new GroupLayout(parent);
-		gl_parent.setHorizontalGroup(gl_parent
-				.createParallelGroup(GroupLayout.LEADING)
-				.add(container_1, GroupLayout.DEFAULT_SIZE, 199,
-						Short.MAX_VALUE)
-				.add(gl_parent.createSequentialGroup().add(22)
+		gl_parent.setHorizontalGroup(
+			gl_parent.createParallelGroup(GroupLayout.LEADING)
+				.add(container_1, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+				.add(gl_parent.createSequentialGroup()
+					.add(12)
+					.add(btnLoadUseCase, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(btnSave, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_parent.setVerticalGroup(
+			gl_parent.createParallelGroup(GroupLayout.TRAILING)
+				.add(gl_parent.createSequentialGroup()
+					.add(container_1, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+					.addPreferredGap(LayoutStyle.RELATED)
+					.add(gl_parent.createParallelGroup(GroupLayout.LEADING)
 						.add(btnLoadUseCase)
-						.addContainerGap(22, Short.MAX_VALUE)));
-		gl_parent.setVerticalGroup(gl_parent.createParallelGroup(
-				GroupLayout.TRAILING).add(
-				gl_parent
-						.createSequentialGroup()
-						.add(container_1, GroupLayout.DEFAULT_SIZE, 301,
-								Short.MAX_VALUE)
-						.addPreferredGap(LayoutStyle.RELATED)
-						.add(btnLoadUseCase).add(8)));
+						.add(btnSave))
+					.addContainerGap())
+		);
 		parent.setLayout(gl_parent);
 
 		// modified
@@ -319,7 +378,7 @@ public class UCRUseCasesView extends ViewPart {
 					if (selection.size() == 1) {
 						ucList.getList().setToolTipText(
 								((UseCase) (selection.toList().get(0)))
-										.getFullDescription());
+										.getDescription());
 					} else {
 						ucList.getList().setToolTipText("");
 					}
@@ -491,6 +550,33 @@ public class UCRUseCasesView extends ViewPart {
 
 			}
 		});
+		
+		btnSave.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) { 
+				int returnVal = fileSaver.showSaveDialog(null);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					String fileName = fileSaver.getSelectedFile().getAbsolutePath();
+					String ext="";
+			        String extension = fileSaver.getFileFilter().getDescription();
+			        if(extension.equals("*.ucrefactoring")){ 
+			           ext=".ucrefactoring"; 
+			        }
+			        if (fileName.endsWith(".ucrefactoring")){
+			        	ucref.exportRefactoredModel(fileName);
+			        }
+			        else{
+			        	ucref.exportRefactoredModel(fileName+ext);
+			        }
+					
+				} else {
+					System.out.println("Save command cancelled by user.");
+				}
+
+			}
+		});
+		
 	}
 
 	/**

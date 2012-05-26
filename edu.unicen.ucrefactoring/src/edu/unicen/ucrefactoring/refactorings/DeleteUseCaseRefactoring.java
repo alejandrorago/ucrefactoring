@@ -19,6 +19,8 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	private String problem = "Use Case can never be activated";
 	private String refactoringName = "Delete non sense Use Case";
 	private List<String> artifacts; 
+	private Long ID;
+
 	
 	public DeleteUseCaseRefactoring(UseCase useCase){
 		this.score = null;
@@ -100,5 +102,14 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	@Override
 	public String getPriorityText() {
 		return LOW_PRIORITY_TEXT;
+	}
+	
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 }

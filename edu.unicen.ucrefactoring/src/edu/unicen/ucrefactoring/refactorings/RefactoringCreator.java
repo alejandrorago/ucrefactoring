@@ -1,6 +1,9 @@
 package edu.unicen.ucrefactoring.refactorings;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.DuplicateMetric;
@@ -51,6 +54,7 @@ public class RefactoringCreator {
 				
 			}
 		}
+		this.setIds();
 		return this.refactorings;
 	}
 	
@@ -145,4 +149,23 @@ public class RefactoringCreator {
 			i++;
 		}	
 	}
+	
+	public void setIds(){
+		Long id = 1l;
+		Refactoring top = null;
+		List<Refactoring> ordered = new ArrayList<Refactoring>();
+		while (ordered.size()<refactorings.size()){
+			int count = 0;
+			for (Refactoring ref : this.refactorings.values()){
+				if (!ordered.contains(ref) && (top == null || (top!=null && ref.getScore()>top.getScore()))){
+					ref.setID(id);
+					top = ref;
+				}
+			}
+			ordered.add(top);
+			top = null;
+			id++;
+		}
+	}
+	
 }

@@ -20,6 +20,8 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	private String problem = "Use Case is too long / complicated";
 	private String refactoringName = "Extract Use Case";
 	private List<String> artifacts; 
+	private Long ID;
+
 
 	
 	public ExtractUseCaseRefactoring(UseCase useCase, Metric metric){
@@ -117,6 +119,15 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	@Override
 	public String getPriorityText() {
 		return MEDIUM_PRIORITY_TEXT;
+	}
+	
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 	
 }

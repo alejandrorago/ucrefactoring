@@ -25,6 +25,8 @@ public class GeneralizationRefactoring implements Refactoring {
 	private String problem = "Use cases lacks abstraction";
 	private String refactoringName = "Generate generalization relationship";
 	private List<String> artifacts; 
+	private Long ID;
+
 	
 	public GeneralizationRefactoring(AlignmentX2Result alignment){
 		this.score = null;
@@ -271,6 +273,15 @@ public class GeneralizationRefactoring implements Refactoring {
 	@Override
 	public String getPriorityText() {
 		return HIGH_PRIORITY_TEXT;
+	}
+	
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 
 }

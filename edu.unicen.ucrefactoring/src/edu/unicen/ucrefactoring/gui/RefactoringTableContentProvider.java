@@ -31,8 +31,8 @@ public class RefactoringTableContentProvider implements IStructuredContentProvid
 					return (o2.getScore().compareTo(o1.getScore()));
 				}
 			});
+			this.list = refactorings;
 		}
-		this.list = refactorings; 
 	}
 	
 	public RefactoringTableContentProvider(Object list, String property){

@@ -28,6 +28,8 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	private String problem = "Actor does not participates in the use case / Duplicated Actor";
 	private String refactoringName = "Delete Non Sense Actor";
 	private List<String> artifacts; 
+	private Long ID;
+
 	
 	public MergeUseCasesRefactoring(UseCase useCase1, UseCase useCase2){
 		this.score = null;
@@ -155,6 +157,15 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	@Override
 	public String getPriorityText() {
 		return MEDIUM_PRIORITY_TEXT;
+	}
+	
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 	
 }
