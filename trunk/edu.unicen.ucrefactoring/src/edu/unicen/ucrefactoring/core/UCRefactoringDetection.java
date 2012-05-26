@@ -248,6 +248,11 @@ public class UCRefactoringDetection  {
 		similarityAnalizer.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX2);
 	}
 	
+	
+	public void exportRefactoredModel(String filePath){
+		modelCreator.parsedUseCaseModel = useCaseModel;
+		modelCreator.exportModel(filePath);
+	}
 
 	
 

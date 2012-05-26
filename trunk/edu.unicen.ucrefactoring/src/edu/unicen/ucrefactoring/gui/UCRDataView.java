@@ -5,7 +5,10 @@ import java.util.HashMap;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnPixelData;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -41,16 +44,19 @@ import edu.unicen.ucrefactoring.refactorings.Refactoring;
 import edu.unicen.ucrefactoring.refactorings.RefactoringCreator;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.widgets.Label;
 
 public class UCRDataView extends ViewPart {
 
 	public static final String ID = "edu.unicen.ucrefactoring.gui.UCRDataView"; //$NON-NLS-1$
 
+	//Table headers
 	public static final String PROBLEM_HEADER = "Problem";
 	public static final String REFACTORING_HEADER = "Refactoring";
 	public static final String ARTIFACT_HEADER = "Artifact";
 	public static final String SCORE_HEADER = "Score";
 	public static final String PRIORITY_HEADER = "Priority";
+	public static final String ID_HEADER = "ID";
 	
 	//Providers
 	private static UCRefactoringDetection ucref;
@@ -58,8 +64,10 @@ public class UCRDataView extends ViewPart {
 	private RefactoringListContentProvider extListContentProvider;
 	private RefactoringTableContentProvider extTableContentProvider;
 	
+	// widgets
 	public static Button btnAnalyze; 
 	public static Button btnApply;
+	public static Label lblRefactoring;
 	
 	//core structures
 	private HashMap<String,Metric> metrics;
@@ -85,6 +93,10 @@ public class UCRDataView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		
+		//Add TableColumnLayout
+//		TableColumnLayout tableLayout = new TableColumnLayout();
+//		container.setLayout(tableLayout);
+		
 		btnAnalyze = new Button(container, SWT.NONE);
 		btnAnalyze.setText("Analyze");
 		btnAnalyze.setEnabled(false);
@@ -99,30 +111,58 @@ public class UCRDataView extends ViewPart {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
+		lblRefactoring = new Label(container, SWT.NONE);
+		
 		GroupLayout gl_container = new GroupLayout(container);
 		gl_container.setHorizontalGroup(
 			gl_container.createParallelGroup(GroupLayout.TRAILING)
 				.add(gl_container.createSequentialGroup()
 					.addContainerGap()
-					.add(table, GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+					.add(table, GroupLayout.DEFAULT_SIZE, 996, Short.MAX_VALUE)
 					.add(18)
-					.add(gl_container.createParallelGroup(GroupLayout.TRAILING, false)
-						.add(btnAnalyze, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.add(btnApply, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE))
+					.add(gl_container.createParallelGroup(GroupLayout.TRAILING)
+						.add(btnApply, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
+						.add(btnAnalyze, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE)
+						.add(lblRefactoring, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		gl_container.setVerticalGroup(
-			gl_container.createParallelGroup(GroupLayout.TRAILING)
-				.add(GroupLayout.LEADING, gl_container.createSequentialGroup()
+			gl_container.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_container.createSequentialGroup()
 					.add(14)
-					.add(gl_container.createParallelGroup(GroupLayout.LEADING)
+					.add(gl_container.createParallelGroup(GroupLayout.TRAILING)
 						.add(table, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-						.add(gl_container.createSequentialGroup()
+						.add(GroupLayout.LEADING, gl_container.createSequentialGroup()
 							.add(btnAnalyze, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(LayoutStyle.UNRELATED)
+							.addPreferredGap(LayoutStyle.RELATED, 61, Short.MAX_VALUE)
+							.add(lblRefactoring)
+							.add(12)
 							.add(btnApply, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
+		
+		TableViewerColumn tableViewerColumn_0 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnID = tableViewerColumn_0.getColumn();
+		tblclmnID.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				extTableContentProvider = new RefactoringTableContentProvider(refactorings.values(),SCORE_HEADER);
+				tableViewer.setContentProvider(extTableContentProvider);
+				tableViewer.setInput(ucref);
+				tableViewer.refresh();
+			}
+		});
+		//tableLayout.setColumnData(tblclmnProblem, new ColumnPixelData(365, true, true));
+
+		tblclmnID.setWidth(30);
+		tblclmnID.setText(ID_HEADER);
+		tableViewerColumn_0.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Refactoring r = (Refactoring) element;
+				return r.getID().toString();
+			}
+		});	
 		
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnProblem = tableViewerColumn_2.getColumn();
@@ -135,7 +175,9 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnProblem.setWidth(365);
+		//tableLayout.setColumnData(tblclmnProblem, new ColumnPixelData(365, true, true));
+
+		tblclmnProblem.setWidth(385);
 		tblclmnProblem.setText(PROBLEM_HEADER);
 		tableViewerColumn_2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -156,7 +198,8 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnRefactoring.setWidth(335);
+		//tableLayout.setColumnData(tblclmnRefactoring, new ColumnWeightData(10, ColumnWeightData.MINIMUM_WIDTH, true));
+		tblclmnRefactoring.setWidth(330);
 		tblclmnRefactoring.setText(REFACTORING_HEADER);
 		tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -177,7 +220,8 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnArtifacts.setWidth(260);
+		//tableLayout.setColumnData(tblclmnArtifacts, new ColumnWeightData(5, ColumnWeightData.MINIMUM_WIDTH, true));
+		tblclmnArtifacts.setWidth(235);
 		tblclmnArtifacts.setText(ARTIFACT_HEADER);
 		tableViewerColumn_1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -202,7 +246,8 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
-		tblclmnScore.setWidth(80);
+		//tableLayout.setColumnData(tblclmnScore, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
+		tblclmnScore.setWidth(96);
 		tblclmnScore.setText(SCORE_HEADER);
 		tableViewerColumn_3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -223,6 +268,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.refresh();
 			}
 		});
+		//tableLayout.setColumnData(tblclmnPriority, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
 		tblclmnPriority.setWidth(80);
 		tblclmnPriority.setText(PRIORITY_HEADER);
 		tableViewerColumn_4.setLabelProvider(new ColumnLabelProvider() {
@@ -332,9 +378,11 @@ public class UCRDataView extends ViewPart {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
+					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
 				}
 				else{
 					btnApply.setEnabled(false);
+					lblRefactoring.setText("");
 				}
 			}
 		});
@@ -415,6 +463,7 @@ public class UCRDataView extends ViewPart {
 		UCRDataView.tableViewer.refresh();
 		UCRDataView.btnApply.setEnabled(false);
 		UCRDataView.btnAnalyze.setEnabled(true);
+		lblRefactoring.setText("");
+		
 	}
-	
 }

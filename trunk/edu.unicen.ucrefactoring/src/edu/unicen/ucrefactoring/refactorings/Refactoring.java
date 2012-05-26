@@ -39,5 +39,9 @@ public interface Refactoring {
 	public String getRefactoringName();
 	
 	public String getPriorityText();
+	
+	public Long getID();
+
+	public void setID(Long ID);
 
 }

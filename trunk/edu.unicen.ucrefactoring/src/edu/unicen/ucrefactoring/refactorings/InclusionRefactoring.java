@@ -26,6 +26,8 @@ public class InclusionRefactoring implements Refactoring{
 	private String problem = "Duplicated Functionality";
 	private String refactoringName = "Generate inclusion relationship";
 	private List<String> artifacts; 
+	private Long ID;
+
 	
 	public InclusionRefactoring(AlignmentX2Result alignment){
 		this.score = null;
@@ -219,6 +221,15 @@ public class InclusionRefactoring implements Refactoring{
 	@Override
 	public String getPriorityText() {
 		return HIGH_PRIORITY_TEXT;
+	}
+	
+	@Override
+	public Long getID() {
+		return this.ID;
+	}
+	
+	public void setID(Long ID){
+		this.ID = ID;
 	}
 
 }
