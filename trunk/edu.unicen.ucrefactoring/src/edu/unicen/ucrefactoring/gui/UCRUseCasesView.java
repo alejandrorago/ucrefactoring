@@ -78,6 +78,9 @@ public class UCRUseCasesView extends ViewPart {
 	private static JFileChooser fileSaver;
 	public static UCRNewUseCaseDialog UCRDialog;
 
+	// special flag for double-clicking the use case list
+	private boolean ucflag = true;
+	
 	public UCRUseCasesView() {
 		initUseCasesView();
 	}
@@ -423,10 +426,14 @@ public class UCRUseCasesView extends ViewPart {
 				IStructuredSelection selection = (IStructuredSelection) event
 						.getSelection();
 				if (selection.size() == 1) {
-					if (useCaseA == null)
+					if (ucflag){
 						useCaseA = (UseCase) selection.toList().get(0);
-					else
+						ucflag = !ucflag;
+					}
+					else{
 						useCaseB = (UseCase) selection.toList().get(0);
+						ucflag = !ucflag;
+					}
 				}
 
 				if (useCaseA != null) {
