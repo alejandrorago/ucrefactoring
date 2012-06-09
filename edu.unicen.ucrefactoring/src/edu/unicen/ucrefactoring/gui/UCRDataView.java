@@ -21,6 +21,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.part.ViewPart;
@@ -379,6 +380,7 @@ public class UCRDataView extends ViewPart {
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
 					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
+					tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 				}
 				else{
 					btnApply.setEnabled(false);
@@ -426,7 +428,7 @@ public class UCRDataView extends ViewPart {
 			}
 			else if (ref instanceof DeleteActorRefactoring){
 				UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
-				useCase.setName(((DeleteActorRefactoring) ref).getActor().getName());
+				useCase.setName("NON SENSE ACTOR");
 				Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
 				flow.setName(((DeleteActorRefactoring) ref).getActor().getName());
 				useCase.getFlows().add(flow);

@@ -3,6 +3,8 @@ package edu.unicen.ucrefactoring.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -461,7 +463,14 @@ public class UCRCompareView extends ViewPart {
 								}
 							}
 						}
-	
+						
+						List<SimilarBlock> totalSimilarBlocks = new ArrayList<SimilarBlock>();
+						totalSimilarBlocks.addAll(similarBlocksRight);
+						totalSimilarBlocks.addAll(similarBlocksLeft);
+						if (totalSimilarBlocks.size() == 0){
+							JOptionPane.showMessageDialog(null, "The selected Use Cases don't have duplicate funtionality.", "Use Case Compare", JOptionPane.WARNING_MESSAGE);
+						}
+						
 						UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCaseLeft,similarBlocksLeft);
 						UCRUseCasesView.setCompareView(UCRCompareView.ucRight,useCaseRight,similarBlocksRight);
 					
