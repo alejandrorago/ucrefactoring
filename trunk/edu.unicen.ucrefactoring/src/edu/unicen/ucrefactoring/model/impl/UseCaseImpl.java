@@ -559,5 +559,17 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		}
 		return l;
 	}
+	
+	private List<UseCase> extendedUC = new ArrayList<UseCase>();
+	
+	@Override
+	public List<UseCase> getExtendedUseCases() {
+		return this.extendedUC;
+	}
+	
+	@Override
+	public void addExtendedUC(UseCase uc){
+		extendedUC.add(uc);
+	}
 
 } //UseCaseImpl

@@ -122,7 +122,18 @@ public class MetricCollector {
 					if (useCase.getParent() != null && useCase.getParent().getPrimaryActor() != null){
 						parentHasActor = true;
 					}
-					if (!isIncluded && !parentHasActor){
+					boolean isParent = false;
+					for (UseCase uc : useCaseModel.getUseCases()){
+						if (uc.getParent() != null && uc.getParent().getName().equals(useCase.getName())){
+							isParent = true;
+						}
+					}
+					boolean extendsAnother = false;
+					List<UseCase> extended = useCase.getExtendedUseCases();
+					if (extended.size() > 0){
+						extendsAnother = true;
+					}
+					if (!isIncluded && !parentHasActor && !isParent && !extendsAnother){
 						nonSenseMetric.addNonSenseUseCase(useCase);
 					}
 				}
@@ -141,7 +152,7 @@ public class MetricCollector {
 						break;
 					}
 				}
-				if (used){
+				if (!used && !actor.getName().equalsIgnoreCase("system")){
 					nonSenseActorMetric.addNonSenseActor(actor);
 				}
 			}

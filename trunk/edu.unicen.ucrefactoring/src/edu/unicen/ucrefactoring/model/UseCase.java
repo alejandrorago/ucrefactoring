@@ -208,5 +208,9 @@ public interface UseCase extends EObject {
 	String getFullDescription();
 	
 	List<UseCase> getIncludedUseCases();
+	
+	List<UseCase> getExtendedUseCases();
+	
+	void addExtendedUC(UseCase uc);
 
 } // UseCase
