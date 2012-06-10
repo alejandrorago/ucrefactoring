@@ -109,7 +109,7 @@ public class GeneralizationRefactoring implements Refactoring {
 						InclusionCall newE = UCRefactoringFactory.eINSTANCE.createInclusionCall();
 						newE.setEventId(order + ".");
 						newE.setNumber(order);
-						newE.setDetail("Delegated to particular implementation");
+						newE.setDetail("<<delegate>> Particular implementation");
 						basicFlow.getEvents().add(newE);
 						order++;
 						lastParticular = true;
@@ -159,7 +159,7 @@ public class GeneralizationRefactoring implements Refactoring {
 					Integer last = newList.size();
 					newE.setNumber(last+1);
 					newE.setEventId(last+1+".");
-					newE.setDetail("Common behaviour defined in parent use case");
+					newE.setDetail("<<inherit>> "+"'"+ parent.getName() +"'");
 					newList.add(newE);
 					lastAbstract = true;
 				}

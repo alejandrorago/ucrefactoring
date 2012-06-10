@@ -129,7 +129,7 @@ public class ExtensionRefactoring implements Refactoring{
 				ep.setCondition(condition);
 				ep.setEventId(e.getEventId());
 				ep.setNumber(e.getNumber());
-				ep.setDetail(e.getDetail() + "#Extension Point [" + ep.getCondition() + "]");
+				ep.setDetail(e.getDetail() + "#[Extension Point] '" + ep.getCondition() + "'");
 				ep.getExtendedUseCases().add(extUC);
 				basicFlow.getEvents().add(basicFlow.getEvents().indexOf(e), ep);
 				basicFlow.getEvents().remove(e);

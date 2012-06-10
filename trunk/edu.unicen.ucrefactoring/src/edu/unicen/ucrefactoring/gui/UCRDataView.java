@@ -178,7 +178,7 @@ public class UCRDataView extends ViewPart {
 		});
 		//tableLayout.setColumnData(tblclmnProblem, new ColumnPixelData(365, true, true));
 
-		tblclmnProblem.setWidth(385);
+		tblclmnProblem.setWidth(420);
 		tblclmnProblem.setText(PROBLEM_HEADER);
 		tableViewerColumn_2.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -200,7 +200,7 @@ public class UCRDataView extends ViewPart {
 			}
 		});
 		//tableLayout.setColumnData(tblclmnRefactoring, new ColumnWeightData(10, ColumnWeightData.MINIMUM_WIDTH, true));
-		tblclmnRefactoring.setWidth(330);
+		tblclmnRefactoring.setWidth(280);
 		tblclmnRefactoring.setText(REFACTORING_HEADER);
 		tableViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -222,7 +222,7 @@ public class UCRDataView extends ViewPart {
 			}
 		});
 		//tableLayout.setColumnData(tblclmnArtifacts, new ColumnWeightData(5, ColumnWeightData.MINIMUM_WIDTH, true));
-		tblclmnArtifacts.setWidth(235);
+		tblclmnArtifacts.setWidth(250);
 		tblclmnArtifacts.setText(ARTIFACT_HEADER);
 		tableViewerColumn_1.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -248,7 +248,7 @@ public class UCRDataView extends ViewPart {
 			}
 		});
 		//tableLayout.setColumnData(tblclmnScore, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
-		tblclmnScore.setWidth(96);
+		tblclmnScore.setWidth(50);
 		tblclmnScore.setText(SCORE_HEADER);
 		tableViewerColumn_3.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -270,7 +270,7 @@ public class UCRDataView extends ViewPart {
 			}
 		});
 		//tableLayout.setColumnData(tblclmnPriority, new ColumnWeightData(1, ColumnWeightData.MINIMUM_WIDTH, true));
-		tblclmnPriority.setWidth(80);
+		tblclmnPriority.setWidth(70);
 		tblclmnPriority.setText(PRIORITY_HEADER);
 		tableViewerColumn_4.setLabelProvider(new ColumnLabelProvider() {
 			@Override
