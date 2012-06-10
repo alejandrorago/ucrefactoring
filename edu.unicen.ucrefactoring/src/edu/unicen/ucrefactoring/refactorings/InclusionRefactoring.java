@@ -135,7 +135,7 @@ public class InclusionRefactoring implements Refactoring{
 		InclusionCall ic = UCRefactoringFactory.eINSTANCE.createInclusionCall();
 		ic.setEventId(finalRemoved.getEventId());
 		ic.setNumber(finalRemoved.getNumber());
-		ic.setDetail("Call " + "'"+ includedUC.getName() +"'");
+		ic.setDetail("<<include>> " + "'"+ includedUC.getName() +"'");
 		ic.getIncludedUseCases().add(includedUC);
 		basicFlow.getEvents().add(beginIndex, ic);
 		basicFlow.getEvents().remove(finalRemoved);
