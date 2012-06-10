@@ -19,7 +19,7 @@ public class DeleteActorRefactoring implements Refactoring {
 	//private UseCase useCase;
 	private Actor actor;
 	private String problem = "Actor does not participates in the Use Case / Duplicated Actor";
-	private String refactoringName = "Delete non sense Actor";
+	private String refactoringName = "Delete Non Sense Actor";
 	private List<String> artifacts;
 	private Long ID;
 	

@@ -71,7 +71,6 @@ public class ExtensionRefactoring implements Refactoring{
 			baseUseCaseA = this.alignment.getUseCaseA();
 			baseUseCaseB = this.alignment.getUseCaseB();
 			// Create Use Case
-			// TODO MAKE THE USER COMPLETE THE NAME AND DESCRIPTION
 			extendingUC = UCRefactoringFactory.eINSTANCE.createUseCase();
 			
 			int cancel = UCRUseCasesView.newUseCaseDialog();
