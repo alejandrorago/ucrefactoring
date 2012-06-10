@@ -381,7 +381,7 @@ public class UCRUseCasesView extends ViewPart {
 					if (selection.size() == 1) {
 						ucList.getList().setToolTipText(
 								((UseCase) (selection.toList().get(0)))
-										.getDescription());
+										.getFullDescription());
 					} else {
 						ucList.getList().setToolTipText("");
 					}

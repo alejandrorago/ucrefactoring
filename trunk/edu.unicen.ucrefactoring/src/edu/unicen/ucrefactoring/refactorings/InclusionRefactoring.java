@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.Dialog;
-
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
@@ -24,7 +22,7 @@ public class InclusionRefactoring implements Refactoring{
 	private String name; 
 	private Float priority = Refactoring.HIGH_PRIORITY;
 	private String problem = "Duplicated Functionality";
-	private String refactoringName = "Generate inclusion relationship";
+	private String refactoringName = "Generate Inclusion Relationship";
 	private List<String> artifacts; 
 	private Long ID;
 

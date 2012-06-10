@@ -8,11 +8,15 @@ package edu.unicen.ucrefactoring.model.impl;
 
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.Context;
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.InclusionCall;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -534,9 +538,26 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 			actor = actor + this.getPrimaryActor().getName(); 
 		}
 		else{
-			actor = actor + "-- \n";
+			actor = actor + "--";
 		}
-		return this.getDescription() + "\n" + actor;
+		if (this.getParent() != null){
+			String parentName = "- Parent UC: " + this.getParent().getName();
+			return this.getDescription() + "\n" + actor + "\n" + parentName;
+		}
+		else{
+			return this.getDescription() + "\n" + actor;
+		}
+	}
+
+	@Override
+	public List<UseCase> getIncludedUseCases() {
+		List<UseCase> l = new ArrayList<UseCase>();
+		for (Event e : this.getBasicFlow().getEvents()){
+			if (e instanceof InclusionCall){
+				l.addAll(((InclusionCall) e).getIncludedUseCases());
+			}
+		}
+		return l;
 	}
 
 } //UseCaseImpl

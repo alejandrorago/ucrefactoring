@@ -107,7 +107,24 @@ public class MetricCollector {
 			NonSenseUseCaseMetric nonSenseMetric = new NonSenseUseCaseMetric();
 			for (UseCase useCase : useCaseModel.getUseCases()){
 				if (useCase.getPrimaryActor()==null){
-					nonSenseMetric.addNonSenseUseCase(useCase);
+					// Si no tiene actor primario
+					boolean isIncluded = false;
+					for (UseCase uc : useCaseModel.getUseCases()){
+						List<UseCase> included = uc.getIncludedUseCases();
+						for(UseCase u : included){
+							if (useCase.getName().equals(u.getName())){
+								isIncluded = true;
+								break;
+							}
+						}
+					}
+					boolean parentHasActor = false;
+					if (useCase.getParent() != null && useCase.getParent().getPrimaryActor() != null){
+						parentHasActor = true;
+					}
+					if (!isIncluded && !parentHasActor){
+						nonSenseMetric.addNonSenseUseCase(useCase);
+					}
 				}
 			}
 			this.metrics.put(Metric.NON_SENSE_USECASE, nonSenseMetric);
