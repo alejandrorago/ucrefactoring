@@ -28,7 +28,7 @@ public class ExtensionRefactoring implements Refactoring{
 	private String name; 
 	private Float priority = Refactoring.HIGH_PRIORITY;
 	private String problem = "Duplicated Functionality";
-	private String refactoringName = "Generate extension relationship";
+	private String refactoringName = "Generate Extension Relationship";
 	private List<String> artifacts; 
 	private Long ID;
 

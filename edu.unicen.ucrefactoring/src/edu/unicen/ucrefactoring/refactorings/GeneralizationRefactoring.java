@@ -23,7 +23,7 @@ public class GeneralizationRefactoring implements Refactoring {
 	private String name; 
 	private Float priority = Refactoring.HIGH_PRIORITY;
 	private String problem = "Use cases lacks abstraction";
-	private String refactoringName = "Generate generalization relationship";
+	private String refactoringName = "Generate Generalization Relationship";
 	private List<String> artifacts; 
 	private Long ID;
 
@@ -74,7 +74,12 @@ public class GeneralizationRefactoring implements Refactoring {
 			
 				parentUC.setName(UCRUseCasesView.UCRDialog.getUseCaseName());
 				parentUC.setDescription(UCRUseCasesView.UCRDialog.getUseCaseDescription());
-				parentUC.setPrimaryActor(null); // TODO ABSTRAER ACTORES
+				parentUC.setPrimaryActor(null); 
+				if(baseUseCaseA.getPrimaryActor().getName().equals(baseUseCaseB.getPrimaryActor().getName())){
+					parentUC.setPrimaryActor(baseUseCaseA.getPrimaryActor());
+					baseUseCaseA.setPrimaryActor(null);
+					baseUseCaseB.setPrimaryActor(null);
+				}
 				Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
 				basicFlow.setName("Basic Flow");
 				Integer order = 1;

@@ -17,7 +17,7 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	private Float priority = Refactoring.LOW_PRIORITY;
 	private UseCase useCase;
 	private String problem = "Use Case can never be activated";
-	private String refactoringName = "Delete non sense Use Case";
+	private String refactoringName = "Delete Non Sense Use Case";
 	private List<String> artifacts; 
 	private Long ID;
 
