@@ -168,4 +168,10 @@ public class MergeUseCasesRefactoring implements Refactoring{
 		this.ID = ID;
 	}
 	
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return this.useCaseA.getName().equals(useCase.getName()) || 
+				this.useCaseB.getName().equals(useCase.getName());
+	}
+	
 }

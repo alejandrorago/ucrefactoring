@@ -112,4 +112,9 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	public void setID(Long ID){
 		this.ID = ID;
 	}
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return this.useCase.getName().equals(useCase.getName());
+	}
+	
 }

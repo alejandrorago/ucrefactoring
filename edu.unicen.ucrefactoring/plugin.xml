@@ -50,5 +50,18 @@
             name="Refactoring List">
       </view>
    </extension>
+   <extension
+         id="edu.unicen.ucrefactoring.visualiser"
+         name="UCRefactoring Visualiser Provider"
+         point="org.eclipse.contribution.visualiser.providers">
+      <provider
+            contentProviderClass="edu.unicen.ucrefactoring.visualiser.UCRVisualContentProvider"
+            description="Provider that shows refactorings  arrange according to the source documents."
+            id="edu.unicen.ucrefactoring.visualiser.UCRVisualiser"
+            markupProviderClass="edu.unicen.ucrefactoring.visualiser.UCRVisualMarkupProvider"
+            name="UCR Visualiser Provider"
+            title="UCRefactoring Visual Provider">
+      </provider>
+   </extension>
 
 </plugin>

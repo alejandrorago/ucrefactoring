@@ -288,5 +288,11 @@ public class GeneralizationRefactoring implements Refactoring {
 	public void setID(Long ID){
 		this.ID = ID;
 	}
+	
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return alignment.getUseCaseA().getName().equals(useCase.getName()) 
+				|| alignment.getUseCaseB().getName().equals(useCase.getName());
+	}
 
 }

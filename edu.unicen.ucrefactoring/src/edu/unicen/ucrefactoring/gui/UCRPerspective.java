@@ -18,9 +18,20 @@ public class UCRPerspective implements IPerspectiveFactory {
 		addFastViews(layout);
 		addViewShortcuts(layout);
 		addPerspectiveShortcuts(layout);
-		layout.addView("edu.unicen.ucrefactoring.gui.UCRCompareView", IPageLayout.LEFT, 0.69f, IPageLayout.ID_EDITOR_AREA);
-		layout.addView("edu.unicen.ucrefactoring.gui.UCRDataView", IPageLayout.BOTTOM, 0.64f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
-		layout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView", IPageLayout.LEFT, 0.22f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
+		{
+			IFolderLayout folderLayout = layout.createFolder("compareFolder", IPageLayout.LEFT, 0.69f, IPageLayout.ID_EDITOR_AREA);
+			folderLayout.addView("edu.unicen.ucrefactoring.gui.UCRCompareView");
+			folderLayout.addView("org.eclipse.contribution.visualiser.views.Visualiser");
+		}
+		{
+			IFolderLayout folderLayout = layout.createFolder("refactoringFolder", IPageLayout.BOTTOM, 0.64f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
+			folderLayout.addView("edu.unicen.ucrefactoring.gui.UCRDataView");
+		}
+		{
+			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.LEFT, 0.22f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
+			folderLayout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
+			folderLayout.addView("org.eclipse.contribution.visualiser.views.Menu");
+		}
 	}
 
 	/**

@@ -72,7 +72,7 @@ public class UCRDataView extends ViewPart {
 	
 	//core structures
 	private HashMap<String,Metric> metrics;
-	private HashMap<String,Refactoring> refactorings;
+	public static HashMap<String,Refactoring> refactorings;
 	public static TableViewer tableViewer;	
 	private Table table;
 
@@ -380,7 +380,7 @@ public class UCRDataView extends ViewPart {
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
 					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
-					tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+					//tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 				}
 				else{
 					btnApply.setEnabled(false);
@@ -468,4 +468,5 @@ public class UCRDataView extends ViewPart {
 		lblRefactoring.setText("");
 		
 	}
+
 }

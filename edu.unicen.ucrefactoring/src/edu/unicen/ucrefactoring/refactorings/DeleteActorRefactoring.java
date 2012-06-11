@@ -119,5 +119,10 @@ public class DeleteActorRefactoring implements Refactoring {
 	public void setID(Long ID){
 		this.ID = ID;
 	}
+
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return false;
+	}
 	
 }
