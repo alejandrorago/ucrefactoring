@@ -43,5 +43,7 @@ public interface Refactoring {
 	public Long getID();
 
 	public void setID(Long ID);
+	
+	public boolean affectsUseCase(UseCase useCase);
 
 }

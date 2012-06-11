@@ -231,4 +231,11 @@ public class ExtensionRefactoring implements Refactoring{
 		this.ID = ID;
 	}
 	
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return alignment.getUseCaseA().getName().equals(useCase.getName()) 
+				|| alignment.getUseCaseB().getName().equals(useCase.getName());
+	}
+	
+	
 }

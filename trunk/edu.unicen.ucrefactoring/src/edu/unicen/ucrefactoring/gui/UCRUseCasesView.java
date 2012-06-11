@@ -27,6 +27,7 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
@@ -40,6 +41,7 @@ import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.visualiser.UCRVisualContentProvider;
 import edu.unicen.ucrefactoring.gui.NewUseCaseDialog;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.swt.widgets.Button;
@@ -76,6 +78,7 @@ public class UCRUseCasesView extends ViewPart {
 	private Label lblUseCaseModel;
 	private static JFileChooser fileChooser;
 	private static JFileChooser fileSaver;
+	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
 
 	// special flag for double-clicking the use case list
@@ -138,6 +141,12 @@ public class UCRUseCasesView extends ViewPart {
 			}
 			
 		});
+		
+		//TEST FILE CHOOSER SWT
+		//swtDialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.NULL);
+		
+		  	
+		//=========================  	
 		
 		useCaseA = null;
 		useCaseB = null;
@@ -461,6 +470,25 @@ public class UCRUseCasesView extends ViewPart {
 
 			}
 		});
+		
+
+		
+//		btnLoadUseCase.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//				String path = swtDialog.open();
+//				if (path != null && path.endsWith(".ucrefactoring")) {
+//					File file = new File(path);
+//					String s = file.getName();
+//					System.out.println(s);
+//				}
+//				
+//				
+//			}
+//
+//		});
+		
 
 		btnLoadUseCase.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -550,6 +578,7 @@ public class UCRUseCasesView extends ViewPart {
 						}
 					}
 					
+					UCRVisualContentProvider.setUseCaseModel(ucref.getUseCaseModel());
 					
 				} else {
 					System.out.println("Open command cancelled by user.");
@@ -557,7 +586,7 @@ public class UCRUseCasesView extends ViewPart {
 
 			}
 		});
-		
+	
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) { 

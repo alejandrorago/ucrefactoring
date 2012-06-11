@@ -130,4 +130,10 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		this.ID = ID;
 	}
 	
+	@Override
+	public boolean affectsUseCase(UseCase useCase) {
+		return this.useCase.getName().equals(useCase.getName());
+	}
+	
+	
 }
