@@ -1,6 +1,5 @@
 package edu.unicen.ucrefactoring.gui;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.text.TextViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -24,31 +24,32 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
+import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.Condition;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.visualiser.UCRVisualContentProvider;
-import edu.unicen.ucrefactoring.gui.NewUseCaseDialog;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class UCRUseCasesView extends ViewPart {
 
@@ -69,6 +70,7 @@ public class UCRUseCasesView extends ViewPart {
 
 	// Actions
 	private Action compareAction;
+	private Action setPrimaryActorAction;
 
 	// widgets
 	private static ListViewer ucList;
@@ -80,6 +82,7 @@ public class UCRUseCasesView extends ViewPart {
 	private static JFileChooser fileSaver;
 	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
+	public static SetPrimaryActorDialog PrimaryActorDialog;
 
 	// special flag for double-clicking the use case list
 	private boolean ucflag = true;
@@ -345,6 +348,29 @@ public class UCRUseCasesView extends ViewPart {
 
 		compareAction.setText("Compare");
 		compareAction.setToolTipText("Compares selected elements");
+		
+		setPrimaryActorAction = new Action() {
+			public void run (){
+				System.out.println(UCRUseCasesView.ucref.getUseCaseModel().getActors().size());
+				if(UCRUseCasesView.setPrimaryActor() == 0){
+					boolean existent = false;
+					String aName = PrimaryActorDialog.getActorName();
+					for(Actor a: ucref.getUseCaseModel().getActors()){
+						if (a.getName().equalsIgnoreCase(aName)){
+							System.out.println("Existent..  " + aName);
+							existent = true;
+						}
+					}
+					if(!existent){
+						System.out.println("Not Existent..  " + aName);
+						Actor newActor = UCRefactoringFactory.eINSTANCE.createActor();
+						newActor.setName(aName);
+					}
+				}
+			}
+		};
+		setPrimaryActorAction.setText("Set Primary Actor...");
+		setPrimaryActorAction.setToolTipText("Sets the primary actor for the use case.");
 	}
 
 	/**
@@ -352,27 +378,20 @@ public class UCRUseCasesView extends ViewPart {
 	 * to add context menu Create the context popup menu
 	 */
 	private void initListContextMenu() {
-		/**
-		 * Commented. now compare action is executed with a button and not
-		 * context menu.
-		 * 
-		 * MenuManager menuManager = new MenuManager("#PopupMenu");
-		 * menuManager.setRemoveAllWhenShown(true);
-		 * 
-		 * //Listener for contextual menu menuManager.addMenuListener(new
-		 * IMenuListener() {
-		 * 
-		 * @Override public void menuAboutToShow(IMenuManager manager) {
-		 *           manager.add(compareAction); }
-		 * 
-		 *           });
-		 * 
-		 *           Menu menu =
-		 *           menuManager.createContextMenu(ucList.getList());
-		 *           ucList.getList().setMenu(menu);
-		 *           getSite().registerContextMenu(menuManager, ucList);
-		 **/
-
+		  
+		  MenuManager menuManager = new MenuManager("#PopupMenu");
+		  menuManager.setRemoveAllWhenShown(true);
+		  
+		  menuManager.addMenuListener(new
+		  IMenuListener() {
+		  
+		  @Override public void menuAboutToShow(IMenuManager manager) {
+		            manager.add(setPrimaryActorAction); }
+		  
+		            });
+		            Menu menu = menuManager.createContextMenu(ucList.getList());
+		            ucList.getList().setMenu(menu);
+		            getSite().registerContextMenu(menuManager, ucList);
 	}
 
 	public void createListeners() {
@@ -815,6 +834,12 @@ public class UCRUseCasesView extends ViewPart {
 		return dialog.openDialog();
 	}
 
+	public static int setPrimaryActor() {
+		Shell shell = new Shell();
+		PrimaryActorDialog = new SetPrimaryActorDialog(shell);
+		return PrimaryActorDialog.open();
+	}
+	
 	public static int newUseCaseDialog(){
 		Shell shell = UCRUseCasesView.container_1.getShell();
 	    UCRDialog = new UCRNewUseCaseDialog(shell);

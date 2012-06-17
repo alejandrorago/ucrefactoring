@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0
 Bundle-ClassPath: .,
  lib/jaligner.jar,
  lib/neobio.jar,
- swt-grouplayout.jar
+ swt-grouplayout.jar,
+ swing2swt.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
