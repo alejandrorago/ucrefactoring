@@ -212,5 +212,6 @@ public interface UseCase extends EObject {
 	List<UseCase> getExtendedUseCases();
 	
 	void addExtendedUC(UseCase uc);
+	
 
 } // UseCase
