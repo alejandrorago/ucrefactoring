@@ -114,7 +114,7 @@ public interface UseCase extends EObject {
 	void setContext(Context value);
 
 	/**
-	 * Returns the value of the '<em><b>Secondary Actors</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Secondary Actors</b></em>' reference list.
 	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.Actor}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -122,9 +122,9 @@ public interface UseCase extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Secondary Actors</em>' containment reference list.
+	 * @return the value of the '<em>Secondary Actors</em>' reference list.
 	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getUseCase_SecondaryActors()
-	 * @model containment="true"
+	 * @model
 	 * @generated
 	 */
 	EList<Actor> getSecondaryActors();

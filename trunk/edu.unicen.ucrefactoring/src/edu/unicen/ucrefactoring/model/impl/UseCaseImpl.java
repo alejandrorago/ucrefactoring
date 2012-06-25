@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -104,7 +105,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	protected Context context;
 
 	/**
-	 * The cached value of the '{@link #getSecondaryActors() <em>Secondary Actors</em>}' containment reference list.
+	 * The cached value of the '{@link #getSecondaryActors() <em>Secondary Actors</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSecondaryActors()
@@ -254,7 +255,7 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	 */
 	public EList<Actor> getSecondaryActors() {
 		if (secondaryActors == null) {
-			secondaryActors = new EObjectContainmentEList<Actor>(Actor.class, this, UCRefactoringPackage.USE_CASE__SECONDARY_ACTORS);
+			secondaryActors = new EObjectResolvingEList<Actor>(Actor.class, this, UCRefactoringPackage.USE_CASE__SECONDARY_ACTORS);
 		}
 		return secondaryActors;
 	}
@@ -372,8 +373,6 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 		switch (featureID) {
 			case UCRefactoringPackage.USE_CASE__CONTEXT:
 				return basicSetContext(null, msgs);
-			case UCRefactoringPackage.USE_CASE__SECONDARY_ACTORS:
-				return ((InternalEList<?>)getSecondaryActors()).basicRemove(otherEnd, msgs);
 			case UCRefactoringPackage.USE_CASE__FLOWS:
 				return ((InternalEList<?>)getFlows()).basicRemove(otherEnd, msgs);
 		}

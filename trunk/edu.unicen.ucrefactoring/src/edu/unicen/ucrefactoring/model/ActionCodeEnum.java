@@ -348,7 +348,6 @@ public enum ActionCodeEnum implements Enumerator {
 			VERIFICATION,
 			INDOOR,
 			OUTDOOR,
-			FLOW,
 		};
 
 	/**
@@ -412,7 +411,6 @@ public enum ActionCodeEnum implements Enumerator {
 			case VERIFICATION_VALUE: return VERIFICATION;
 			case INDOOR_VALUE: return INDOOR;
 			case OUTDOOR_VALUE: return OUTDOOR;
-			case FLOWCONTROL_VALUE: return FLOW;
 		}
 		return null;
 	}
