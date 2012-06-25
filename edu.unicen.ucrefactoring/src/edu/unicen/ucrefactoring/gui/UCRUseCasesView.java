@@ -29,10 +29,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.part.ViewPart;
@@ -71,6 +70,7 @@ public class UCRUseCasesView extends ViewPart {
 	// Actions
 	private Action compareAction;
 	private Action setPrimaryActorAction;
+	//private Action addSecondaryActorAction;
 
 	// widgets
 	private static ListViewer ucList;
@@ -167,7 +167,7 @@ public class UCRUseCasesView extends ViewPart {
 		// UseCaseTreeContentProvider(ucref.getUseCaseModel());
 		// assumes listviewer already created
 		populateUCList();
-		// TODO: Find out a better way to initialize and compare use cases
+		// TODO: Find out a better way to ini•••••••tialize and compare use cases
 		ucref.compareUseCases();
 		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
 
@@ -351,26 +351,59 @@ public class UCRUseCasesView extends ViewPart {
 		
 		setPrimaryActorAction = new Action() {
 			public void run (){
-				System.out.println(UCRUseCasesView.ucref.getUseCaseModel().getActors().size());
 				if(UCRUseCasesView.setPrimaryActor() == 0){
-					boolean existent = false;
 					String aName = PrimaryActorDialog.getActorName();
+					Actor newActor = null;
 					for(Actor a: ucref.getUseCaseModel().getActors()){
 						if (a.getName().equalsIgnoreCase(aName)){
-							System.out.println("Existent..  " + aName);
-							existent = true;
+							newActor = a;
 						}
 					}
-					if(!existent){
-						System.out.println("Not Existent..  " + aName);
-						Actor newActor = UCRefactoringFactory.eINSTANCE.createActor();
+					if(newActor == null){
+						newActor = UCRefactoringFactory.eINSTANCE.createActor();
 						newActor.setName(aName);
+						ucref.getUseCaseModel().getActors().add(newActor);
 					}
+					((UseCase) (((IStructuredSelection) ucList
+							.getSelection()).toList().get(0))).setPrimaryActor(newActor);
 				}
 			}
 		};
 		setPrimaryActorAction.setText("Set Primary Actor...");
 		setPrimaryActorAction.setToolTipText("Sets the primary actor for the use case.");
+		
+//		addSecondaryActorAction = new Action() {
+//			public void run (){
+//				if(UCRUseCasesView.setPrimaryActor() == 0){
+//					String aName = PrimaryActorDialog.getActorName();
+//					boolean exists = false;
+//					for(int i = 0 ; i < ucref.getUseCaseModel().getActors().size(); i++){
+//						Actor a = ucref.getUseCaseModel().getActors().get(i);
+//						if (a.getName().equalsIgnoreCase(aName)){
+//							String ucname = ((UseCase) (((IStructuredSelection) ucList
+//									.getSelection()).toList().get(0))).getName();
+//							for(int j=0; j < ucref.getUseCaseModel().getUseCases().size(); j++){
+//								UseCase uc = ucref.getUseCaseModel().getUseCases().get(j);
+//								if(uc.getName().equalsIgnoreCase(ucname)){
+//									uc.getSecondaryActors().add(a);
+//									ucref.getUseCaseModel().getActors().add(a);
+//								}
+//							}
+//							exists = true;
+//						}
+//					}
+//					if(!exists){
+//						Actor newActor = UCRefactoringFactory.eINSTANCE.createActor();
+//						newActor.setName(aName);
+//						ucref.getUseCaseModel().getActors().add(newActor);
+//						((UseCase) (((IStructuredSelection) ucList
+//								.getSelection()).toList().get(0))).getSecondaryActors().add(newActor);
+//					}
+//				}
+//			}
+//		};
+//		addSecondaryActorAction.setText("Add Secondary Actor...");
+//		addSecondaryActorAction.setToolTipText("Adds a secondary actor for the use case.");
 	}
 
 	/**
@@ -386,7 +419,9 @@ public class UCRUseCasesView extends ViewPart {
 		  IMenuListener() {
 		  
 		  @Override public void menuAboutToShow(IMenuManager manager) {
-		            manager.add(setPrimaryActorAction); }
+		            manager.add(setPrimaryActorAction);
+		            //manager.add(addSecondaryActorAction);
+		            }
 		  
 		            });
 		            Menu menu = menuManager.createContextMenu(ucList.getList());

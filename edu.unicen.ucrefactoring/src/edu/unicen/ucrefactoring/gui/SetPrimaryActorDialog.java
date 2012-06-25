@@ -51,7 +51,9 @@ public class SetPrimaryActorDialog extends Dialog {
 		combo = new Combo(container, SWT.NONE);
 		List<String> items = new ArrayList<String>();
 		for(Actor a : UCRUseCasesView.ucref.getUseCaseModel().getActors()){
-			items.add(a.getName());
+			if(!a.getName().equalsIgnoreCase("system")){
+				items.add(a.getName());
+			}
 		}
  		combo.setItems(items.toArray(new String[]{}));
  		combo.addListener(SWT.Selection, new Listener(){
