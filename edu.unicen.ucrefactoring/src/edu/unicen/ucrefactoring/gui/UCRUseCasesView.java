@@ -70,7 +70,7 @@ public class UCRUseCasesView extends ViewPart {
 	// Actions
 	private Action compareAction;
 	private Action setPrimaryActorAction;
-	//private Action addSecondaryActorAction;
+	private Action addSecondaryActorAction;
 
 	// widgets
 	private static ListViewer ucList;
@@ -372,38 +372,38 @@ public class UCRUseCasesView extends ViewPart {
 		setPrimaryActorAction.setText("Set Primary Actor...");
 		setPrimaryActorAction.setToolTipText("Sets the primary actor for the use case.");
 		
-//		addSecondaryActorAction = new Action() {
-//			public void run (){
-//				if(UCRUseCasesView.setPrimaryActor() == 0){
-//					String aName = PrimaryActorDialog.getActorName();
-//					boolean exists = false;
-//					for(int i = 0 ; i < ucref.getUseCaseModel().getActors().size(); i++){
-//						Actor a = ucref.getUseCaseModel().getActors().get(i);
-//						if (a.getName().equalsIgnoreCase(aName)){
-//							String ucname = ((UseCase) (((IStructuredSelection) ucList
-//									.getSelection()).toList().get(0))).getName();
-//							for(int j=0; j < ucref.getUseCaseModel().getUseCases().size(); j++){
-//								UseCase uc = ucref.getUseCaseModel().getUseCases().get(j);
-//								if(uc.getName().equalsIgnoreCase(ucname)){
-//									uc.getSecondaryActors().add(a);
-//									ucref.getUseCaseModel().getActors().add(a);
-//								}
-//							}
-//							exists = true;
-//						}
-//					}
-//					if(!exists){
-//						Actor newActor = UCRefactoringFactory.eINSTANCE.createActor();
-//						newActor.setName(aName);
-//						ucref.getUseCaseModel().getActors().add(newActor);
-//						((UseCase) (((IStructuredSelection) ucList
-//								.getSelection()).toList().get(0))).getSecondaryActors().add(newActor);
-//					}
-//				}
-//			}
-//		};
-//		addSecondaryActorAction.setText("Add Secondary Actor...");
-//		addSecondaryActorAction.setToolTipText("Adds a secondary actor for the use case.");
+		addSecondaryActorAction = new Action() {
+			public void run (){
+				if(UCRUseCasesView.setPrimaryActor() == 0){
+					String aName = PrimaryActorDialog.getActorName();
+					boolean exists = false;
+					for(int i = 0 ; i < ucref.getUseCaseModel().getActors().size(); i++){
+						Actor a = ucref.getUseCaseModel().getActors().get(i);
+						if (a.getName().equalsIgnoreCase(aName)){
+							String ucname = ((UseCase) (((IStructuredSelection) ucList
+									.getSelection()).toList().get(0))).getName();
+							for(int j=0; j < ucref.getUseCaseModel().getUseCases().size(); j++){
+								UseCase uc = ucref.getUseCaseModel().getUseCases().get(j);
+								if(uc.getName().equalsIgnoreCase(ucname)){
+									uc.getSecondaryActors().add(a);
+									ucref.getUseCaseModel().getActors().add(a);
+								}
+							}
+							exists = true;
+						}
+					}
+					if(!exists){
+						Actor newActor = UCRefactoringFactory.eINSTANCE.createActor();
+						newActor.setName(aName);
+						ucref.getUseCaseModel().getActors().add(newActor);
+						((UseCase) (((IStructuredSelection) ucList
+								.getSelection()).toList().get(0))).getSecondaryActors().add(newActor);
+					}
+				}
+			}
+		};
+		addSecondaryActorAction.setText("Add Secondary Actor...");
+		addSecondaryActorAction.setToolTipText("Adds a secondary actor for the use case.");
 	}
 
 	/**
@@ -420,7 +420,7 @@ public class UCRUseCasesView extends ViewPart {
 		  
 		  @Override public void menuAboutToShow(IMenuManager manager) {
 		            manager.add(setPrimaryActorAction);
-		            //manager.add(addSecondaryActorAction);
+		            manager.add(addSecondaryActorAction);
 		            }
 		  
 		            });

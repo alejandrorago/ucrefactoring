@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -87,7 +88,7 @@ public class UseCaseModelImpl extends EObjectImpl implements UseCaseModel {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getActors() <em>Actors</em>}' containment reference list.
+	 * The cached value of the '{@link #getActors() <em>Actors</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getActors()
@@ -184,7 +185,7 @@ public class UseCaseModelImpl extends EObjectImpl implements UseCaseModel {
 	 */
 	public EList<Actor> getActors() {
 		if (actors == null) {
-			actors = new EObjectContainmentEList<Actor>(Actor.class, this, UCRefactoringPackage.USE_CASE_MODEL__ACTORS);
+			actors = new EObjectResolvingEList<Actor>(Actor.class, this, UCRefactoringPackage.USE_CASE_MODEL__ACTORS);
 		}
 		return actors;
 	}
@@ -221,8 +222,6 @@ public class UseCaseModelImpl extends EObjectImpl implements UseCaseModel {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case UCRefactoringPackage.USE_CASE_MODEL__ACTORS:
-				return ((InternalEList<?>)getActors()).basicRemove(otherEnd, msgs);
 			case UCRefactoringPackage.USE_CASE_MODEL__USE_CASES:
 				return ((InternalEList<?>)getUseCases()).basicRemove(otherEnd, msgs);
 			case UCRefactoringPackage.USE_CASE_MODEL__ASPECTS:

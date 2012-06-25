@@ -98,7 +98,7 @@ public interface UCRefactoringPackage extends EPackage {
 	int USE_CASE__CONTEXT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Secondary Actors</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Secondary Actors</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -208,7 +208,7 @@ public interface UCRefactoringPackage extends EPackage {
 	int USE_CASE_MODEL__NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>Actors</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Actors</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -887,10 +887,10 @@ public interface UCRefactoringPackage extends EPackage {
 	EReference getUseCase_Context();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.UseCase#getSecondaryActors <em>Secondary Actors</em>}'.
+	 * Returns the meta object for the reference list '{@link edu.unicen.ucrefactoring.model.UseCase#getSecondaryActors <em>Secondary Actors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Secondary Actors</em>'.
+	 * @return the meta object for the reference list '<em>Secondary Actors</em>'.
 	 * @see edu.unicen.ucrefactoring.model.UseCase#getSecondaryActors()
 	 * @see #getUseCase()
 	 * @generated
@@ -995,10 +995,10 @@ public interface UCRefactoringPackage extends EPackage {
 	EAttribute getUseCaseModel_Name();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link edu.unicen.ucrefactoring.model.UseCaseModel#getActors <em>Actors</em>}'.
+	 * Returns the meta object for the reference list '{@link edu.unicen.ucrefactoring.model.UseCaseModel#getActors <em>Actors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Actors</em>'.
+	 * @return the meta object for the reference list '<em>Actors</em>'.
 	 * @see edu.unicen.ucrefactoring.model.UseCaseModel#getActors()
 	 * @see #getUseCaseModel()
 	 * @generated
@@ -1577,7 +1577,7 @@ public interface UCRefactoringPackage extends EPackage {
 		EReference USE_CASE__CONTEXT = eINSTANCE.getUseCase_Context();
 
 		/**
-		 * The meta object literal for the '<em><b>Secondary Actors</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Secondary Actors</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1661,7 +1661,7 @@ public interface UCRefactoringPackage extends EPackage {
 		EAttribute USE_CASE_MODEL__NAME = eINSTANCE.getUseCaseModel_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Actors</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Actors</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

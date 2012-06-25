@@ -11,7 +11,7 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData"/>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="secondaryActors" upperBound="-1"
-        eType="#//Actor" containment="true"/>
+        eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryActor" eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="flows" upperBound="-1"
         eType="#//Flow" containment="true" eOpposite="#//Flow/useCase"/>
@@ -34,7 +34,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
-        eType="#//Actor" containment="true"/>
+        eType="#//Actor"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
         eType="#//UseCase" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="aspects" upperBound="-1"
