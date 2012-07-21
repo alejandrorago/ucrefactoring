@@ -11,6 +11,7 @@ import edu.unicen.ucrefactoring.model.UseCase;
 
 public class DeleteActorRefactoring implements Refactoring {
 
+	private String type = Refactoring.REF_DELETE_ACTOR;
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	//private AlignmentX2Result alignment;
@@ -123,6 +124,11 @@ public class DeleteActorRefactoring implements Refactoring {
 	@Override
 	public boolean affectsUseCase(UseCase useCase) {
 		return false;
+	}
+
+	@Override
+	public String getType() {
+		return this.type;
 	}
 	
 }

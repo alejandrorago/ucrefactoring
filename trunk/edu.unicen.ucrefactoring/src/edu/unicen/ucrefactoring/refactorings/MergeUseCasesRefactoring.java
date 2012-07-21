@@ -18,6 +18,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
  */
 public class MergeUseCasesRefactoring implements Refactoring{
 
+	private String type = Refactoring.REF_MERGE;
+
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	//private AlignmentX2Result alignment;
@@ -25,8 +27,8 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	private Float priority = Refactoring.MEDIUM_PRIORITY;
 	private UseCase useCaseA;
 	private UseCase useCaseB;
-	private String problem = "Actor does not participates in the use case / Duplicated Actor";
-	private String refactoringName = "Delete Non Sense Actor";
+	private String problem = "Scattered Functionality";
+	private String refactoringName = "Merge Use Cases";
 	private List<String> artifacts; 
 	private Long ID;
 
@@ -172,6 +174,19 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	public boolean affectsUseCase(UseCase useCase) {
 		return this.useCaseA.getName().equals(useCase.getName()) || 
 				this.useCaseB.getName().equals(useCase.getName());
+	}
+	
+	@Override
+	public String getType() {
+		return this.type;
+	}
+	
+	public void setUseCaseA(UseCase useCaseA) {
+		this.useCaseA = useCaseA;
+	}
+
+	public void setUseCaseB(UseCase useCaseB) {
+		this.useCaseB = useCaseB;
 	}
 	
 }

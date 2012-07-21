@@ -11,6 +11,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
 
 public class ExtractUseCaseRefactoring implements Refactoring {
 
+	private String type = Refactoring.REF_EXTRACT_UC;
+
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	//private AlignmentX2Result alignment;
@@ -135,5 +137,9 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		return this.useCase.getName().equals(useCase.getName());
 	}
 	
+	@Override
+	public String getType() {
+		return this.type;
+	}
 	
 }

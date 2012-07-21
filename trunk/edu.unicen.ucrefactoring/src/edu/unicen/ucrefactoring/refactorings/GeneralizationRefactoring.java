@@ -16,7 +16,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
 
 public class GeneralizationRefactoring implements Refactoring {
 
-	
+	private String type = Refactoring.REF_GENERALIZATION;
+
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	private AlignmentX2Result alignment;
@@ -295,4 +296,9 @@ public class GeneralizationRefactoring implements Refactoring {
 				|| alignment.getUseCaseB().getName().equals(useCase.getName());
 	}
 
+	@Override
+	public String getType() {
+		return this.type;
+	}
+	
 }

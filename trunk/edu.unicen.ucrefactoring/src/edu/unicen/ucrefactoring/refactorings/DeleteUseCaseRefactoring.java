@@ -10,6 +10,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
 
 public class DeleteUseCaseRefactoring implements Refactoring {
 
+	private String type = Refactoring.REF_DELETE_UC;
+
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	//private AlignmentX2Result alignment;
@@ -115,6 +117,11 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	@Override
 	public boolean affectsUseCase(UseCase useCase) {
 		return this.useCase.getName().equals(useCase.getName());
+	}
+	
+	@Override
+	public String getType() {
+		return this.type;
 	}
 	
 }
