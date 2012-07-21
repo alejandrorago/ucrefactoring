@@ -2,20 +2,22 @@ package edu.unicen.ucrefactoring.visualiser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.contribution.visualiser.VisualiserPlugin;
 import org.eclipse.contribution.visualiser.core.ProviderManager;
 import org.eclipse.contribution.visualiser.interfaces.IGroup;
+import org.eclipse.contribution.visualiser.interfaces.IMarkupKind;
 import org.eclipse.contribution.visualiser.interfaces.IMember;
+import org.eclipse.contribution.visualiser.simpleImpl.SimpleContentProvider;
 import org.eclipse.contribution.visualiser.simpleImpl.SimpleGroup;
 import org.eclipse.contribution.visualiser.simpleImpl.SimpleMember;
-import org.eclipse.contribution.visualiser.simpleImpl.SimpleContentProvider;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-import edu.isistan.uima.unified.typesystems.srs.Document;
-import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
@@ -30,6 +32,9 @@ public class UCRVisualContentProvider extends SimpleContentProvider implements I
 	public static List<SimpleGroup> groups;
 	public static List<SimpleMember> members;
 	
+	protected static UCRVisualMarkupProvider2 ucrmarkup;
+
+	
 	@Override
 	public void initialise() {
 		if (VisualiserPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow() != null) {
@@ -37,6 +42,8 @@ public class UCRVisualContentProvider extends SimpleContentProvider implements I
 				.getPartService().addPartListener(this);
 		}
 		//useCaseModel = UCRUseCasesView.ucref.getUseCaseModel();
+		ucrmarkup = new UCRVisualMarkupProvider2();
+
 	}
 
 	@Override
@@ -130,7 +137,7 @@ public class UCRVisualContentProvider extends SimpleContentProvider implements I
 	public static void setResults(UseCaseModel useCaseModel) {
 		if (useCaseModel!=null){
 			UCRVisualContentProvider.resetProvider();
-			UCRVisualMarkupProvider.resetMarkups();
+			ucrmarkup.resetMarkups();
 			for(UseCase useCase : useCaseModel.getUseCases()) {
 				
 				int size = 0;
@@ -141,7 +148,12 @@ public class UCRVisualContentProvider extends SimpleContentProvider implements I
 			
 				UseCaseMember member = new UseCaseMember(useCase, size);
 				members.add(member);
-				UCRVisualMarkupProvider.addResult(member);
+				ucrmarkup.addResult(member);
+			}
+			for (RefactoringMarkupKind k : (Set<RefactoringMarkupKind>)ucrmarkup.getAllMarkupKinds()){
+//				Color kindColor = new Color(Display.getCurrent(), ((Double)(k.getRefactoring().getScore()*2.5)).intValue(), 0, 0);
+//				ucrmarkup.setColorFor(k,kindColor);
+				System.out.println(ucrmarkup.getColorFor(k));
 			}
 		}
 	}

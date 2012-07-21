@@ -16,6 +16,8 @@ import edu.unicen.ucrefactoring.model.UseCase;
 
 public class InclusionRefactoring implements Refactoring{
 
+	private String type = Refactoring.REF_INCLUSION;
+
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	private AlignmentX2Result alignment;
@@ -236,5 +238,9 @@ public class InclusionRefactoring implements Refactoring{
 				|| alignment.getUseCaseB().getName().equals(useCase.getName());
 	}
 	
+	@Override
+	public String getType() {
+		return this.type;
+	}
 	
 }

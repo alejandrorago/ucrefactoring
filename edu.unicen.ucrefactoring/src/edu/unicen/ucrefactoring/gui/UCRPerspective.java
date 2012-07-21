@@ -31,6 +31,7 @@ public class UCRPerspective implements IPerspectiveFactory {
 			IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.LEFT, 0.22f, "edu.unicen.ucrefactoring.gui.UCRCompareView");
 			folderLayout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
 			folderLayout.addView("org.eclipse.contribution.visualiser.views.Menu");
+			
 		}
 	}
 

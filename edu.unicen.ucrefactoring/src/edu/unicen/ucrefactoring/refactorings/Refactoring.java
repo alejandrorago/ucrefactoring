@@ -16,6 +16,15 @@ public interface Refactoring {
 	public static String MEDIUM_PRIORITY_TEXT = "MEDIUM";
 	public static String LOW_PRIORITY_TEXT = "LOW";
 	
+	public static String REF_DELETE_ACTOR = "DELETE_ACTOR";
+	public static String REF_DELETE_UC = "DELETE_UC";
+	public static String REF_EXTENSION = "EXTENSION";
+	public static String REF_EXTRACT_UC = "EXCTRACT_UC";
+	public static String REF_GENERALIZATION = "GENERALIZATION";
+	public static String REF_INCLUSION = "INCLUSION";
+	public static String REF_MERGE = "MERGE";
+	
+	
 	public boolean canApply();
 	
 	public boolean applyRefactoring();
@@ -45,5 +54,7 @@ public interface Refactoring {
 	public void setID(Long ID);
 	
 	public boolean affectsUseCase(UseCase useCase);
+	
+	public String getType();
 
 }
