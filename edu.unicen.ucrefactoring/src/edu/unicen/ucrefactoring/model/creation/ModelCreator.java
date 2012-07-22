@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -18,6 +19,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import edu.isistan.dal.ucs.model.UCSModelPackage;
 import edu.isistan.dal.ucs.model.UCSProject;
 import edu.isistan.dal.ucs.model.UseCaseSpecification;
+import edu.isistan.reassistant.model.REAssistantModelPackage;
+import edu.isistan.reassistant.model.REAssistantProject;
 import edu.isistan.uima.unified.typesystems.domain.DomainAction;
 import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
 import edu.isistan.uima.unified.typesystems.nlp.Sentence;
@@ -47,11 +50,15 @@ public class ModelCreator {
 	public static UIMAQuery uimaRoot;
 	private UCRefactoringFactory factory;
 	public UseCaseModel parsedUseCaseModel;
+	public REAssistantProject reaProject; 
 	private HashMap<String,String> sequencias = new HashMap<String,String>();
 	
 	//=======Getters and Setters========================
 	public UseCaseModel getParsedUseCaseModel() {
 		return parsedUseCaseModel;
+	}
+	public REAssistantProject getReaProject() {
+		return reaProject;
 	}
 	public void setParsedUseCaseModel(UseCaseModel parsedUseCaseModel) {
 		this.parsedUseCaseModel = parsedUseCaseModel;
@@ -89,6 +96,18 @@ public class ModelCreator {
 		Resource resource = resourceSet.createResource(uri);
 		resource.load(Collections.EMPTY_MAP);
 		setParsedUseCaseModel((UseCaseModel) resource.getContents().get(0));
+	}
+	
+	public void loadREA(File file) throws IOException {
+		//Carga el archivo ucs del File pasado como parámetro
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("*", new XMIResourceFactoryImpl());	
+		EPackage.Registry.INSTANCE.put(REAssistantModelPackage.eNS_URI, REAssistantModelPackage.eINSTANCE);
+		
+		ResourceSet resourceSet = new ResourceSetImpl();
+		URI uri = URI.createFileURI(file.getAbsolutePath());
+		Resource resource = resourceSet.createResource(uri);
+		resource.load(Collections.EMPTY_MAP);
+		this.reaProject = (REAssistantProject) resource.getContents().get(0);
 	}
 	
 	public void load(File file) throws IOException {

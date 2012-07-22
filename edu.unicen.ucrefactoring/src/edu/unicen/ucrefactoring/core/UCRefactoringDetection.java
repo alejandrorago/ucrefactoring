@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import uima.cas.CasPackage;
+import edu.isistan.reassistant.model.REAssistantProject;
 import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
 import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.ActionClass;
@@ -29,12 +30,17 @@ public class UCRefactoringDetection  {
 	
 	private static ModelCreator modelCreator;
 	private static UseCaseModel useCaseModel;
+	private static REAssistantProject reAssistantProject;
 	
 	private SimilarityAnalyzer similarityAnalizer;
 	
 	
 	public SimilarityAnalyzer getSimilarityAnalizer() {
 		return similarityAnalizer;
+	}
+	
+	public REAssistantProject getReAssistantProject() {
+		return reAssistantProject;
 	}
 
 	public void setSimilarityAnalizer(SimilarityAnalyzer similarityAnalizer) {
@@ -65,16 +71,16 @@ public class UCRefactoringDetection  {
 		initUCRefactoringDetection(loadNew);
 	}
 	
-	//used if user selects ucs file from filechooser
-	public UCRefactoringDetection(File useCaseFile, File useCaseUima){
+	public UCRefactoringDetection(File useCaseFile, File useCaseUima, File useCaseRea, boolean newUcs){
 		super();
-		initUCRefactoringDetection(useCaseFile, useCaseUima);
-	}
-
-	//used if user selects ucrefactoring file from filechooser
-	public UCRefactoringDetection(File useCaseRefactoringDetection){
-		super();
-		initUCRefactoringDetection(useCaseRefactoringDetection);
+		if(newUcs){
+			//used if user selects ucs file from filechooser
+			initNewUCRefactoringDetection(useCaseFile, useCaseUima, useCaseRea);
+		}
+		else{
+			//used if user selects ucrefactoring file from filechooser
+			initUCRefactoringDetection(useCaseFile, useCaseUima, useCaseRea);
+		}
 	}
 	
 	//update method used by views
@@ -159,7 +165,7 @@ public class UCRefactoringDetection  {
 		}
 	}
 	
-	public static void initUCRefactoringDetection(File useCaseFile, File useCaseUima){
+	public static void initNewUCRefactoringDetection(File useCaseFile, File useCaseUima, File useCaseRea){
 		try{
 
 			//Cargo el archivo UIMA
@@ -168,10 +174,19 @@ public class UCRefactoringDetection  {
 			//Cargo el archivo UCS
 			modelCreator.load(useCaseFile);
 			
+			useCaseModel = modelCreator.getParsedUseCaseModel();
+			System.out.println("###" + useCaseModel.getName());
+			
+			//Cargo el archivo REA
+			if (useCaseRea != null){
+				modelCreator.loadREA(useCaseRea);
+				reAssistantProject = modelCreator.getReaProject();
+				System.out.println("###" + reAssistantProject.getName());
+			}
+			
 			//Imprimo el modelo generado
 			//modelCreator.printModel(new File(Constants.OUTPUT_RESOURCE_DIR));
 			
-			useCaseModel = modelCreator.getParsedUseCaseModel();
 //				UCRefactoringDetection.updateDomainActions();
 //				modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
 //				modelCreator.exportModel();		
@@ -181,17 +196,26 @@ public class UCRefactoringDetection  {
 		}
 	}
 	
-	public static void initUCRefactoringDetection(File useCaseRefactoringDetection){
+	public static void initUCRefactoringDetection(File useCaseRefactoringDetection, File useCaseUima, File useCaseREA){
 		try{
-
-			modelCreator = new ModelCreator();
+			//Cargo el archivo UIMA
+			if(useCaseUima != null){
+				modelCreator = new ModelCreator(loadUIMA(useCaseUima.getAbsolutePath()).getContents());
+				
+				if(useCaseREA != null){
+					modelCreator.loadREA(useCaseREA);
+					UCRefactoringDetection.reAssistantProject = modelCreator.getReaProject();
+				}
+				modelCreator.printModel(useCaseRefactoringDetection);
+			}
+			else{
+				modelCreator = new ModelCreator();
+			}
 			modelCreator.loadExistingFile(useCaseRefactoringDetection);
 			UCRefactoringDetection.useCaseModel = modelCreator.getParsedUseCaseModel();
 			//UCRefactoringDetection.updateDomainActions();
 			//modelCreator.parsedUseCaseModel = UCRefactoringDetection.useCaseModel;
-			//modelCreator.exportModel(); 
-			modelCreator.printModel(useCaseRefactoringDetection);
-			
+			//modelCreator.exportModel();
 		}
 		catch (Exception e){
 			System.out.println("");
