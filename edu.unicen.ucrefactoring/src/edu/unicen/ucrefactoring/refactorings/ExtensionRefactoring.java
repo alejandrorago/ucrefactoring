@@ -13,6 +13,7 @@ import edu.unicen.ucrefactoring.model.ExtensionPoint;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.util.Constants;
 
 
 /**
@@ -242,6 +243,12 @@ public class ExtensionRefactoring implements Refactoring{
 	@Override
 	public String getType() {
 		return this.type;
+	}
+
+	@Override
+	public String getDetail() {
+		return "Use Cases: ["+this.getAlignment().getUseCaseA().getName()+"]["+this.getAlignment().getUseCaseB().getName() +"]\n"
+			   +"Flows: [" + this.getAlignment().getFlowA().getName()+"]["+this.getAlignment().getFlowB().getName()+"]\n";
 	}
 	
 }

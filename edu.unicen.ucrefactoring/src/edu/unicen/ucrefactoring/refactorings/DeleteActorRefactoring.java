@@ -130,5 +130,10 @@ public class DeleteActorRefactoring implements Refactoring {
 	public String getType() {
 		return this.type;
 	}
+
+	@Override
+	public String getDetail() {
+		return this.getActor().getName()+"\n";
+	}
 	
 }

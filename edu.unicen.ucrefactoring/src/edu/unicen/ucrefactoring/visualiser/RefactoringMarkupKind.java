@@ -8,7 +8,7 @@ public class RefactoringMarkupKind extends SimpleMarkupKind {
 	private Refactoring refactoring;
 	
 	public RefactoringMarkupKind(Refactoring refactoring) {
-		super("Ref ID: " + refactoring.getID() + " - " + refactoring.getRefactoringName());
+		super("\nID: " + refactoring.getID() + " - " + refactoring.getRefactoringName() + "\n" + refactoring.getDetail() );
 		this.refactoring = refactoring;
 	}
 	

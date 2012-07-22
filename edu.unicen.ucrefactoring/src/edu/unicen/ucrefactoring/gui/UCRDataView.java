@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
@@ -379,12 +380,22 @@ public class UCRDataView extends ViewPart {
 				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
-					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
-					//tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+ 					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
+//					Refactoring r = (Refactoring) selection.getFirstElement();
+//					for (TableItem tItem : tableViewer.getTable().getItems()){
+//						if (((Refactoring)tItem.getData()).getDetail().equals(r.getDetail())){
+//							tItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_GREEN));
+//						}
+//						else{
+//							//tItem.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+//						}
+//					}
+//					tableViewer.refresh();
+//					//tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 				}
 				else{
 					btnApply.setEnabled(false);
-					lblRefactoring.setText("");
+					lblRefactoring.setText("None");
 				}
 			}
 		});
@@ -414,7 +425,7 @@ public class UCRDataView extends ViewPart {
 		btnAnalyze.notifyListeners(SWT.Selection, null);
 	}
 	
-	private void showRefactoring(Refactoring ref, boolean doPaint){
+	public static void showRefactoring(Refactoring ref, boolean doPaint){
 		if (ref != null){
 			if (ref instanceof ExtractUseCaseRefactoring || ref instanceof DeleteUseCaseRefactoring){
 				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,ref.getUseCase(),new ArrayList<SimilarBlock>());

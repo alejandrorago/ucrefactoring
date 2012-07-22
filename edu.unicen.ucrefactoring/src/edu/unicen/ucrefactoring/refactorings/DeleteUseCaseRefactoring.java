@@ -123,5 +123,10 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	public String getType() {
 		return this.type;
 	}
+
+	@Override
+	public String getDetail() {
+		return this.getUseCase().getName()+"\n";
+	}
 	
 }

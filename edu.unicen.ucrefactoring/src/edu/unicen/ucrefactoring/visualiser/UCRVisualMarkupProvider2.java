@@ -1,6 +1,5 @@
 package edu.unicen.ucrefactoring.visualiser;
 
-import java.sql.Ref;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,10 +12,7 @@ import org.eclipse.contribution.visualiser.core.Stripe;
 import org.eclipse.contribution.visualiser.interfaces.IGroup;
 import org.eclipse.contribution.visualiser.interfaces.IMember;
 import org.eclipse.contribution.visualiser.simpleImpl.SimpleMarkupProvider;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
-import edu.isistan.uima.unified.typesystems.nlp.Sentence;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.gui.UCRDataView;
@@ -45,8 +41,8 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 					RefactoringMarkupKind markupKind = kindMap.get(refactoring);
 					if (markupKind == null) {
 						markupKind = new RefactoringMarkupKind(refactoring);
-						Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
-						setColorFor(markupKind, kindColor);
+						//Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
+						//setColorFor(markupKind, kindColor);
 						kindMap.put(refactoring, markupKind);
 					}
 					AlignmentX2Result align = refactoring.getAlignment();
@@ -114,8 +110,8 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 					RefactoringMarkupKind markupKind = kindMap.get(refactoring);
 					if (markupKind == null) {
 						markupKind = new RefactoringMarkupKind(refactoring);
-						Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
-						setColorFor(markupKind, kindColor);
+						//Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
+						//setColorFor(markupKind, kindColor);
 						kindMap.put(refactoring, markupKind);
 					}	
 					UseCase useCaseA = ((MergeUseCasesRefactoring) refactoring).getUseCaseA();
@@ -172,8 +168,8 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 					RefactoringMarkupKind markupKind = kindMap.get(refactoring);
 					if (markupKind == null) {
 						markupKind = new RefactoringMarkupKind(refactoring);
-						Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
-						setColorFor(markupKind, kindColor);
+						//Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
+						//setColorFor(markupKind, kindColor);
 						kindMap.put(refactoring, markupKind);
 					}	
 					UseCase uc = refactoring.getUseCase();

@@ -9,6 +9,7 @@ import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularFRMetric;
 import edu.unicen.ucrefactoring.metrics.ShortUseCaseMetric;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.util.Constants;
 
 
 /**
@@ -187,6 +188,12 @@ public class MergeUseCasesRefactoring implements Refactoring{
 
 	public void setUseCaseB(UseCase useCaseB) {
 		this.useCaseB = useCaseB;
+	}
+	
+	@Override
+	public String getDetail() {
+		return "Use Cases: ["+this.getAlignment().getUseCaseA().getName()+"]["+this.getAlignment().getUseCaseB().getName() +"]\n"
+			   +"Flows: [" + this.getAlignment().getFlowA().getName()+"]["+this.getAlignment().getFlowB().getName()+"]\n";
 	}
 	
 }

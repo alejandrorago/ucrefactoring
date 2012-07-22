@@ -60,8 +60,19 @@
             id="edu.unicen.ucrefactoring.visualiser.UCRVisualiser"
             markupProviderClass="edu.unicen.ucrefactoring.visualiser.UCRVisualMarkupProvider2"
             name="UCR Visualiser Provider"
-            title="UCRefactoring Visual Provider">
+            title="UCRefactoring Visual Provider"
+            paletteid="edu.unicen.ucrefactoring.visualiser.UCRColorPalette">
       </provider>
+   </extension>
+   <extension
+         id="edu.unicen.ucrefactoring.visualiser.UCRColorPalette"
+         name="UCR Color Palette"
+         point="org.eclipse.contribution.visualiser.palettes">
+      <palette
+            class="edu.unicen.ucrefactoring.visualiser.UCRColorPalette"
+            id="edu.unicen.ucrefactoring.visualiserUCRColorPalette"
+            name="UCR Color Palette">
+      </palette>
    </extension>
 
 </plugin>
