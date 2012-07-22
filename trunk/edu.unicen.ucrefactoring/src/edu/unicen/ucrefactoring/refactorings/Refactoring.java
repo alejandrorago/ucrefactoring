@@ -56,5 +56,7 @@ public interface Refactoring {
 	public boolean affectsUseCase(UseCase useCase);
 	
 	public String getType();
+	
+	public String getDetail();
 
 }

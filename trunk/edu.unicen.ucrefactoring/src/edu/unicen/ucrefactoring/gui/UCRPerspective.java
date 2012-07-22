@@ -32,7 +32,8 @@ public class UCRPerspective implements IPerspectiveFactory {
 			folderLayout.addView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
 			folderLayout.addView("org.eclipse.contribution.visualiser.views.Menu");
 			
-		}
+		}	
+		
 	}
 
 	/**

@@ -34,6 +34,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
@@ -48,6 +52,7 @@ import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.util.Constants;
 import edu.unicen.ucrefactoring.visualiser.UCRVisualContentProvider;
 
 public class UCRUseCasesView extends ViewPart {
@@ -666,6 +671,98 @@ public class UCRUseCasesView extends ViewPart {
 
 			}
 		});
+		
+		
+		getViewSite().getPage().addPartListener(new IPartListener2() {
+			
+			
+			@Override
+			public void partOpened(IWorkbenchPartReference arg0) {
+				try {
+					if (arg0!=null){
+						if (arg0.getPartName().equals(Constants.UCRCompareView)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
+						}
+						else if (arg0.getPartName().equals(Constants.UCRUseCaseView)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRCompareView");
+						}
+						else if (arg0.getPartName().equals(Constants.Visualiser)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Menu");
+						}
+						else if (arg0.getPartName().equals(Constants.VisualiserMenu)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Visualiser");
+						}
+						
+					}
+				} catch (PartInitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void partVisible(IWorkbenchPartReference arg0) {
+				try {
+					if (arg0!=null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()!=null){
+						if (arg0.getPartName().equals(Constants.UCRCompareView)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
+						}
+						else if (arg0.getPartName().equals(Constants.UCRUseCaseView)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRCompareView");
+						}
+						else if (arg0.getPartName().equals(Constants.Visualiser)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Menu");
+						}
+						else if (arg0.getPartName().equals(Constants.VisualiserMenu)){
+							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Visualiser");
+						}
+						
+					}
+				} catch (PartInitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void partActivated(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partBroughtToTop(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partClosed(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partDeactivated(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partHidden(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void partInputChanged(IWorkbenchPartReference arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+					
+		}); 
+		
 		
 	}
 

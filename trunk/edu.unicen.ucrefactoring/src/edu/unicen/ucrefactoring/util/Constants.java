@@ -29,5 +29,11 @@ public class Constants {
 	//Constantes de recursos
 	public final static String OUTPUT_RESOURCE_DIR = "/home/migue/workspace/REAssistant/edu.unicen.ucrefactoring/src/edu/unicen/ucrefactoring/model/parsedUCModel.ucrefactoring";
 
+	//View names Constants
+	public final static String UCRUseCaseView = "Use Case List";
+	public final static String UCRCompareView = "Compare Panel";
+	public final static String UCRDataView = "Refactoring List";
+	public final static String Visualiser = "Visualiser";
+	public final static String VisualiserMenu = "Visualiser Menu";
 	
 }

@@ -19,6 +19,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPartReference;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.PartListenerList2;
 import org.eclipse.ui.part.ViewPart;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
@@ -40,6 +45,11 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -96,8 +106,10 @@ public class UCRCompareView extends ViewPart {
 		container_1 = new Composite(parent, SWT.NONE);
 
 		
+		
 		createWidgets();
 		createListeners();
+		
 		createActions();
 		initListContextMenu();
 		
@@ -516,6 +528,7 @@ public class UCRCompareView extends ViewPart {
 			}
 		});
 		
+
 	}
 	
 	
