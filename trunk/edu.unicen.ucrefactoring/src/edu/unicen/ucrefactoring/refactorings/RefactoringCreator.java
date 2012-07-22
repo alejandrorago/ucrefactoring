@@ -1,7 +1,6 @@
 package edu.unicen.ucrefactoring.refactorings;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import edu.unicen.ucrefactoring.metrics.DuplicateMetric;
 import edu.unicen.ucrefactoring.metrics.LargeUseCaseMetric;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularFRMetric;
+import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
 import edu.unicen.ucrefactoring.metrics.NonSenseActorMetric;
 import edu.unicen.ucrefactoring.metrics.NonSenseUseCaseMetric;
 import edu.unicen.ucrefactoring.model.Actor;
@@ -33,7 +33,7 @@ public class RefactoringCreator {
 				getNonModularRefactoring(metric);
 			}
 			if (metric.isType(Metric.ENCAPSULATED_NON_FUNCTIONAL)){
-				
+				getNonModularNFRefactoring(metric);
 			}
 			if (metric.isType(Metric.NON_SENSE_ACTOR)){
 				getNonSenseActorRefactorings(metric);
@@ -123,6 +123,19 @@ public class RefactoringCreator {
 				}
 				i++;
 			}
+		}
+	}
+	
+	private void	getNonModularNFRefactoring(Metric metric){
+		String aspect = "Aspect";
+		Integer i = 1;
+		for(String ccName : ((NonModularNFRMetric)metric).concerns.keySet()){
+			ExtractAspectRefactoring refactoring = new ExtractAspectRefactoring(ccName);
+			refactoring.addMetric(metrics.get(Metric.ENCAPSULATED_NON_FUNCTIONAL));
+			if (refactoring.canApply()){
+				this.refactorings.put(aspect+i, refactoring);
+			}
+			i++;
 		}
 	}
 	

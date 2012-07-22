@@ -569,13 +569,24 @@ public class UCRUseCasesView extends ViewPart {
 								+ "/" + useCaseModel.getName().substring(0,
 										useCaseModel.getName().lastIndexOf("."))
 								+ ".uima";
+						String reaPath = fileChooser.getSelectedFile()
+								.getAbsolutePath();
+						reaPath = reaPath.substring(0, reaPath.lastIndexOf("/")) + "/" 
+								+ useCaseModel.getName().substring(0, useCaseModel.getName().lastIndexOf("."))
+								+ ".rea";
 						
 						File useCaseUima = new File(uimaPath);
+						File useCaseRea = new File(reaPath);
 
 						if (useCaseUima.exists()){
-	
-							ucref = new UCRefactoringDetection(useCaseModel,
-									useCaseUima);
+							if(useCaseRea.exists()){
+								ucref = new UCRefactoringDetection(useCaseModel,
+										useCaseUima, useCaseRea, true);
+							}
+							else{
+								ucref = new UCRefactoringDetection(useCaseModel,
+										useCaseUima, null, true);
+							}
 							ucLabel = new UseCaseLabelProvider();
 							ucListContentProvider = new UseCaseListContentProvider(
 									ucref.getUseCaseModel());
@@ -611,7 +622,38 @@ public class UCRUseCasesView extends ViewPart {
 						fileName = useCaseRefactoringDetection.getName();
 
 						if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucrefactoring")){
-							ucref = new UCRefactoringDetection(useCaseRefactoringDetection);
+							String uimaPath = fileChooser.getSelectedFile()
+									.getAbsolutePath();
+							uimaPath = uimaPath.substring(0, uimaPath.lastIndexOf("/"))
+									+ "/" + fileName.substring(0,
+											fileName.lastIndexOf("."))
+									+ ".uima";
+							
+							String reaPath = fileChooser.getSelectedFile()
+									.getAbsolutePath();
+							reaPath = reaPath.substring(0, reaPath.lastIndexOf("/")) + "/" 
+									+ fileName.substring(0, fileName.lastIndexOf("."))
+									+ ".rea";
+							File useCaseRea = new File(reaPath);
+							File useCaseUima = new File(uimaPath);
+							if(useCaseUima.exists()){
+								if(useCaseRea.exists()){
+									ucref = new UCRefactoringDetection(useCaseRefactoringDetection, useCaseUima, useCaseRea, false);
+								}
+								else{
+									ucref = new UCRefactoringDetection(useCaseRefactoringDetection, useCaseUima, null, false);
+								}
+							}
+							else{
+								if(useCaseRea.exists()){
+									ucref = new UCRefactoringDetection(useCaseRefactoringDetection,null, useCaseRea, false);
+								}
+								else{
+									ucref = new UCRefactoringDetection(useCaseRefactoringDetection, null, null, false);
+								}
+							}
+							
+							
 							ucLabel = new UseCaseLabelProvider();
 							ucListContentProvider = new UseCaseListContentProvider(
 									ucref.getUseCaseModel());

@@ -409,7 +409,7 @@ public class UCRDataView extends ViewPart {
 	
 	
 	public void collectMetrics(){
-		MetricCollector metricCollector = new MetricCollector(ucref.getUseCaseModel(),UCRUseCasesView.alignResults);
+		MetricCollector metricCollector = new MetricCollector(ucref.getUseCaseModel(), ucref.getReAssistantProject(), UCRUseCasesView.alignResults);
 		metricCollector.collectMetrics();
 		this.metrics = metricCollector.getCollectedMetrics();
 	}

@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.core.runtime,
  edu.isistan.dal;bundle-version="1.0.0",
  edu.isistan.uima.model;bundle-version="1.0.0",
  org.eclipse.emf.query;bundle-version="1.2.100",
- org.eclipse.contribution.visualiser;bundle-version="2.2.0"
+ org.eclipse.contribution.visualiser;bundle-version="2.2.0",
+ edu.isistan.reassistant.model;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: edu.smu.tspell.wordnet,
  org.eclipse.emf.edit.domain,

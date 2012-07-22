@@ -3,6 +3,9 @@ package edu.unicen.ucrefactoring.metrics;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.isistan.reassistant.model.CrosscuttingConcern;
+import edu.isistan.reassistant.model.Impact;
+import edu.isistan.reassistant.model.REAssistantProject;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.Actor;
@@ -15,6 +18,7 @@ public class MetricCollector {
 	
 		private HashMap<String,Metric> metrics;
 		private UseCaseModel useCaseModel;
+		private REAssistantProject reaProject;
 		private HashMap<String,AlignmentX2Result> alignments;
 		
 		private boolean hasCollected;
@@ -23,23 +27,23 @@ public class MetricCollector {
 			return this.metrics.get(type);
 		}
 		
-		public MetricCollector(UseCaseModel useCaseModel, HashMap<String,AlignmentX2Result> alignments){
+		public MetricCollector(UseCaseModel useCaseModel, REAssistantProject reaProject, HashMap<String,AlignmentX2Result> alignments){
 			this.metrics = new HashMap<String,Metric>();
 			this.useCaseModel = useCaseModel;
+			this.reaProject = reaProject;
 			this.alignments = alignments;
 			this.hasCollected = false;
 		}
 		
 		public void collectMetrics(){
-			
 			collectDuplicateMetrics();
 			collectLargeMetrics();
 			collectShortMetrics();
 			collectNonModularFRMetrics();
+			collectNonModularNFRMetrics();
 			collectNonSenseUseCaseMetrics();
 			collectNonSenseActorMetrics();
-			this.hasCollected = true;
-			
+			this.hasCollected = true;	
 		}
 		
 		public void collectDuplicateMetrics(){
@@ -101,6 +105,24 @@ public class MetricCollector {
 				}
 			}
 			this.metrics.put(Metric.ENCAPSULATED_FUNCTIONAL, nonModularMetric);
+		}
+		
+		public void collectNonModularNFRMetrics(){
+			if (reaProject != null){
+				NonModularNFRMetric nonModularMetric = new NonModularNFRMetric();
+				List<CrosscuttingConcern> concerns = this.reaProject.getCrosscuttingConcerns();
+				for (CrosscuttingConcern cc : concerns){
+					for (Impact impact : cc.getImpacts()){
+						String ucName = impact.getDocument().getName();
+						for(UseCase uc : this.useCaseModel.getUseCases()){
+							if(uc.getName().equals(ucName)){
+								nonModularMetric.addCrosscutingConcern(cc, uc);
+							}
+						}
+					}
+				}
+				this.metrics.put(Metric.ENCAPSULATED_NON_FUNCTIONAL, nonModularMetric);
+			}
 		}
 		
 		public void collectNonSenseUseCaseMetrics(){
