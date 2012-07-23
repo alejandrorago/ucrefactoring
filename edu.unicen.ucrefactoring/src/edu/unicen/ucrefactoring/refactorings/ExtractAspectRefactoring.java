@@ -4,9 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.isistan.reassistant.model.CrosscuttingConcern;
+import edu.isistan.reassistant.model.Impact;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
+import edu.unicen.ucrefactoring.model.Aspect;
+import edu.unicen.ucrefactoring.model.JointPoint;
+import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
 
 
@@ -45,6 +51,34 @@ public class ExtractAspectRefactoring implements Refactoring{
 
 	@Override
 	public boolean applyRefactoring() {
+		int cancel = UCRUseCasesView.extractAspectDialog();
+		if (cancel == 0){
+			// ASPECTO ELEGIDO
+			String aspectName = UCRUseCasesView.aspectDialog.getAspectName();
+			Aspect existent = null;
+			for(Aspect a : UCRUseCasesView.ucref.getUseCaseModel().getAspects()){
+				if(a.getName().equals(aspectName)){
+					existent = a;
+					break;
+				}
+			}
+			if (existent == null){
+				existent = UCRefactoringFactory.eINSTANCE.createAspect();
+				existent.setName(aspectName);
+				existent.setDescription(UCRUseCasesView.aspectDialog.getAspectDescription());
+				UCRUseCasesView.ucref.getUseCaseModel().getAspects().add(existent);
+			}
+			// ARMO LOS JOIN POINTS
+			NonModularNFRMetric metric =(NonModularNFRMetric)this.metrics.get(Metric.ENCAPSULATED_NON_FUNCTIONAL);
+			CrosscuttingConcern cc = metric.concerns.get(ccName);
+			for(Impact i: cc.getImpacts()){
+				UseCase uc = metric.useCases.get(i.getDocument().getName());
+				Integer evId = new Integer(i.getDocument().getSofa().getSofaString().substring(0, i.getDocument().getSofa().getSofaString().indexOf(".")));
+				System.out.println(uc.getName());
+				System.out.println(evId);
+				JointPoint jp = UCRefactoringFactory.eINSTANCE.createJointPoint();
+			}
+		}
 		return true;
 	}
 

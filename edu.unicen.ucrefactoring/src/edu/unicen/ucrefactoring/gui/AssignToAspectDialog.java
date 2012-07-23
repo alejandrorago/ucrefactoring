@@ -18,9 +18,12 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import edu.unicen.ucrefactoring.model.Actor;
+import edu.unicen.ucrefactoring.model.Aspect;
+
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
+import org.eclipse.swt.custom.StyledText;
 
 public class AssignToAspectDialog extends Dialog {
 
@@ -36,7 +39,7 @@ public class AssignToAspectDialog extends Dialog {
 	}
 
 	private Combo combo;
-	private Text text;
+	private StyledText text;
 	
 	/**
 	 * Create contents of the dialog.
@@ -51,22 +54,19 @@ public class AssignToAspectDialog extends Dialog {
 		
 		combo = new Combo(container, SWT.NONE);
 		List<String> items = new ArrayList<String>();
-		for(Actor a : UCRUseCasesView.ucref.getUseCaseModel().getActors()){
-			if(!a.getName().equalsIgnoreCase("system")){
-				items.add(a.getName());
-			}
+		for(Aspect a : UCRUseCasesView.ucref.getUseCaseModel().getAspects()){
+			items.add(a.getName());
 		}
  		combo.setItems(items.toArray(new String[]{}));
  		
  		Label lblDescription = new Label(container, SWT.NONE);
  		lblDescription.setText("Description:");
  		
- 		text = new Text(container, SWT.BORDER);
- 		text.setEnabled(false);
+ 		text = new StyledText(container, SWT.BORDER);
  		GroupLayout gl_container = new GroupLayout(container);
  		gl_container.setHorizontalGroup(
- 			gl_container.createParallelGroup(GroupLayout.LEADING)
- 				.add(GroupLayout.TRAILING, gl_container.createSequentialGroup()
+ 			gl_container.createParallelGroup(GroupLayout.TRAILING)
+ 				.add(gl_container.createSequentialGroup()
  					.add(17)
  					.add(gl_container.createParallelGroup(GroupLayout.TRAILING)
  						.add(GroupLayout.LEADING, text, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
@@ -85,7 +85,7 @@ public class AssignToAspectDialog extends Dialog {
  					.add(9)
  					.add(lblDescription)
  					.addPreferredGap(LayoutStyle.UNRELATED)
- 					.add(text, GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+ 					.add(text, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
  					.addContainerGap())
  		);
  		container.setLayout(gl_container);
@@ -94,9 +94,19 @@ public class AssignToAspectDialog extends Dialog {
  				if(combo.getSelectionIndex() > 0){
  					getButton(OK).setEnabled(true);
  					aspectName = combo.getItem(combo.getSelectionIndex());
+ 					Aspect selected = null;
+ 					for(Aspect a: UCRUseCasesView.ucref.getUseCaseModel().getAspects()){
+ 						if (a.getName().equals(aspectName)){
+ 							selected =a;
+ 							break;
+ 						}
+ 					}
+ 					text.setText(selected.getDescription());
+ 					text.setEnabled(false);
  				}
  				else if(combo.getText() != ""){
  					aspectName = combo.getText();
+ 					text.setEnabled(true);
  				}
  			}
  		});
@@ -105,13 +115,28 @@ public class AssignToAspectDialog extends Dialog {
  				if(combo.getSelectionIndex() > 0){
  					getButton(OK).setEnabled(true);
  					aspectName = combo.getItem(combo.getSelectionIndex());
+ 					Aspect selected = null;
+ 					for(Aspect a: UCRUseCasesView.ucref.getUseCaseModel().getAspects()){
+ 						if (a.getName().equals(aspectName)){
+ 							selected =a;
+ 							break;
+ 						}
+ 					}
+ 					text.setText(selected.getDescription());
+ 					text.setEnabled(false);
  				}
  				else if(combo.getText() != ""){
  					getButton(OK).setEnabled(true);
- 				aspectName = combo.getText();
+ 					aspectName = combo.getText();
+ 					text.setEnabled(true);
  				}
  			}
  		});
+ 		text.addListener(SWT.Modify, new Listener(){
+	 		public void handleEvent(Event e){
+	 			aspectDescription = text.getText();
+	 		}
+	 	});
 		return container;
 	}
 
@@ -136,7 +161,10 @@ public class AssignToAspectDialog extends Dialog {
 		return new Point(319, 302);
 	}
 	
-	public String getActorName() {
+	public String getAspectName() {
 		return aspectName;
+	}
+	public String getAspectDescription() {
+		return aspectDescription;
 	}
 }
