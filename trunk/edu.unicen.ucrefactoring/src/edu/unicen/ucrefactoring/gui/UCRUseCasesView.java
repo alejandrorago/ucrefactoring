@@ -87,6 +87,7 @@ public class UCRUseCasesView extends ViewPart {
 	private static JFileChooser fileSaver;
 	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
+	public static AssignToAspectDialog aspectDialog;
 	public static SetPrimaryActorDialog PrimaryActorDialog;
 
 	// special flag for double-clicking the use case list
@@ -1018,6 +1019,12 @@ public class UCRUseCasesView extends ViewPart {
 		Shell shell = UCRUseCasesView.container_1.getShell();
 	    UCRDialog = new UCRNewUseCaseDialog(shell);
 	    return UCRDialog.open();
+	}
+	
+	public static int extractAspectDialog(){
+		Shell shell = new Shell();
+	    aspectDialog = new AssignToAspectDialog(shell);
+	    return aspectDialog.open();
 	}
 	
 	public static void resetView(){
