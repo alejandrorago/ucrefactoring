@@ -561,20 +561,13 @@ public class UCRUseCasesView extends ViewPart {
 					
 					//if user selects ucs file					
 					if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucs")){
-						// get ucm file
+						// get ucm file and root file path
 						File useCaseModel = fileChooser.getSelectedFile();
+						String filePath = useCaseModel.getAbsolutePath();
 						// get uima file
-						String uimaPath = fileChooser.getSelectedFile()
-								.getAbsolutePath();
-						uimaPath = uimaPath.substring(0, uimaPath.lastIndexOf("/"))
-								+ "/" + useCaseModel.getName().substring(0,
-										useCaseModel.getName().lastIndexOf("."))
-								+ ".uima";
-						String reaPath = fileChooser.getSelectedFile()
-								.getAbsolutePath();
-						reaPath = reaPath.substring(0, reaPath.lastIndexOf("/")) + "/" 
-								+ useCaseModel.getName().substring(0, useCaseModel.getName().lastIndexOf("."))
-								+ ".rea";
+						String uimaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".uima";
+						//get the rea file - aspects data
+						String reaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".rea";
 						
 						File useCaseUima = new File(uimaPath);
 						File useCaseRea = new File(reaPath);
@@ -610,6 +603,9 @@ public class UCRUseCasesView extends ViewPart {
 							UCRUseCasesView.resetView();
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
+							if (!useCaseRea.exists()){
+								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCS cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+							}
 	
 						}
 						else{
@@ -620,21 +616,15 @@ public class UCRUseCasesView extends ViewPart {
 					//else, if user selects ucrefactoring file
 					else if(fileChooser.getSelectedFile().exists()) {
 						File useCaseRefactoringDetection = fileChooser.getSelectedFile();
+						String filePath = useCaseRefactoringDetection.getAbsolutePath();
 						fileName = useCaseRefactoringDetection.getName();
 
 						if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucrefactoring")){
-							String uimaPath = fileChooser.getSelectedFile()
-									.getAbsolutePath();
-							uimaPath = uimaPath.substring(0, uimaPath.lastIndexOf("/"))
-									+ "/" + fileName.substring(0,
-											fileName.lastIndexOf("."))
-									+ ".uima";
+							// get uima file
+							String uimaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".uima";
+							//get the rea file - aspects data
+							String reaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".rea";
 							
-							String reaPath = fileChooser.getSelectedFile()
-									.getAbsolutePath();
-							reaPath = reaPath.substring(0, reaPath.lastIndexOf("/")) + "/" 
-									+ fileName.substring(0, fileName.lastIndexOf("."))
-									+ ".rea";
 							File useCaseRea = new File(reaPath);
 							File useCaseUima = new File(uimaPath);
 							if(useCaseUima.exists()){
@@ -677,6 +667,15 @@ public class UCRUseCasesView extends ViewPart {
 							UCRUseCasesView.resetView();
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
+							if (!useCaseUima.exists() && !useCaseRea.exists()){
+								JOptionPane.showMessageDialog(fileChooser, "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA and UIMA file not found", JOptionPane.WARNING_MESSAGE);
+							}
+							else if (!useCaseRea.exists()){
+								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+							}
+							else if (!useCaseUima.exists()){
+								JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "UIMA file not found", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					}
 					

@@ -26,7 +26,9 @@ public class ExtractAspectRefactoring implements Refactoring{
 	private Float score;
 	private HashMap<String,Metric> metrics;
 	private String ccName;
-	
+
+	private String type = Refactoring.REF_EXTRACT_ASPECT;
+
 	private String name; 
 	private Float priority = Refactoring.MEDIUM_PRIORITY;
 	private String problem = "Crosscuting Concern";
@@ -171,8 +173,7 @@ public class ExtractAspectRefactoring implements Refactoring{
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
 	}
 
 	@Override
@@ -181,5 +182,16 @@ public class ExtractAspectRefactoring implements Refactoring{
 		return null;
 	}
 	
+	public String getCcName() {
+		return ccName;
+	}
+
+	public void setCcName(String ccName) {
+		this.ccName = ccName;
+	}
+	
+	public Metric getMetric(String metricName){
+		return this.metrics.get(metricName);
+	}
 	
 }
