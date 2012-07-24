@@ -23,7 +23,8 @@ public interface Refactoring {
 	public static String REF_GENERALIZATION = "GENERALIZATION";
 	public static String REF_INCLUSION = "INCLUSION";
 	public static String REF_MERGE = "MERGE";
-	
+	public static String REF_EXTRACT_ASPECT = "EXTRACT_ASPECT";
+
 	
 	public boolean canApply();
 	

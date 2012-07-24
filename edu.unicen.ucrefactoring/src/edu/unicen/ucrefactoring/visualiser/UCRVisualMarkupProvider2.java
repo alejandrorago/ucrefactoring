@@ -19,6 +19,7 @@ import edu.unicen.ucrefactoring.gui.UCRDataView;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.refactorings.ExtractAspectRefactoring;
 import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 
@@ -158,6 +159,7 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 				}
 			}
 			//3
+			//Refactorings with only 1 UC
 			else if (refactoring.getType().equals(Refactoring.REF_DELETE_UC) || refactoring.getType().equals(Refactoring.REF_EXTRACT_UC) ){
 				if (refactoring.affectsUseCase(member.getUseCase())) {
 					List<Stripe> stripes = markups.get(member);
@@ -203,6 +205,27 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 								stripe.getKinds().add(markupKind);
 						}
 					}
+				}
+			}
+			//4
+			//Aspect Refactorings
+			else if (refactoring.getType().equals(Refactoring.REF_EXTRACT_ASPECT) ){
+				if (refactoring.affectsUseCase(member.getUseCase())) {
+					List<Stripe> stripes = markups.get(member);
+					if (stripes == null) {
+						stripes = new ArrayList<Stripe>();
+						markups.put(member, stripes);
+					}
+					RefactoringMarkupKind markupKind = kindMap.get(refactoring);
+					if (markupKind == null) {
+						markupKind = new RefactoringMarkupKind(refactoring);
+						//Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
+						//setColorFor(markupKind, kindColor);
+						kindMap.put(refactoring, markupKind);
+					}
+					
+					String ccString = ((ExtractAspectRefactoring)refactoring).getCcName();
+					//TODO: GET USE CASES AFFECTED LINES TO SHOW THEM
 				}
 			}
 		}

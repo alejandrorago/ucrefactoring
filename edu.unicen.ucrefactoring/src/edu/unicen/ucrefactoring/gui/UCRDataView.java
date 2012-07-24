@@ -30,11 +30,13 @@ import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.MetricCollector;
+import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.refactorings.DeleteActorRefactoring;
 import edu.unicen.ucrefactoring.refactorings.DeleteUseCaseRefactoring;
+import edu.unicen.ucrefactoring.refactorings.ExtractAspectRefactoring;
 import edu.unicen.ucrefactoring.refactorings.ExtractUseCaseRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 import edu.unicen.ucrefactoring.refactorings.RefactoringCreator;
@@ -418,7 +420,7 @@ public class UCRDataView extends ViewPart {
 	
 	public static void showRefactoring(Refactoring ref, boolean doPaint){
 		if (ref != null){
-			if (ref instanceof ExtractUseCaseRefactoring || ref instanceof DeleteUseCaseRefactoring){
+			if (ref.getType().equals(Refactoring.REF_EXTRACT_UC) || ref.getType().equals(Refactoring.REF_DELETE_UC) ){
 				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,ref.getUseCase(),new ArrayList<SimilarBlock>());
 				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
 			
@@ -428,12 +430,31 @@ public class UCRDataView extends ViewPart {
 				UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
 				UCRCompareView.updateButtonsAndLabels();
 			}
-			else if (ref instanceof DeleteActorRefactoring){
+			else if (ref.getType().equals(Refactoring.REF_DELETE_ACTOR) ){
 				UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
 				useCase.setName("NON SENSE ACTOR");
 				Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
 				flow.setName(((DeleteActorRefactoring) ref).getActor().getName());
 				useCase.getFlows().add(flow);
+				
+				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCase,new ArrayList<SimilarBlock>());
+				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
+			
+				UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseLeft = useCase;
+				UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
+				UCRCompareView.updateButtonsAndLabels();
+			}
+			else if (ref.getType().equals(Refactoring.REF_EXTRACT_ASPECT)){
+				UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
+				useCase.setName(ref.getRefactoringName());
+				for (UseCase uc : ((NonModularNFRMetric)((ExtractAspectRefactoring)ref).getMetric(Metric.ENCAPSULATED_NON_FUNCTIONAL)).useCases.values()){
+					Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
+					flow.setName(uc.getName());
+					//TODO: ADD REF. AFFECTED LINES AS EVENTS
+					useCase.getFlows().add(flow);
+				}
 				
 				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCase,new ArrayList<SimilarBlock>());
 				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,UCRefactoringFactory.eINSTANCE.createUseCase(),new ArrayList<SimilarBlock>());
