@@ -28,13 +28,20 @@ public class NonModularNFRMetric implements Metric {
 			List<UseCase> l = new ArrayList<UseCase>();
 			l.add(uc);
 			this.ccUseCases.put(cc.getName(), l);
+			
+			this.concerns.put(cc.getName(), cc);
 		}
 		else{
-			this.ccUseCases.get(cc.getName()).add(uc);
-		}
-		
-		if(this.concerns.get(cc.getName()) == null){
-			this.concerns.put(cc.getName(), cc);
+			List<UseCase> l = this.ccUseCases.get(cc.getName());
+			boolean exists = false;
+			for(UseCase u : l){
+				if(u.getName().equals(uc.getName())){
+					exists = true;
+				}
+			}
+			if(!exists){
+				this.ccUseCases.get(cc.getName()).add(uc);
+			}
 		}
 		
 		if(this.useCases.get(uc.getName()) == null){

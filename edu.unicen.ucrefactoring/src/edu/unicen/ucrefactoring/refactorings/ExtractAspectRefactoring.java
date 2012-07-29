@@ -11,6 +11,8 @@ import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
 import edu.unicen.ucrefactoring.model.Aspect;
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.JointPoint;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -73,15 +75,32 @@ public class ExtractAspectRefactoring implements Refactoring{
 			// ARMO LOS JOIN POINTS
 			NonModularNFRMetric metric =(NonModularNFRMetric)this.metrics.get(Metric.ENCAPSULATED_NON_FUNCTIONAL);
 			CrosscuttingConcern cc = metric.concerns.get(ccName);
+			if(!existent.getCcNames().contains(cc.getName())){
+				existent.getCcNames().add(cc.getName());
+			}
 			for(Impact i: cc.getImpacts()){
 				UseCase uc = metric.useCases.get(i.getDocument().getName());
-				Integer evId = new Integer(i.getDocument().getSofa().getSofaString().substring(0, i.getDocument().getSofa().getSofaString().indexOf(".")));
+				Integer evId = UCRUseCasesView.ucref.getReaImpactedEvents().get(i.getID());
 				System.out.println(uc.getName());
 				System.out.println(evId);
 				JointPoint jp = UCRefactoringFactory.eINSTANCE.createJointPoint();
+				jp.setImpactAspect(existent);
+				this.addJoinPoint(uc, i.getSection().getName(), jp, evId);
 			}
 		}
 		return true;
+	}
+
+	private void addJoinPoint(UseCase uc, String sectionName, JointPoint jp, Integer evId) {
+		for(Flow flow : uc.getFlows()){
+			if(flow.getName().equalsIgnoreCase(sectionName)){
+				for(Event e : flow.getEvents()){
+					if (e.getNumber().equals(evId)){
+						e.getAffectedByJoinPoint().add(jp);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

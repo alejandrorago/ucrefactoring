@@ -6,13 +6,17 @@
  */
 package edu.unicen.ucrefactoring.model.impl;
 
+import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.Aspect;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -23,53 +27,22 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.AspectImpl#getName <em>Name</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.impl.AspectImpl#getDescription <em>Description</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.AspectImpl#getCcNames <em>Cc Names</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class AspectImpl extends EObjectImpl implements Aspect {
+public class AspectImpl extends UseCaseImpl implements Aspect {
 	/**
-	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * The cached value of the '{@link #getCcNames() <em>Cc Names</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getName()
+	 * @see #getCcNames()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String NAME_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String DESCRIPTION_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDescription()
-	 * @generated
-	 * @ordered
-	 */
-	protected String description = DESCRIPTION_EDEFAULT;
+	protected EList<String> ccNames;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -89,47 +62,17 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 	protected EClass eStaticClass() {
 		return UCRefactoringPackage.Literals.ASPECT;
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setName(String newName) {
-		String oldName = name;
-		name = newName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.ASPECT__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDescription(String newDescription) {
-		String oldDescription = description;
-		description = newDescription;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UCRefactoringPackage.ASPECT__DESCRIPTION, oldDescription, description));
+	public EList<String> getCcNames() {
+		if (ccNames == null) {
+			ccNames = new EDataTypeUniqueEList<String>(String.class, this, UCRefactoringPackage.ASPECT__CC_NAMES);
+		}
+		return ccNames;
 	}
 
 	/**
@@ -140,10 +83,8 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case UCRefactoringPackage.ASPECT__NAME:
-				return getName();
-			case UCRefactoringPackage.ASPECT__DESCRIPTION:
-				return getDescription();
+			case UCRefactoringPackage.ASPECT__CC_NAMES:
+				return getCcNames();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -153,14 +94,13 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case UCRefactoringPackage.ASPECT__NAME:
-				setName((String)newValue);
-				return;
-			case UCRefactoringPackage.ASPECT__DESCRIPTION:
-				setDescription((String)newValue);
+			case UCRefactoringPackage.ASPECT__CC_NAMES:
+				getCcNames().clear();
+				getCcNames().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -174,11 +114,8 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case UCRefactoringPackage.ASPECT__NAME:
-				setName(NAME_EDEFAULT);
-				return;
-			case UCRefactoringPackage.ASPECT__DESCRIPTION:
-				setDescription(DESCRIPTION_EDEFAULT);
+			case UCRefactoringPackage.ASPECT__CC_NAMES:
+				getCcNames().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -192,10 +129,8 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case UCRefactoringPackage.ASPECT__NAME:
-				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case UCRefactoringPackage.ASPECT__DESCRIPTION:
-				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
+			case UCRefactoringPackage.ASPECT__CC_NAMES:
+				return ccNames != null && !ccNames.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -210,12 +145,20 @@ public class AspectImpl extends EObjectImpl implements Aspect {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (name: ");
-		result.append(name);
-		result.append(", description: ");
-		result.append(description);
+		result.append(" (ccNames: ");
+		result.append(ccNames);
 		result.append(')');
 		return result.toString();
+	}
+
+	@Override
+	public String getStereotype(){
+		return "<<Aspect>>";
+	}
+	
+	@Override
+	public String getFullDescription() {
+		return "Descripción: " + this.getDescription();
 	}
 
 } //AspectImpl

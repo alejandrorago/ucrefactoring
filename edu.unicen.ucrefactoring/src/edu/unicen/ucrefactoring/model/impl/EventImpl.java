@@ -7,12 +7,16 @@
 package edu.unicen.ucrefactoring.model.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.JointPoint;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
+import java.util.Collection;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,6 +28,7 @@ import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getDetail <em>Detail</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getNumber <em>Number</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getEventId <em>Event Id</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.impl.EventImpl#getAffectedByJoinPoint <em>Affected By Join Point</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,6 +94,16 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * @ordered
 	 */
 	protected String eventId = EVENT_ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAffectedByJoinPoint() <em>Affected By Join Point</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAffectedByJoinPoint()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<JointPoint> affectedByJoinPoint;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -177,6 +192,18 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<JointPoint> getAffectedByJoinPoint() {
+		if (affectedByJoinPoint == null) {
+			affectedByJoinPoint = new EObjectResolvingEList<JointPoint>(JointPoint.class, this, UCRefactoringPackage.EVENT__AFFECTED_BY_JOIN_POINT);
+		}
+		return affectedByJoinPoint;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -186,6 +213,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return getNumber();
 			case UCRefactoringPackage.EVENT__EVENT_ID:
 				return getEventId();
+			case UCRefactoringPackage.EVENT__AFFECTED_BY_JOIN_POINT:
+				return getAffectedByJoinPoint();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -195,6 +224,7 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -206,6 +236,10 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return;
 			case UCRefactoringPackage.EVENT__EVENT_ID:
 				setEventId((String)newValue);
+				return;
+			case UCRefactoringPackage.EVENT__AFFECTED_BY_JOIN_POINT:
+				getAffectedByJoinPoint().clear();
+				getAffectedByJoinPoint().addAll((Collection<? extends JointPoint>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -228,6 +262,9 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 			case UCRefactoringPackage.EVENT__EVENT_ID:
 				setEventId(EVENT_ID_EDEFAULT);
 				return;
+			case UCRefactoringPackage.EVENT__AFFECTED_BY_JOIN_POINT:
+				getAffectedByJoinPoint().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -246,6 +283,8 @@ public abstract class EventImpl extends EObjectImpl implements Event {
 				return NUMBER_EDEFAULT == null ? number != null : !NUMBER_EDEFAULT.equals(number);
 			case UCRefactoringPackage.EVENT__EVENT_ID:
 				return EVENT_ID_EDEFAULT == null ? eventId != null : !EVENT_ID_EDEFAULT.equals(eventId);
+			case UCRefactoringPackage.EVENT__AFFECTED_BY_JOIN_POINT:
+				return affectedByJoinPoint != null && !affectedByJoinPoint.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

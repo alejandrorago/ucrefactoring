@@ -1,5 +1,6 @@
 package edu.unicen.ucrefactoring.metrics;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import edu.isistan.reassistant.model.REAssistantProject;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.Actor;
+import edu.unicen.ucrefactoring.model.Aspect;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
@@ -111,7 +113,12 @@ public class MetricCollector {
 			if (reaProject != null){
 				NonModularNFRMetric nonModularMetric = new NonModularNFRMetric();
 				List<CrosscuttingConcern> concerns = this.reaProject.getCrosscuttingConcerns();
+				List<String> ccAlreadySolved = new ArrayList<String>();
+				for (Aspect a : this.useCaseModel.getAspects()){
+					ccAlreadySolved.addAll(a.getCcNames());
+				}
 				for (CrosscuttingConcern cc : concerns){
+					if(!ccAlreadySolved.contains(cc.getName())){
 					for (Impact impact : cc.getImpacts()){
 						String ucName = impact.getDocument().getName();
 						for(UseCase uc : this.useCaseModel.getUseCases()){
@@ -119,6 +126,7 @@ public class MetricCollector {
 								nonModularMetric.addCrosscutingConcern(cc, uc);
 							}
 						}
+					}
 					}
 				}
 				this.metrics.put(Metric.ENCAPSULATED_NON_FUNCTIONAL, nonModularMetric);

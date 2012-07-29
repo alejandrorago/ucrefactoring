@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import edu.isistan.dal.ucs.model.UCSModelPackage;
 import edu.isistan.dal.ucs.model.UCSProject;
 import edu.isistan.dal.ucs.model.UseCaseSpecification;
+import edu.isistan.reassistant.model.CrosscuttingConcern;
+import edu.isistan.reassistant.model.Impact;
 import edu.isistan.reassistant.model.REAssistantModelPackage;
 import edu.isistan.reassistant.model.REAssistantProject;
 import edu.isistan.uima.unified.typesystems.domain.DomainAction;
@@ -51,6 +53,7 @@ public class ModelCreator {
 	private UCRefactoringFactory factory;
 	public UseCaseModel parsedUseCaseModel;
 	public REAssistantProject reaProject; 
+	public Map<String, Integer> reaImpactedEvents;
 	private HashMap<String,String> sequencias = new HashMap<String,String>();
 	
 	//=======Getters and Setters========================
@@ -68,6 +71,9 @@ public class ModelCreator {
 	}
 	public void setSequencias(HashMap<String, String> sequencias) {
 		this.sequencias = sequencias;
+	}
+	public Map<String, Integer> getReaImpactedEvents() {
+		return reaImpactedEvents;
 	}
 	
 	//========Constructores==================================
@@ -108,6 +114,16 @@ public class ModelCreator {
 		Resource resource = resourceSet.createResource(uri);
 		resource.load(Collections.EMPTY_MAP);
 		this.reaProject = (REAssistantProject) resource.getContents().get(0);
+		this.reaImpactedEvents = new HashMap<String, Integer>(); 
+		List<CrosscuttingConcern> ccs = this.reaProject.getCrosscuttingConcerns();
+		for(CrosscuttingConcern cc: ccs){
+			for(Impact i: cc.getImpacts()){
+				Sentence sentence = i.getSentence();
+				Document document = i.getDocument();
+				int offset = uimaRoot.indexOf(sentence, uimaRoot.getSentences(document));
+				this.reaImpactedEvents.put(i.getID(), offset+1);
+			}
+		}
 	}
 	
 	public void load(File file) throws IOException {

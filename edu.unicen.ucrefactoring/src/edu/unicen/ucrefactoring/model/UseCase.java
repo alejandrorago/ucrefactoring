@@ -213,5 +213,6 @@ public interface UseCase extends EObject {
 	
 	void addExtendedUC(UseCase uc);
 	
+	public String getStereotype();
 
 } // UseCase

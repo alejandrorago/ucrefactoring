@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -31,6 +32,7 @@ public class UCRefactoringDetection  {
 	private static ModelCreator modelCreator;
 	private static UseCaseModel useCaseModel;
 	private static REAssistantProject reAssistantProject;
+	private static Map<String, Integer> reaImpactedEvents;
 	
 	private SimilarityAnalyzer similarityAnalizer;
 	
@@ -41,6 +43,10 @@ public class UCRefactoringDetection  {
 	
 	public REAssistantProject getReAssistantProject() {
 		return reAssistantProject;
+	}
+	
+	public Map<String, Integer> getReaImpactedEvents() {
+		return reaImpactedEvents;
 	}
 
 	public void setSimilarityAnalizer(SimilarityAnalyzer similarityAnalizer) {
@@ -181,6 +187,7 @@ public class UCRefactoringDetection  {
 			if (useCaseRea != null){
 				modelCreator.loadREA(useCaseRea);
 				reAssistantProject = modelCreator.getReaProject();
+				reaImpactedEvents = modelCreator.getReaImpactedEvents();
 				System.out.println("###" + reAssistantProject.getName());
 			}
 			
@@ -205,6 +212,7 @@ public class UCRefactoringDetection  {
 				if(useCaseREA != null){
 					modelCreator.loadREA(useCaseREA);
 					UCRefactoringDetection.reAssistantProject = modelCreator.getReaProject();
+					reaImpactedEvents = modelCreator.getReaImpactedEvents();
 				}
 				modelCreator.printModel(useCaseRefactoringDetection);
 			}
