@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
+import edu.unicen.ucrefactoring.model.Aspect;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -44,7 +45,11 @@ public class UseCaseLabelProvider extends LabelProvider {
 	public String getText(Object element) {
 		if (element instanceof UseCase){
 			UseCase useCase = (UseCase)element;
-			return useCase.getName();
+			return useCase.getStereotype() + " " +useCase.getName();
+		}
+		else if (element instanceof Aspect){
+			Aspect aspect = (Aspect)element;
+			return aspect.getStereotype() + " " +aspect.getName();
 		}
 		else if (element instanceof Flow){
 			Flow flow = (Flow) element;

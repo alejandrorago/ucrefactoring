@@ -391,13 +391,22 @@ public interface UCRefactoringPackage extends EPackage {
 	int EVENT__EVENT_ID = 2;
 
 	/**
+	 * The feature id for the '<em><b>Affected By Join Point</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EVENT__AFFECTED_BY_JOIN_POINT = 3;
+
+	/**
 	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EVENT_FEATURE_COUNT = 3;
+	int EVENT_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl <em>Functional Event</em>}' class.
@@ -435,6 +444,15 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @ordered
 	 */
 	int FUNCTIONAL_EVENT__EVENT_ID = EVENT__EVENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Affected By Join Point</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FUNCTIONAL_EVENT__AFFECTED_BY_JOIN_POINT = EVENT__AFFECTED_BY_JOIN_POINT;
 
 	/**
 	 * The feature id for the '<em><b>Joint Points</b></em>' containment reference list.
@@ -537,6 +555,15 @@ public interface UCRefactoringPackage extends EPackage {
 	int EXTENSION_POINT__EVENT_ID = EVENT__EVENT_ID;
 
 	/**
+	 * The feature id for the '<em><b>Affected By Join Point</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTENSION_POINT__AFFECTED_BY_JOIN_POINT = EVENT__AFFECTED_BY_JOIN_POINT;
+
+	/**
 	 * The feature id for the '<em><b>Condition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -599,6 +626,15 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @ordered
 	 */
 	int INCLUSION_CALL__EVENT_ID = EVENT__EVENT_ID;
+
+	/**
+	 * The feature id for the '<em><b>Affected By Join Point</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INCLUSION_CALL__AFFECTED_BY_JOIN_POINT = EVENT__AFFECTED_BY_JOIN_POINT;
 
 	/**
 	 * The feature id for the '<em><b>Included Use Cases</b></em>' reference list.
@@ -745,7 +781,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASPECT__NAME = 0;
+	int ASPECT__NAME = USE_CASE__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -754,7 +790,61 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASPECT__DESCRIPTION = 1;
+	int ASPECT__DESCRIPTION = USE_CASE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__CONTEXT = USE_CASE__CONTEXT;
+
+	/**
+	 * The feature id for the '<em><b>Secondary Actors</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__SECONDARY_ACTORS = USE_CASE__SECONDARY_ACTORS;
+
+	/**
+	 * The feature id for the '<em><b>Primary Actor</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__PRIMARY_ACTOR = USE_CASE__PRIMARY_ACTOR;
+
+	/**
+	 * The feature id for the '<em><b>Flows</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__FLOWS = USE_CASE__FLOWS;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__PARENT = USE_CASE__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Cc Names</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASPECT__CC_NAMES = USE_CASE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Aspect</em>' class.
@@ -763,7 +853,7 @@ public interface UCRefactoringPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASPECT_FEATURE_COUNT = 2;
+	int ASPECT_FEATURE_COUNT = USE_CASE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link edu.unicen.ucrefactoring.model.impl.ConditionImpl <em>Condition</em>}' class.
@@ -1179,6 +1269,17 @@ public interface UCRefactoringPackage extends EPackage {
 	EAttribute getEvent_EventId();
 
 	/**
+	 * Returns the meta object for the reference list '{@link edu.unicen.ucrefactoring.model.Event#getAffectedByJoinPoint <em>Affected By Join Point</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Affected By Join Point</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Event#getAffectedByJoinPoint()
+	 * @see #getEvent()
+	 * @generated
+	 */
+	EReference getEvent_AffectedByJoinPoint();
+
+	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.FunctionalEvent <em>Functional Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1426,26 +1527,15 @@ public interface UCRefactoringPackage extends EPackage {
 	EClass getAspect();
 
 	/**
-	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Aspect#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute list '{@link edu.unicen.ucrefactoring.model.Aspect#getCcNames <em>Cc Names</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see edu.unicen.ucrefactoring.model.Aspect#getName()
+	 * @return the meta object for the attribute list '<em>Cc Names</em>'.
+	 * @see edu.unicen.ucrefactoring.model.Aspect#getCcNames()
 	 * @see #getAspect()
 	 * @generated
 	 */
-	EAttribute getAspect_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link edu.unicen.ucrefactoring.model.Aspect#getDescription <em>Description</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Description</em>'.
-	 * @see edu.unicen.ucrefactoring.model.Aspect#getDescription()
-	 * @see #getAspect()
-	 * @generated
-	 */
-	EAttribute getAspect_Description();
+	EAttribute getAspect_CcNames();
 
 	/**
 	 * Returns the meta object for class '{@link edu.unicen.ucrefactoring.model.Condition <em>Condition</em>}'.
@@ -1803,6 +1893,14 @@ public interface UCRefactoringPackage extends EPackage {
 		EAttribute EVENT__EVENT_ID = eINSTANCE.getEvent_EventId();
 
 		/**
+		 * The meta object literal for the '<em><b>Affected By Join Point</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EVENT__AFFECTED_BY_JOIN_POINT = eINSTANCE.getEvent_AffectedByJoinPoint();
+
+		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.FunctionalEventImpl <em>Functional Event</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1999,20 +2097,12 @@ public interface UCRefactoringPackage extends EPackage {
 		EClass ASPECT = eINSTANCE.getAspect();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Cc Names</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ASPECT__NAME = eINSTANCE.getAspect_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ASPECT__DESCRIPTION = eINSTANCE.getAspect_Description();
+		EAttribute ASPECT__CC_NAMES = eINSTANCE.getAspect_CcNames();
 
 		/**
 		 * The meta object literal for the '{@link edu.unicen.ucrefactoring.model.impl.ConditionImpl <em>Condition</em>}' class.

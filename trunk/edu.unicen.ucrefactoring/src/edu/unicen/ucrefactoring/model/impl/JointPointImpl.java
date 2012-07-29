@@ -7,6 +7,7 @@
 package edu.unicen.ucrefactoring.model.impl;
 
 import edu.unicen.ucrefactoring.model.Aspect;
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.JointPoint;
 import edu.unicen.ucrefactoring.model.UCRefactoringPackage;
 
@@ -225,5 +226,4 @@ public class JointPointImpl extends EObjectImpl implements JointPoint {
 		result.append(')');
 		return result.toString();
 	}
-
 } //JointPointImpl

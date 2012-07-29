@@ -24,6 +24,7 @@ import uima.cas.CasPackage;
 import uima.tcas.Annotation;
 import uima.tcas.TCasPackage;
 
+import edu.isistan.uima.unified.typesystems.IdentifiableAnnotation;
 import edu.isistan.uima.unified.typesystems.TypesystemsPackage;
 import edu.isistan.uima.unified.typesystems.domain.DomainAction;
 import edu.isistan.uima.unified.typesystems.domain.DomainNumber;
@@ -47,7 +48,7 @@ import edu.isistan.uima.unified.typesystems.wordnet.WordNetPackage;
 
 @SuppressWarnings("unused")
 public class UIMAQuery {
-	// Packages
+		// Packages
 	private final static NLPPackage nlpPackage = NLPPackage.eINSTANCE;
 	private final static SRLPackage srlPackage = SRLPackage.eINSTANCE;
 	private final static SRSPackage srsPackage = SRSPackage.eINSTANCE;
@@ -56,15 +57,13 @@ public class UIMAQuery {
 	private final static CasPackage casPackage = CasPackage.eINSTANCE;
 	private final static TCasPackage tCasPackage = TCasPackage.eINSTANCE;
 	// Conditions
+	private final static EObjectCondition cPredicate = new EObjectTypeRelationCondition(srlPackage.getPredicate());
 	private final static EObjectCondition cSofa = new EObjectTypeRelationCondition(casPackage.getSofa());
 	private final static EObjectCondition cProject = new EObjectTypeRelationCondition(srsPackage.getProject());
 	private final static EObjectCondition cDocument = new EObjectTypeRelationCondition(srsPackage.getDocument());
 	private final static EObjectCondition cSection = new EObjectTypeRelationCondition(srsPackage.getSection());
 	private final static EObjectCondition cSentence = new EObjectTypeRelationCondition(nlpPackage.getSentence());
 	private final static EObjectCondition cToken = new EObjectTypeRelationCondition(nlpPackage.getToken());
-	
-	private final static EObjectCondition cPredicate = new EObjectTypeRelationCondition(srlPackage.getPredicate());
-	
 	private final static EObjectCondition cChunk = new EObjectTypeRelationCondition(nlpPackage.getChunk());
 	private final static EObjectCondition cSDDependency = new EObjectTypeRelationCondition(nlpPackage.getSDDependency());
 	private final static EObjectCondition cEntity = new EObjectTypeRelationCondition(nlpPackage.getEntity());
@@ -179,6 +178,12 @@ public class UIMAQuery {
 	
 	public EList<Sentence> getSentences(Section section) {
 		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cSentence.AND(cRange(section))));
+		IQueryResult result = statement.execute();
+		return fromIQueryResultToEList(result, new BasicEList<Sentence>());
+	}
+	
+	public EList<Sentence> getSentences(Document document) {
+		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cSentence.AND(cRange(document))));
 		IQueryResult result = statement.execute();
 		return fromIQueryResultToEList(result, new BasicEList<Sentence>());
 	}
@@ -430,6 +435,16 @@ public class UIMAQuery {
 		SELECT statement = new SELECT(new FROM(uimaRoots), new WHERE(cPredicate.AND(cRange(sentence))));
 		IQueryResult result = statement.execute();
 		return fromIQueryResultToEList(result, new BasicEList<Predicate>());
+	}
+	//
+	public int indexOf(IdentifiableAnnotation annotation, EList<? extends IdentifiableAnnotation> annotations) {
+		int index = 0;
+		for(IdentifiableAnnotation ann : annotations) {
+			if(ann.getIdentification().equals(annotation.getIdentification()))
+				return index;
+			index++;
+		}
+		return -1;
 	}
 	//
 	public void test() {

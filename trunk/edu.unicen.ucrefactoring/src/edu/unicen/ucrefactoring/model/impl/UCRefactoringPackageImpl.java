@@ -497,6 +497,15 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getEvent_AffectedByJoinPoint() {
+		return (EReference)eventEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getFunctionalEvent() {
 		return functionalEventEClass;
 	}
@@ -704,17 +713,8 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAspect_Name() {
+	public EAttribute getAspect_CcNames() {
 		return (EAttribute)aspectEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getAspect_Description() {
-		return (EAttribute)aspectEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -844,6 +844,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEAttribute(eventEClass, EVENT__DETAIL);
 		createEAttribute(eventEClass, EVENT__NUMBER);
 		createEAttribute(eventEClass, EVENT__EVENT_ID);
+		createEReference(eventEClass, EVENT__AFFECTED_BY_JOIN_POINT);
 
 		functionalEventEClass = createEClass(FUNCTIONAL_EVENT);
 		createEReference(functionalEventEClass, FUNCTIONAL_EVENT__JOINT_POINTS);
@@ -873,8 +874,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		createEAttribute(actionClassEClass, ACTION_CLASS__PREDICATE);
 
 		aspectEClass = createEClass(ASPECT);
-		createEAttribute(aspectEClass, ASPECT__NAME);
-		createEAttribute(aspectEClass, ASPECT__DESCRIPTION);
+		createEAttribute(aspectEClass, ASPECT__CC_NAMES);
 
 		conditionEClass = createEClass(CONDITION);
 		createEAttribute(conditionEClass, CONDITION__NAME);
@@ -918,6 +918,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		functionalEventEClass.getESuperTypes().add(this.getEvent());
 		extensionPointEClass.getESuperTypes().add(this.getEvent());
 		inclusionCallEClass.getESuperTypes().add(this.getEvent());
+		aspectEClass.getESuperTypes().add(this.getUseCase());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -956,6 +957,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEAttribute(getEvent_Detail(), ecorePackage.getEString(), "detail", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEvent_Number(), ecorePackage.getEIntegerObject(), "number", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getEvent_EventId(), ecorePackage.getEString(), "eventId", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEvent_AffectedByJoinPoint(), this.getJointPoint(), null, "affectedByJoinPoint", null, 0, -1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(functionalEventEClass, FunctionalEvent.class, "FunctionalEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getFunctionalEvent_JointPoints(), this.getJointPoint(), null, "jointPoints", null, 0, -1, FunctionalEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -985,8 +987,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEAttribute(getActionClass_Predicate(), ecorePackage.getEString(), "predicate", null, 0, 1, ActionClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(aspectEClass, Aspect.class, "Aspect", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAspect_Name(), ecorePackage.getEString(), "name", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAspect_Description(), ecorePackage.getEString(), "description", null, 0, 1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAspect_CcNames(), ecorePackage.getEString(), "ccNames", null, 0, -1, Aspect.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(conditionEClass, Condition.class, "Condition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCondition_Name(), ecorePackage.getEString(), "name", null, 0, 1, Condition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

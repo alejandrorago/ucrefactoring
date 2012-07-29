@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link edu.unicen.ucrefactoring.model.Event#getDetail <em>Detail</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.Event#getNumber <em>Number</em>}</li>
  *   <li>{@link edu.unicen.ucrefactoring.model.Event#getEventId <em>Event Id</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.Event#getAffectedByJoinPoint <em>Affected By Join Point</em>}</li>
  * </ul>
  * </p>
  *
@@ -105,6 +107,22 @@ public interface Event extends EObject {
 	 */
 	void setEventId(String value);
 	
+	/**
+	 * Returns the value of the '<em><b>Affected By Join Point</b></em>' reference list.
+	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.JointPoint}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Affected By Join Point</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Affected By Join Point</em>' reference list.
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getEvent_AffectedByJoinPoint()
+	 * @model
+	 * @generated
+	 */
+	EList<JointPoint> getAffectedByJoinPoint();
+
 	// PAU: ad-hoc
 	
 	public Event cloneEvent();

@@ -144,6 +144,7 @@ public class UCRefactoringSwitch<T> extends Switch<T> {
 			case UCRefactoringPackage.ASPECT: {
 				Aspect aspect = (Aspect)theEObject;
 				T result = caseAspect(aspect);
+				if (result == null) result = caseUseCase(aspect);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

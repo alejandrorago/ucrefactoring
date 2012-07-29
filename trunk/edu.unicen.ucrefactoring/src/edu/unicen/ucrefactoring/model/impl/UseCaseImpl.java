@@ -579,5 +579,9 @@ public class UseCaseImpl extends EObjectImpl implements UseCase {
 	public void addExtendedUC(UseCase uc){
 		extendedUC.add(uc);
 	}
+	
+	public String getStereotype(){
+		return "<<Use Case>>";
+	}
 
 } //UseCaseImpl

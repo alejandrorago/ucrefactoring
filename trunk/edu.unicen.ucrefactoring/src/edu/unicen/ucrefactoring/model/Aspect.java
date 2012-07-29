@@ -6,6 +6,7 @@
  */
 package edu.unicen.ucrefactoring.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -16,8 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link edu.unicen.ucrefactoring.model.Aspect#getName <em>Name</em>}</li>
- *   <li>{@link edu.unicen.ucrefactoring.model.Aspect#getDescription <em>Description</em>}</li>
+ *   <li>{@link edu.unicen.ucrefactoring.model.Aspect#getCcNames <em>Cc Names</em>}</li>
  * </ul>
  * </p>
  *
@@ -25,57 +25,22 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Aspect extends EObject {
+public interface Aspect extends UseCase {
+
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * Returns the value of the '<em><b>Cc Names</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Cc Names</em>' attribute list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getAspect_Name()
+	 * @return the value of the '<em>Cc Names</em>' attribute list.
+	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getAspect_CcNames()
 	 * @model
 	 * @generated
 	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Aspect#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Description</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Description</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Description</em>' attribute.
-	 * @see #setDescription(String)
-	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getAspect_Description()
-	 * @model
-	 * @generated
-	 */
-	String getDescription();
-
-	/**
-	 * Sets the value of the '{@link edu.unicen.ucrefactoring.model.Aspect#getDescription <em>Description</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Description</em>' attribute.
-	 * @see #getDescription()
-	 * @generated
-	 */
-	void setDescription(String value);
+	EList<String> getCcNames();
 
 } // Aspect
