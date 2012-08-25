@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -43,7 +44,20 @@ public class DeleteActorRefactoring implements Refactoring {
 
 	@Override
 	public boolean applyRefactoring() {
-		// TODO Auto-generated method stub
+		String q = "¿Desea eliminar el actor '";
+		q = q + this.getActor().getName();
+		q = q + "' desde que carece de sentido dentro del modelo?";
+		int cancel = UCRUseCasesView.deleteEntityDialog(q);
+		if (cancel == 0){
+			List<Actor> actors = UCRUseCasesView.ucref.getUseCaseModel().getActors();
+			for(int i=0; i< actors.size(); i++){
+				if(actors.get(i).getName().equals(this.getActor().getName())){
+					actors.remove(i);
+					break;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 
