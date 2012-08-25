@@ -88,6 +88,7 @@ public class UCRUseCasesView extends ViewPart {
 	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
 	public static AssignToAspectDialog aspectDialog;
+	public static DeleteEntityDialog deleteDialog;
 	public static SetPrimaryActorDialog PrimaryActorDialog;
 
 	// special flag for double-clicking the use case list
@@ -1024,6 +1025,12 @@ public class UCRUseCasesView extends ViewPart {
 		Shell shell = new Shell();
 	    aspectDialog = new AssignToAspectDialog(shell);
 	    return aspectDialog.open();
+	}
+	
+	public static int deleteEntityDialog(String question){
+		Shell shell = new Shell();
+	    deleteDialog = new DeleteEntityDialog(shell, question);
+	    return deleteDialog.open();
 	}
 	
 	public static void resetView(){

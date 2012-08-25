@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
+import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.UseCase;
 
 public class DeleteUseCaseRefactoring implements Refactoring {
@@ -42,7 +44,20 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 
 	@Override
 	public boolean applyRefactoring() {
-		// TODO Auto-generated method stub
+		String q = "¿Desea eliminar el caso de uso '";
+		q = q + this.getUseCase().getName();
+		q = q + "' desde que nunca puede ser activado?";
+		int cancel = UCRUseCasesView.deleteEntityDialog(q);
+		if (cancel == 0){
+			List<UseCase> useCases = UCRUseCasesView.ucref.getUseCaseModel().getUseCases();
+			for(int i=0; i< useCases.size(); i++){
+				if(useCases.get(i).getName().equals(this.getUseCase().getName())){
+					useCases.remove(i);
+					break;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 
