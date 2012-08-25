@@ -62,7 +62,7 @@ public class AssignToAspectDialog extends Dialog {
  		Label lblDescription = new Label(container, SWT.NONE);
  		lblDescription.setText("Description:");
  		
- 		text = new StyledText(container, SWT.BORDER);
+ 		text = new StyledText(container, SWT.BORDER | SWT.V_SCROLL | SWT.WRAP | SWT.MULTI);
  		GroupLayout gl_container = new GroupLayout(container);
  		gl_container.setHorizontalGroup(
  			gl_container.createParallelGroup(GroupLayout.TRAILING)

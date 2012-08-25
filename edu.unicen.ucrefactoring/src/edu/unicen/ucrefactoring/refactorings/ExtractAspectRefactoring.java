@@ -7,6 +7,7 @@ import java.util.List;
 import edu.isistan.reassistant.model.CrosscuttingConcern;
 import edu.isistan.reassistant.model.Impact;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
@@ -85,10 +86,33 @@ public class ExtractAspectRefactoring implements Refactoring{
 				System.out.println(evId);
 				JointPoint jp = UCRefactoringFactory.eINSTANCE.createJointPoint();
 				jp.setImpactAspect(existent);
+				setImpactedUseCases(existent, uc);
 				this.addJoinPoint(uc, i.getSection().getName(), jp, evId);
 			}
 		}
 		return true;
+	}
+
+	private void setImpactedUseCases(Aspect existent, UseCase uc) {
+		if(existent.getFlows().size() == 0){
+			Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
+			flow.setName("Casos de Uso Impactados: ");
+			existent.getFlows().add(flow);
+		}
+		boolean alreadyExists = false;
+		for (Event e : existent.getFlows().get(0).getEvents()){
+			if (e.getDetail().equals(uc.getName())){
+				alreadyExists = true;
+				break;
+			}
+		}
+		if (!alreadyExists){
+			Event event = UCRefactoringFactory.eINSTANCE.createFunctionalEvent();
+			event.setDetail(uc.getName());
+			event.setNumber(existent.getFlows().get(0).getEvents().size() + 1);
+			event.setEventId(new Integer(existent.getFlows().get(0).getEvents().size() + 1).toString());
+			existent.getFlows().get(0).getEvents().add(event);
+		}
 	}
 
 	private void addJoinPoint(UseCase uc, String sectionName, JointPoint jp, Integer evId) {
@@ -97,6 +121,7 @@ public class ExtractAspectRefactoring implements Refactoring{
 				for(Event e : flow.getEvents()){
 					if (e.getNumber().equals(evId)){
 						e.getAffectedByJoinPoint().add(jp);
+						e.setDetail(e.getDetail() + "[Join Point:" + jp.getImpactAspect().getName() + "]");
 					}
 				}
 			}
@@ -106,7 +131,10 @@ public class ExtractAspectRefactoring implements Refactoring{
 	@Override
 	public Float getScore() {
 		if (this.score == null){
-			this.score = 0f;
+			NonModularNFRMetric met = (NonModularNFRMetric) this.metrics.get(Metric.ENCAPSULATED_NON_FUNCTIONAL);
+			
+			Float affectedUcs = new Float(met.ccUseCases.get(ccName).size())  / new Float(UCRUseCasesView.ucref.getUseCaseModel().getUseCases().size());  
+			this.score = (float)((affectedUcs*(0.4) + this.getPriority()*(0.6)))*100;
 		}
 		return this.score;
 	}
