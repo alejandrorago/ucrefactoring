@@ -31,6 +31,7 @@ import edu.unicen.ucrefactoring.core.UCRefactoringDetection;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.MetricCollector;
 import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
+import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
@@ -449,11 +450,16 @@ public class UCRDataView extends ViewPart {
 			else if (ref.getType().equals(Refactoring.REF_EXTRACT_ASPECT)){
 				UseCase useCase = UCRefactoringFactory.eINSTANCE.createUseCase();
 				useCase.setName(ref.getRefactoringName());
-				for (UseCase uc : ((NonModularNFRMetric)((ExtractAspectRefactoring)ref).getMetric(Metric.ENCAPSULATED_NON_FUNCTIONAL)).useCases.values()){
-					Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
-					flow.setName(uc.getName());
+				Flow flow = UCRefactoringFactory.eINSTANCE.createFlow();
+				flow.setName("Casos de Uso Afectados por el CCC '" + ((ExtractAspectRefactoring)ref).getCcName()+"'");
+				//TODO: ADD REF. AFFECTED LINES AS EVENTS
+				useCase.getFlows().add(flow);
+				for (UseCase uc : ((NonModularNFRMetric)((ExtractAspectRefactoring)ref).getMetric(Metric.ENCAPSULATED_NON_FUNCTIONAL)).ccUseCases.get(((ExtractAspectRefactoring)ref).getCcName())){
+					Event e = UCRefactoringFactory.eINSTANCE.createFunctionalEvent();
+					e.setDetail(uc.getName());
+					e.setEventId(new Integer(useCase.getFlows().get(0).getEvents().size() + 1).toString());
 					//TODO: ADD REF. AFFECTED LINES AS EVENTS
-					useCase.getFlows().add(flow);
+					useCase.getFlows().get(0).getEvents().add(e);
 				}
 				
 				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCase,new ArrayList<SimilarBlock>());

@@ -158,7 +158,7 @@ public class AspectImpl extends UseCaseImpl implements Aspect {
 	
 	@Override
 	public String getFullDescription() {
-		return "Descripción: " + this.getDescription();
+		return this.getDescription();
 	}
 
 } //AspectImpl
