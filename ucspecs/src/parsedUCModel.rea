@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edu.isistan.reassistant:REAssistantProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:edu.isistan.reassistant="http://www.users.exa.unicen.edu.ar/~arago/reassistant" ID="_CwNx8dM4EeGVMfX0Tme_lw" Name="Project" ProjectURI="/ucspecs/parsedUCModel.ucs" UIMAURI="/ucspecs/parsedUCModel.uima">
+  <CrosscuttingConcerns ID="_U23OQNM4EeGVMfX0Tme_lw" Name="Error Management" Description="Concerns with mechanisms for managing errors and exceptions that take place while running the system."/>
+  <CrosscuttingConcerns ID="_U3C0cNM4EeGVMfX0Tme_lw" Name="Persistence" Description="Allows system data to be written in an storage media. This concerns affects functionality that involves the accessing of data, and the main idea is to decouple the way data is handled.">
+    <Impacts ID="_U3F3wNM4EeGVMfX0Tme_lw" Realization="This crosscutting concern is commonly composed as a Wrapping, in which some behavior is introduced before and(or) after the data-related behavior is executed.">
+      <Document href="parsedUCModel.uima#10"/>
+      <Section href="parsedUCModel.uima#5"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#44"/>
+    </Impacts>
+    <Impacts ID="_U3dEINM4EeGVMfX0Tme_lw" Realization="This crosscutting concern is commonly composed as a Wrapping, in which some behavior is introduced before and(or) after the data-related behavior is executed.">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#3"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#31"/>
+    </Impacts>
+    <Impacts ID="_U3oDQNM4EeGVMfX0Tme_lw" Realization="This crosscutting concern is commonly composed as a Wrapping, in which some behavior is introduced before and(or) after the data-related behavior is executed.">
+      <Document href="parsedUCModel.uima#8"/>
+      <Section href="parsedUCModel.uima#2"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#17"/>
+    </Impacts>
+  </CrosscuttingConcerns>
+  <CrosscuttingConcerns ID="_U3vYANM4EeGVMfX0Tme_lw" Name="Integrity Management" Description="Allows the system to perform conformance verifications both on the information inputted and outputted. This way, the consistency of the data is assured."/>
+  <CrosscuttingConcerns ID="_U3vYAdM4EeGVMfX0Tme_lw" Name="External Communication" Description="This concern encapsulate and specify how our system interacts with external agents. Those interactions are mainly messages that are communicated forth and backward, establishing a dialog. Several properties may emerge of this concern, such as availability and security quality attributes.">
+    <Impacts ID="_U3vYAtM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#12"/>
+      <Section href="parsedUCModel.uima#7"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#78"/>
+    </Impacts>
+    <Impacts ID="_U303kNM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#12"/>
+      <Section href="parsedUCModel.uima#7"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#76"/>
+    </Impacts>
+    <Impacts ID="_U36XINM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#62"/>
+    </Impacts>
+    <Impacts ID="_U39acNM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#60"/>
+    </Impacts>
+    <Impacts ID="_U4AdwNM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#54"/>
+    </Impacts>
+    <Impacts ID="_U4DhENM4EeGVMfX0Tme_lw" Realization="This concern is usually composed as overlap, in which the communication behavior augments the core functionality to enable external interactions." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#8"/>
+      <Section href="parsedUCModel.uima#2"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#15"/>
+    </Impacts>
+  </CrosscuttingConcerns>
+  <CrosscuttingConcerns ID="_U4HLcNM4EeGVMfX0Tme_lw" Name="Presentation" Description="This concerns encapsulates functionality focused on the preprocessing and arrangement of the information before outputting in a display.">
+    <Impacts ID="_U4HLcdM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#12"/>
+      <Section href="parsedUCModel.uima#7"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#77"/>
+    </Impacts>
+    <Impacts ID="_U4IZkNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#12"/>
+      <Section href="parsedUCModel.uima#7"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#74"/>
+    </Impacts>
+    <Impacts ID="_U4KOwNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#12"/>
+      <Section href="parsedUCModel.uima#7"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#73"/>
+    </Impacts>
+    <Impacts ID="_U4Lc4NM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#66"/>
+    </Impacts>
+    <Impacts ID="_U4MrANM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#65"/>
+    </Impacts>
+    <Impacts ID="_U4N5INM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#58"/>
+    </Impacts>
+    <Impacts ID="_U4PHQNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#10"/>
+      <Section href="parsedUCModel.uima#5"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#52"/>
+    </Impacts>
+    <Impacts ID="_U4QVYNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#10"/>
+      <Section href="parsedUCModel.uima#5"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#47"/>
+    </Impacts>
+    <Impacts ID="_U4RjgNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#4"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#42"/>
+    </Impacts>
+    <Impacts ID="_U4TYsNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#3"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#25"/>
+    </Impacts>
+    <Impacts ID="_U4Um0NM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#3"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#23"/>
+    </Impacts>
+    <Impacts ID="_U4V08NM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#8"/>
+      <Section href="parsedUCModel.uima#2"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#18"/>
+    </Impacts>
+    <Impacts ID="_U4XDENM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#67"/>
+    </Impacts>
+    <Impacts ID="_U4Y4QNM4EeGVMfX0Tme_lw" Realization="In general, this concern is composed using the Overlap composition rule. In this way, the concern adds specific behavior to process and organize the output." CompositionRule="Overlap">
+      <Document href="parsedUCModel.uima#11"/>
+      <Section href="parsedUCModel.uima#6"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#61"/>
+    </Impacts>
+  </CrosscuttingConcerns>
+  <CrosscuttingConcerns ID="_U4aGYNM4EeGVMfX0Tme_lw" Name="User Access Control" Description="Defines contraints regarding the access level of given user / role to carry out a particular task / operation.">
+    <Impacts ID="_U4aGYdM4EeGVMfX0Tme_lw" Realization="This concern is composed with the Wrap operator. The core functionality is surrounded with access control policies, enabling (or restricting) users from executing a particular behavior according to their access clearance.">
+      <Document href="parsedUCModel.uima#10"/>
+      <Section href="parsedUCModel.uima#5"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#48"/>
+    </Impacts>
+    <Impacts ID="_U4bUgNM4EeGVMfX0Tme_lw" Realization="This concern is composed with the Wrap operator. The core functionality is surrounded with access control policies, enabling (or restricting) users from executing a particular behavior according to their access clearance.">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#3"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#24"/>
+    </Impacts>
+    <Impacts ID="_U4cioNM4EeGVMfX0Tme_lw" Realization="This concern is composed with the Wrap operator. The core functionality is surrounded with access control policies, enabling (or restricting) users from executing a particular behavior according to their access clearance.">
+      <Document href="parsedUCModel.uima#9"/>
+      <Section href="parsedUCModel.uima#3"/>
+      <Sentence href="file:/home/pau/workspace/prueba/runtime-EclipseApplication/ucspecs/parsedUCModel.uima#20"/>
+    </Impacts>
+  </CrosscuttingConcerns>
+</edu.isistan.reassistant:REAssistantProject>
