@@ -100,7 +100,7 @@ public class SetPrimaryActorDialog extends Dialog {
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(302, 138);
+		return new Point(302, 145);
 	}
 	
 	public String getActorName() {

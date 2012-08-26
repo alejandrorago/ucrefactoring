@@ -70,6 +70,9 @@ public class UCRDataView extends ViewPart {
 	public static HashMap<String,Refactoring> refactorings;
 	public static TableViewer tableViewer;	
 	private Table table;
+	
+	//Selected Refactoring
+	public static Refactoring selectedRefactoring;
 
 	
 	public UCRDataView() {	
@@ -78,6 +81,7 @@ public class UCRDataView extends ViewPart {
 		extLabel = new RefactoringLabelProvider();
 		refactorings = new HashMap<String,Refactoring>();
 		metrics = new HashMap<String,Metric>();
+		selectedRefactoring = null;
 	}
 	
 
@@ -249,7 +253,7 @@ public class UCRDataView extends ViewPart {
 			@Override
 			public String getText(Object element) {
 				Refactoring r = (Refactoring) element;
-				return r.getScore().toString().substring(0, r.getScore().toString().indexOf("."));
+				return (r.getScore().toString().indexOf(".")>0)?r.getScore().toString().substring(0, r.getScore().toString().indexOf(".")):"";
 			}
 		});	
 		
@@ -354,6 +358,7 @@ public class UCRDataView extends ViewPart {
 		});
 		
 		//Listener for double click event on refactoring list
+		/**
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			
 			@Override
@@ -366,6 +371,7 @@ public class UCRDataView extends ViewPart {
 				showRefactoring(ref,true);
 			}
 		});
+		**/
 		
 		//Listener to enable/disable APPLY button
 		tableViewer.addSelectionChangedListener( new ISelectionChangedListener() {
@@ -375,6 +381,7 @@ public class UCRDataView extends ViewPart {
 				if (selection.size()==1){
 					btnApply.setEnabled(true);
  					lblRefactoring.setText("Selected Ref. ID: "+ ((Refactoring)(selection.getFirstElement())).getID());
+ 					selectedRefactoring = (Refactoring) selection.getFirstElement();
 //					Refactoring r = (Refactoring) selection.getFirstElement();
 //					for (TableItem tItem : tableViewer.getTable().getItems()){
 //						if (((Refactoring)tItem.getData()).getDetail().equals(r.getDetail())){
@@ -386,10 +393,18 @@ public class UCRDataView extends ViewPart {
 //					}
 //					tableViewer.refresh();
 //					//tableViewer.getTable().getItem(0).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+ 					
+ 					//Show on compare view
+ 					Refactoring ref = null;
+ 					if (selection.size()==1){
+ 						ref = (Refactoring)selection.toList().get(0);
+ 					}
+ 					showRefactoring(ref,true);
 				}
 				else{
 					btnApply.setEnabled(false);
 					lblRefactoring.setText("None");
+					selectedRefactoring = null;
 				}
 			}
 		});

@@ -29,6 +29,15 @@ public class SimilarBlock {
 		initEventList();
 	}
 	
+	public SimilarBlock(UseCase useCase, Flow flow ){
+		this.beginIndex=null;
+		this.endIndex=null;
+		this.useCase = useCase;
+		this.flow = flow;
+		this.parent = null;
+		this.similarEvents = new ArrayList<Event>();
+	}
+	
 	public UseCase getUseCase() {
 		return useCase;
 	}
@@ -61,18 +70,27 @@ public class SimilarBlock {
 	}
 	
 	public void initEventList(){
-		int startEvent = beginIndex;
-		for (Flow flow : useCase.getFlows()){
-			if (flow.getName().equals(this.flow.getName())){
-				for (Event event : flow.getEvents()){
-					if (startEvent <= endIndex && event.getNumber().equals(startEvent+1)){
-						similarEvents.add(event);
-						startEvent++;
-					}
-					if (startEvent > endIndex){
-						break;
+		if (beginIndex!=null){
+			int startEvent = beginIndex;
+			for (Flow flow : useCase.getFlows()){
+				if (flow.getName().equals(this.flow.getName())){
+					for (Event event : flow.getEvents()){
+						if (startEvent <= endIndex && event.getNumber().equals(startEvent+1)){
+							similarEvents.add(event);
+							startEvent++;
+						}
+						if (startEvent > endIndex){
+							break;
+						}
 					}
 				}
+			}
+		}
+		else{
+			for (Flow flow : useCase.getFlows()){
+				for (Event event : flow.getEvents()){
+					similarEvents.add(event);
+				}			
 			}
 		}
 	}

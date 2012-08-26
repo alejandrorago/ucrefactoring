@@ -32,6 +32,8 @@ import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.refactorings.Refactoring;
+
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.GridLayout;
@@ -131,12 +133,14 @@ public class UCRCompareView extends ViewPart {
 				AlignmentX2Result align = null;
 				//boolean a = (useCaseLeft.getName().compareTo(useCaseRight.getName()) > 0);
 
-				if (isLeft){				
+				if (isLeft){	
+					boolean selectedBlock = false;
 					for (SimilarBlock sb : similarBlocksLeft){
 						for (Event e : candidates){
 							if (sb.getSimilarEvents().contains(e)){
+								selectedBlock = true;
 								for (Event e2 : candidates){
-									if (!e2.equals(e)){
+									if (!sb.getSimilarEvents().contains(e)){
 										sb.getSimilarEvents().add(e2);		
 									}
 								}								
@@ -146,14 +150,32 @@ public class UCRCompareView extends ViewPart {
 							}
 						}
 					}
+					//new block
+					if (!selectedBlock){
+						for (Flow aFlow : useCaseLeft.getFlows()){
+							if (aFlow.getEvents().contains(candidates.get(0))){
+								flow = aFlow;
+							}
+						}
+						SimilarBlock sb = new SimilarBlock(useCaseLeft, flow);
+						for (Event e : candidates){
+							if (flow.getEvents().contains(e)){
+								sb.getSimilarEvents().add(e);		
+							}
+						}	
+						similarBlocksLeft.add(sb);
+
+					}
 					UCRUseCasesView.setCompareView(ucLeft, useCaseLeft,  similarBlocksLeft);
 					UCRUseCasesView.updateAlignmentLeft(similarBlocksLeft, useCaseLeft, useCaseRight,  align);
 				}
 				else{
+					boolean selectedBlock = false;
 					for (SimilarBlock sb : similarBlocksRight){
 						boolean hasEvent = false;
 						for (Event e : candidates){
 							if (sb.getSimilarEvents().contains(e)){
+								selectedBlock = true;
 								for (Event e2 : candidates){
 									if (!e2.equals(e)){
 										sb.getSimilarEvents().add(e2);		
@@ -168,7 +190,16 @@ public class UCRCompareView extends ViewPart {
 						if (hasEvent){
 							break;
 						}
+					}					
+					//new block
+					if (!selectedBlock){
+						SimilarBlock sb = new SimilarBlock(useCaseLeft, null, null, null, null);
+						for (Event e : candidates){
+							sb.getSimilarEvents().add(e);		
+						}		
+						similarBlocksRight.add(sb);
 					}
+					
 					UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
 					UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseLeft, useCaseRight, align );
 				}
@@ -413,6 +444,11 @@ public class UCRCompareView extends ViewPart {
 			public void selectionChanged(SelectionChangedEvent event) {
 				isLeft = true;
 				IStructuredSelection selection = (IStructuredSelection) ucLeft.getSelection();
+				
+				//This refactoring does not have an alignment
+				if (UCRDataView.selectedRefactoring !=null && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_EXTRACT_UC)){
+					
+				}
 				
 				if (selection != null && selection.size()>0){
 					candidates = selection.toList();
