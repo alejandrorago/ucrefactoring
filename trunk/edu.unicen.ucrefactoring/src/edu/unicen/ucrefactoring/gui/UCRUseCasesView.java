@@ -89,7 +89,8 @@ public class UCRUseCasesView extends ViewPart {
 	public static UCRNewUseCaseDialog UCRDialog;
 	public static AssignToAspectDialog aspectDialog;
 	public static DeleteEntityDialog deleteDialog;
-	public static SetPrimaryActorDialog PrimaryActorDialog;
+	public static SetPrimaryActorDialog primaryActorDialog;
+
 
 	// special flag for double-clicking the use case list
 	private boolean ucflag = true;
@@ -359,7 +360,7 @@ public class UCRUseCasesView extends ViewPart {
 		setPrimaryActorAction = new Action() {
 			public void run (){
 				if(UCRUseCasesView.setPrimaryActor() == 0){
-					String aName = PrimaryActorDialog.getActorName();
+					String aName = primaryActorDialog.getActorName();
 					Actor newActor = null;
 					for(Actor a: ucref.getUseCaseModel().getActors()){
 						if (a.getName().equalsIgnoreCase(aName)){
@@ -382,7 +383,7 @@ public class UCRUseCasesView extends ViewPart {
 		addSecondaryActorAction = new Action() {
 			public void run (){
 				if(UCRUseCasesView.setPrimaryActor() == 0){
-					String aName = PrimaryActorDialog.getActorName();
+					String aName = primaryActorDialog.getActorName();
 					boolean exists = false;
 					for(int i = 0 ; i < ucref.getUseCaseModel().getActors().size(); i++){
 						Actor a = ucref.getUseCaseModel().getActors().get(i);
@@ -605,13 +606,13 @@ public class UCRUseCasesView extends ViewPart {
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
 							if (!useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCS cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCS cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 	
 						}
 						else{
 							//MessageDialog messageDialog = new MessageDialog();
-							JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCS cannot be found. <br/> Please select another file.", "UIMA file not found", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCS cannot be found.\nPlease select another file.", "UIMA file not found", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					//else, if user selects ucrefactoring file
@@ -669,13 +670,13 @@ public class UCRUseCasesView extends ViewPart {
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
 							if (!useCaseUima.exists() && !useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA and UIMA file not found", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(fileChooser, "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA and UIMA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 							else if (!useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 							else if (!useCaseUima.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCREFACTORING cannot be found. <br/> Aspect Refactoring analysis will not be performed.", "UIMA file not found", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "UIMA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 						}
 					}
@@ -1011,8 +1012,8 @@ public class UCRUseCasesView extends ViewPart {
 
 	public static int setPrimaryActor() {
 		Shell shell = new Shell();
-		PrimaryActorDialog = new SetPrimaryActorDialog(shell);
-		return PrimaryActorDialog.open();
+		primaryActorDialog = new SetPrimaryActorDialog(shell);
+		return primaryActorDialog.open();
 	}
 	
 	public static int newUseCaseDialog(){

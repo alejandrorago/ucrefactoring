@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
+import edu.unicen.ucrefactoring.gui.UCRCompareView;
+import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.LargeUseCaseMetric;
 import edu.unicen.ucrefactoring.metrics.Metric;
+import edu.unicen.ucrefactoring.model.Actor;
+import edu.unicen.ucrefactoring.model.Event;
+import edu.unicen.ucrefactoring.model.Flow;
+import edu.unicen.ucrefactoring.model.InclusionCall;
+import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
 
 public class ExtractUseCaseRefactoring implements Refactoring {
@@ -47,13 +57,66 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 	public boolean applyRefactoring() {
 		// TODO Auto-generated method stub
 		/**
-		 * 1-
-		 * 2-
-		 * 3-
+		 * 1- Get new Events
+		 * 2- Delete events from old UC
+		 * 3- Create new UC with events
 		 * 4-
 		 * 
 		 */
-		return false;
+		if (UCRCompareView.useCaseLeft != null && UCRCompareView.useCaseLeft.getName().equals(this.useCase.getName()) && UCRCompareView.similarBlocksLeft.size()>0){
+			UseCase newUseCase = UCRefactoringFactory.eINSTANCE.createUseCase();
+			
+			int cancel = UCRUseCasesView.newUseCaseDialog();
+			
+			if (cancel == 0){
+				
+				newUseCase.setName(UCRUseCasesView.UCRDialog.getUseCaseName());
+				newUseCase.setDescription(UCRUseCasesView.UCRDialog.getUseCaseDescription());
+				newUseCase.setPrimaryActor(null); // No actor in this new use case
+				Flow basicFlow = UCRefactoringFactory.eINSTANCE.createFlow();
+				basicFlow.setName("Basic Flow");
+				Integer order = 1;
+				for (SimilarBlock sb : UCRCompareView.similarBlocksLeft){
+					for (Event e : sb.getSimilarEvents()){
+						Event newE = e.cloneEvent();
+						newE.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), order.toString()));
+						newE.setNumber(order);
+						basicFlow.getEvents().add(newE);
+						order++;
+					}
+				}
+				basicFlow.setUseCase(newUseCase);
+				newUseCase.getFlows().add(basicFlow);
+				
+				//Set Primary Actor
+				if(UCRUseCasesView.setPrimaryActor() == 0){
+					String aName = UCRUseCasesView.primaryActorDialog.getActorName();
+					Actor newActor = null;
+					for(Actor a: UCRUseCasesView.ucref.getUseCaseModel().getActors()){
+						if (a.getName().equalsIgnoreCase(aName)){
+							newActor = a;
+						}
+					}
+					if(newActor == null){
+						newActor = UCRefactoringFactory.eINSTANCE.createActor();
+						newActor.setName(aName);
+						UCRUseCasesView.ucref.getUseCaseModel().getActors().add(newActor);
+					}
+					newUseCase.setPrimaryActor(newActor);
+				}				
+				// Add new uc to the model
+				UCRUseCasesView.ucref.getUseCaseModel().getUseCases().add(newUseCase);
+				for (SimilarBlock sb : UCRCompareView.similarBlocksLeft ){
+					editFlow(sb, this.getUseCase());	
+				}				
+			} 
+			return true;
+
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Please, select events to extract \nto a new Use Case", "Extract Use Case", JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
 	}
 
 	@Override
@@ -73,6 +136,43 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		}
 		else score = 0f;
 		return this.score;
+	}
+	
+	private void editBaseFlow(SimilarBlock simBlockToRemove, UseCase includedUC){
+		// Edit the Basic Flow
+		UseCase baseUC = simBlockToRemove.getUseCase();
+		Flow basicFlow = baseUC.getBasicFlow();
+		int beginIndex = simBlockToRemove.getSimilarEvents().get(0).getNumber()-1;
+		int endIndex = simBlockToRemove.getSimilarEvents().get(simBlockToRemove.getSimilarEvents().size()-1).getNumber()-1;
+		for (int i = endIndex; i > beginIndex; i--){
+			basicFlow.getEvents().remove(i);
+			for (int j = i; j< basicFlow.getEvents().size(); j++){
+				Event e = basicFlow.getEvents().get(j);
+				Integer newNumber = e.getNumber()-1;
+				e.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), newNumber.toString()));
+				e.setNumber(newNumber);
+			}
+		}
+		Event finalRemoved = basicFlow.getEvents().get(beginIndex);		
+		basicFlow.getEvents().remove(finalRemoved);
+	}
+	
+	private void editFlow(SimilarBlock simBlockToRemove, UseCase includedUC){
+		// Edit the Flow
+		Flow flow = simBlockToRemove.getFlow();
+		int beginIndex = simBlockToRemove.getSimilarEvents().get(0).getNumber()-1;
+		int endIndex = simBlockToRemove.getSimilarEvents().get(simBlockToRemove.getSimilarEvents().size()-1).getNumber()-1;
+		for (int i = endIndex; i > beginIndex; i--){
+			flow.getEvents().remove(i);
+			for (int j = i; j< flow.getEvents().size(); j++){
+				Event e = flow.getEvents().get(j);
+				Integer newNumber = e.getNumber()-1;
+				e.setEventId(e.getEventId().replaceFirst(e.getNumber().toString(), newNumber.toString()));
+				e.setNumber(newNumber);
+			}
+		}
+		Event finalRemoved = flow.getEvents().get(beginIndex);		
+		flow.getEvents().remove(finalRemoved);
 	}
 
 	@Override
