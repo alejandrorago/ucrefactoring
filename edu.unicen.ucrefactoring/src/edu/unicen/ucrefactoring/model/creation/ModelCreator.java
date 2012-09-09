@@ -163,7 +163,13 @@ public class ModelCreator {
 			 Actor actor = factory.createActor();
 			 actor.setName(a.getName());
 			 actor.setDescription(a.getContent());
-			 actor.setType((ActorTypeEnum.valueOf(a.getStereotype().toUpperCase())));
+			 ActorTypeEnum ate = null;
+			 try{
+				 ate = ActorTypeEnum.valueOf(a.getStereotype().toUpperCase());
+			 } catch (Exception e) {
+				 ate = ActorTypeEnum.UNKNOWN;
+			 }
+			 actor.setType(ate);
 			 useCaseModel.getActors().add(actor);			 
 		 }
 		 //Añado manualmente el System
@@ -235,7 +241,11 @@ public class ModelCreator {
 						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));
 						 Actor primaryActor = getActorForSentence( sentence,  useCaseModel.getActors());
 						 event.setSubject(primaryActor);
-						 event.setEventId(this.getEventIdForSentence(sentence, numbers));
+						 String eId = this.getEventIdForSentence(sentence, numbers);
+						 if(eId.equals("")){
+							 eId = order.toString();
+						 }
+						 event.setEventId(eId);
 						 event.setNumber(order);
 						 basicFlow.getEvents().add(event);
 						 order++;						 
@@ -249,10 +259,12 @@ public class ModelCreator {
 								 //convierto las domainActions to actionClass
 								 if (dAction!=null && dAction.getLabel()!=null){
 									 ActionClass actionClass = domainActionToActionClass(dAction);
-									 event.getActionClasses().add(actionClass);
+									 if(actionClass != null){
+										 event.getActionClasses().add(actionClass); 
+									 }
 								 }
 					 
-								 ActionCodeEnum.getByName(dAction.getLabel());
+								 //ActionCodeEnum.getByName(dAction.getLabel());
 								 
 							 }
 
@@ -265,8 +277,6 @@ public class ModelCreator {
 				 else if(uimaSection.getKind().equals(Constants.ALTERNATIVE_FLOW)){
 					 Flow alternative = factory.createFlow();
 					 alternative.setName(uimaSection.getName());
-					 alternative.setUseCase(useCase);
-					 useCase.getFlows().add(alternative);
 					 
 					// Recupero los numeros de la sección
 					 EList<DomainNumber> numbers = ModelCreator.uimaRoot.getDomainNumbers(uimaSection);
@@ -277,31 +287,37 @@ public class ModelCreator {
 					 // Recupero las sentencias del Flujo Básico
 					 EList<Sentence> sentences = ModelCreator.uimaRoot.getSentences(uimaSection);
 					 for(Sentence sentence : sentences){
-						 FunctionalEvent event = factory.createFunctionalEvent();
-						 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));						 
-						 event.setEventId(ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex)));
-						 event.setNumber(order);
-						 alternative.getEvents().add(event);
-						 numberIndex++;
-						 order++;
-					 	 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
+						 // TODO VER
+						 if (numberIndex < numbers.size()){
+							 FunctionalEvent event = factory.createFunctionalEvent();
+							 event.setDetail(ModelCreator.uimaRoot.getCoveredText(sentence));						 
+							 event.setEventId(ModelCreator.uimaRoot.getCoveredText(numbers.get(numberIndex)));
+							 event.setNumber(order);
+							 alternative.getEvents().add(event);
+							 numberIndex++;
+							 order++;
+						 	 EList<Predicate> p = ModelCreator.uimaRoot.getPredicates(sentence);
 						 
-						 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
-						 for(Predicate predicate : p){						
-							 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
-							 
-							 for(DomainAction dAction : actions){						 
-								 //convierto las domainActions to actionClass
-								 if (dAction!=null && dAction.getLabel()!=null){
-									 ActionClass actionClass = domainActionToActionClass(dAction);
-									 event.getActionClasses().add(actionClass);
-								 }
-					 
-								 ActionCodeEnum.getByName(dAction.getLabel());
+							 //Obtengo las acciones realizadas en el evento, según fueron clasificadas, para cada predicado
+							 for(Predicate predicate : p){						
+								 EList<DomainAction> actions = ModelCreator.uimaRoot.getDomainActions(predicate);
 								 
+								 for(DomainAction dAction : actions){						 
+									 //convierto las domainActions to actionClass
+									 if (dAction!=null && dAction.getLabel()!=null){
+										 ActionClass actionClass = domainActionToActionClass(dAction);
+										 if (actionClass != null){
+											 event.getActionClasses().add(actionClass); 
+										 }
+									 }
+								 //ActionCodeEnum.getByName(dAction.getLabel());
+								 }
 							 }
-
 						 }
+					 }
+					 if (alternative.getEvents().size() > 0){
+						 alternative.setUseCase(useCase);
+						 useCase.getFlows().add(alternative); 
 					 }
 				 }
 			 }
@@ -352,14 +368,18 @@ public class ModelCreator {
 	 * @return actionClass
 	 */
 	private ActionClass domainActionToActionClass(DomainAction dAction){
-		 ActionClass actionClass = factory.createActionClass();
-		 actionClass.setName(dAction.getLabel());
-		 actionClass.setConfidence(dAction.getConfidence());
-		 actionClass.setRanking(dAction.getRanking());
-		 actionClass.setPredicate(ModelCreator.uimaRoot.getCoveredText(dAction.getAction()));
-		 if (dAction.getParent()!=null){
-			 actionClass.setParent(domainActionToActionClass(dAction.getParent()));
+		ActionClass actionClass = null; 
+		if (dAction.getChilds().size() == 0){
+			 actionClass = factory.createActionClass();
+			 actionClass.setName(dAction.getLabel());
+			 actionClass.setConfidence(dAction.getConfidence());
+			 actionClass.setRanking(dAction.getRanking());
+			 actionClass.setPredicate(ModelCreator.uimaRoot.getCoveredText(dAction.getAction())); 
 		 }
+		 
+//		 if (dAction.getParent()!=null){
+//			 actionClass.setParent(domainActionToActionClass(dAction.getParent()));
+//		 }
 //		 Por ahora no agregamos Childs TODO: Son necesarios los childs?
 //		 if (dAction.getChilds()!=null && dAction.getChilds().size()>0){
 //			 for (DomainAction da : dAction.getChilds()){
@@ -396,7 +416,13 @@ public class ModelCreator {
 				}
 			}
 		}
-		return ModelCreator.uimaRoot.getCoveredText(numbers.get(closestPos));	
+		String ct= null;
+		try{
+			ct = ModelCreator.uimaRoot.getCoveredText(numbers.get(closestPos));
+		}catch (Exception e) {
+			ct = "";
+		}
+		return ct;	
 	}
 	
 	/**

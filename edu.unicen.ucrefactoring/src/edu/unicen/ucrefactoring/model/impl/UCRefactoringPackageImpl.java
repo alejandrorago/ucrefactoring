@@ -937,7 +937,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		initEClass(useCaseModelEClass, UseCaseModel.class, "UseCaseModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getUseCaseModel_Description(), ecorePackage.getEString(), "description", null, 0, 1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCaseModel_Name(), ecorePackage.getEString(), "name", null, 0, 1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getUseCaseModel_Actors(), this.getActor(), null, "actors", null, 0, -1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCaseModel_Actors(), this.getActor(), null, "actors", null, 0, -1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseModel_UseCases(), this.getUseCase(), null, "useCases", null, 0, -1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUseCaseModel_Aspects(), this.getAspect(), null, "aspects", null, 0, -1, UseCaseModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -999,6 +999,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		addEEnumLiteral(actorTypeEnumEEnum, ActorTypeEnum.HUMAN);
 		addEEnumLiteral(actorTypeEnumEEnum, ActorTypeEnum.SYSTEM);
 		addEEnumLiteral(actorTypeEnumEEnum, ActorTypeEnum.TIME);
+		addEEnumLiteral(actorTypeEnumEEnum, ActorTypeEnum.UNKNOWN);
 
 		initEEnum(eventTypeEnumEEnum, EventTypeEnum.class, "EventTypeEnum");
 		addEEnumLiteral(eventTypeEnumEEnum, EventTypeEnum.STIMULUS);
@@ -1019,6 +1020,7 @@ public class UCRefactoringPackageImpl extends EPackageImpl implements UCRefactor
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.VERIFICATION);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.INDOOR);
 		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.OUTDOOR);
+		addEEnumLiteral(actionCodeEnumEEnum, ActionCodeEnum.UNKNOWN);
 
 		// Create resource
 		createResource(eNS_URI);
