@@ -46,8 +46,9 @@ public class DeleteActorRefactoring implements Refactoring {
 	public boolean applyRefactoring() {
 		String q = "¿Desea eliminar el actor '";
 		q = q + this.getActor().getName();
-		q = q + "' desde que carece de sentido dentro del modelo?";
-		int cancel = UCRUseCasesView.deleteEntityDialog(q);
+		q = q + "' , el cual carece de sentido dentro del modelo?";
+		//int cancel = UCRUseCasesView.deleteEntityDialog(q);
+		int cancel = UCRUseCasesView.warningDialog(q);
 		if (cancel == 0){
 			List<Actor> actors = UCRUseCasesView.ucref.getUseCaseModel().getActors();
 			for(int i=0; i< actors.size(); i++){

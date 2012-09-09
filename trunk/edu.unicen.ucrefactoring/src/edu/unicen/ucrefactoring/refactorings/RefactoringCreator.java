@@ -115,13 +115,39 @@ public class RefactoringCreator {
 		String merge = "Merge";
 		int i = 1;
 		for (java.util.List<UseCase> list : ((NonModularFRMetric)metric).getNonModularUseCases().values()){
-			if (list.size()==2){
-				MergeUseCasesRefactoring mergeRefactoring = new MergeUseCasesRefactoring(list.get(0), list.get(1));
-				mergeRefactoring.addMetric(metrics.get(Metric.SHORT_USECASE));
-				if (mergeRefactoring.canApply()){
-					this.refactorings.put(merge+i, mergeRefactoring);
+			if (list.size()==2 ){
+				UseCase a = list.get(0);
+				UseCase b = list.get(1);
+				
+				//Check if combination was already added
+				boolean exist = false;
+				for (Refactoring ref : refactorings.values()){
+					if (ref.getType().equals(Refactoring.REF_MERGE)){
+						UseCase auxA = ((MergeUseCasesRefactoring)ref).getUseCaseA();
+						UseCase auxB = ((MergeUseCasesRefactoring)ref).getUseCaseB();
+						if ( (auxA.getName().equals(a.getName()) && auxB.getName().equals(b.getName()))
+								|| (auxA.getName().equals(b.getName()) && auxB.getName().equals(a.getName()))){
+							exist = true;
+						}
+					}
 				}
-				i++;
+				
+				if (!a.getName().equals(b.getName()) && !exist){
+					MergeUseCasesRefactoring mergeRefactoring = new MergeUseCasesRefactoring(a, b);
+					if (metrics.get(Metric.SHORT_USECASE)!=null){
+						mergeRefactoring.addMetric(metrics.get(Metric.SHORT_USECASE));
+					}
+					if (metrics.get(Metric.HAPPY_USECASE)!=null){
+						mergeRefactoring.addMetric(metrics.get(Metric.HAPPY_USECASE));
+					}
+					if (metrics.get(Metric.ENCAPSULATED_FUNCTIONAL)!=null){
+						mergeRefactoring.addMetric(metrics.get(Metric.ENCAPSULATED_FUNCTIONAL));
+					}
+					if (mergeRefactoring.canApply()){
+						this.refactorings.put(merge+i, mergeRefactoring);
+					}
+					i++;
+				}
 			}
 		}
 	}

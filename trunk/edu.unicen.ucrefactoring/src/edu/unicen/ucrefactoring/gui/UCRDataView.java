@@ -39,6 +39,7 @@ import edu.unicen.ucrefactoring.refactorings.DeleteActorRefactoring;
 import edu.unicen.ucrefactoring.refactorings.DeleteUseCaseRefactoring;
 import edu.unicen.ucrefactoring.refactorings.ExtractAspectRefactoring;
 import edu.unicen.ucrefactoring.refactorings.ExtractUseCaseRefactoring;
+import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 import edu.unicen.ucrefactoring.refactorings.RefactoringCreator;
 
@@ -351,7 +352,7 @@ public class UCRDataView extends ViewPart {
 						UCRUseCasesView.updateUseCasesView();
 						btnApply.setEnabled(false);
 						cleanViews();
-						showRefactoring(ref,false);
+						//showRefactoring(ref,false);
 					}
 				}
 			}
@@ -484,6 +485,20 @@ public class UCRDataView extends ViewPart {
 				UCRCompareView.useCaseLeft = useCase;
 				UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
 				UCRCompareView.useCaseRight = UCRefactoringFactory.eINSTANCE.createUseCase();
+				UCRCompareView.updateButtonsAndLabels();
+			}
+			else if (ref.getType().equals(Refactoring.REF_MERGE)){
+				
+				UseCase useCaseA = ((MergeUseCasesRefactoring)ref).getUseCaseA();
+				UseCase useCaseB = ((MergeUseCasesRefactoring)ref).getUseCaseB();
+				
+				UCRUseCasesView.setCompareView(UCRCompareView.ucLeft,useCaseA,new ArrayList<SimilarBlock>());
+				UCRUseCasesView.setCompareView(UCRCompareView.ucRight,useCaseB,new ArrayList<SimilarBlock>());
+			
+				UCRCompareView.similarBlocksLeft = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseLeft = useCaseA;
+				UCRCompareView.similarBlocksRight = (new ArrayList<SimilarBlock>());
+				UCRCompareView.useCaseRight = useCaseB;
 				UCRCompareView.updateButtonsAndLabels();
 			}
 			else{

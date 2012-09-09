@@ -114,7 +114,9 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 
 		}
 		else{
-			JOptionPane.showMessageDialog(null, "Please, select events to extract \nto a new Use Case", "Extract Use Case", JOptionPane.WARNING_MESSAGE);
+			String message = "Please, select events to extract \nto a new Use Case";
+			UCRUseCasesView.messageDialog(message);
+			//JOptionPane.showMessageDialog(null, "Please, select events to extract \nto a new Use Case.", "Extract Use Case", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 	}
@@ -162,7 +164,7 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 		Flow flow = simBlockToRemove.getFlow();
 		int beginIndex = simBlockToRemove.getSimilarEvents().get(0).getNumber()-1;
 		int endIndex = simBlockToRemove.getSimilarEvents().get(simBlockToRemove.getSimilarEvents().size()-1).getNumber()-1;
-		for (int i = endIndex; i > beginIndex; i--){
+		for (int i = endIndex; i >= beginIndex; i--){
 			flow.getEvents().remove(i);
 			for (int j = i; j< flow.getEvents().size(); j++){
 				Event e = flow.getEvents().get(j);
@@ -171,8 +173,8 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 				e.setNumber(newNumber);
 			}
 		}
-		Event finalRemoved = flow.getEvents().get(beginIndex);		
-		flow.getEvents().remove(finalRemoved);
+		//Event finalRemoved = flow.getEvents().get(beginIndex);		
+		//flow.getEvents().remove(finalRemoved);
 	}
 
 	@Override
