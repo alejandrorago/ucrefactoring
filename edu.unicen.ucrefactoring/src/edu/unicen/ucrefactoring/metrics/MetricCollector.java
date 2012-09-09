@@ -41,6 +41,7 @@ public class MetricCollector {
 			collectDuplicateMetrics();
 			collectLargeMetrics();
 			collectShortMetrics();
+			collectHappyMetrics();
 			collectNonModularFRMetrics();
 			collectNonModularNFRMetrics();
 			collectNonSenseUseCaseMetrics();
@@ -87,6 +88,16 @@ public class MetricCollector {
 				}
 			}
 			this.metrics.put(Metric.SHORT_USECASE, shortMetric);
+		}
+		
+		public void collectHappyMetrics(){
+			HappyUseCaseMetric happyMetric = new HappyUseCaseMetric();
+			for (UseCase uc : useCaseModel.getUseCases()){
+				if ( uc.getFlows().size() > HappyUseCaseMetric.FLOW_LIMIT ){
+					happyMetric.addHappyUseCase(uc);
+				}
+			}
+			this.metrics.put(Metric.HAPPY_USECASE, happyMetric);
 		}
 		
 		public void collectNonModularFRMetrics(){

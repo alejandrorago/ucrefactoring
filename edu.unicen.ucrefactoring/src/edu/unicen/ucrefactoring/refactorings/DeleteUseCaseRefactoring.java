@@ -46,8 +46,8 @@ public class DeleteUseCaseRefactoring implements Refactoring {
 	public boolean applyRefactoring() {
 		String q = "¿Desea eliminar el caso de uso '";
 		q = q + this.getUseCase().getName();
-		q = q + "' desde que nunca puede ser activado?";
-		int cancel = UCRUseCasesView.deleteEntityDialog(q);
+		q = q + "' , el cual nunca puede ser activado?";
+		int cancel = UCRUseCasesView.warningDialog(q);
 		if (cancel == 0){
 			List<UseCase> useCases = UCRUseCasesView.ucref.getUseCaseModel().getUseCases();
 			for(int i=0; i< useCases.size(); i++){

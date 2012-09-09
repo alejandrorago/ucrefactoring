@@ -87,9 +87,14 @@ public class UCRUseCasesView extends ViewPart {
 	private static JFileChooser fileSaver;
 	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
-	public static AssignToAspectDialog aspectDialog;
-	public static DeleteEntityDialog deleteDialog;
-	public static SetPrimaryActorDialog primaryActorDialog;
+	//public static AssignToAspectDialog aspectDialog;
+	public static UCRAssignToAspectDialog aspectDialog;
+	//public static DeleteEntityDialog deleteDialog;
+	public static UCRWarningDialog warningDialog;
+	public static UCRMessageDialog messageDialog;
+
+	//public static SetPrimaryActorDialog primaryActorDialog;
+	public static UCRSetActorDialog primaryActorDialog;
 
 
 	// special flag for double-clicking the use case list
@@ -606,13 +611,18 @@ public class UCRUseCasesView extends ViewPart {
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
 							if (!useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCS cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+								String message = "The REA file asociated with the selected UCS cannot be found.\nAspect Refactoring analysis will not be performed.";
+								messageDialog(message);
+								//JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCS cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 	
 						}
 						else{
 							//MessageDialog messageDialog = new MessageDialog();
-							JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCS cannot be found.\nPlease select another file.", "UIMA file not found", JOptionPane.ERROR_MESSAGE);
+							
+							String message = "The UIMA file asociated with the selected UCS cannot be found.\nPlease select another file.";
+							messageDialog(message);
+							//JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCS cannot be found.\nPlease select another file.", "UIMA file not found", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					//else, if user selects ucrefactoring file
@@ -669,14 +679,21 @@ public class UCRUseCasesView extends ViewPart {
 							UCRUseCasesView.resetView();
 							UCRDataView.resetView(ucref);
 							UCRCompareView.resetView();
+							String message = "";
 							if (!useCaseUima.exists() && !useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA and UIMA file not found", JOptionPane.WARNING_MESSAGE);
+								message = "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.";
+								messageDialog(message);
+								//JOptionPane.showMessageDialog(fileChooser, "The REA and UIMA files asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA and UIMA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 							else if (!useCaseRea.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
+								message = "The REA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.";
+								messageDialog(message);
+								//JOptionPane.showMessageDialog(fileChooser, "The REA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "REA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 							else if (!useCaseUima.exists()){
-								JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "UIMA file not found", JOptionPane.WARNING_MESSAGE);
+								message = "The UIMA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.";
+								messageDialog(message);
+								//JOptionPane.showMessageDialog(fileChooser, "The UIMA file asociated with the selected UCREFACTORING cannot be found.\nAspect Refactoring analysis will not be performed.", "UIMA file not found", JOptionPane.WARNING_MESSAGE);
 							}
 						}
 					}
@@ -724,16 +741,16 @@ public class UCRUseCasesView extends ViewPart {
 			public void partOpened(IWorkbenchPartReference arg0) {
 				try {
 					if (arg0!=null){
-						if (arg0.getPartName().equals(Constants.UCRCompareView)){
+						if (arg0.getPartName().equals(Constants.UCRCompareView) && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("edu.unicen.ucrefactoring.gui.UCRUseCasesView")!=null){
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRUseCasesView");
 						}
-						else if (arg0.getPartName().equals(Constants.UCRUseCaseView)){
+						else if (arg0.getPartName().equals(Constants.UCRUseCaseView) && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()!=null ){
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("edu.unicen.ucrefactoring.gui.UCRCompareView");
 						}
-						else if (arg0.getPartName().equals(Constants.Visualiser)){
+						else if (arg0.getPartName().equals(Constants.Visualiser) && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("org.eclipse.contribution.visualiser.views.Menu")!=null){
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Menu");
 						}
-						else if (arg0.getPartName().equals(Constants.VisualiserMenu)){
+						else if (arg0.getPartName().equals(Constants.VisualiserMenu) && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("org.eclipse.contribution.visualiser.views.Visualiser")!=null){
 							PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("org.eclipse.contribution.visualiser.views.Visualiser");
 						}
 						
@@ -1005,14 +1022,16 @@ public class UCRUseCasesView extends ViewPart {
 	}
 
 	public static String askForUCName() {
-		Shell shell = new Shell();
+		Shell shell = UCRUseCasesView.container_1.getShell();
 		NewUseCaseDialog dialog = new NewUseCaseDialog(shell);
 		return dialog.openDialog();
 	}
 
 	public static int setPrimaryActor() {
-		Shell shell = new Shell();
-		primaryActorDialog = new SetPrimaryActorDialog(shell);
+		Shell shell = UCRUseCasesView.container_1.getShell();
+		//primaryActorDialog = new SetPrimaryActorDialog(shell);
+		primaryActorDialog = new UCRSetActorDialog(shell);
+
 		return primaryActorDialog.open();
 	}
 	
@@ -1022,16 +1041,34 @@ public class UCRUseCasesView extends ViewPart {
 	    return UCRDialog.open();
 	}
 	
+//	public static int extractAspectDialog(){
+//		Shell shell = UCRUseCasesView.container_1.getShell();
+//	    aspectDialog = new AssignToAspectDialog(shell);
+//	    return aspectDialog.open();
+//	}
+	
 	public static int extractAspectDialog(){
-		Shell shell = new Shell();
-	    aspectDialog = new AssignToAspectDialog(shell);
+		Shell shell = UCRUseCasesView.container_1.getShell();
+	    aspectDialog = new UCRAssignToAspectDialog(shell);
 	    return aspectDialog.open();
 	}
 	
-	public static int deleteEntityDialog(String question){
-		Shell shell = new Shell();
-	    deleteDialog = new DeleteEntityDialog(shell, question);
-	    return deleteDialog.open();
+//	public static int deleteEntityDialog(String question){
+//		Shell shell = new Shell();
+//	    deleteDialog = new DeleteEntityDialog(shell, question);
+//	    return deleteDialog.open();
+//	}
+	
+	public static int warningDialog(String question){
+		Shell shell = UCRUseCasesView.container_1.getShell();
+	    warningDialog = new UCRWarningDialog(shell, question);
+	    return warningDialog.open();
+	}
+	
+	public static int messageDialog(String message){
+		Shell shell = UCRUseCasesView.container_1.getShell();
+	    messageDialog = new UCRMessageDialog(shell, message);
+	    return messageDialog.open();
 	}
 	
 	public static void resetView(){

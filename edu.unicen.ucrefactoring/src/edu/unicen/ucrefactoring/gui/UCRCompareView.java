@@ -32,6 +32,7 @@ import edu.unicen.ucrefactoring.analyzer.SimilarityAnalyzer;
 import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
+import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 
 import org.eclipse.swt.widgets.Tree;
@@ -79,11 +80,17 @@ public class UCRCompareView extends ViewPart {
 	// Actions
 	private Action addBlockAction;
 	private Action removeBlockAction;
+	private Action createNewBlockAction;
+	private Action createMergeBlockAction;
 	
 	
 	//Showed SimilarBlocks
 	public static List<SimilarBlock> similarBlocksLeft;
 	public static List<SimilarBlock> similarBlocksRight;
+	
+	//Aux for merge
+	public static List<Event> mergeEvents;
+	
 	public static List<Event> candidates; 
 	public boolean isLeft = true;
 	private Composite composite;
@@ -94,6 +101,7 @@ public class UCRCompareView extends ViewPart {
 		similarBlocksLeft = new ArrayList<SimilarBlock>();
 		similarBlocksRight = new ArrayList<SimilarBlock>();
 		candidates = new ArrayList<Event>();
+		mergeEvents = new ArrayList<Event>();
 	}
 
 	//==============Servicios==========================
@@ -213,6 +221,113 @@ public class UCRCompareView extends ViewPart {
 		addBlockAction.setText("Attach Event to Block");
 		addBlockAction.setToolTipText("Attaches the selection of events to the selected block");
 		
+		createNewBlockAction = new Action() {			
+			public void run(){
+				Flow flow = null;
+				AlignmentX2Result align = null;
+				//boolean a = (useCaseLeft.getName().compareTo(useCaseRight.getName()) > 0);
+
+				if (isLeft){	
+
+					for (Flow aFlow : useCaseLeft.getFlows()){
+						if (aFlow.getEvents().contains(candidates.get(0))){
+							flow = aFlow;
+						}
+					}
+					SimilarBlock sb = new SimilarBlock(useCaseLeft, flow);
+					for (Event e : candidates){
+						if (flow.getEvents().contains(e)){
+							sb.getSimilarEvents().add(e);		
+						}
+					}	
+					similarBlocksLeft.add(sb);
+					
+					UCRUseCasesView.setCompareView(ucLeft, useCaseLeft,  similarBlocksLeft);
+					UCRUseCasesView.updateAlignmentLeft(similarBlocksLeft, useCaseLeft, useCaseRight,  align);
+				}
+				else{
+					for (Flow aFlow : useCaseRight.getFlows()){
+						if (aFlow.getEvents().contains(candidates.get(0))){
+							flow = aFlow;
+						}
+					}
+					SimilarBlock sb = new SimilarBlock(useCaseRight, flow);
+					for (Event e : candidates){
+						if (flow.getEvents().contains(e)){
+							sb.getSimilarEvents().add(e);		
+						}
+					}	
+					similarBlocksRight.add(sb);					
+					
+					UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
+					UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseRight, useCaseRight, align );
+				}							
+			}
+		};
+	
+		createNewBlockAction.setText("Create New Block");
+		createNewBlockAction.setToolTipText("Creates new block with the selected events");
+		
+		
+		createMergeBlockAction = new Action() {			
+			public void run(){
+				List<Flow> flowsLeft = new ArrayList<Flow>();
+				List<Flow> flowsRight = new ArrayList<Flow>();
+				AlignmentX2Result align = null;
+				//boolean a = (useCaseLeft.getName().compareTo(useCaseRight.getName()) > 0);
+
+				for (Flow aFlow : useCaseLeft.getFlows()){
+					for (Event e : mergeEvents){
+						if (!flowsLeft.contains(aFlow) && aFlow.getEvents().contains(e)){
+							flowsLeft.add(aFlow);
+						}
+					}
+				}
+				for (Flow aFlow : flowsLeft){
+					SimilarBlock sba = new SimilarBlock(useCaseLeft, aFlow);
+					for (Event e : mergeEvents){
+						if (aFlow.getEvents().contains(e)){
+							sba.getSimilarEvents().add(e);		
+						}
+					}	
+					similarBlocksLeft.add(sba);
+				}
+				
+				UCRUseCasesView.setCompareView(ucLeft, useCaseLeft,  similarBlocksLeft);
+				UCRUseCasesView.updateAlignmentLeft(similarBlocksLeft, useCaseLeft, useCaseRight,  align);
+			
+				for (Flow aFlow : useCaseRight.getFlows()){
+					for (Event e : mergeEvents){
+						if (!flowsRight.contains(aFlow) && aFlow.getEvents().contains(e)){
+							flowsRight.add(aFlow);
+						}
+					}
+				}
+				for (Flow aFlow : flowsRight){
+					SimilarBlock sba = new SimilarBlock(useCaseRight, aFlow);
+					for (Event e : mergeEvents){
+						if (aFlow.getEvents().contains(e)){
+							sba.getSimilarEvents().add(e);		
+						}
+					}	
+					similarBlocksRight.add(sba);
+				}				
+				
+				//safety check
+				if (UCRDataView.selectedRefactoring!=null && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
+					((MergeUseCasesRefactoring)UCRDataView.selectedRefactoring).populateMergeEventsList(mergeEvents);
+					mergeEvents = new ArrayList<Event>();
+				}
+				
+				UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
+				UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseRight, useCaseRight, align );
+											
+			}
+		};
+	
+		createMergeBlockAction.setText("Create New Merge Block");
+		createMergeBlockAction.setToolTipText("Creates new merge block with the selected events");
+		
 		removeBlockAction = new Action() {			
 			public void run(){
 				Flow flow = null;
@@ -306,6 +421,9 @@ public class UCRCompareView extends ViewPart {
 			public void menuAboutToShow(IMenuManager manager) {
 				manager.add(addBlockAction);	
 				manager.add(removeBlockAction);	
+				manager.add(createNewBlockAction);	
+				manager.add(createMergeBlockAction);	
+
 
 			}			
 
@@ -442,26 +560,75 @@ public class UCRCompareView extends ViewPart {
 		ucLeft.addSelectionChangedListener( new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
+								
 				isLeft = true;
 				IStructuredSelection selection = (IStructuredSelection) ucLeft.getSelection();
 				
-				//This refactoring does not have an alignment
-				if (UCRDataView.selectedRefactoring !=null && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_EXTRACT_UC)){
+				ArrayList<Event> allSelected = new ArrayList<Event>();
+				List<Event> selectionList = selection.toList();
+				if (!selection.isEmpty() && !(selection.toList().get(selection.toList().size()-1) instanceof Flow)){
+					for (Event aEvent : selectionList){
+						 allSelected.add(aEvent);
+					}
+					if (ucRight!=null){
+						IStructuredSelection selectionRight = (IStructuredSelection) ucRight.getSelection();
+						List<Event> rightList = selectionRight.toList();
+						for (Event aEvent : rightList){
+							allSelected.add(aEvent);
+						}
+					}
 					
-				}
-				
-				if (selection != null && selection.size()>0){
-					candidates = selection.toList();
-					addBlockAction.setEnabled(true);
-					removeBlockAction.setEnabled(true);
-				}
-				else{
+					//This refactoring does not have an alignment
+					if (UCRDataView.selectedRefactoring !=null && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_EXTRACT_UC)){
+						
+					}
+					
 					candidates = new ArrayList<Event>();
 					addBlockAction.setEnabled(false);
 					removeBlockAction.setEnabled(false);
+					createNewBlockAction.setEnabled(false);
+					createMergeBlockAction.setEnabled(false);
+					
+					if (selection != null && selection.size()>0){
+						candidates = selection.toList();
+						
+						//update merge list
+						for (int i = 0; i<candidates.size();i++){
+							Event e = candidates.get(i);
+							if (!mergeEvents.contains(e)){
+								mergeEvents.add(e);
+							}
+						}
+						for (int i = 0; i<mergeEvents.size();i++){
+							Event e = mergeEvents.get(i);
+							if (!allSelected.contains(e)){
+								mergeEvents.remove(e);
+							}
+						}
+						
+						
+						boolean blockSelected = false;
+						for (Event e : candidates){
+							for (SimilarBlock sb : similarBlocksLeft){
+								if (sb.getSimilarEvents().contains(e)){
+									addBlockAction.setEnabled(true);
+									removeBlockAction.setEnabled(true);
+									blockSelected = true;
+									break;
+								}
+							}
+						}
+						if (!blockSelected){
+							if (UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
+								createMergeBlockAction.setEnabled(true);
+							}
+							else{
+								createNewBlockAction.setEnabled(true);
+							}
+						}
+	
+					}
 				}
-				
-				
 			}
 		});
 		
@@ -470,19 +637,65 @@ public class UCRCompareView extends ViewPart {
 			public void selectionChanged(SelectionChangedEvent event) {
 				isLeft = false;
 				IStructuredSelection selection = (IStructuredSelection) ucRight.getSelection();
-				
-				if (selection != null && selection.size()>0){	
-					candidates = selection.toList();
-					addBlockAction.setEnabled(true);
-					removeBlockAction.setEnabled(true);
-				}
-				else{
+				ArrayList<Event> allSelected = new ArrayList<Event>();
+				List<Event> selectionList = selection.toList();
+				if (!selection.isEmpty() && !(selection.toList().get(selection.toList().size()-1) instanceof Flow)){
+	
+					for (Event aEvent : selectionList){
+						 allSelected.add(aEvent);
+					}
+					if (ucLeft!=null){
+						IStructuredSelection selectionLeft = (IStructuredSelection) ucLeft.getSelection();
+						List<Event> leftList = selectionLeft.toList();
+						for (Event aEvent : leftList){
+							allSelected.add(aEvent);
+						}
+					}
+					
 					candidates = new ArrayList<Event>();
 					addBlockAction.setEnabled(false);
 					removeBlockAction.setEnabled(false);
+					createNewBlockAction.setEnabled(false);
+					
+					if (selection != null && selection.size()>0){	
+						candidates = selection.toList();
+						
+						//update merge list
+						for (int i = 0; i<candidates.size();i++){
+							Event e = candidates.get(i);
+							if (!mergeEvents.contains(e)){
+								mergeEvents.add(e);
+							}
+						}
+						for (int i = 0; i<mergeEvents.size();i++){
+							Event e = mergeEvents.get(i);
+							if (!allSelected.contains(e)){
+								mergeEvents.remove(e);
+							}
+						}
+						
+						boolean blockSelected = false;
+						for (Event e : candidates){
+							
+							for (SimilarBlock sb : similarBlocksRight){
+								if (sb.getSimilarEvents().contains(e)){
+									addBlockAction.setEnabled(true);
+									removeBlockAction.setEnabled(true);
+									blockSelected = true;
+									break;
+								}
+							}
+						}
+						if (!blockSelected){
+							if (UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
+								createMergeBlockAction.setEnabled(true);
+							}
+							else{
+								createNewBlockAction.setEnabled(true);
+							}
+						}
+					}
 				}
-				
-				
 			}
 		});
 		
