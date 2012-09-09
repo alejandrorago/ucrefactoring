@@ -5,6 +5,11 @@ import java.util.HashMap;
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Metric that represents a Long Use Case
+ * @author migue
+ *
+ */
 public class LargeUseCaseMetric implements Metric {
 
 	private String type = Metric.LARGE_USECASE;

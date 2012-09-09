@@ -2,6 +2,11 @@ package edu.unicen.ucrefactoring.metrics;
 
 import java.util.HashMap;
 
+/**
+ * Interface that defines a metric
+ * @author migue
+ *
+ */
 public interface Metric {
 	
 	public static final String DUPLICATE = "DUPLICATE_METRIC";

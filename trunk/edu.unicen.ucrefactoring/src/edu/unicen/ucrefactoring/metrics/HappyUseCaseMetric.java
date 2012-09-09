@@ -1,10 +1,15 @@
-package edu.unicen.ucrefactoring.metrics;
+package edu.unicen.ucrefactoring.metrics; 
 
 import java.util.HashMap;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Happy use case metric
+ * @author migue
+ *
+ */
 public class HappyUseCaseMetric implements Metric {
 
 	private String type = Metric.HAPPY_USECASE;

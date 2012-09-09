@@ -3,6 +3,11 @@ package edu.unicen.ucrefactoring.visualiser;
 import org.eclipse.contribution.visualiser.palettes.DefaultVisualiserPalette;
 import org.eclipse.swt.graphics.RGB;
 
+/**
+ * Custom color palette to represent refactoring score
+ * @author migue
+ *
+ */
 public class UCRColorPalette  extends  DefaultVisualiserPalette{
 
     protected static RGB[] rgbList = new RGB[] { 

@@ -7,6 +7,11 @@ import edu.isistan.uima.unified.typesystems.nlp.Sentence;
 import edu.isistan.uima.unified.typesystems.srs.Document;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Represents a use case in the visualiser plugin
+ * @author migue
+ *
+ */
 @SuppressWarnings("unused")
 public class UseCaseMember extends SimpleMember {
 	private UseCase useCase;

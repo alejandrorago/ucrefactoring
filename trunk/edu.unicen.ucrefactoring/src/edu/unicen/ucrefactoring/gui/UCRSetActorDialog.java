@@ -30,6 +30,11 @@ import org.eclipse.swt.widgets.Combo;
 
 import edu.unicen.ucrefactoring.model.Actor;
 
+/**
+ * Dialog to set an Autor to a Use Case
+ * @author migue
+ *
+ */
 public class UCRSetActorDialog extends Dialog {
 
 	 private String actorName = "";

@@ -43,6 +43,11 @@ import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 import edu.unicen.ucrefactoring.refactorings.RefactoringCreator;
 
+/**
+ * View that shows a list of detected refactorings, and their actions
+ * @author migue
+ *
+ */
 public class UCRDataView extends ViewPart {
 
 	public static final String ID = "edu.unicen.ucrefactoring.gui.UCRDataView"; //$NON-NLS-1$

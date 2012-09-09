@@ -2,6 +2,11 @@ package edu.unicen.ucrefactoring.util;
 
 import java.io.File;
 
+/**
+ * Constants of the application
+ * @author migue
+ *
+ */
 public class Constants {
 	
 	public final static String SLASH = File.separator; 

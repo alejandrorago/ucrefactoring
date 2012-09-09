@@ -55,7 +55,11 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-
+/**
+ * View that presents use cases for comparison and edition
+ * @author migue
+ *
+ */
 public class UCRCompareView extends ViewPart {
 
 	public static final String ID = "edu.unicen.ucrefactoring.gui.UCRCompareView"; //$NON-NLS-1$

@@ -15,6 +15,11 @@ import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
 
+/**
+ * Collects metrics from the use cases of the model
+ * @author migue
+ *
+ */
 public class MetricCollector {
 
 	

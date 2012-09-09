@@ -55,6 +55,11 @@ import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.util.Constants;
 import edu.unicen.ucrefactoring.visualiser.UCRVisualContentProvider;
 
+/**
+ * View that shows the use case and aspect list from the model
+ * @author migue
+ *
+ */
 public class UCRUseCasesView extends ViewPart {
 
 	public static final String ID = "edu.unicen.ucrefactoring.gui.UCRUseCasesView"; //$NON-NLS-1$
