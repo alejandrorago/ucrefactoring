@@ -81,6 +81,7 @@ public class UCRUseCasesView extends ViewPart {
 	private Action compareAction;
 	private Action setPrimaryActorAction;
 	private Action addSecondaryActorAction;
+	private Action deleteUseCaseAction;
 
 	// widgets
 	private static ListViewer ucList;
@@ -88,8 +89,9 @@ public class UCRUseCasesView extends ViewPart {
 	private Button btnLoadUseCase;
 	private Button btnSave;
 	private Label lblUseCaseModel;
-	private static JFileChooser fileChooser;
-	private static JFileChooser fileSaver;
+	private static FileDialog fileChooser;
+	private static FileDialog fileSaver;
+
 	private static FileDialog swtDialog; 
 	public static UCRNewUseCaseDialog UCRDialog;
 	//public static AssignToAspectDialog aspectDialog;
@@ -113,60 +115,15 @@ public class UCRUseCasesView extends ViewPart {
 
 	public static void initUseCasesView() {
 		// init file choosers
-		fileChooser = new JFileChooser();
-		fileSaver = new JFileChooser();
-		// set File Filters
-		fileChooser.setFileFilter(new FileFilter(){
-			private String extensions[] = {".ucs",".ucrefactoring"};
-			private String description = "ucs, ucrefactoring";
-			@Override
-			public boolean accept(File file) {
-				  if (file.isDirectory()) {
-			        return true;
-			      }
-			      int count = extensions.length;
-			      String path = file.getAbsolutePath();
-			      for (int i = 0; i < count; i++) {
-			        String ext = extensions[i];
-			        if (path.endsWith(ext)
-			            && (path.charAt(path.length() - ext.length()) == '.')) {
-			          return true;
-			        }
-			      }
-			      return false;
-			}
-
-			@Override
-			public String getDescription() {
-				return this.description;
-			}
+		Shell shell = new Shell();
+		fileChooser = new FileDialog(shell,SWT.OPEN);
+		fileChooser.setFilterNames(new String[] {"UCRefactoring", "UCS" , "All Files" });
+		fileChooser.setFilterExtensions(new String[] {"*.ucrefactoring" , "*.ucs" , "*.*" });
 			
-		});
-		
-		fileSaver.addChoosableFileFilter(new FileFilter(){
-
-			@Override
-			public boolean accept(File file) {
-				  if (file.isDirectory()){
-		            return false;
-		          }
-
-		          String s = file.getName();
-
-		          return s.endsWith(".ucrefactoring");
-			}
-
-			@Override
-			public String getDescription() {
-			      return "*.ucrefactoring";
-			}
-			
-		});
-		
-		//TEST FILE CHOOSER SWT
-		//swtDialog = new FileDialog(Display.getDefault().getActiveShell(), SWT.NULL);
-		
-		  	
+		fileSaver =  new FileDialog(shell,SWT.SAVE);
+		fileSaver.setFilterNames(new String[] {"UCRefactoring" });
+		fileSaver.setFilterExtensions(new String[] {"*.ucrefactoring" });
+				  	
 		//=========================  	
 		
 		useCaseA = null;
@@ -387,7 +344,7 @@ public class UCRUseCasesView extends ViewPart {
 				}
 			}
 		};
-		setPrimaryActorAction.setText("Set Primary Actor...");
+		setPrimaryActorAction.setText("Set Primary Actor");
 		setPrimaryActorAction.setToolTipText("Sets the primary actor for the use case.");
 		
 		addSecondaryActorAction = new Action() {
@@ -420,8 +377,26 @@ public class UCRUseCasesView extends ViewPart {
 				}
 			}
 		};
-		addSecondaryActorAction.setText("Add Secondary Actor...");
+		addSecondaryActorAction.setText("Add Secondary Actor");
 		addSecondaryActorAction.setToolTipText("Adds a secondary actor for the use case.");
+		
+		deleteUseCaseAction = new Action() {
+			public void run (){
+				UseCase candidate = ((UseCase) (((IStructuredSelection) ucList.getSelection()).toList().get(0)));
+
+				String question = "Are you sure you want to delete the Use Case '"+candidate.getName()+"' ? ";
+				int cancel = warningDialog(question);				
+				if (cancel == 0){	
+					ucref.getUseCaseModel().getUseCases().remove(candidate);
+					UCRDataView.resetView(ucref);
+					UCRCompareView.resetView();
+					resetView();
+					updateUseCasesView();
+				}
+			}
+		};
+		deleteUseCaseAction.setText("Delete Use Case");
+		deleteUseCaseAction.setToolTipText("Removes Use Case from Use Case Model.");
 	}
 
 	/**
@@ -439,6 +414,7 @@ public class UCRUseCasesView extends ViewPart {
 		  @Override public void menuAboutToShow(IMenuManager manager) {
 		            manager.add(setPrimaryActorAction);
 		            manager.add(addSecondaryActorAction);
+		            manager.add(deleteUseCaseAction);
 		            }
 		  
 		            });
@@ -565,21 +541,21 @@ public class UCRUseCasesView extends ViewPart {
 		btnLoadUseCase.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
-				int returnVal = fileChooser.showOpenDialog(null);
-
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					String fileName = fileChooser.getSelectedFile().getName();
-					
+				String returnVal = fileChooser.open();
+			
+				if (returnVal !=null) {
+					//String fileName = fileChooser.getSelectedFile().getName();
+					String fileName = returnVal;
 					//if user selects ucs file					
 					if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucs")){
 						// get ucm file and root file path
-						File useCaseModel = fileChooser.getSelectedFile();
+						File useCaseModel = new File(fileName);
+						
 						String filePath = useCaseModel.getAbsolutePath();
 						// get uima file
-						String uimaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".uima";
+						String uimaPath = fileName.substring(0, fileName.lastIndexOf("."))+ ".uima";
 						//get the rea file - aspects data
-						String reaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".rea";
+						String reaPath = fileName.substring(0, fileName.lastIndexOf("."))+ ".rea";
 						
 						File useCaseUima = new File(uimaPath);
 						File useCaseRea = new File(reaPath);
@@ -631,16 +607,16 @@ public class UCRUseCasesView extends ViewPart {
 						}
 					}
 					//else, if user selects ucrefactoring file
-					else if(fileChooser.getSelectedFile().exists()) {
-						File useCaseRefactoringDetection = fileChooser.getSelectedFile();
-						String filePath = useCaseRefactoringDetection.getAbsolutePath();
-						fileName = useCaseRefactoringDetection.getName();
+
+					else if(new File(fileName).exists()){
+						File useCaseRefactoringDetection = new File(fileName);
+
 
 						if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".ucrefactoring")){
 							// get uima file
-							String uimaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".uima";
+							String uimaPath = fileName.substring(0, fileName.lastIndexOf("."))+ ".uima";
 							//get the rea file - aspects data
-							String reaPath = filePath.substring(0, filePath.lastIndexOf("."))+ ".rea";
+							String reaPath = fileName.substring(0, fileName.lastIndexOf("."))+ ".rea";
 							
 							File useCaseRea = new File(reaPath);
 							File useCaseUima = new File(uimaPath);
@@ -715,12 +691,12 @@ public class UCRUseCasesView extends ViewPart {
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) { 
-				int returnVal = fileSaver.showSaveDialog(null);
+				String returnVal = fileSaver.open();
 
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					String fileName = fileSaver.getSelectedFile().getAbsolutePath();
+				if (returnVal != null) {
+					String fileName = returnVal;
 					String ext="";
-			        String extension = fileSaver.getFileFilter().getDescription();
+			        String extension = fileSaver.getFilterExtensions()[0];
 			        if(extension.equals("*.ucrefactoring")){ 
 			           ext=".ucrefactoring"; 
 			        }
@@ -1079,5 +1055,6 @@ public class UCRUseCasesView extends ViewPart {
 	public static void resetView(){
 		useCaseA = null;
 		useCaseB = null;
+		
 	}
 }

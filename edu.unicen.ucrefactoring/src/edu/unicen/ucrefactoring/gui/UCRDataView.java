@@ -110,7 +110,6 @@ public class UCRDataView extends ViewPart {
 		btnApply = new Button(container, SWT.NONE);
 		btnApply.setText("Apply");
 		btnApply.setEnabled(false);
-		
 		tableViewer = new TableViewer(container, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		
