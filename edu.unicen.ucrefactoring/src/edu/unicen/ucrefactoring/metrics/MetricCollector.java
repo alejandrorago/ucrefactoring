@@ -105,6 +105,41 @@ public class MetricCollector {
 			this.metrics.put(Metric.HAPPY_USECASE, happyMetric);
 		}
 		
+		public void collectWrongUseCaseRelationshipMetrics(){
+			WrongUseCaseRelationshipMetric wMetric = new WrongUseCaseRelationshipMetric();
+			for (UseCase uc : useCaseModel.getUseCases()){
+				// INCLUSION
+				if (uc.getIncludedUseCases().size() > 0){
+					// CHEQUEAR Q CADA INCLUIDO ESTE INCLUIDO POR OTRO (O Q SE ACTIVE DESDE AFUERA)
+				}
+				
+				// EXTENSION
+				if(uc.getExtendedUseCases().size() == 1){
+					// SI EXTIENDE SOLO A UNO Y NO SE ACTIVA DESDE EL EXTERIOR -> ERROR
+					if(uc.getPrimaryActor() == null){
+						wMetric.addWrongUseCaseRelationship(uc, uc.getExtendedUseCases().get(0), WrongUseCaseRelationshipMetric.EXTENSION_RELATIONSHIP);
+					}
+				}
+				
+				// GENERALIZACION
+				if(uc.getParent() != null){
+					// SI ES UNICO HIJO DEL PADRE -> AGREGAR
+					boolean another = false;
+					for (UseCase aux: useCaseModel.getUseCases()){
+						if ((!aux.getName().equalsIgnoreCase(uc.getName())) 
+								&& (aux.getParent().getName().equalsIgnoreCase(uc.getParent().getName()))){
+							another = true;
+							break;
+						}
+					}
+					if (!another){
+						wMetric.addWrongUseCaseRelationship(uc, uc.getParent(), WrongUseCaseRelationshipMetric.GENERALIZATION_RELATIONSHIP);
+					}
+				}
+			}
+			this.metrics.put(Metric.HAPPY_USECASE, wMetric);
+		}
+		
 		public void collectNonModularFRMetrics(){
 			NonModularFRMetric nonModularMetric = new NonModularFRMetric();
 			Float textSimilarity = 0f;

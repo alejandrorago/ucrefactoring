@@ -3,6 +3,7 @@ package edu.unicen.ucrefactoring.refactorings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.isistan.reassistant.model.CrosscuttingConcern;
 import edu.isistan.reassistant.model.Impact;
@@ -38,6 +39,8 @@ public class ExtractAspectRefactoring implements Refactoring{
 	private String refactoringName = "Extract To Aspect";
 	private List<String> artifacts; 
 	private Long ID;
+	
+	Map<String, List<Integer> > eventMap;
 
 	
 	public ExtractAspectRefactoring(String ccName){
@@ -46,6 +49,8 @@ public class ExtractAspectRefactoring implements Refactoring{
 		this.ccName = ccName;
 		this.artifacts = new ArrayList<String>();
 		this.metrics = new HashMap<String, Metric>();
+		eventMap = new HashMap<String, List<Integer>>();
+		this.setAffectedEvents();
 	}
 	
 	@Override
@@ -91,6 +96,36 @@ public class ExtractAspectRefactoring implements Refactoring{
 			}
 		}
 		return true;
+	}
+	
+	private void setAffectedEvents(){
+		NonModularNFRMetric metric =(NonModularNFRMetric)this.metrics.get(Metric.ENCAPSULATED_NON_FUNCTIONAL);
+		CrosscuttingConcern cc = metric.concerns.get(ccName);
+		
+		for(Impact i: cc.getImpacts()){
+			UseCase uc = metric.useCases.get(i.getDocument().getName());
+			Integer evId = UCRUseCasesView.ucref.getReaImpactedEvents().get(i.getID());
+			String section = i.getSection().getName();
+			Integer fullId = 0;
+			for(int j = 0; j < uc.getFlows().size(); j++){
+				Flow f = uc.getFlows().get(j);
+				if (f.getName().equalsIgnoreCase(section)){
+					for (int k=0; k<j; k++){
+						fullId += uc.getFlows().get(k).getEvents().size(); 
+					}
+					fullId += evId;
+					break;
+				}
+			}
+			if (this.eventMap.get(uc.getName()) == null){
+				List<Integer> l = new ArrayList<Integer>();
+				l.add(fullId);
+				this.eventMap.put(uc.getName(), l);
+			} 
+			else{
+				this.eventMap.get(uc.getName()).add(fullId);
+			}
+		}
 	}
 
 	private void setImpactedUseCases(Aspect existent, UseCase uc) {
