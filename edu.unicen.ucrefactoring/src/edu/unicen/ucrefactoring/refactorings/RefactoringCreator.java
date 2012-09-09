@@ -15,6 +15,11 @@ import edu.unicen.ucrefactoring.metrics.NonSenseUseCaseMetric;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Creates refactorings according to the metrics
+ * @author migue
+ *
+ */
 public class RefactoringCreator {
 
 	private HashMap<String, Refactoring> refactorings = new HashMap<String, Refactoring>();

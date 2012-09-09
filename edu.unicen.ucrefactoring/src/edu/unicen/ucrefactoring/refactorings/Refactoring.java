@@ -6,6 +6,11 @@ import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Interface that represents a refactoring
+ * @author migue
+ *
+ */
 public interface Refactoring {
 	
 	public static Float HIGH_PRIORITY = 1f;

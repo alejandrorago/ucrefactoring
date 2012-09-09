@@ -4,6 +4,11 @@ import org.eclipse.contribution.visualiser.simpleImpl.SimpleMarkupKind;
 
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 
+/**
+ * Represents a refactoring in the visualiser plugin
+ * @author migue
+ *
+ */
 public class RefactoringMarkupKind extends SimpleMarkupKind {
 	private Refactoring refactoring;
 	

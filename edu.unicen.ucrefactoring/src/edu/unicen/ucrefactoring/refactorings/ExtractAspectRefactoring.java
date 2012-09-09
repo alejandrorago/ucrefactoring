@@ -1,4 +1,4 @@
-package edu.unicen.ucrefactoring.refactorings;
+package edu.unicen.ucrefactoring.refactorings; 
 
 import java.util.ArrayList;
 import java.util.HashMap;

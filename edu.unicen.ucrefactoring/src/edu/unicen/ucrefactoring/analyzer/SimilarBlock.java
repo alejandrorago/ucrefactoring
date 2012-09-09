@@ -8,6 +8,11 @@ import edu.unicen.ucrefactoring.model.Event;
 import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.UseCase;
 
+/**
+ * Class that represents a block of similar events between use cases
+ * @author migue
+ *
+ */
 public class SimilarBlock {
 	
 	private Integer beginIndex;

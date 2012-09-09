@@ -23,6 +23,11 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.jface.text.TextViewer;
 
+/**
+ * Dialog to create new Use Case
+ * @author migue
+ *
+ */
 public class UCRNewUseCaseDialog extends Dialog {
 
 	 private String name;

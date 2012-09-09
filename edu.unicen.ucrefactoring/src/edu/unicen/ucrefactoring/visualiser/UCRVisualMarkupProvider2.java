@@ -23,6 +23,11 @@ import edu.unicen.ucrefactoring.refactorings.ExtractAspectRefactoring;
 import edu.unicen.ucrefactoring.refactorings.MergeUseCasesRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
 
+/**
+ * Create and add stripes to use cases according refactorings
+ * @author migue
+ *
+ */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 	public static Map<UseCaseMember, List<Stripe>> markups = new HashMap<UseCaseMember, List<Stripe>>();

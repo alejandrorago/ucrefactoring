@@ -24,7 +24,11 @@ import edu.unicen.ucrefactoring.model.UseCase;
 import edu.unicen.ucrefactoring.model.UseCaseModel;
 import edu.unicen.ucrefactoring.refactorings.DeleteActorRefactoring;
 import edu.unicen.ucrefactoring.refactorings.Refactoring;
-
+/**
+ * Draws content in the visualiser plugin
+ * @author migue
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class UCRVisualContentProvider extends SimpleContentProvider implements IPartListener2 {
 	static  UseCaseModel useCaseModel;
