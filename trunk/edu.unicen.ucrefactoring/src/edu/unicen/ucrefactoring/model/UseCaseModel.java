@@ -84,7 +84,7 @@ public interface UseCaseModel extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Actors</b></em>' reference list.
+	 * Returns the value of the '<em><b>Actors</b></em>' containment reference list.
 	 * The list contents are of type {@link edu.unicen.ucrefactoring.model.Actor}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -92,9 +92,9 @@ public interface UseCaseModel extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Actors</em>' reference list.
+	 * @return the value of the '<em>Actors</em>' containment reference list.
 	 * @see edu.unicen.ucrefactoring.model.UCRefactoringPackage#getUseCaseModel_Actors()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Actor> getActors();

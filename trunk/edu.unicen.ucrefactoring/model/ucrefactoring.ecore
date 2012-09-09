@@ -34,7 +34,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="actors" upperBound="-1"
-        eType="#//Actor"/>
+        eType="#//Actor" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="useCases" upperBound="-1"
         eType="#//UseCase" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="aspects" upperBound="-1"
@@ -69,6 +69,7 @@
     <eLiterals name="HUMAN"/>
     <eLiterals name="SYSTEM" value="1"/>
     <eLiterals name="TIME" value="2"/>
+    <eLiterals name="UNKNOWN" value="3" literal="UNKNOWN"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FunctionalEvent" eSuperTypes="#//Event">
     <eStructuralFeatures xsi:type="ecore:EReference" name="jointPoints" upperBound="-1"
@@ -133,5 +134,6 @@
     <eLiterals name="Verification" value="17" literal="V"/>
     <eLiterals name="Indoor" value="19" literal="I"/>
     <eLiterals name="Outdoor" value="20" literal="T"/>
+    <eLiterals name="Unknown" value="99" literal="K"/>
   </eClassifiers>
 </ecore:EPackage>

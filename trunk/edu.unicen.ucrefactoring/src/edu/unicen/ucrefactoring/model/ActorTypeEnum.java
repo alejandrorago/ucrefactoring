@@ -50,7 +50,15 @@ public enum ActorTypeEnum implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	TIME(2, "TIME", "TIME");
+	TIME(2, "TIME", "TIME"), /**
+	 * The '<em><b>UNKNOWN</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #UNKNOWN_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	UNKNOWN(3, "UNKNOWN", "UNKNOWN");
 
 	/**
 	 * The '<em><b>HUMAN</b></em>' literal value.
@@ -98,6 +106,21 @@ public enum ActorTypeEnum implements Enumerator {
 	public static final int TIME_VALUE = 2;
 
 	/**
+	 * The '<em><b>UNKNOWN</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>UNKNOWN</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #UNKNOWN
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int UNKNOWN_VALUE = 3;
+
+	/**
 	 * An array of all the '<em><b>Actor Type Enum</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -108,6 +131,7 @@ public enum ActorTypeEnum implements Enumerator {
 			HUMAN,
 			SYSTEM,
 			TIME,
+			UNKNOWN,
 		};
 
 	/**
@@ -161,6 +185,7 @@ public enum ActorTypeEnum implements Enumerator {
 			case HUMAN_VALUE: return HUMAN;
 			case SYSTEM_VALUE: return SYSTEM;
 			case TIME_VALUE: return TIME;
+			case UNKNOWN_VALUE: return UNKNOWN;
 		}
 		return null;
 	}

@@ -231,20 +231,35 @@ public class SimilarityAnalyzer {
 				String s = "";
 				for (Event e : f.getEvents()) {
 					if (e instanceof FunctionalEvent) {
-						for (ActionClass ac : ((FunctionalEvent) e)
-								.getActionClasses()) {
-							// if (!ac.getName().equals("Noise"))
-							// s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
-							// else s=s+"y";
-							if (ActionCodeEnum.getByName(ac.getName()) != null)
-								s = s + ActionCodeEnum.getByName(ac.getName());
+						if(((FunctionalEvent) e).getActionClasses().size() > 0){
+							for (ActionClass ac : ((FunctionalEvent) e)
+									.getActionClasses()) {
+								// if (!ac.getName().equals("Noise"))
+								// s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
+								// else s=s+"y";
+								ActionCodeEnum ace = null;
+								try{
+									ace = ActionCodeEnum.getByName(ac.getName());
+								} catch (Exception ex) {
+									if (ace == null){
+										ace = ActionCodeEnum.UNKNOWN;
+									}	
+								}
+								if (ace == null){
+									ace = ActionCodeEnum.UNKNOWN;
+								}
+								s = s + ace.getLiteral();
+							}
 						}
-						sequences.put(getSequenceKey(uc, f), s);
+						else{ // SI NO TIENE ACTION CLASSES LE PONGO 'NI IDEA'
+							s = s + ActionCodeEnum.UNKNOWN.getLiteral();
+						}
 					}
 					else{
 						s = s + ActionCodeEnum.getByName(ActionCodeEnum.FLOW.getName());
 					}
 				}
+				sequences.put(getSequenceKey(uc, f), s);
 			}
 		}
 		System.out.println(sequences.toString());

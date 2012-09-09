@@ -128,7 +128,15 @@ public enum ActionCodeEnum implements Enumerator {
 	 */
 	OUTDOOR(20, "Outdoor", "T"),
 	
-	// PAU: Ad-Hoc Updates!!!
+	/**
+	 * The '<em><b>Unknown</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #UNKNOWN_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	UNKNOWN(99, "Unknown", "K"), // PAU: Ad-Hoc Updates!!!
 	FLOW(20, "FlowControl", "F");
 	public static final int FLOWCONTROL_VALUE = 21;
 	
@@ -328,6 +336,21 @@ public enum ActionCodeEnum implements Enumerator {
 	public static final int OUTDOOR_VALUE = 20;
 
 	/**
+	 * The '<em><b>Unknown</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Unknown</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #UNKNOWN
+	 * @model name="Unknown" literal="K"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int UNKNOWN_VALUE = 99;
+
+	/**
 	 * An array of all the '<em><b>Action Code Enum</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -348,6 +371,7 @@ public enum ActionCodeEnum implements Enumerator {
 			VERIFICATION,
 			INDOOR,
 			OUTDOOR,
+			UNKNOWN,
 		};
 
 	/**
@@ -411,6 +435,7 @@ public enum ActionCodeEnum implements Enumerator {
 			case VERIFICATION_VALUE: return VERIFICATION;
 			case INDOOR_VALUE: return INDOOR;
 			case OUTDOOR_VALUE: return OUTDOOR;
+			case UNKNOWN_VALUE: return UNKNOWN;
 		}
 		return null;
 	}

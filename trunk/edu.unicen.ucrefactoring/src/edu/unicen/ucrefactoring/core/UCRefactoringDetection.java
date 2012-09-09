@@ -199,7 +199,7 @@ public class UCRefactoringDetection  {
 //				modelCreator.exportModel();		
 		}
 		catch (Exception e){
-			System.out.println("");
+			e.printStackTrace();
 		}
 	}
 	
@@ -240,7 +240,7 @@ public class UCRefactoringDetection  {
 		//String sequence2 = "syevmstvcn";//ADD SUPP.
 		UCRefactoringDetection.initUCRefactoringDetection(false);
 		SimilarityAnalyzer sa = new SimilarityAnalyzer(UCRefactoringDetection.useCaseModel);
-		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX);
+		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX2);
 		//sa.testSequenceAlignment(SequenceAligner.JALIGNER_SW_SA, sequence1, sequence2, SequenceAligner.UCMATRIX2);
 	}
 	
