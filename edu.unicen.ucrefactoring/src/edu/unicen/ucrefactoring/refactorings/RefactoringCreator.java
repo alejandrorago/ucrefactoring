@@ -3,6 +3,7 @@ package edu.unicen.ucrefactoring.refactorings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
 import edu.unicen.ucrefactoring.metrics.DuplicateMetric;
@@ -12,6 +13,7 @@ import edu.unicen.ucrefactoring.metrics.NonModularFRMetric;
 import edu.unicen.ucrefactoring.metrics.NonModularNFRMetric;
 import edu.unicen.ucrefactoring.metrics.NonSenseActorMetric;
 import edu.unicen.ucrefactoring.metrics.NonSenseUseCaseMetric;
+import edu.unicen.ucrefactoring.metrics.WrongUseCaseRelationshipMetric;
 import edu.unicen.ucrefactoring.model.Actor;
 import edu.unicen.ucrefactoring.model.UseCase;
 
@@ -56,7 +58,7 @@ public class RefactoringCreator {
 				
 			}
 			if (metric.isType(Metric.WRONG_USECASE_RELATIONSHIP)){
-				
+				getWrongUseCaseRelationshipRefactorings(metric);
 			}
 		}
 		this.setIds();
@@ -171,13 +173,26 @@ public class RefactoringCreator {
 	}
 	
 	public void getNonSenseUseCaseRefactorings(Metric metric){
-		String delete = "DeleteUsCase";
+		String delete = "DeleteUseCase";
 		int i = 1;
 		for (UseCase useCase : ((NonSenseUseCaseMetric)metric).useCases.values()){
 			DeleteUseCaseRefactoring deleteUseCaseRefactoring = new DeleteUseCaseRefactoring(useCase);
 			if (deleteUseCaseRefactoring.canApply()){
 				this.refactorings.put(delete+i, deleteUseCaseRefactoring);
 			}
+			i++;
+		}	
+	}
+	
+	public void getWrongUseCaseRelationshipRefactorings(Metric metric){
+		String delete = "DeleteUseCaseRelationship";
+		int i = 1;
+		WrongUseCaseRelationshipMetric met =((WrongUseCaseRelationshipMetric)metric);
+		for (Entry<String, String> useCase : met.relationships.entrySet()){
+//			DeleteWrongUseCaseRelationshipRefactoring deleteUseCaseRefactoring = new DeleteWrongUseCaseRelationshipRefactoring(met.g, useCase2, relType);
+//			if (deleteUseCaseRefactoring.canApply()){
+//				this.refactorings.put(delete+i, deleteUseCaseRefactoring);
+//			}
 			i++;
 		}	
 	}
