@@ -85,13 +85,15 @@ public class ExtractAspectRefactoring implements Refactoring{
 			}
 			for(Impact i: cc.getImpacts()){
 				UseCase uc = metric.useCases.get(i.getDocument().getName());
-				Integer evId = UCRUseCasesView.ucref.getReaImpactedEvents().get(i.getID());
-				System.out.println(uc.getName());
-				System.out.println(evId);
-				JointPoint jp = UCRefactoringFactory.eINSTANCE.createJointPoint();
-				jp.setImpactAspect(existent);
-				setImpactedUseCases(existent, uc);
-				this.addJoinPoint(uc, i.getSection().getName(), jp, evId);
+				if (uc != null){
+					Integer evId = UCRUseCasesView.ucref.getReaImpactedEvents().get(i.getID());
+					//System.out.println(uc.getName());
+					//System.out.println(evId);
+					JointPoint jp = UCRefactoringFactory.eINSTANCE.createJointPoint();
+					jp.setImpactAspect(existent);
+					setImpactedUseCases(existent, uc);
+					this.addJoinPoint(uc, i.getSection().getName(), jp, evId);
+				}
 			}
 		}
 		return true;
@@ -266,8 +268,16 @@ public class ExtractAspectRefactoring implements Refactoring{
 
 	@Override
 	public String getDetail() {
-		// TODO Auto-generated method stub
-		return null;
+		String detail = "[";
+		int count = 0;
+		for (String s : this.getArtifacts()){
+			detail = detail + s +"][";
+			if (count%2 != 0){
+				detail+= "\n";
+			}
+			count++;
+		}
+		return detail;
 	}
 	
 	public String getCcName() {

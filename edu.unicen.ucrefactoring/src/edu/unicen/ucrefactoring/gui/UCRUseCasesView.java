@@ -573,10 +573,6 @@ public class UCRUseCasesView extends ViewPart {
 							ucListContentProvider = new UseCaseListContentProvider(
 									ucref.getUseCaseModel());
 		
-							// parse use case model
-							ucref.compareUseCases();
-							alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
-		
 							// set use case model name
 							lblUseCaseModel.setText(ucref.getUseCaseModel().getName());
 		
@@ -1056,5 +1052,11 @@ public class UCRUseCasesView extends ViewPart {
 		useCaseA = null;
 		useCaseB = null;
 		
+	}
+	
+	public static void compareUseCases(){
+		// parse use case model
+		ucref.compareUseCases();
+		alignResults = ucref.getSimilarityAnalizer().getAlignmentResult();
 	}
 }
