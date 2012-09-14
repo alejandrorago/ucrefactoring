@@ -643,7 +643,7 @@ public class UCRCompareView extends ViewPart {
 				IStructuredSelection selection = (IStructuredSelection) ucRight.getSelection();
 				ArrayList<Event> allSelected = new ArrayList<Event>();
 				List<Event> selectionList = selection.toList();
-				if (!selection.isEmpty() && !(selection.toList().get(selection.toList().size()-1) instanceof Flow)){
+				if (!selection.isEmpty() && (selection.toList().get(selection.toList().size()-1) instanceof Event)){
 	
 					for (Event aEvent : selectionList){
 						 allSelected.add(aEvent);
