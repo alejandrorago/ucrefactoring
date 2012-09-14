@@ -40,7 +40,7 @@ public class ExtractAspectRefactoring implements Refactoring{
 	private List<String> artifacts; 
 	private Long ID;
 	
-	Map<String, List<Integer> > eventMap;
+	private HashMap<String, List<Integer> > eventMap;
 
 	
 	public ExtractAspectRefactoring(String ccName){
@@ -49,6 +49,7 @@ public class ExtractAspectRefactoring implements Refactoring{
 		this.ccName = ccName;
 		this.artifacts = new ArrayList<String>();
 		this.metrics = new HashMap<String, Metric>();
+		this.eventMap = new HashMap<String, List<Integer>>();
 	}
 	
 	@Override
@@ -197,7 +198,6 @@ public class ExtractAspectRefactoring implements Refactoring{
 	@Override
 	public void addMetric(Metric metric) {
 		this.metrics.put(metric.getType(), metric);
-		eventMap = new HashMap<String, List<Integer>>();
 		this.setAffectedEvents();
 	}
 
@@ -280,6 +280,10 @@ public class ExtractAspectRefactoring implements Refactoring{
 	
 	public Metric getMetric(String metricName){
 		return this.metrics.get(metricName);
+	}
+	
+	public HashMap<String, List<Integer>> getEventMap(){
+		return this.eventMap;
 	}
 	
 }

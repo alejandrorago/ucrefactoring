@@ -215,7 +215,9 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 			//4
 			//Aspect Refactorings
 			else if (refactoring.getType().equals(Refactoring.REF_EXTRACT_ASPECT) ){
-				if (refactoring.affectsUseCase(member.getUseCase())) {
+				HashMap<String, List<Integer>> eventMap = ((ExtractAspectRefactoring)refactoring).getEventMap();
+				if (eventMap.containsKey(member.getName())) {
+					
 					List<Stripe> stripes = markups.get(member);
 					if (stripes == null) {
 						stripes = new ArrayList<Stripe>();
@@ -224,13 +226,33 @@ public class UCRVisualMarkupProvider2 extends SimpleMarkupProvider  {
 					RefactoringMarkupKind markupKind = kindMap.get(refactoring);
 					if (markupKind == null) {
 						markupKind = new RefactoringMarkupKind(refactoring);
-						//Color kindColor = new Color(Display.getCurrent(), ((Double)(refactoring.getScore()*2.5)).intValue(), 0, 0);
-						//setColorFor(markupKind, kindColor);
 						kindMap.put(refactoring, markupKind);
 					}
 					
-					String ccString = ((ExtractAspectRefactoring)refactoring).getCcName();
-					//TODO: GET USE CASES AFFECTED LINES TO SHOW THEM
+					for (Integer eventId : eventMap.get(member.getName())){
+						// Stripe stripe = new Stripe(markupKind,
+						// member.transformStart(sentence),
+						// member.transformOffset(sentence));
+						int offset = 0;
+						offset = (eventId) * 10;
+
+						int size = 10;
+						Stripe stripe = null;
+						Iterator<Stripe> iterator = stripes.iterator();
+						while (stripe == null && iterator.hasNext()) {
+							Stripe s = iterator.next();
+							if (s.getOffset() == offset)
+								stripe = s;
+						}
+						if (stripe == null) {
+							stripe = new Stripe(markupKind, offset, size);
+							stripes.add(stripe);
+						} else if (!stripe.getKinds().contains(markupKind))
+							stripe.getKinds().add(markupKind);					
+					}
+					//String ccString = ((ExtractAspectRefactoring)refactoring).getCcName();
+					//TODO: GET USE CASES AFFECTED LINES TO SHOW THEM					
+					
 				}
 			}
 		}
