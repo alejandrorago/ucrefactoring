@@ -324,6 +324,9 @@ public class UCRDataView extends ViewPart {
 		btnAnalyze.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				// parse use case model
+				UCRUseCasesView.compareUseCases();
+				
 				ucref = new UCRefactoringDetection(UCRUseCasesView.ucref.getUseCaseModel());
 				metrics = new HashMap<String, Metric>();
 				refactorings = new HashMap<String, Refactoring>();
@@ -339,6 +342,7 @@ public class UCRDataView extends ViewPart {
 				tableViewer.setContentProvider(extTableContentProvider);
 				tableViewer.setInput(ucref);
 				tableViewer.refresh();
+				UCRUseCasesView.updateUseCasesView();
 				
 				
 			}
