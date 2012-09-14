@@ -49,8 +49,6 @@ public class ExtractAspectRefactoring implements Refactoring{
 		this.ccName = ccName;
 		this.artifacts = new ArrayList<String>();
 		this.metrics = new HashMap<String, Metric>();
-		eventMap = new HashMap<String, List<Integer>>();
-		this.setAffectedEvents();
 	}
 	
 	@Override
@@ -106,24 +104,30 @@ public class ExtractAspectRefactoring implements Refactoring{
 			UseCase uc = metric.useCases.get(i.getDocument().getName());
 			Integer evId = UCRUseCasesView.ucref.getReaImpactedEvents().get(i.getID());
 			String section = i.getSection().getName();
-			Integer fullId = 0;
-			for(int j = 0; j < uc.getFlows().size(); j++){
-				Flow f = uc.getFlows().get(j);
-				if (f.getName().equalsIgnoreCase(section)){
-					for (int k=0; k<j; k++){
-						fullId += uc.getFlows().get(k).getEvents().size(); 
+			if(uc != null){
+				Integer fullId = 0;
+				boolean found = false;
+				for(int j = 0; j < uc.getFlows().size(); j++){
+					Flow f = uc.getFlows().get(j);
+					if (f.getName().equalsIgnoreCase(section)){
+						found = true;
+						for (int k=0; k<j; k++){
+							fullId += uc.getFlows().get(k).getEvents().size(); 
+						}
+						fullId += evId;
+						break;
 					}
-					fullId += evId;
-					break;
 				}
-			}
-			if (this.eventMap.get(uc.getName()) == null){
-				List<Integer> l = new ArrayList<Integer>();
-				l.add(fullId);
-				this.eventMap.put(uc.getName(), l);
-			} 
-			else{
-				this.eventMap.get(uc.getName()).add(fullId);
+				if(found){
+					if (this.eventMap.get(uc.getName()) == null){
+						List<Integer> l = new ArrayList<Integer>();
+						l.add(fullId);
+						this.eventMap.put(uc.getName(), l);
+					} 
+					else{
+						this.eventMap.get(uc.getName()).add(fullId);
+					}
+				}
 			}
 		}
 	}
@@ -193,6 +197,8 @@ public class ExtractAspectRefactoring implements Refactoring{
 	@Override
 	public void addMetric(Metric metric) {
 		this.metrics.put(metric.getType(), metric);
+		eventMap = new HashMap<String, List<Integer>>();
+		this.setAffectedEvents();
 	}
 
 

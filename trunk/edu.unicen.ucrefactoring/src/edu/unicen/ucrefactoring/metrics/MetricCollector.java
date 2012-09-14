@@ -51,6 +51,7 @@ public class MetricCollector {
 			collectNonModularNFRMetrics();
 			collectNonSenseUseCaseMetrics();
 			collectNonSenseActorMetrics();
+			collectWrongUseCaseRelationshipMetrics();
 			this.hasCollected = true;	
 		}
 		
@@ -111,6 +112,27 @@ public class MetricCollector {
 				// INCLUSION
 				if (uc.getIncludedUseCases().size() > 0){
 					// CHEQUEAR Q CADA INCLUIDO ESTE INCLUIDO POR OTRO (O Q SE ACTIVE DESDE AFUERA)
+					for(UseCase inc : uc.getIncludedUseCases()){
+						boolean another = false;
+						if(inc.getPrimaryActor() != null){
+							another =true;
+						}
+						else{
+							for (UseCase aux: useCaseModel.getUseCases()){
+								if(!aux.getName().equalsIgnoreCase(uc.getName())){
+									for(UseCase incAux : aux.getIncludedUseCases()){
+										if (incAux.getName().equalsIgnoreCase(inc.getName())){
+											another = true;
+											break;
+										}
+									}
+								}
+							}
+						}
+						if (!another){
+							wMetric.addWrongUseCaseRelationship(uc, inc, WrongUseCaseRelationshipMetric.INCLUSION_RELATIONSHIP);
+						}
+					}
 				}
 				
 				// EXTENSION

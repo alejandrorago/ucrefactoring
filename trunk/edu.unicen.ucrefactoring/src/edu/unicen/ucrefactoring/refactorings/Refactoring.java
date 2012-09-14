@@ -23,6 +23,7 @@ public interface Refactoring {
 	
 	public static String REF_DELETE_ACTOR = "DELETE_ACTOR";
 	public static String REF_DELETE_UC = "DELETE_UC";
+	public static String REF_DELETE_UC_RELATIONSHIP = "DELETE_UC_RELATIONSHIP";
 	public static String REF_EXTENSION = "EXTENSION";
 	public static String REF_EXTRACT_UC = "EXCTRACT_UC";
 	public static String REF_GENERALIZATION = "GENERALIZATION";
