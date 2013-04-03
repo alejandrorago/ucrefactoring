@@ -130,9 +130,9 @@ public class ExtractUseCaseRefactoring implements Refactoring {
 			Float basicCoef = (float)(1 - (((float)LargeUseCaseMetric.BASIC_FLOW_LIMIT/((LargeUseCaseMetric)metric).getUseCaseBasicEventsSize(this.useCase))));
 			
 			if (this.score == null){
-				totalCoef = (totalCoef<0)?1:totalCoef;
-				basicCoef = (basicCoef<0)?1:basicCoef;
-				Float confiability = (float)(totalCoef / basicCoef)/2;
+				totalCoef = (totalCoef<0)?0:totalCoef;
+				basicCoef = (basicCoef<0)?0:basicCoef;
+				Float confiability = (float)(totalCoef + basicCoef)/2;
 				//getScore
 				this.score = (confiability*(0.4f)+this.getPriority()*(0.6f))*100;
 			}
