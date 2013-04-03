@@ -233,15 +233,15 @@ public class UCRefactoringDetection  {
 	public static void main(String[] args) {
 		
 		//String sequence1 = "syevy"; //LOGIN 
-		//String sequence1 = "syevvysmsuysc"; //CANCEL ORDER
+		String sequence2 = "syevysysunysu"; //CANCEL ORDER
 		//String sequence1 = "syeysyscuun"; //ADD NEW PROD.
 		//String sequence1 = "syevnullysetvc"; //ADD NEW PROD ALTER.
-		//String sequence2 = "syevvysysyevcysc";//BUY PROD.
+		String sequence1 = "syevvysysnevcmsu";//BUY PROD.
 		//String sequence2 = "syevmstvcn";//ADD SUPP.
 		UCRefactoringDetection.initUCRefactoringDetection(false);
 		SimilarityAnalyzer sa = new SimilarityAnalyzer(UCRefactoringDetection.useCaseModel);
 		sa.compareUCSequences(SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX2);
-		//sa.testSequenceAlignment(SequenceAligner.JALIGNER_SW_SA, sequence1, sequence2, SequenceAligner.UCMATRIX2);
+		sa.testSequenceAlignment(SequenceAligner.JALIGNER_SW_SA, sequence1, sequence2, SequenceAligner.UCMATRIX2);
 	}
 	
 	public static void updateDomainActions(){
