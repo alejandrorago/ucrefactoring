@@ -170,7 +170,8 @@ public class SimilarityAnalyzer {
 			String matrix) {
 		System.out.println("TEST " + analyzer + " SA :");
 		SequenceAligner sa = sequenceAligners.get(analyzer);
-		System.out.println(sa.performAlignment(s1, s2, matrix));
+		AlignmentX2Result al = sa.performAlignment(s1, s2, matrix);
+		System.out.println(al);
 	}
 
 	/**

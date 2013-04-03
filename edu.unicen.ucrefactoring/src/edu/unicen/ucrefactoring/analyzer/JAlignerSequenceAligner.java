@@ -19,11 +19,12 @@ public class JAlignerSequenceAligner implements SequenceAligner {
 		try {
 			Sequence seq1 = SequenceParser.parse(s1);
 			Sequence seq2 = SequenceParser.parse(s2);			
-			Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load(matrix), 5f, 2f);
+			Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, MatrixLoader.load(matrix), 5f, 1f);
 			result = new AlignmentX2Result(new String (alignment.getSequence1()), new String (alignment.getSequence2()), alignment.getStart1(), alignment.getStart2(), alignment.getScore());
 	        String s =(alignment.getSummary() );
 	        s+= ( new Pair().format(alignment) );
 	        System.out.println(s);
+			System.out.println(alignment.calculateScore());
 		} catch (SequenceParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

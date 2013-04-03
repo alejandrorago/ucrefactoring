@@ -152,7 +152,7 @@ public class UCRCompareView extends ViewPart {
 							if (sb.getSimilarEvents().contains(e)){
 								selectedBlock = true;
 								for (Event e2 : candidates){
-									if (!sb.getSimilarEvents().contains(e)){
+									if (!sb.getSimilarEvents().contains(e2)){
 										sb.getSimilarEvents().add(e2);		
 									}
 								}								
@@ -184,40 +184,39 @@ public class UCRCompareView extends ViewPart {
 				else{
 					boolean selectedBlock = false;
 					for (SimilarBlock sb : similarBlocksRight){
-						boolean hasEvent = false;
 						for (Event e : candidates){
 							if (sb.getSimilarEvents().contains(e)){
 								selectedBlock = true;
 								for (Event e2 : candidates){
-									if (!e2.equals(e)){
+									if (!sb.getSimilarEvents().contains(e2)){
 										sb.getSimilarEvents().add(e2);		
 									}
 								}								
 								flow = sb.getFlow();
 								align = sb.getParent();
-								hasEvent = true;
 								break;
 							}
-						}
-						if (hasEvent){
-							break;
 						}
 					}					
 					//new block
 					if (!selectedBlock){
-						SimilarBlock sb = new SimilarBlock(useCaseLeft, null, null, null, null);
+						for (Flow aFlow : useCaseRight.getFlows()){
+							if (aFlow.getEvents().contains(candidates.get(0))){
+								flow = aFlow;
+							}
+						}
+						SimilarBlock sb = new SimilarBlock(useCaseRight, flow);
 						for (Event e : candidates){
-							sb.getSimilarEvents().add(e);		
-						}		
+							if (flow.getEvents().contains(e)){
+								sb.getSimilarEvents().add(e);		
+							}
+						}	
 						similarBlocksRight.add(sb);
 					}
 					
 					UCRUseCasesView.setCompareView(ucRight, useCaseRight, similarBlocksRight);
 					UCRUseCasesView.updateAlignmentRight(similarBlocksRight, useCaseLeft, useCaseRight, align );
 				}
-				
-				
-			
 								
 			}
 		};
@@ -623,7 +622,7 @@ public class UCRCompareView extends ViewPart {
 							}
 						}
 						if (!blockSelected){
-							if (UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
+							if (null != UCRDataView.selectedRefactoring && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
 								createMergeBlockAction.setEnabled(true);
 							}
 							else{
@@ -691,7 +690,7 @@ public class UCRCompareView extends ViewPart {
 							}
 						}
 						if (!blockSelected){
-							if (UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
+							if (null != UCRDataView.selectedRefactoring && UCRDataView.selectedRefactoring.getType().equals(Refactoring.REF_MERGE)){
 								createMergeBlockAction.setEnabled(true);
 							}
 							else{

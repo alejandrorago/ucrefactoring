@@ -174,7 +174,7 @@ public  class StopwordRemover {
 
      
      public static void main(String args[]){
-    	 String s = "1. The client selects the option 'Log in' 2. The system asks for the username and password "+
+    /**	 String s = "1. The client selects the option 'Log in' 2. The system asks for the username and password "+
 "3. The client enters data "+
 "4. The system checks the \"log in\" username existance"+
 "5. The system validates password"+
@@ -188,7 +188,9 @@ public  class StopwordRemover {
 "13. The system saves the sale and informs success"+
 "14. The system displays the product news"+
 "15. The client chooses the product news to follow"+
-"16. The system registers the subscription";  
+"16. The system registers the subscription";
+    	 **/
+    	 String s ="10. The system prompts the username and password";
     	 StopwordRemover sr = new StopwordRemover();
     	 for (String stopword : sr.removeStopwords(s)){
         	 System.out.println(stopword);

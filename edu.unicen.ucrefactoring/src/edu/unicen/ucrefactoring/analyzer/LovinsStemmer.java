@@ -884,7 +884,14 @@ public class LovinsStemmer implements Stemmer {
     }
     return result.toString();  
   }
-
+  
+  public static void main(String args[]){
+	  String s ="subscribes subscription";
+	 LovinsStemmer ls = new LovinsStemmer();
+	 System.out.println(ls.stem(s));
+  	}
+  
+  
 //  /**
 //   * Stems text coming into stdin and writes it to stdout.
 //   */
