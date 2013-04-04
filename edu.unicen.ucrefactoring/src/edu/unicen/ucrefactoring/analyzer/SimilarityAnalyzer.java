@@ -191,12 +191,12 @@ public class SimilarityAnalyzer {
 					UseCase uc1 = uc_list.get(i);
 					for (Flow f1 : uc1.getFlows()) {
 						String seq1 = sequences.get(getSequenceKey(uc1, f1));
-						for (int j = 0; j < useCaseModel.getUseCases().size(); j++) {
-							if (i != j) {
+						for (int j = i+1; j < useCaseModel.getUseCases().size(); j++) {
 								UseCase uc2 = uc_list.get(j);
 								for (Flow f2 : uc2.getFlows()) {
 									String seq2 = sequences.get(getSequenceKey(
 											uc2, f2));
+									System.out.println("-------------------------------");
 									System.out.println(uc1.getName() + "/"
 											+ f1.getName() + " - "
 											+ uc2.getName() + "/"
@@ -213,7 +213,6 @@ public class SimilarityAnalyzer {
 										System.out.println("DISTINTOS");
 									;
 								}
-							}
 						}
 					}
 				}

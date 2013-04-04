@@ -137,8 +137,12 @@ public enum ActionCodeEnum implements Enumerator {
 	 * @ordered
 	 */
 	UNKNOWN(99, "Unknown", "K"), // PAU: Ad-Hoc Updates!!!
-	FLOW(20, "FlowControl", "F");
-	public static final int FLOWCONTROL_VALUE = 21;
+	FLOW(21, "FlowControl", "F"),
+	BEGIN(22, "Begin", "B"),
+	END(23, "End", "Z");
+	public static final int FLOW_VALUE = 21;
+	public static final int BEGIN_VALUE = 22;
+	public static final int END_VALUE = 23;
 	
 	/**
 	 * The '<em><b>Display</b></em>' literal value.
@@ -371,6 +375,9 @@ public enum ActionCodeEnum implements Enumerator {
 			VERIFICATION,
 			INDOOR,
 			OUTDOOR,
+			BEGIN,
+			END,
+			FLOW,
 			UNKNOWN,
 		};
 
@@ -407,7 +414,7 @@ public enum ActionCodeEnum implements Enumerator {
 	public static ActionCodeEnum getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			ActionCodeEnum result = VALUES_ARRAY[i];
-			if (result.getName().equals(name)) {
+			if (result.getName().equalsIgnoreCase(name)) {
 				return result;
 			}
 		}
@@ -435,6 +442,9 @@ public enum ActionCodeEnum implements Enumerator {
 			case VERIFICATION_VALUE: return VERIFICATION;
 			case INDOOR_VALUE: return INDOOR;
 			case OUTDOOR_VALUE: return OUTDOOR;
+			case FLOW_VALUE: return FLOW;
+			case BEGIN_VALUE: return BEGIN;
+			case END_VALUE: return END;
 			case UNKNOWN_VALUE: return UNKNOWN;
 		}
 		return null;

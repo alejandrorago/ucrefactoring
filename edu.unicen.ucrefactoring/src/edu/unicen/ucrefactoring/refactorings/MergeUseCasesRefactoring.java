@@ -12,6 +12,7 @@ import edu.unicen.ucrefactoring.gui.UCRCompareView;
 import edu.unicen.ucrefactoring.gui.UCRMessageDialog;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.HappyUseCaseMetric;
+import edu.unicen.ucrefactoring.metrics.LargeUseCaseMetric;
 import edu.unicen.ucrefactoring.metrics.Metric;
 import edu.unicen.ucrefactoring.metrics.MetricCollector;
 import edu.unicen.ucrefactoring.metrics.NonModularFRMetric;
@@ -62,12 +63,21 @@ public class MergeUseCasesRefactoring implements Refactoring{
 	
 	@Override
 	public boolean canApply() {
-		for (Metric metric : this.metrics.values()){
-			if (metric.isType(Metric.ENCAPSULATED_FUNCTIONAL)){
-				return true;
-			}
+		boolean apply = true;
+		int cant = 0;
+		int cantBasic = this.useCaseA.getBasicFlow().getEvents().size();
+		cantBasic = cantBasic + this.useCaseB.getBasicFlow().getEvents().size();
+		for (Flow f : this.useCaseA.getFlows()){
+			cant = cant + f.getEvents().size();
 		}
-		return false;
+		for (Flow f : this.useCaseB.getFlows()){
+			cant = cant + f.getEvents().size();
+		}
+		//  Si las longitudes no superan los limites aumentados en un 10% (al mergear se pueden reducir los eventos)
+		if (cant > LargeUseCaseMetric.TOTAL_LIMIT * 1.1 || cantBasic > LargeUseCaseMetric.BASIC_FLOW_LIMIT * 1.1){
+			apply = false;
+		}
+		return apply;
 	}
 
 	@Override
