@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ASCII"?>
+<edu.unicen.ucrefactoring:UseCaseModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:edu.unicen.ucrefactoring="http://ucrefactoring/1.0" description="Project description" name="Android Project">
+  <actors name="User" description=""/>
+  <actors name="System" description="El actor que representa al sistema" type="SYSTEM"/>
+  <useCases name="Add User" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User decides to add a new username to local database" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User inserts username and password" number="3" eventId="3. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects whether or not to save the password" number="4" eventId="4. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="Information is determined to exist in MyBama backend and is saved into local database." number="5" eventId="5. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The user&#x2019;s current term is displayed" number="6" eventId="6."/>
+    </flows>
+    <flows name="3. Username/password determined to be incorrect">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="Message is displayed that informs user that the combination entered is incorrect" number="1" eventId="3.1 "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="List of users is displayed." number="2" eventId="3.2 "/>
+    </flows>
+  </useCases>
+  <useCases name="Login" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username from list" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If prompted, the user enters password" number="3" eventId="3. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User&#x2019;s current term is displayed" number="4" eventId="4. "/>
+    </flows>
+    <flows name="3. Stored password is incorrect">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User is prompted to enter new password" number="1" eventId="3.1 "/>
+    </flows>
+  </useCases>
+  <useCases name="Add Class" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User navigates to class search" number="3" eventId="3. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User searches for class" number="4" eventId="4. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User then selects class that was searched for" number="5" eventId="5. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User adds this class to current term" number="6" eventId="6. " subject="#//@actors.0"/>
+    </flows>
+    <flows name="4. Class searched for does not exist">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User is returned to search page to search for a different class" number="1" eventId="4.1 "/>
+    </flows>
+    <flows name="6. Class selected has already been added to schedule">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="Message is displayed informing user that the class has already been added" number="1" eventId="6.1 "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User is returned to the class search page" number="2" eventId="6.2 "/>
+    </flows>
+  </useCases>
+  <useCases name="Drop Class" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User navigates to current term" number="3" eventId="3. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects class to drop" number="4" eventId="4. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User drops class" number="5" eventId="5. " subject="#//@actors.0"/>
+    </flows>
+  </useCases>
+  <useCases name="Confirm Schedule" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User navigates to current term" number="3" eventId="3. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects confirm schedule" number="4" eventId="4. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="System displays a message telling the schedule is confirmed" number="5" eventId="5. "/>
+    </flows>
+    <flows name="4. Schedule is already confirmed">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="System displays a message informing that schedule is already confirmed" number="1" eventId="4.1."/>
+    </flows>
+  </useCases>
+  <useCases name="Switch Term" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User initiates switch term" number="3" eventId="3. "/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects term to display" number="4" eventId="4. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="New term is displayed" number="5" eventId="5. "/>
+    </flows>
+  </useCases>
+  <useCases name="Search Classes" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User navigates to current term" number="3" eventId="3. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects Search classes" number="4" eventId="4. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="System displays class search" number="5" eventId="5. "/>
+    </flows>
+  </useCases>
+  <useCases name="View Classes" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User starts application" number="1" eventId="1. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User selects username to login" number="2" eventId="2. " subject="#//@actors.0"/>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="Current term is displayed" number="3" eventId="3. "/>
+    </flows>
+  </useCases>
+</edu.unicen.ucrefactoring:UseCaseModel>

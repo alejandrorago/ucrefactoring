@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edu.isistan.dal.ucs:UCSProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:edu.isistan.dal.ucs="http://www.users.exa.unicen.edu.ar/~arago/ucs" ID="_iu0WsZyVEeK85sejPwCjvg" Name="Android Project" Content="Project description" Documents="_iu09wJyVEeK85sejPwCjvg _iu1k0JyVEeK85sejPwCjvg _ivDAMJyVEeK85sejPwCjvg _0pVwoJyXEeKcupKkR_AawQ _nG8tMJyYEeKcupKkR_AawQ _3h6q0JyYEeKcupKkR_AawQ _kzCUYJyZEeKcupKkR_AawQ _xpH2AJyZEeKcupKkR_AawQ _QkHukJyaEeKcupKkR_AawQ _XUmj4JyaEeKcupKkR_AawQ _kBS48JyaEeKcupKkR_AawQ" Stakeholders="_vXyXcJyXEeKcupKkR_AawQ">
+  <Actors ID="_vXyXcJyXEeKcupKkR_AawQ" Name="User" Stereotype="HUMAN"/>
+  <UseCaseSpecifications ID="_0pVwoJyXEeKcupKkR_AawQ" Name="Add User" Sections="_0pVwoZyXEeKcupKkR_AawQ _YlnxwJyYEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_0pVwoZyXEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User decides to add a new username to local database&#xA;3. User inserts username and password&#xA;4. User selects whether or not to save the password&#xA;5. Information is determined to exist in MyBama backend and is saved into local database.&#xA;6. The user’s current term is displayed"/>
+    <AlternativeFlows ID="_YlnxwJyYEeKcupKkR_AawQ" Name="3. Username/password determined to be incorrect" Content="3.1 Message is displayed that informs user that the combination entered is incorrect&#xA;3.2 List of users is displayed."/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_nG8tMJyYEeKcupKkR_AawQ" Name="Login" Sections="_nG8tMZyYEeKcupKkR_AawQ _wyJAIJyYEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_nG8tMZyYEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username from list&#xA;3. If prompted, the user enters password&#xA;4. User’s current term is displayed"/>
+    <AlternativeFlows ID="_wyJAIJyYEeKcupKkR_AawQ" Name="3. Stored password is incorrect" Content="3.1 User is prompted to enter new password&#xA;"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_3h6q0JyYEeKcupKkR_AawQ" Name="Add Class" Sections="_3h6q0ZyYEeKcupKkR_AawQ _A50OUJyZEeKcupKkR_AawQ _KU620JyZEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_3h6q0ZyYEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. User navigates to class search&#xA;4. User searches for class&#xA;5. User then selects class that was searched for&#xA;6. User adds this class to current term"/>
+    <AlternativeFlows ID="_A50OUJyZEeKcupKkR_AawQ" Name="4. Class searched for does not exist" Content="4.1 User is returned to search page to search for a different class"/>
+    <AlternativeFlows ID="_KU620JyZEeKcupKkR_AawQ" Name="6. Class selected has already been added to schedule" Content="6.1 Message is displayed informing user that the class has already been added&#xA;6.2 User is returned to the class search page&#xA;"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_kzCUYJyZEeKcupKkR_AawQ" Name="Drop Class" Sections="_kzCUYZyZEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_kzCUYZyZEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. User navigates to current term&#xA;4. User selects class to drop&#xA;5. User drops class"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_xpH2AJyZEeKcupKkR_AawQ" Name="Confirm Schedule" Sections="_xpH2AZyZEeKcupKkR_AawQ _Gg4vEJyaEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_xpH2AZyZEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. User navigates to current term&#xA;4. User selects confirm schedule&#xA;5. System displays a message telling the schedule is confirmed"/>
+    <AlternativeFlows ID="_Gg4vEJyaEeKcupKkR_AawQ" Name="4. Schedule is already confirmed" Content="4.1. System displays a message informing that schedule is already confirmed&#xA;"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_QkHukJyaEeKcupKkR_AawQ" Name="Switch Term" Sections="_QkHukZyaEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_QkHukZyaEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. User initiates switch term&#xA;4. User selects term to display&#xA;5. New term is displayed"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_XUmj4JyaEeKcupKkR_AawQ" Name="Search Classes" Sections="_XUmj4ZyaEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_XUmj4ZyaEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. User navigates to current term&#xA;4. User selects Search classes&#xA;5. System displays class search"/>
+  </UseCaseSpecifications>
+  <UseCaseSpecifications ID="_kBS48JyaEeKcupKkR_AawQ" Name="View Classes" Sections="_kBS48ZyaEeKcupKkR_AawQ" MainActor="_vXyXcJyXEeKcupKkR_AawQ">
+    <BasicFlow ID="_kBS48ZyaEeKcupKkR_AawQ" Name="Basic Flow" Content="1. User starts application&#xA;2. User selects username to login&#xA;3. Current term is displayed"/>
+  </UseCaseSpecifications>
+  <ProblemStatement ID="_iu09wJyVEeK85sejPwCjvg" Name="Problem Statement"/>
+  <Glossary ID="_iu1k0JyVEeK85sejPwCjvg" Name="Glossary" Content="This document contains all glossary entries of the project."/>
+  <Vision ID="_ivDAMJyVEeK85sejPwCjvg" Name="Vision" Sections="_ivDAMZyVEeK85sejPwCjvg _ivDAMpyVEeK85sejPwCjvg _ivDAM5yVEeK85sejPwCjvg _ivDANJyVEeK85sejPwCjvg">
+    <BusinessRequirements ID="_ivDAMZyVEeK85sejPwCjvg" Name="Business Requirements"/>
+    <ProductOverview ID="_ivDAMpyVEeK85sejPwCjvg" Name="Product Overview"/>
+    <MajorFeatures ID="_ivDAM5yVEeK85sejPwCjvg" Name="Major Features"/>
+    <Scope ID="_ivDANJyVEeK85sejPwCjvg" Name="Scope"/>
+  </Vision>
+</edu.isistan.dal.ucs:UCSProject>
