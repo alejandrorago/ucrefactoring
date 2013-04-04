@@ -71,7 +71,7 @@
       	<actionClasses name="Selection"/>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User searches for class" number="5" eventId="5. ">
-      	<actionClasses name="Multiple"/>
+      	<actionClasses name="Single"/>
       </events>
       <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="User then selects class that was searched for" number="6" eventId="6. " subject="#//@actors.0">
       	<actionClasses name="Selection"/>
