@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ASCII"?>
+<edu.unicen.ucrefactoring:UseCaseModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:edu.unicen.ucrefactoring="http://ucrefactoring/1.0" description="Project description" name="UniversitySRS">
+  <actors name="Alum" description=""/>
+  <actors name="University Web Server" description="" type="SYSTEM"/>
+  <actors name="Departmental Server" description="" type="SYSTEM"/>
+  <actors name="System" description="El actor que representa al sistema" type="SYSTEM"/>
+  <useCases name="Access Alumni Home Page" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="University Web Server sends the Alum to the Departmental Server." number="1" eventId="1. ">
+      	<actionClasses name="Outdoor"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server presents the Alum with the Alumni Home Page." number="2" eventId="2. ">
+      	<actionClasses name="Display"/>
+      </events>
+    </flows>
+  </useCases>
+  <useCases name="Survey" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server presents the Alum with a form." number="1" eventId="1.">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum fills in the form and click submit" number="2" eventId="2. " subject="#//@actors.0">
+      	<actionClasses name="Entry"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server checks to see if all required fields are not empty." number="3" eventId="3. ">
+      	<actionClasses name="Verification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the required fields are not empty, the Departmental Server creates a new record in then Survey Table of the Alumni Database." number="4" eventId="4. " subject="#//@actors.2">
+      	<actionClasses name="Save"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If any of the required fields are empty, the Departmental Server returns a message and returns the Alum to the Survey form." number="5" eventId="5. " subject="#//@actors.2">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns the Alum to the Alumni Home Page" number="6" eventId="6.">
+      	<actionClasses name="Display"/>
+      </events>
+    </flows>
+  </useCases>
+  <useCases name="Create New Entry" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum clicks on add a new entry." number="1" eventId="1." subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns a form." number="2" eventId="2. ">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum fills in the form and clicks submit." number="3" eventId="3. " subject="#//@actors.0">
+      	<actionClasses name="Entry"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server checks to see if any required field is empty." number="4" eventId="4. ">
+      	<actionClasses name="Verification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If any required field is empty the Departmental Server will send a message and return the Alum to the new entry form page." number="5" eventId="5. ">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If no required field is empty the Departmental Server will create a new record in the Alumni Table in the Alumni Database,  and return the Alum to the CIS Alumni Home Page." number="6" eventId="6.">
+      	<actionClasses name="Save"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum may select Cancel." number="7" eventId="7. " subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the Alum selects Cancel, the form is cleared and the Alum is returned to the CIS Alumni Home page." number="8" eventId="8. " subject="#//@actors.0">
+      	<actionClasses name="Display"/>
+      </events>
+    </flows>
+  </useCases>
+  <useCases name="Update an Entry" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum clicks on update an entry link." number="1" eventId="1." subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns a form." number="2" eventId="2. ">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum enters his/her year of graduation." number="3" eventId="3. " subject="#//@actors.0">
+      	<actionClasses name="Entry"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server queries the Alumni Database for that particular year and returns a table of all graduates from that year in a form with radio buttons and requesting their password." number="4" eventId="4. ">
+      	<actionClasses name="Multiple"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the password does not match the Departmental Server returns a message and allows the Alum to try again." number="5" eventId="5. " subject="#//@actors.0">
+      	<actionClasses name="Verification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If after 3 tries the password does not match, the Departmental Server will return a message telling the Alum to contact the CIS designated faculty member to receive their password." number="6" eventId="6." subject="#//@actors.0">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the password matches go to 8." number="7" eventId="7. ">
+      	<actionClasses name="Flow"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns a form with the data for that Alum in it and a message to update the data they wish and click submit." number="8" eventId="8. ">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server with replaces the old data with the new data and returns the Alum to the CIS Alumni Home Page." number="9" eventId="9. ">
+      	<actionClasses name="Update"/>
+      </events>
+    </flows>
+  </useCases>
+  <useCases name="Search for an Alumni/E-mail and Alumni" description="" primaryActor="#//@actors.0">
+    <context/>
+    <flows name="Basic Flow">
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum clicks on e-mail an alumni link." number="1" eventId="1." subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns a form." number="2" eventId="2. ">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum fills in the form and clicks submit." number="3" eventId="3. " subject="#//@actors.0">
+      	<actionClasses name="Entry"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server checks to see if any required fields are empty." number="4" eventId="4. ">
+      	<actionClasses name="Verification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If any required fields are empty the Departmental Server returns a message and the form." number="5" eventId="5. ">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If none of the required fields are empty the Departmental Server queries the Alumni Database for the requested Alum&#x2019;s entry." number="6" eventId="6.">
+      	<actionClasses name="Single"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns the non-private information on the requested Alum and a message stating if the requested Alum will accept e-mails." number="7" eventId="7. " subject="#//@actors.0">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the requested Alum is not in the Alumni Database, the Departmental Server returns a message and the Alum is returned to the CIS Home Page." number="8" eventId="8. " subject="#//@actors.0">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the requested Alum will accept e-mails, the Alum can select E-mail this Alum." number="9" eventId="9. " subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If not the Alum can select Search for another Alum or return to CIS Alumni Home Page." number="10" eventId="10." subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the Alum chooses to Search for another Alum go to step 2." number="11" eventId="11." subject="#//@actors.0">
+      	<actionClasses name="Flow"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="If the Alum selects return to CIS Alumni Home Page the Departmental Server returns the Alum to the CIS Alumni Home Page." number="12" eventId="12. " subject="#//@actors.0">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server presents the Alum with a form to fill out and a place for the message." number="13" eventId="13.">
+      	<actionClasses name="Display"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Alum selects send." number="14" eventId="14." subject="#//@actors.0">
+      	<actionClasses name="Selection"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Department Server will forward the e-mail with all necessary information to the requested Alum." number="15" eventId="15.">
+      	<actionClasses name="Notification"/>
+      </events>
+      <events xsi:type="edu.unicen.ucrefactoring:FunctionalEvent" detail="The Departmental Server returns a message and returns the Alum to the CIS Alumni Home Page" number="16" eventId="16.">
+      	<actionClasses name="Display"/>
+      </events>
+    </flows>
+  </useCases>
+</edu.unicen.ucrefactoring:UseCaseModel>
