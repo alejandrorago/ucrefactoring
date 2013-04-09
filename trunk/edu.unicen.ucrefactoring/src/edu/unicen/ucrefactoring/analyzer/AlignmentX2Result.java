@@ -95,7 +95,7 @@ public class AlignmentX2Result {
 		this.startB = startB;
 	}
 	
-	public List<SimilarBlock> getSimilarBlocksFromA(){
+	public List<SimilarBlock> getSimilarBlocksFromA2(){
 		if (similarBlocksA==null){
 			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
 			int initial = 0;
@@ -139,7 +139,81 @@ public class AlignmentX2Result {
 		return similarBlocksA;
 	}
 	
-	public List<SimilarBlock> getSimilarBlocksFromB(){
+	public List<SimilarBlock> getSimilarBlocksFromA(){
+		if (similarBlocksA==null){
+			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
+			int initial = 0;
+			int i = 0;
+			int realIndex = 0;
+			
+			char arrayA[] = new char[this.alignmentA.length()];
+			this.getAlignmentA().getChars(0, this.alignmentA.length(), arrayA, 0);
+			
+			char arrayB[] = new char[this.alignmentB.length()];
+			this.getAlignmentB().getChars(0, this.alignmentB.length(), arrayB, 0);
+			
+			int unaligned = 0;
+			int aligned = 0;
+			
+			for (char a : arrayA){
+				if (i < arrayB.length){
+					if (arrayB[i] == a){
+						//continue block
+						aligned++;
+					}
+					else if ((arrayB[i] != "-".toCharArray()[0] && a != "-".toCharArray()[0])){
+						//for now align points too (not same char but not dash either)
+						//continue block
+						aligned++;
+					}
+					else if (aligned > 0){
+						//not matched
+						//accept only one unaligned char
+						if (unaligned < 1){
+							// continue block
+							aligned++;
+							unaligned++;
+						}
+						else{
+							//break block
+							aligned = aligned - unaligned;
+							realIndex = this.startA + initial + aligned - 1;// +1?
+							//if has more than X aligned chars
+							if (aligned > 2 ){
+								//save block
+								SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex, this);
+								similarBlocks.add(sb);
+							}
+							initial = realIndex + 1 + unaligned + 1;
+							aligned = 0;
+							unaligned = 0;
+						}
+					}
+					else if (a == "-".toCharArray()[0]){
+						//if this secuence has dashes, move the initial
+						initial+=1;
+					}
+					else if (arrayB[i] == "-".toCharArray()[0]){
+						//the other secuence has the dashes, move the initial
+						initial-=2;
+					}
+				}
+				i++;
+			}
+			//if reached the end with a block check aligneds
+			if (aligned > 2 ){
+				realIndex = this.startA + initial + aligned -1;// +1?
+				//save block
+				SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex , this);
+				similarBlocks.add(sb);
+			}
+			
+			similarBlocksA = similarBlocks;
+		}
+		return similarBlocksA;
+	}
+	
+	public List<SimilarBlock> getSimilarBlocksFromB2(){
 		if (similarBlocksB==null){
 			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
 			int initial = 0;
@@ -178,6 +252,81 @@ public class AlignmentX2Result {
 				SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex+1, this);
 				similarBlocks.add(sb);
 			}
+			similarBlocksB = similarBlocks;
+		}
+		return similarBlocksB;
+	}
+	
+	public List<SimilarBlock> getSimilarBlocksFromB(){
+		if (similarBlocksB==null){
+			List<SimilarBlock> similarBlocks = new ArrayList<SimilarBlock>();
+			int initial = 0;
+			int i = 0;
+			int realIndex = 0;
+			
+			char arrayB[] = new char[this.alignmentB.length()];
+			this.getAlignmentB().getChars(0, this.alignmentB.length(), arrayB, 0);
+			
+			char arrayA[] = new char[this.alignmentA.length()];
+			this.getAlignmentA().getChars(0, this.alignmentA.length(), arrayA, 0);
+			
+			int unaligned = 0;
+			int aligned = 0;
+			
+			for (char b : arrayB){
+				if (i < arrayA.length){
+					if (arrayA[i] == b){
+						//continue block
+						aligned++;
+					}
+					else if ((arrayA[i] != "-".toCharArray()[0] && b != "-".toCharArray()[0])){
+						//for now align "points" too
+						//continue block
+						aligned++;
+					}
+					//if starts with dash, avoid it
+					else if (aligned > 0){
+						//not matched
+						//accept only one unaligned char
+						if (unaligned <	 1){
+							// continue block
+							aligned++;
+							unaligned++;
+						}
+						else{
+							//break block
+							aligned = aligned - unaligned;
+							realIndex = this.startB + initial + aligned - 1;// +1?
+							//if has more than X aligned chars
+							if (aligned > 2 ){
+								//save block
+								SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex, this);
+								similarBlocks.add(sb);
+							}
+							initial = realIndex + 1 + unaligned + 1;
+							aligned = 0;
+							unaligned = 0;
+						}
+					}
+					else if (b == "-".toCharArray()[0]){
+						//if this secuence has dashes, move the initial
+						initial+=1;
+					}
+					else if (arrayA[i] == "-".toCharArray()[0]){
+						//the other secuence has the dashes, move the initial
+						initial-=2;
+					}
+				}
+				i++;
+			}
+			//if reached the end with a block check aligned
+			if (aligned > 2 ){
+				realIndex = this.startB + initial + aligned -1;// +1?
+				//save block
+				SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex, this);
+				similarBlocks.add(sb);
+			}
+			
 			similarBlocksB = similarBlocks;
 		}
 		return similarBlocksB;
