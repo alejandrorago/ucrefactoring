@@ -300,7 +300,7 @@ public class SimilarityAnalyzer {
 		double similars = 0;
 		for (String aKey : aKeys) {
 			for (String bKey : bKeys) {
-				if (aKey.equals(bKey) || isPrefix(aKey, bKey)) {
+				if (aKey.equals(bKey)) {
 					similars = similars + 2;
 				}
 			}
