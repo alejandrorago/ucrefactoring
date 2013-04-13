@@ -261,7 +261,7 @@ public class UCRUseCasesView extends ViewPart {
 	 */
 	public void createWidgets(Composite container) {
 
-		ucList = new ListViewer(container, SWT.MULTI | SWT.BORDER);
+		ucList = new ListViewer(container, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		list = ucList.getList();
 		list.setToolTipText("");
 	}
