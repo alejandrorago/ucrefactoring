@@ -153,6 +153,7 @@ public class AlignmentX2Result {
 			this.getAlignmentB().getChars(0, this.alignmentB.length(), arrayB, 0);
 			
 			int unaligned = 0;
+			//initial = realIndex + 1 + unaligned + 1;
 			int aligned = 0;
 			
 			for (char a : arrayA){
@@ -160,11 +161,13 @@ public class AlignmentX2Result {
 					if (arrayB[i] == a){
 						//continue block
 						aligned++;
+						unaligned = 0;
 					}
 					else if ((arrayB[i] != "-".toCharArray()[0] && a != "-".toCharArray()[0])){
 						//for now align points too (not same char but not dash either)
 						//continue block
 						aligned++;
+						unaligned = 0;
 					}
 					else if (aligned > 0){
 						//not matched
@@ -195,14 +198,14 @@ public class AlignmentX2Result {
 					}
 					else if (arrayB[i] == "-".toCharArray()[0]){
 						//the other secuence has the dashes, move the initial
-						initial-=2;
+						initial-= 2;
 					}
 				}
 				i++;
 			}
 			//if reached the end with a block check aligneds
 			if (aligned > 2 ){
-				realIndex = this.startA + initial + aligned -1;// +1?
+				realIndex = this.startA + initial + aligned - unaligned;// +1?
 				//save block
 				SimilarBlock sb = new SimilarBlock(useCaseA, flowA, this.startA + initial, realIndex , this);
 				similarBlocks.add(sb);
@@ -278,11 +281,13 @@ public class AlignmentX2Result {
 					if (arrayA[i] == b){
 						//continue block
 						aligned++;
+						unaligned = 0;
 					}
 					else if ((arrayA[i] != "-".toCharArray()[0] && b != "-".toCharArray()[0])){
 						//for now align "points" too
 						//continue block
 						aligned++;
+						unaligned = 0;
 					}
 					//if starts with dash, avoid it
 					else if (aligned > 0){
@@ -321,7 +326,7 @@ public class AlignmentX2Result {
 			}
 			//if reached the end with a block check aligned
 			if (aligned > 2 ){
-				realIndex = this.startB + initial + aligned -1;// +1?
+				realIndex = this.startB + initial + aligned - unaligned;// +1?
 				//save block
 				SimilarBlock sb = new SimilarBlock(useCaseB, flowB, this.startB + initial, realIndex, this);
 				similarBlocks.add(sb);
