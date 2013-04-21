@@ -42,8 +42,8 @@ public class GeneralizationRefactoring implements Refactoring {
 	@Override
 	public boolean canApply() {
 		// TODO INCORPORAR CHEQUEO DE IGUALES FLUJOS ALTERNATIVOS / EXT. TB Q LOS AL MENOS UNO NO TENGA PADRE
-		if ((this.alignment.getFlowA().getName().equals("Basic Flow") 
-			&& this.alignment.getFlowB().getName().equals("Basic Flow"))
+		if ((this.alignment.getFlowA().getName().toLowerCase().contains("basic flow") 
+			&& this.alignment.getFlowB().getName().toLowerCase().contains("basic flow"))
 			&& (this.alignment.getSimilarBlocksFromA().size()>1
 			&& this.alignment.getSimilarBlocksFromB().size()>1)){
 					return true;

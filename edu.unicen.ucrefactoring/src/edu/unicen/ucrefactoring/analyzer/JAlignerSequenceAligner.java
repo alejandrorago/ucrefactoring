@@ -25,7 +25,9 @@ public class JAlignerSequenceAligner implements SequenceAligner {
 		try {
 			InputStream IS = Thread.currentThread().getContextClassLoader().getResourceAsStream("/src/edu/unicen/ucrefactoring/resources/"+matrix);
 			Sequence seq1 = SequenceParser.parse(s1);
-			Sequence seq2 = SequenceParser.parse(s2);	
+			System.out.println("seq1: " + s1);
+			Sequence seq2 = SequenceParser.parse(s2);
+			System.out.println("seq2: " + s2);
 			NamedInputStream nis = new NamedInputStream(matrix, IS);
 			Matrix m = MatrixLoader.load(nis);
 			Alignment alignment = SmithWatermanGotoh.align(seq1, seq2, m, GAP_OPEN_PENALTY, GAP_EXT_PENALTY);

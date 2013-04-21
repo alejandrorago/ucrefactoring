@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.unicen.ucrefactoring.analyzer.AlignmentX2Result;
+import edu.unicen.ucrefactoring.analyzer.SequenceAligner;
 import edu.unicen.ucrefactoring.analyzer.SimilarBlock;
 import edu.unicen.ucrefactoring.gui.UCRUseCasesView;
 import edu.unicen.ucrefactoring.metrics.Metric;
@@ -13,7 +14,6 @@ import edu.unicen.ucrefactoring.model.Flow;
 import edu.unicen.ucrefactoring.model.InclusionCall;
 import edu.unicen.ucrefactoring.model.UCRefactoringFactory;
 import edu.unicen.ucrefactoring.model.UseCase;
-import edu.unicen.ucrefactoring.util.Constants;
 
 public class InclusionRefactoring implements Refactoring{
 
@@ -42,11 +42,107 @@ public class InclusionRefactoring implements Refactoring{
 	@Override
 	public boolean canApply() {
 		// TODO INCORPORAR CHEQUEO DE IGUALES FLUJOS ALTERNATIVOS / EXT 
-		if ((this.alignment.getFlowA().getName().equals("Basic Flow") 
-			&& this.alignment.getFlowB().getName().equals("Basic Flow"))
+		if ((this.alignment.getFlowA().getName().toLowerCase().contains("basic flow") 
+			&& this.alignment.getFlowB().getName().toLowerCase().contains("basic flow"))
 			&& (this.alignment.getSimilarBlocksFromA().size()==1
 			&& this.alignment.getSimilarBlocksFromB().size()==1)){
+			
+			// CHEQUEO IGUAL CANTIDAD DE FB EN LA DUPLICACION
+			List<Flow> altA = new ArrayList<Flow>();
+			List<Flow> altB = new ArrayList<Flow>();
+			
+			for(Flow f : this.alignment.getUseCaseA().getFlows()){
+				if (!f.getName().equals(this.alignment.getFlowA().getName())){
+					Integer index = f.getName().indexOf('.');
+					Integer eA = -1; // EVENTO FB
+					if(index >= 1){
+						String evA = f.getName().substring(0, index);
+						eA = new Integer(evA)-1;
+					} else{
+						String number = "";
+						for(int i =0; i<f.getName().length(); i++){
+							if("1234567890".contains(String.valueOf(f.getName().charAt(i)))){
+								number = number + f.getName().charAt(i);
+							} else{
+								if (number.length() > 0){
+									break;
+								}
+							}
+						}
+						if (number.length() > 0){
+							eA = new Integer(number) -1;
+						}
+					}
+					
+					Boolean pertenece = false;
+					for(SimilarBlock sb : alignment.getSimilarBlocksFromA()){
+						if(sb.getBeginIndex() <= eA && sb.getEndIndex() >= eA){
+							pertenece = true;
+							break;
+						}
+					}
+					if(pertenece){
+						altA.add(f);
+					}
+				}
+			}
+			for(Flow f : this.alignment.getUseCaseB().getFlows()){
+				if (!f.getName().equals(this.alignment.getFlowB().getName())){
+					Integer index = f.getName().indexOf('.');
+					Integer eB = -1; // EVENTO FB
+					if(index >= 1){
+						String evB = f.getName().substring(0, index);
+						eB = new Integer(evB)-1;
+					} else{
+						String number = "";
+						for(int i =0; i<f.getName().length(); i++){
+							if("1234567890".contains(String.valueOf(f.getName().charAt(i)))){
+								number = number + f.getName().charAt(i);
+							} else{
+								if (number.length() > 0){
+									break;
+								}
+							}
+						}
+						if (number.length() > 0){
+							eB = new Integer(number) -1;
+						}
+					}
+					Boolean pertenece = false;
+					for(SimilarBlock sb : alignment.getSimilarBlocksFromB()){
+						if(sb.getBeginIndex() <= eB && sb.getEndIndex() >= eB){
+							pertenece = true;
+							break;
+						}
+					}
+					if(pertenece){
+						altB.add(f);
+					}
+				}
+			}
+			if(altA.size() == altB.size()){
+				if(altA.size() == 0){
 					return true;
+				}
+				// CHEQUEO CONTENIDO DE LOS FLUJOS
+				for(int i = 0; i < altA.size();i++){
+					Flow fA = altA.get(i);
+					Flow fB = altB.get(i);
+					AlignmentX2Result result = UCRUseCasesView.ucref.getSimilarityAnalizer().compareThisSequences(fA, fB,SequenceAligner.JALIGNER_SW_SA,SequenceAligner.UCMATRIX2);
+					if((result.getSimilarBlocksFromA() != null && result.getSimilarBlocksFromB() != null)&&
+							(result.getSimilarBlocksFromA().size() > 0 && result.getSimilarBlocksFromB().size()>0)){
+						if(result.getSimilarBlocksFromA().size() == 1 && result.getSimilarBlocksFromB().size() == 1){
+							if (UCRUseCasesView.ucref.getSimilarityAnalizer().areSimilar(result)){
+								return true;
+							}
+						}
+					} else{
+						if(fA.getEvents().size() < 3 || fB.getEvents().size() < 3){
+							return UCRUseCasesView.ucref.getSimilarityAnalizer().areSimilar(fA, fB);
+						}
+					}
+				}
+			}
 		}
 		return false;
 	}
