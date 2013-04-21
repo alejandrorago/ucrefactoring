@@ -10,7 +10,7 @@ import edu.unicen.ucrefactoring.model.UseCase;
 public class NonModularFRMetric implements Metric {
 
 	private String type = Metric.ENCAPSULATED_FUNCTIONAL;
-	public static Float TEXT_SIMILARITY_THRESHOLD = 0.5f;
+	public static Float TEXT_SIMILARITY_THRESHOLD = 0.60f;
 	public static Float ACTOR_SIMILARITY_THRESHOLD = 0.75f;
 	
 	

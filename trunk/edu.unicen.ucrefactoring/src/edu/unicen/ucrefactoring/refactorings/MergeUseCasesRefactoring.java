@@ -73,8 +73,8 @@ public class MergeUseCasesRefactoring implements Refactoring{
 		for (Flow f : this.useCaseB.getFlows()){
 			cant = cant + f.getEvents().size();
 		}
-		//  Si las longitudes no superan los limites aumentados en un 10% (al mergear se pueden reducir los eventos)
-		if (cant > LargeUseCaseMetric.TOTAL_LIMIT * 1.1 || cantBasic > LargeUseCaseMetric.BASIC_FLOW_LIMIT * 1.1){
+		//  Si las longitudes no superan los limites aumentados en un 20% (al mergear se pueden reducir los eventos)
+		if (cant > LargeUseCaseMetric.TOTAL_LIMIT * 1 || cantBasic > LargeUseCaseMetric.BASIC_FLOW_LIMIT * 1){
 			apply = false;
 		}
 		return apply;

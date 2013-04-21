@@ -219,6 +219,15 @@ public class SimilarityAnalyzer {
 			}
 		}
 	}
+	
+	public AlignmentX2Result compareThisSequences(Flow fA, Flow fB, String analyzer, String matrix) {
+		SequenceAligner sa = sequenceAligners.get(analyzer);
+		String seqA= sequences.get(getSequenceKey(fA.getUseCase(), fA));
+		String seqB= sequences.get(getSequenceKey(fB.getUseCase(), fB));
+		AlignmentX2Result result = sa.performAlignment(seqA, seqB, matrix);
+		result.setUseCases(fA.getUseCase(), fA, fB.getUseCase(), fB);
+		return result;
+	}
 
 	/**
 	 * Método que obtiene las sequencias del UseCaseModel
@@ -232,26 +241,27 @@ public class SimilarityAnalyzer {
 				for (Event e : f.getEvents()) {
 					if (e instanceof FunctionalEvent) {
 						if(((FunctionalEvent) e).getActionClasses().size() > 0){
+							ActionClass acElegida = null;
 							for (ActionClass ac : ((FunctionalEvent) e)
 									.getActionClasses()) {
-								// if (!ac.getName().equals("Noise"))
-								// s=s+((ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("o")||(ActionCodeEnum.getByName(ac.getName())).getLiteral().equals("j")||(ac.getRanking().intValue()>1)?"":(ActionCodeEnum.getByName(ac.getName())).getLiteral());
-								// else s=s+"y";
-								ActionCodeEnum ace = null;
-								try{
-									ace = ActionCodeEnum.getByName(ac.getName());
-								} catch (Exception ex) {
-									if (ace == null){
-										ace = ActionCodeEnum.UNKNOWN;
-									}	
+								// SI ES EL PRIMERO O ES EL DE MAYOR CONF
+								if(acElegida == null || acElegida.getConfidence() < ac.getConfidence()){
+									acElegida = ac;
 								}
+							}	
+							ActionCodeEnum ace = null;
+							try{
+								ace = ActionCodeEnum.getByName(acElegida.getName());
+							} catch (Exception ex) {
 								if (ace == null){
 									ace = ActionCodeEnum.UNKNOWN;
-								}
-								s = s + ace.getLiteral();
+								}	
 							}
-						}
-						else{ // SI NO TIENE ACTION CLASSES LE PONGO 'NI IDEA'
+							if (ace == null){
+								ace = ActionCodeEnum.UNKNOWN;
+							}
+							s = s + ace.getLiteral();
+						} else{ // SI NO TIENE ACTION CLASSES LE PONGO 'NI IDEA'
 							s = s + ActionCodeEnum.UNKNOWN.getLiteral();
 						}
 					}
@@ -310,6 +320,42 @@ public class SimilarityAnalyzer {
 		// save the ratio in the align object for metric collection
 		alignment.setTextSimilarityScore(ratio);
 
+		if (ratio >= threshold) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean areSimilar(Flow fA, Flow fB) {
+		String key;
+		List<String> aKeys = new ArrayList<String>();
+		List<String> bKeys = new ArrayList<String>();
+		for (Event eventA : fA.getEvents()) {
+			key = getEventKey(fA.getUseCase(),
+					fA, eventA);
+			for (String newWord : this.useCaseKeywords.get(key)) {
+				if (!aKeys.contains(newWord))
+					aKeys.add(newWord);
+			}
+		}
+		for (Event eventB : fB.getEvents()) {
+			key = getEventKey(fB.getUseCase(),fB, eventB);
+			for (String newWord : this.useCaseKeywords.get(key)) {
+				if (!bKeys.contains(newWord))
+					bKeys.add(newWord);
+			}
+		}
+		double threshold = 0.5;
+		double total = (aKeys.size() + bKeys.size());
+		double similars = 0;
+		for (String aKey : aKeys) {
+			for (String bKey : bKeys) {
+				if (aKey.equals(bKey)) {
+					similars = similars + 2;
+				}
+			}
+		}
+		double ratio = similars / total;
 		if (ratio >= threshold) {
 			return true;
 		}
